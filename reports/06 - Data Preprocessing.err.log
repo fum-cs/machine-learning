@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\asyncio\base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Not in sklearn yet, use package category_encoders
+from category_encoders import TargetEncoder
+
+encoder = TargetEncoder(return_df=True)
+encoder.fit(X, y)
+pd_te = encoder.fit_transform(X,y)
+
+# Convert to pandas for nicer output
+df = pd.DataFrame(data=pd_te, columns=["boro","salary"]).rename(columns={'boro': 'boro_encoded'})
+df = pd.concat([X['boro'], df, y], axis=1)
+df.style.set_table_styles(dfstyle)
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+[1;32m<ipython-input-18-4d75319b4629>[0m in [0;36m<module>[1;34m[0m
+[0;32m      1[0m [1;31m# Not in sklearn yet, use package category_encoders[0m[1;33m[0m[1;33m[0m[1;33m[0m[0m
+[1;32m----> 2[1;33m [1;32mfrom[0m [0mcategory_encoders[0m [1;32mimport[0m [0mTargetEncoder[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m      3[0m [1;33m[0m[0m
+[0;32m      4[0m [0mencoder[0m [1;33m=[0m [0mTargetEncoder[0m[1;33m([0m[0mreturn_df[0m[1;33m=[0m[1;32mTrue[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0;32m      5[0m [0mencoder[0m[1;33m.[0m[0mfit[0m[1;33m([0m[0mX[0m[1;33m,[0m [0my[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+
+[1;31mModuleNotFoundError[0m: No module named 'category_encoders'
+ModuleNotFoundError: No module named 'category_encoders'
+

@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\asyncio\base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import graphviz
+
+@interact
+def plot_depth(depth=(1,5,1)):
+    X, y = make_moons(noise=.2, random_state=18) # carefully picked random state for illustration
+    fig, ax = plt.subplots(1, 2, figsize=(12*fig_scale, 4*fig_scale),
+                           subplot_kw={'xticks': (), 'yticks': ()})
+
+    tree = mglearn.plots.plot_tree(X, y, max_depth=depth)
+    ax[0].imshow(mglearn.plots.tree_image(tree))
+    ax[0].set_axis_off()
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+[1;32m<ipython-input-4-eeff07c1d5b5>[0m in [0;36m<module>[1;34m[0m
+[1;32m----> 1[1;33m [1;32mimport[0m [0mgraphviz[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m      2[0m [1;33m[0m[0m
+[0;32m      3[0m [1;33m@[0m[0minteract[0m[1;33m[0m[1;33m[0m[0m
+[0;32m      4[0m [1;32mdef[0m [0mplot_depth[0m[1;33m([0m[0mdepth[0m[1;33m=[0m[1;33m([0m[1;36m1[0m[1;33m,[0m[1;36m5[0m[1;33m,[0m[1;36m1[0m[1;33m)[0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[0;32m      5[0m     [0mX[0m[1;33m,[0m [0my[0m [1;33m=[0m [0mmake_moons[0m[1;33m([0m[0mnoise[0m[1;33m=[0m[1;36m.2[0m[1;33m,[0m [0mrandom_state[0m[1;33m=[0m[1;36m18[0m[1;33m)[0m [1;31m# carefully picked random state for illustration[0m[1;33m[0m[1;33m[0m[0m
+
+[1;31mModuleNotFoundError[0m: No module named 'graphviz'
+ModuleNotFoundError: No module named 'graphviz'
+

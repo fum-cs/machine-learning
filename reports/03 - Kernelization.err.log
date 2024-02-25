@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 1112, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\asyncio\base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 553, in async_execute
+    await self.async_execute_cell(
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 857, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "d:\programdata\anaconda3\envs\tfcpu\lib\site-packages\nbclient\client.py", line 760, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from sklearn.preprocessing import PolynomialFeatures
+
+# include polynomials up to x ** 10:
+# the default "include_bias=True" adds a feature that's constantly 1
+poly = PolynomialFeatures(degree=10, include_bias=False)
+poly.fit(X)
+X_poly = poly.transform(X)
+styles = [dict(selector="td", props=[("font-size", "150%")]),dict(selector="th", props=[("font-size", "150%")])]
+pd.DataFrame(X_poly, columns=poly.get_feature_names_out()).head().style.set_table_styles(styles)
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mAttributeError[0m                            Traceback (most recent call last)
+[1;32m<ipython-input-3-c500200ae5c5>[0m in [0;36m<module>[1;34m[0m
+[0;32m      7[0m [0mX_poly[0m [1;33m=[0m [0mpoly[0m[1;33m.[0m[0mtransform[0m[1;33m([0m[0mX[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0;32m      8[0m [0mstyles[0m [1;33m=[0m [1;33m[[0m[0mdict[0m[1;33m([0m[0mselector[0m[1;33m=[0m[1;34m"td"[0m[1;33m,[0m [0mprops[0m[1;33m=[0m[1;33m[[0m[1;33m([0m[1;34m"font-size"[0m[1;33m,[0m [1;34m"150%"[0m[1;33m)[0m[1;33m][0m[1;33m)[0m[1;33m,[0m[0mdict[0m[1;33m([0m[0mselector[0m[1;33m=[0m[1;34m"th"[0m[1;33m,[0m [0mprops[0m[1;33m=[0m[1;33m[[0m[1;33m([0m[1;34m"font-size"[0m[1;33m,[0m [1;34m"150%"[0m[1;33m)[0m[1;33m][0m[1;33m)[0m[1;33m][0m[1;33m[0m[1;33m[0m[0m
+[1;32m----> 9[1;33m [0mpd[0m[1;33m.[0m[0mDataFrame[0m[1;33m([0m[0mX_poly[0m[1;33m,[0m [0mcolumns[0m[1;33m=[0m[0mpoly[0m[1;33m.[0m[0mget_feature_names_out[0m[1;33m([0m[1;33m)[0m[1;33m)[0m[1;33m.[0m[0mhead[0m[1;33m([0m[1;33m)[0m[1;33m.[0m[0mstyle[0m[1;33m.[0m[0mset_table_styles[0m[1;33m([0m[0mstyles[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m
+[1;31mAttributeError[0m: 'PolynomialFeatures' object has no attribute 'get_feature_names_out'
+AttributeError: 'PolynomialFeatures' object has no attribute 'get_feature_names_out'
+
