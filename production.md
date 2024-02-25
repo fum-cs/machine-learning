@@ -13,14 +13,14 @@ The configuration file is `_config.yml` and the table of contents is in `_toc.ym
 To create the book itself, run this from the parent directory of the `main` repo:
 
 ```
-jupyter-book build ./notebooks
+jupyter-book build ./
 ```
 
 To push the rendered book to GitHub, run:
 
 ```
 pip install ghp-import
-ghp-import -n -p -f ./notebooks/_build/html
+ghp-import -n -p -f ./_build/html
 ```
 
 
