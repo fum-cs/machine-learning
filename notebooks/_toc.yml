@@ -1,0 +1,45 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+parts:
+# - chapters:
+  # - file: labs/Lab 0 - Prerequisites
+- caption: Lectures
+  chapters:
+  - file: 01 - Introduction
+  - file: 02 - Linear Models
+  - file: 03 - Kernelization
+  - file: 04 - Model Selection
+  - file: 05 - Ensemble Learning
+  - file: 06 - Data Preprocessing
+  - file: 07 - Bayesian Learning
+  # - file: 08 - Neural Networks
+  # - file: 09 - Convolutional Neural Networks
+#   - file: 10 - Neural Networks for text
+# - caption: Labs
+#   chapters:
+#   - file: labs/Lab 1a - Linear Models for Regression
+#   - file: labs/Lab 1b - Linear Models for Classification
+#   - file: labs/Lab 2a - Kernelization
+#   - file: labs/Lab 2b - Model Selection
+#   - file: labs/Lab 3 - Ensembles
+#   - file: labs/Lab 4 - Pipelines.ipynb
+#   - file: labs/Lab 5 - Bayesian learning
+#   - file: labs/Lab 6 - Neural Networks
+#   - file: labs/Lab 7a - Convolutional Neural Networks
+#   - file: labs/Lab 7b - Neural Networks for text
+#   - file: labs/Lab 8 - AutoML
+# - caption: Tutorials
+#   chapters:
+#   - file: Tutorial 1 - Python.ipynb
+#   - file: Tutorial 2 - Python for Data Analysis.ipynb
+#   - file: Tutorial 3 - Machine Learning in Python.ipynb
+#   - file: Tutorial 4 - Decision Trees.ipynb
+#   - file: Tutorial 5 - Nearest Neighbors.ipynb
+#   - file: labs/Lab 1 - Tutorial.ipynb
+#   - file: labs/Lab 2 - Tutorial.ipynb
+#   - file: labs/Lab 4 - Tutorial.ipynb
+#   - file: labs/Lab 6 - Tutorial.ipynb
+#   - file: labs/Lab 7 - Tutorial.ipynb

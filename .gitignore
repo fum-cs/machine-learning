@@ -1,0 +1,9 @@
+__pycache__/
+notebooks/_build/*
+notebooks/_build/*/
+data/models/*
+**/.DS_Store
+**/*.icloud
+*.swp
+.ipynb_checkpoints
+.jupyter
