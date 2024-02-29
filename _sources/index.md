@@ -18,7 +18,7 @@ Book documentation.
 In this exciting journey, we'll delve into the fascinating world of **Machine Learning** with Python, where machines learn, adapt, and make decisions based on data. Topics that are covered are Linear Models, Kernelization, Model Selection, Ensemble Learning, Data Preprocessing and Bayesian Learning. Neural Networks, Gradient Descent and related subjects are disccussed in [Neural Networks Course](https://fum-cs.github.io/neural-networks/).
 
 
-### Prerequisites
+## Prerequisites
 
 - **Basic Knowledge**: You should have a solid understanding of artificial intelligence concepts.
 - **Mathematics**: Advanced topics may require strong mathematical foundations.
