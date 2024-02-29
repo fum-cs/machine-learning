@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: Machine Learning
+title: ML
 author: Mahmood Amintoosi
 logo: img/fum-cs-logo.png
 copyright: "2024. CC0 Licensed - Use as you like. Appropriate credit is very welcome"  # Copyright year to be placed in the footer
@@ -24,9 +24,9 @@ execute:
 #     html_extra_path: ['slides_html','slides_pdf']
 
 # Define the name of the latex output file for PDF builds
-# latex:
-#   latex_documents:
-#     targetname: book.tex
+latex:
+  latex_documents:
+    targetname: machine-learning.tex
 
 # Add a bibtex file so that we can create citations
 #bibtex_bibfiles:
