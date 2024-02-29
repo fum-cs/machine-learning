@@ -4,7 +4,7 @@
 title: ML
 author: Mahmood Amintoosi
 logo: img/fum-cs-logo.png
-copyright: "2024. CC0 Licensed - Use as you like. Appropriate credit is very welcome"  # Copyright year to be placed in the footer
+copyright: "2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad"  # Copyright year to be placed in the footer
 
 
 # Force re-execution of notebooks on each build.
