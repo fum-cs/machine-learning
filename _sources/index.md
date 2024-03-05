@@ -6,7 +6,7 @@ Computer Science Dept, Ferdowsi University of Mashhad
 
 ```{note}
 These lectures were built using the new Sphinx-based [Jupyter Book
-2.0](https://beta.jupyterbook.org/intro.html) tool set, as part of the
+2.0](https://jupyterbook.org/) tool set, as part of the
 [ExecutableBookProject](https://ebp.jupyterbook.org/en/latest/).  They are
 intended mainly as a demonstration of these tools.
 Instructions for how to build them from source can be found in the Jupyter
