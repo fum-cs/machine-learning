@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -63,7 +63,7 @@
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Lecture 3: Kernelization" href="03%20-%20Kernelization.html" />
+    <link rel="next" title="Lecture 3: Kernel Trick" href="03%20-%20Kernel%20Trick.html" />
     <link rel="prev" title="Lecture 1: Introduction" href="01%20-%20Introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -184,7 +184,7 @@
 <li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Lecture 1: Introduction</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 2: Linear models</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernelization.html">Lecture 3: Kernelization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Lecture 3: Kernel Trick</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Lecture 4: Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Lecture 5. Ensemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Lecture 6. Data preprocessing</a></li>
@@ -2708,7 +2708,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <ul class="simple">
 <li><p>Can be solved with Lagrangian Multipliers and a set of linear equations</p>
 <ul>
-<li><p>Still yields support vectors and still allows kernelization</p></li>
+<li><p>Still yields support vectors and still allows kernel trick</p></li>
 <li><p>Support vectors are not sparse, but pruning techniques exist</p></li>
 </ul>
 </li>
@@ -2815,7 +2815,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <li><p>Returns <code class="docutils literal notranslate"><span class="pre">coef_</span></code> (<span class="math notranslate nohighlight">\(\mathbf{w}\)</span>) and <code class="docutils literal notranslate"><span class="pre">intercept_</span></code> (<span class="math notranslate nohighlight">\(w_0\)</span>)</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">svm.SVC</span></code> with <code class="docutils literal notranslate"><span class="pre">kernel=linear</span></code>: allows <em>kernelization</em> (see later)</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">svm.SVC</span></code> with <code class="docutils literal notranslate"><span class="pre">kernel=linear</span></code>: allows <em>kernel trick</em> (see later)</p>
 <ul>
 <li><p>Also returns <code class="docutils literal notranslate"><span class="pre">support_vectors_</span></code> (the support vectors) and the <code class="docutils literal notranslate"><span class="pre">dual_coef_</span></code> <span class="math notranslate nohighlight">\(a_i\)</span></p></li>
 <li><p>Scales at least quadratically with the number of samples <span class="math notranslate nohighlight">\(n\)</span></p></li>
@@ -2873,7 +2873,7 @@ Coefficients:
 <ul class="simple">
 <li><p>Soft-margin SVMs can, alternatively, be solved using gradient decent</p>
 <ul>
-<li><p>Good for large datasets, but does not yield support vectors or kernelization</p></li>
+<li><p>Good for large datasets, but does not yield support vectors or kernel trick</p></li>
 </ul>
 </li>
 <li><p>Squared Hinge is differentiable</p></li>
@@ -3211,7 +3211,7 @@ th {font-size: 16px}
 <li><p>Can be used to fit non-linear or low-dim patterns as well (see later)</p>
 <ul>
 <li><p>Preprocessing: e.g. Polynomial or Poisson transformations</p></li>
-<li><p>Generalized linear models (kernelization)</p></li>
+<li><p>Generalized linear models (kernel trick)</p></li>
 </ul>
 </li>
 <li><p>Regularization is important. Tune the regularization strength (<span class="math notranslate nohighlight">\(\alpha\)</span>)</p>
@@ -3272,11 +3272,11 @@ th {font-size: 16px}
       </div>
     </a>
     <a class="right-next"
-       href="03%20-%20Kernelization.html"
+       href="03%20-%20Kernel%20Trick.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Lecture 3: Kernelization</p>
+        <p class="prev-next-title">Lecture 3: Kernel Trick</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

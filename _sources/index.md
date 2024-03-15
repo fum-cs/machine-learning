@@ -15,7 +15,7 @@ Book documentation.
 
 # About Machine Learning
 
-In this exciting journey, we'll delve into the fascinating world of **Machine Learning** with Python, where machines learn, adapt, and make decisions based on data. Topics that are covered are Linear Models, Kernelization, Model Selection, Ensemble Learning, Data Preprocessing and Bayesian Learning. Neural Networks, Gradient Descent and related subjects are disccussed in [Neural Networks Course](https://fum-cs.github.io/neural-networks/).
+In this exciting journey, we'll delve into the fascinating world of **Machine Learning** with Python, where machines learn, adapt, and make decisions based on data. Topics that are covered are Linear Models, Kernel Trick, Model Selection, Ensemble Learning, Data Preprocessing and Bayesian Learning. Neural Networks, Gradient Descent and related subjects are disccussed in [Neural Networks Course](https://fum-cs.github.io/neural-networks/).
 
 
 ## Prerequisites
