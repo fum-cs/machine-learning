@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -424,7 +424,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick">The kernel trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernelization">Kernelization</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-method">Kernel Method</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-svms">Example: SVMs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-kernels-exist">Which kernels exist?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-kernel">Linear kernel</a></li>
@@ -865,8 +865,8 @@ $<span class="math notranslate nohighlight">\(y = w_0 + w_1 x_1 + w_2 x_2 + w_3 
 <li><p>Skip computation of <span class="math notranslate nohighlight">\(\Phi(x_i)\)</span> and <span class="math notranslate nohighlight">\(\Phi(x_j)\)</span> and compute <span class="math notranslate nohighlight">\(k(x_i,x_j)\)</span> directly</p></li>
 </ul>
 </section>
-<section id="kernelization">
-<h2>Kernelization<a class="headerlink" href="#kernelization" title="Link to this heading">#</a></h2>
+<section id="kernel-method">
+<h2>Kernel Method<a class="headerlink" href="#kernel-method" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Kernel <span class="math notranslate nohighlight">\(k\)</span> corresponding to a feature map <span class="math notranslate nohighlight">\(\Phi\)</span>: <span class="math notranslate nohighlight">\( k(\mathbf{x_i},\mathbf{x_j}) = \Phi(\mathbf{x_i}) \cdot \Phi(\mathbf{x_j})\)</span></p></li>
 <li><p>Computes dot product between <span class="math notranslate nohighlight">\(x_i,x_j\)</span> in a high-dimensional space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span></p>
@@ -1771,7 +1771,7 @@ $<span class="math notranslate nohighlight">\(\mathcal{L}_{DualPerceptron}(x_i,k
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick">The kernel trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernelization">Kernelization</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-method">Kernel Method</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-svms">Example: SVMs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-kernels-exist">Which kernels exist?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-kernel">Linear kernel</a></li>
