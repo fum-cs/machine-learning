@@ -10,7 +10,7 @@ parts:
   chapters:
   - file: 01 - Introduction
   - file: 02 - Linear Models
-  - file: 03 - Kernelization
+  - file: 03 - Kernel Trick
   - file: 04 - Model Selection
   - file: 05 - Ensemble Learning
   - file: 06 - Data Preprocessing
@@ -22,7 +22,7 @@ parts:
 #   chapters:
 #   - file: labs/Lab 1a - Linear Models for Regression
 #   - file: labs/Lab 1b - Linear Models for Classification
-#   - file: labs/Lab 2a - Kernelization
+#   - file: labs/Lab 2a - Kernel Trick
 #   - file: labs/Lab 2b - Model Selection
 #   - file: labs/Lab 3 - Ensembles
 #   - file: labs/Lab 4 - Pipelines.ipynb
