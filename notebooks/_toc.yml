@@ -15,6 +15,7 @@ parts:
   - file: 05 - Ensemble Learning
   - file: 06 - Data Preprocessing
   - file: 07 - Bayesian Learning
+  - file: AppenixA - Kernel SVM and Kernel Regression
   # - file: 08 - Neural Networks
   # - file: 09 - Convolutional Neural Networks
 #   - file: 10 - Neural Networks for text
