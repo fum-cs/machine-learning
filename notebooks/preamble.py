@@ -3,11 +3,16 @@ from IPython.core.interactiveshell import InteractiveShell
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import openml as oml
+# import openml as oml
 import mglearn
 import os
 from cycler import cycler
 from pprint import pprint
+
+import sys
+from imageio import imread, imwrite
+from skimage.color import rgb2gray
+import matplotlib.pyplot as plt
 
 set_matplotlib_formats('pdf', 'png')
 plt.rcParams['image.cmap'] = "viridis"
