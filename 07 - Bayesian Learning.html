@@ -1585,10 +1585,11 @@ $<span class="math notranslate nohighlight">\(w_i \sim \mathcal{N}(0,\alpha)\)</
 <p><a class="reference external" href="https://pymc3-testing.readthedocs.io/en/rtd-docs/notebooks/GP-covariances.html">More examples of covariances</a></p>
 <section id="noisy-functions">
 <h4>Noisy functions<a class="headerlink" href="#noisy-functions" title="Link to this heading">#</a></h4>
-<p>We normally add Gaussian noise to obtain our observations:
-$<span class="math notranslate nohighlight">\(
+<p>We normally add Gaussian noise to obtain our observations:</p>
+<div class="math notranslate nohighlight">
+\[
 \mathbf{y} = \mathbf{f} + \boldsymbol{\epsilon}
-\)</span>$</p>
+\]</div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1680,14 +1681,20 @@ k(\mathbf{x}, \mathbf{x}^\prime) = \alpha \exp\left( -\frac{\left\Vert \mathbf{x
 <section id="computing-the-posterior-p-mathbf-y-mathbf-x">
 <h3>Computing the posterior <span class="math notranslate nohighlight">\(P(\mathbf{y}|\mathbf{X})\)</span><a class="headerlink" href="#computing-the-posterior-p-mathbf-y-mathbf-x" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Assuming that <span class="math notranslate nohighlight">\(P(X)\)</span> is a Gaussian density with a covariance given by kernel matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>, the model likelihood becomes:
-$<span class="math notranslate nohighlight">\(
+<li><p>Assuming that <span class="math notranslate nohighlight">\(P(X)\)</span> is a Gaussian density with a covariance given by kernel matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>, the model likelihood becomes:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
 P(\mathbf{y}|\mathbf{X}) = \frac{P(y) \ P(\mathbf{X} \mid y)}{P(\mathbf{X})} = \frac{1}{(2\pi)^{\frac{n}{2}}|\mathbf{K}|^{\frac{1}{2}}} \exp\left(-\frac{1}{2}\mathbf{y}^\top \left(\mathbf{K}+\sigma^2 \mathbf{I}\right)^{-1}\mathbf{y}\right)
-\)</span>$</p></li>
-<li><p>Hence, the negative log likelihood (the objective function) is given by:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<ul class="simple">
+<li><p>Hence, the negative log likelihood (the objective function) is given by:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
 E(\boldsymbol{\theta}) = \frac{1}{2} \log |\mathbf{K}| + \frac{1}{2} \mathbf{y}^\top \left(\mathbf{K} + \sigma^2\mathbf{I}\right)^{-1}\mathbf{y}
-\)</span>$</p></li>
+\]</div>
+<ul class="simple">
 <li><p>The model parameters (e.g. noise variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>) and the kernel parameters (e.g. lengthscale, variance) can be embedded in the covariance function and learned from data.</p></li>
 <li><p>Good news: This loss function can be optimized using linear algebra (Cholesky Decomposition)</p></li>
 <li><p>Bad news: This is cubic in the number of data points AND the number of features: <span class="math notranslate nohighlight">\(\mathcal{O}(n^3 d^3)\)</span></p></li>
