@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '08 - Hidden Markov Models';</script>
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -189,6 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Lecture 6. Data preprocessing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Lecture 7. Bayesian Learning</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 8. Hidden Markov Models</a></li>
+
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
 </ul>
@@ -419,22 +422,22 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lecture 8. Hidden Markov Models</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hidden-markov-models-hmms">Hidden Markov Models (HMMs)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viterbi-algorithm">Viterbi Algorithm</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-programming-and-seam-carving">Dynamic Programming and Seam Carving</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#viterbi-algorithm">Viterbi Algorithm</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-programming">Dynamic Programming</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#content-aware-image-resizing">Content-Aware Image Resizing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-seams">What Are Seams?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-process">Seam Carving Process</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-programming-and-seam-carving-a-viterbi-perspective">Dynamic Programming and Seam Carving: A Viterbi Perspective</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-algorithm-viterbi-like-perspective">Seam Carving Algorithm (Viterbi-Like Perspective)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dynamic Programming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-algorithm">Seam Carving Algorithm</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-implementation">Seam-carving implementation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Viterbi Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Viterbi Algorithm</a></li>
 </ul>
 </li>
 </ul>
@@ -455,7 +458,12 @@ document.write(`
 <h1>Lecture 8. Hidden Markov Models<a class="headerlink" href="#lecture-8-hidden-markov-models" title="Link to this heading">#</a></h1>
 <p><strong>Mahmood Amintoosi, Spring 2024</strong></p>
 <p>Computer Science Dept, Ferdowsi University of Mashhad</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-setup when running on Google Colab</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -480,6 +488,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <section id="hidden-markov-models-hmms">
 <h2>Hidden Markov Models (HMMs)<a class="headerlink" href="#hidden-markov-models-hmms" title="Link to this heading">#</a></h2>
@@ -491,19 +500,100 @@ document.write(`
 <li><p><strong>Emission Probabilities</strong>: Each hidden state has associated emission probabilities for generating specific observations. These probabilities indicate how likely an observation is given the current state.</p></li>
 </ol>
 </section>
-<section id="viterbi-algorithm">
-<h2>Viterbi Algorithm<a class="headerlink" href="#viterbi-algorithm" title="Link to this heading">#</a></h2>
-<p>The Viterbi algorithm is an efficient <strong>dynamic programming</strong> technique used to find <em>the most likely sequence of hidden states</em> (the Viterbi path) given a sequence of observations. It’s particularly useful for decoding in HMMs. Here’s how it works:</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="viterbi-algorithm">
+<h1>Viterbi Algorithm<a class="headerlink" href="#viterbi-algorithm" title="Link to this heading">#</a></h1>
+<p>The Viterbi algorithm is a dynamic programming algorithm used for finding the most likely sequence of hidden states (also known as the Viterbi path) in a hidden Markov model (HMM) given a sequence of observations.</p>
+<p>The mathematical notation and formulas used in the Viterbi algorithm are as follows:</p>
 <ol class="arabic simple">
-<li><p><strong>Initialization</strong>: Initialize a matrix where each cell represents the probability of being in a specific state at a given time step. Set the initial probabilities based on the starting state probabilities and emission probabilities.</p></li>
-<li><p><strong>Recursion</strong>: Iterate through the observation sequence. At each time step, update the probabilities for each state by considering the previous time step’s probabilities and transition probabilities.</p></li>
-<li><p><strong>Backtracking</strong>: After processing all observations, backtrack through the matrix to find the most likely sequence of states (the Viterbi path).</p></li>
+<li><p>Model parameters:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\lambda\)</span>: The model parameters, which include the state transition probabilities, observation probabilities, and initial state probabilities.</p></li>
+</ul>
+</li>
+<li><p>State transition matrix:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span>: The state transition matrix, where <span class="math notranslate nohighlight">\(a_{ij} = P(q_t=S_j | q_{t-1}=S_i)\)</span> represents the probability of transitioning from state <span class="math notranslate nohighlight">\(S_i\)</span> to state <span class="math notranslate nohighlight">\(S_j\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Observation set:</p>
+<ul class="simple">
+<li><p>The set of all possible observations.</p></li>
+</ul>
+</li>
+<li><p>Observation probabilities:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(B\)</span>: The observation probability matrix, where <span class="math notranslate nohighlight">\(b_j(O_t) = P(O_t | q_t=j)\)</span> represents the probability of observing <span class="math notranslate nohighlight">\(O_t\)</span> given that the system is in state <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Initial state probabilities:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\pi\)</span>: The initial state probabilities, where <span class="math notranslate nohighlight">\(\pi_i = P(q_1=i)\)</span> represents the probability of the system starting in state <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Observation sequence:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(O = O_1 O_2 ... O_T\)</span>: The sequence of observations.</p></li>
+</ul>
+</li>
+<li><p>Probability of the observation sequence:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P(O|\lambda) = \sum_{all q}P(O|q,\lambda)P(q|\lambda)\)</span>, where <span class="math notranslate nohighlight">\(P(q|\lambda) = \pi_{q1} a_{q1q2} a_{q2q3} ... a_{q_{T-1}q_T}\)</span>.</p></li>
+</ul>
+</li>
 </ol>
-<p>The Viterbi algorithm has linear runtime with respect to the length of the observation sequence, making it efficient for practical use.</p>
+<p>The Viterbi algorithm aims to find the most likely sequence of hidden states <span class="math notranslate nohighlight">\(Q = q_1 q_2 ... q_T\)</span> that maximizes the probability <span class="math notranslate nohighlight">\(P(O,Q|\lambda)\)</span>. The algorithm uses the following recurrence relation:</p>
+<div class="math notranslate nohighlight">
+\[\delta_t(i) = \max_{1 \leq j \leq N} [\delta_{t-1}(j) a_{ji}] b_i(O_t)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta_t(i)\)</span> represents the maximum probability of the most likely sequence of states ending in state <span class="math notranslate nohighlight">\(i\)</span> at time <span class="math notranslate nohighlight">\(t\)</span> and observing the partial sequence <span class="math notranslate nohighlight">\(O_1O_2...O_t\)</span>.</p>
+<p>The Viterbi algorithm can be summarized as follows:</p>
+<ol class="arabic simple">
+<li><p>Initialization:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\delta_1(i) = \pi_i b_i(O_1)\)</span>, for <span class="math notranslate nohighlight">\(1 \leq i \leq N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\psi_1(i) = 0\)</span></p></li>
+</ul>
+</li>
+<li><p>Recursion:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\delta_t(i) = \max_{1 \leq j \leq N} [\delta_{t-1}(j) a_{ji}] b_i(O_t)\)</span>, for <span class="math notranslate nohighlight">\(2 \leq t \leq T\)</span> and <span class="math notranslate nohighlight">\(1 \leq i \leq N\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\psi_t(i) = \arg\max_{1 \leq j \leq N} [\delta_{t-1}(j) a_{ji}]\)</span>, for <span class="math notranslate nohighlight">\(2 \leq t \leq T\)</span> and <span class="math notranslate nohighlight">\(1 \leq i \leq N\)</span></p></li>
+</ul>
+</li>
+<li><p>Termination:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(P^* = \max_{1 \leq i \leq N} \delta_T(i)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(q_T^* = \arg\max_{1 \leq i \leq N} \delta_T(i)\)</span></p></li>
+</ul>
+</li>
+<li><p>Backtracking:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(q_t^* = \psi_{t+1}(q_{t+1}^*)\)</span>, for <span class="math notranslate nohighlight">\(t = T-1, T-2, ..., 1\)</span></p></li>
+</ul>
+</li>
+</ol>
+<p>The final result is the most likely sequence of hidden states <span class="math notranslate nohighlight">\(Q^* = q_1^* q_2^* ... q_T^*\)</span> and the maximum probability <span class="math notranslate nohighlight">\(P^*\)</span>.</p>
+<p>The trellis diagram is a visual representation of the Viterbi algorithm, which is used to find the most likely sequence of hidden states (also known as the Viterbi path) given an observed sequence of emissions in a Hidden Markov Model (HMM).</p>
+<p><img alt="HMM" src="_images/08_HMM_Model.png" /></p>
+<p>In the provided example, the trellis diagram depicts the evolution of the HMM over time, with each column representing a time step, and each row representing a possible state of the HMM. The nodes in the diagram represent the states, and the edges represent the transitions between states.</p>
+<p><img alt="Trellis Diagram" src="_images/08_HMM_Trellis.png" /></p>
+<p>The trellis diagram is constructed as follows:</p>
+<ol class="arabic simple">
+<li><p>The first column represents the initial state of the HMM at time <span class="math notranslate nohighlight">\(t=1\)</span>. The nodes in this column correspond to the possible states of the HMM, and they are labeled with the state names (<span class="math notranslate nohighlight">\(S_1, S_2, S_3, S_4\)</span>).</p></li>
+<li><p>The subsequent columns represent the HMM at subsequent time steps (<span class="math notranslate nohighlight">\(t=2\)</span>, <span class="math notranslate nohighlight">\(t=3\)</span>, etc.). The nodes in these columns also correspond to the possible states of the HMM, and they are connected to the nodes in the previous column by edges that represent the state transitions.</p></li>
+<li><p>The thickness of the edges represents the probability of the transition. The thick edges indicate the most likely transitions, as determined by the Viterbi algorithm.</p></li>
+</ol>
+<p>In the example, the trellis diagram shows the evolution of the HMM for the observed sequence <span class="math notranslate nohighlight">\(O_1, O_2, O_2\)</span>. The Viterbi algorithm is used to find the most likely sequence of hidden states that could have generated this observed sequence. The thick edges in the diagram represent the Viterbi path, which is the sequence of states that has the highest probability of producing the observed sequence.</p>
+<p>The caption of the trellis diagram provides an example of how the transition probability between two states is calculated. Specifically, the transition probability between state S1 at time <span class="math notranslate nohighlight">\(t=2\)</span> and state S4 at time <span class="math notranslate nohighlight">\(t=3\)</span> is given by the expression <span class="math notranslate nohighlight">\(\alpha_2(1)a_{14}b_4(O_2)\)</span>, where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha_2(1)\)</span> is the probability of being in state <span class="math notranslate nohighlight">\(S_1\)</span> at time <span class="math notranslate nohighlight">\(t=2\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(a_{14}\)</span> is the transition probability from state <span class="math notranslate nohighlight">\(S_1\)</span> to state <span class="math notranslate nohighlight">\(S_4\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(b_4(O_2)\)</span> is the probability of observing the symbol <span class="math notranslate nohighlight">\(O_2\)</span> in state <span class="math notranslate nohighlight">\(S_4\)</span></p></li>
+</ul>
+<p>The trellis diagram is a valuable tool for visualizing the Viterbi algorithm and understanding the most likely sequence of hidden states that could have generated the observed sequence in an HMM.</p>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="dynamic-programming-and-seam-carving">
-<h1>Dynamic Programming and Seam Carving<a class="headerlink" href="#dynamic-programming-and-seam-carving" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="dynamic-programming">
+<h1>Dynamic Programming<a class="headerlink" href="#dynamic-programming" title="Link to this heading">#</a></h1>
 <p>Dynamic programming is a powerful technique for solving problems by breaking them down into smaller, overlapping subproblems. It’s widely used in various fields, including computer science, optimization, and image processing. One intriguing application of dynamic programming is <strong>seam carving</strong>. Seam carving is used in content-aware image resizing, in which, its algorithm is very similar to Viterbi algorithm.</p>
 <section id="content-aware-image-resizing">
 <h2>Content-Aware Image Resizing<a class="headerlink" href="#content-aware-image-resizing" title="Link to this heading">#</a></h2>
@@ -526,16 +616,16 @@ document.write(`
 <p><img alt="Seam-Carving Image" src="_images/seam-carving.jpg" /></p>
 </section>
 </section>
-<section id="dynamic-programming-and-seam-carving-a-viterbi-perspective">
-<h2>Dynamic Programming and Seam Carving: A Viterbi Perspective<a class="headerlink" href="#dynamic-programming-and-seam-carving-a-viterbi-perspective" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h2>Dynamic Programming<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>Dynamic programming plays a crucial role in both seam carving and the Viterbi algorithm. While seam carving focuses on image resizing, the Viterbi algorithm is widely used for decoding hidden Markov models (HMMs). Let’s explore their similarities and differences.</p>
 </section>
-<section id="seam-carving-algorithm-viterbi-like-perspective">
-<h2>Seam Carving Algorithm (Viterbi-Like Perspective)<a class="headerlink" href="#seam-carving-algorithm-viterbi-like-perspective" title="Link to this heading">#</a></h2>
+<section id="seam-carving-algorithm">
+<h2>Seam Carving Algorithm<a class="headerlink" href="#seam-carving-algorithm" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p><strong>Energy Calculation</strong>:</p>
 <ul class="simple">
-<li><p>Compute the energy of each pixel in the image (similar to emission probabilities in HMMs).</p></li>
+<li><p>Compute the energy of each pixel in the image.</p></li>
 <li><p>Define an energy matrix where each entry represents the cumulative energy from the top-left corner to that pixel.</p></li>
 </ul>
 </li>
@@ -568,7 +658,12 @@ document.write(`
 <section id="seam-carving-implementation">
 <h3>Seam-carving implementation<a class="headerlink" href="#seam-carving-implementation" title="Link to this heading">#</a></h3>
 <p>My first implementation of seam-carving was in MATLAB, then by Python. In the following, my new code which is a combination of my previous code and <a class="reference external" href="https://karthikkaranth.me/blog/implementing-seam-carving-with-python/">Karthik Karanth</a>’s code is provided.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This is a combination of Karthik Karanth and my implementation for seam carving </span>
@@ -610,7 +705,35 @@ document.write(`
     <span class="k">return</span> <span class="n">img</span>
 
 
-<span class="k">def</span> <span class="nf">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">find_optimal_seam</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span><span class="p">):</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+    <span class="c1"># Find the column index with the minimum energy in the last row</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Initialize an empty list to store the seam indices</span>
+    <span class="n">seam</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Backtrack from the last row to the first row</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="p">)):</span>
+        <span class="n">seam</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+    <span class="c1"># Reverse the seam to get the correct order</span>
+    <span class="n">seam</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">seam</span>
+
+
+<span class="c1"># usage:</span>
+<span class="c1"># seam_indices = find_optimal_seam(M, backtrack)</span>
+<span class="c1"># Now seam_indices contains the optimal path as a list of (i, j) indices</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">energy_map</span> <span class="o">=</span> <span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 
@@ -631,72 +754,210 @@ document.write(`
 </div>
 </div>
 </div>
+<p>Usage of the above functions for vertical or horizontal seam-carving</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># which_axis = &quot;c&quot;</span>
+<span class="c1"># num_seams = 100</span>
+<span class="c1"># in_filename = &quot;img/two-butterfly.jpg&quot;</span>
+<span class="c1"># img = imread(in_filename)</span>
+<span class="c1"># if which_axis == &quot;r&quot;:</span>
+<span class="c1">#     out = crop_r(img, num_seams)</span>
+<span class="c1"># elif which_axis == &quot;c&quot;:</span>
+<span class="c1">#     out = crop_c(img, num_seams)</span>
+
+<span class="c1"># plt.figure(figsize=(10, 5))</span>
+<span class="c1"># plt.subplot(1, 3, 1)</span>
+<span class="c1"># plt.axis(&quot;off&quot;)</span>
+<span class="c1"># plt.imshow(img)</span>
+
+<span class="c1"># plt.subplot(1, 3, 2)</span>
+<span class="c1"># plt.axis(&quot;off&quot;)</span>
+<span class="c1"># plt.imshow(calc_energy(img))</span>
+
+<span class="c1"># plt.subplot(1, 3, 3)</span>
+<span class="c1"># plt.axis(&quot;off&quot;)</span>
+<span class="c1"># plt.imshow(out.astype(np.int16))</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Make the image smaller in length: 540x540 -&gt; 400x540</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">which_axis</span> <span class="o">=</span> <span class="s2">&quot;c&quot;</span>
-<span class="n">num_seams</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">in_filename</span> <span class="o">=</span> <span class="s2">&quot;img/two-butterfly.jpg&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_filename</span> <span class="o">=</span> <span class="s2">&quot;img/MistakeFreeTomorrow.jpg&quot;</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">in_filename</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">which_axis</span> <span class="o">==</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">crop_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">)</span>
-<span class="k">elif</span> <span class="n">which_axis</span> <span class="o">==</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">crop_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">crop_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">140</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x24043d010c8&gt;
-</pre></div>
 </div>
-<img alt="_images/1c4499689c994257ffc99b89535afd7770f65f2e10d295e4d0addd414c17f1f7.png" src="_images/1c4499689c994257ffc99b89535afd7770f65f2e10d295e4d0addd414c17f1f7.png" />
-</div>
-</div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_filename</span> <span class="o">=</span> <span class="s2">&quot;img/thanks.jpg&quot;</span>  <span class="c1"># 324x324 -&gt; 240x240</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">in_filename</span><span class="p">)</span>
-<span class="n">out</span> <span class="o">=</span> <span class="n">crop_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
-<span class="n">out</span> <span class="o">=</span> <span class="n">crop_r</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">interactive</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x240445fdf88&gt;
+<img alt="_images/161dea62b5957c3dedde8b7643b79bfd75983375b0f77e2a07ecc6749f0821d8.png" src="_images/161dea62b5957c3dedde8b7643b79bfd75983375b0f77e2a07ecc6749f0821d8.png" />
+</div>
+</div>
+<p>Make the image smaller: 324x324 -&gt; 240x240</p>
+<p>Show the optimum seam as RED</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">in_filename</span> <span class="o">=</span> <span class="s2">&quot;img/thanks.jpg&quot;</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">in_filename</span><span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">crop_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">crop_c</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+
+<span class="c1"># The first vertical seam</span>
+<span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span> <span class="o">=</span> <span class="n">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">seam_indices</span> <span class="o">=</span> <span class="n">find_optimal_seam</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span><span class="p">)</span>
+<span class="n">im_vs</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># Set the pixels corresponding to the seam indices to red</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">seam_indices</span><span class="p">:</span>
+    <span class="n">im_vs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Set RGB values to red</span>
+
+<span class="c1"># The first horizontal seam</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span> <span class="o">=</span> <span class="n">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">seam_indices</span> <span class="o">=</span> <span class="n">find_optimal_seam</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span><span class="p">)</span>
+<span class="n">im_hs</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># Set the pixels corresponding to the seam indices to red</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">seam_indices</span><span class="p">:</span>
+    <span class="n">im_hs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Set RGB values to red</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">im_hs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">im_hs</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
-<img alt="_images/3b846fad7fcd8471fa80eccd36842fe67098e0c98da74f54ff2ef1c6aa60e84b.png" src="_images/3b846fad7fcd8471fa80eccd36842fe67098e0c98da74f54ff2ef1c6aa60e84b.png" />
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">interactive</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im_vs</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im_hs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/e5e633463927c247f300b2de8c6e2e261f9de2bbb9cfe9f29f5c42acf8d67cf4.png" src="_images/e5e633463927c247f300b2de8c6e2e261f9de2bbb9cfe9f29f5c42acf8d67cf4.png" />
 </div>
 </div>
 </section>
 </section>
-<section id="id1">
-<h2>Viterbi Algorithm<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h2>Viterbi Algorithm<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>Let’s visit the forward formula in the context of the Viterbi algorithm for Hidden Markov Models (HMMs).</p>
+<ol class="arabic">
+<li><p><strong>Background</strong>:</p>
+<ul class="simple">
+<li><p>The Viterbi algorithm is used to find the most likely sequence of hidden states (states of an HMM) given a sequence of observations (emissions).</p></li>
+<li><p>In an HMM, we have:</p>
+<ul>
+<li><p>Hidden states: <span class="math notranslate nohighlight">\(S = \{1, 2, \ldots, N\}\)</span> (where <span class="math notranslate nohighlight">\(N\)</span> is the total number of states).</p></li>
+<li><p>Observations: <span class="math notranslate nohighlight">\(O = \{o_1, o_2, \ldots, o_T\}\)</span> (where <span class="math notranslate nohighlight">\(T\)</span> is the length of the observation sequence).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Forward Algorithm</strong>:</p>
+<ul>
+<li><p>The forward algorithm computes the probability of observing the partial sequence <span class="math notranslate nohighlight">\(o_1, o_2, \ldots, o_t\)</span> up to time <span class="math notranslate nohighlight">\(t\)</span> and being in state <span class="math notranslate nohighlight">\(j\)</span> at time <span class="math notranslate nohighlight">\(t\)</span>. We denote this as <span class="math notranslate nohighlight">\(\alpha_t(j)\)</span>.</p></li>
+<li><p>The formula for <span class="math notranslate nohighlight">\(\alpha_{t+1}(j)\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[ \alpha_{t+1}(j) = \left(\sum_{i=1}^N \alpha_t(i) \cdot a_{ij}\right) \cdot b_j(o_{t+1}) \]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha_t(i)\)</span> represents the probability of being in state <span class="math notranslate nohighlight">\(i\)</span> at time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(a_{ij}\)</span> is the transition probability from state <span class="math notranslate nohighlight">\(i\)</span> to state <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(b_j(o_{t+1})\)</span> is the emission probability of observing <span class="math notranslate nohighlight">\(o_{t+1}\)</span> given that we are in state <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Initialization</strong>:</p>
+<ul class="simple">
+<li><p>To start the forward algorithm, we set <span class="math notranslate nohighlight">\(\alpha_0(j)\)</span> for all states <span class="math notranslate nohighlight">\(j\)</span> based on the initial state probabilities (<span class="math notranslate nohighlight">\(\pi_j\)</span>).</p></li>
+</ul>
+</li>
+<li><p><strong>Recursion</strong>:</p>
+<ul class="simple">
+<li><p>We compute <span class="math notranslate nohighlight">\(\alpha_{t+1}(j)\)</span> for each time step <span class="math notranslate nohighlight">\(t\)</span> by updating it based on the previous <span class="math notranslate nohighlight">\(\alpha_t(i)\)</span> values and the transition and emission probabilities.</p></li>
+</ul>
+</li>
+<li><p><strong>Termination</strong>:</p>
+<ul class="simple">
+<li><p>The final probability of the entire observation sequence is given by <span class="math notranslate nohighlight">\(P(O|\lambda) = \sum_{i=1}^N \alpha_T(i)\)</span>.</p></li>
+</ul>
+</li>
+</ol>
+<p>The forward algorithm recursively computes the probabilities of being in different states at each time step, considering both transitions and emissions.</p>
+<p><img alt="HMM-Model-Viterbi-Example" src="_images/HMM-Model-Viterbi-Example.png" /></p>
+<p>Let’s compute <span class="math notranslate nohighlight">\(\alpha_1(1)\)</span>, which represents the probability of starting in state 1 and observing <span class="math notranslate nohighlight">\(o_1\)</span>; using the given formula (<span class="math notranslate nohighlight">\(j=1, t=0, t+1=1\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[ \alpha_{1}(1) = \left(\sum_{i=1}^2 \alpha_t(i) a_{i1}\right) b_1(o_{1}) \]</div>
+<p><span class="math notranslate nohighlight">\(\alpha_1(1) = \alpha_0(1) a_{11} b_1(o_1) + \alpha_0(2) a_{21} b_1(o_1) = \pi_1 a_{11} b_1(o_1) + \pi_2 a_{21} b_1(o_1)\)</span>,
+where <span class="math notranslate nohighlight">\(\pi_j\)</span> is the initial state probability for state j and <span class="math notranslate nohighlight">\(b_j(o_{t+1})\)</span> is the emission probability for observation <span class="math notranslate nohighlight">\(o_{t+1}\)</span> given that we are in state <span class="math notranslate nohighlight">\(j\)</span>.</p>
+<p><img alt="HMM-Model-Viterbi-Example-Solution" src="_images/HMM-Model-Viterbi-Example-Sol.png" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hidden_markov</span> <span class="kn">import</span> <span class="n">hmm</span>
@@ -704,33 +965,15 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Defining the HMM model of page 26 of <a class="reference external" href="https://www.dropbox.com/scl/fi/9ez77b75eyw1al55k086s/StatNLP-Lecture6-HMM.pdf?rlkey=2vd1mfqwsrbu3ru4il6hta4m7&amp;amp;dl=0">Dr. Veisi’s slides</a></p>
+<p>Defining the HMM model of page 37 of <a class="reference external" href="https://www.dropbox.com/scl/fi/9ez77b75eyw1al55k086s/StatNLP-Lecture6-HMM.pdf?rlkey=2vd1mfqwsrbu3ru4il6hta4m7&amp;amp;dl=0">Dr. Veisi’s slides</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the Model</span>
-<span class="n">states</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;S0&quot;</span><span class="p">,</span> <span class="s2">&quot;S1&quot;</span><span class="p">)</span>
+<span class="n">states</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;S1&quot;</span><span class="p">,</span> <span class="s2">&quot;S2&quot;</span><span class="p">)</span>
 <span class="n">observations</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
 <span class="n">start_prob_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
 <span class="n">emission_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">start_prob_matrix</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">emission_matrix</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[1 0]]
-[[0.6 0.4]
- [0.  1. ]]
-[[0.8 0.2]
- [0.3 0.7]]
 </pre></div>
 </div>
 </div>
@@ -765,12 +1008,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;S0&#39;, &#39;S0&#39;, &#39;S1&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;S1&#39;, &#39;S1&#39;, &#39;S2&#39;]
 </pre></div>
 </div>
 </div>
 </div>
-<p>Define another model with dictionaries</p>
+<p>Define another model with dictionaries <a class="reference external" href="https://www.geeksforgeeks.org/viterbi-algorithm-for-hidden-markov-models-hmms/">GfG</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the Model</span>
@@ -789,20 +1032,26 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<p>Converting dictionary to matrix</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Converting dictionary to matrix</span>
 <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
 
 <span class="n">start_prob_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">start_probability</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">start_prob_matrix</span><span class="p">)</span>
+<span class="c1"># print(start_prob_matrix)</span>
 
 <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row_state</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">col_state</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
         <span class="n">transition_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">transition_probability</span><span class="p">[</span><span class="n">row_state</span><span class="p">][</span><span class="n">col_state</span><span class="p">]</span>
 <span class="n">transition_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">transition_matrix</span><span class="p">)</span>
+<span class="c1"># print(transition_matrix)</span>
 
 <span class="n">rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">emission_probability</span><span class="p">)</span>
 <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">emission_probability</span><span class="p">[</span><span class="s2">&quot;Rainy&quot;</span><span class="p">])</span>
@@ -812,19 +1061,11 @@ document.write(`
     <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">activity</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">emission_probability</span><span class="p">[</span><span class="n">state</span><span class="p">]):</span>
         <span class="n">emission_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">emission_probability</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="n">activity</span><span class="p">]</span>
 <span class="n">emission_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">emission_matrix</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">emission_matrix</span><span class="p">)</span>
+<span class="c1"># print(emission_matrix)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.6 0.4]]
-[[0.7 0.3]
- [0.4 0.6]]
-[[0.1 0.4 0.5]
- [0.6 0.3 0.1]]
-</pre></div>
-</div>
-</div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -838,13 +1079,13 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The observations that we observe and feed to the model</span>
-<span class="n">obs1</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;walk&quot;</span><span class="p">,</span> <span class="s2">&quot;walk&quot;</span><span class="p">,</span> <span class="s2">&quot;shop&quot;</span><span class="p">,</span> <span class="s2">&quot;shop&quot;</span><span class="p">)</span>
+<span class="n">obs1</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;walk&quot;</span><span class="p">,</span>  <span class="s2">&quot;shop&quot;</span><span class="p">,</span> <span class="s2">&quot;clean&quot;</span><span class="p">)</span>
 <span class="n">hmm_model</span><span class="o">.</span><span class="n">forward_algo</span><span class="p">(</span><span class="n">obs1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.013554839999999999
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.033612
 </pre></div>
 </div>
 </div>
@@ -856,7 +1097,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Sunny&#39;, &#39;Sunny&#39;, &#39;Rainy&#39;, &#39;Rainy&#39;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Sunny&#39;, &#39;Rainy&#39;, &#39;Rainy&#39;]
 </pre></div>
 </div>
 </div>
@@ -871,8 +1112,9 @@ document.write(`
 <li><p><a class="reference external" href="https://github.com/loc-trinh/seamCarving">GitHub (C++)</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference external" href="https://karthikkaranth.me/blog/implementing-seam-carving-with-python/">Implementing Seam Carving with Python, by Karthik Karanth</a></p></li>
-<li><p><a class="reference external" href="https://ben-tanen.com/projects/2020/10/08/seam-carving-pt1.html">Intro to the Seam Carving Algorithm, by Ben Tanen</a></p></li>
+<li><p><a class="reference external" href="https://karthikkaranth.me/blog/implementing-seam-carving-with-python/">Implementing Seam Carving with Python</a>, by Karthik Karanth</p></li>
+<li><p><a class="reference external" href="https://ben-tanen.com/projects/2020/10/08/seam-carving-pt1.html">Intro to the Seam Carving Algorithm</a>, by Ben Tanen</p></li>
+<li><p><a class="reference external" href="https://frazierbutler.medium.com/intro-to-the-viterbi-algorithm-8f41c3f43cf3">Intro to the Viterbi Algorithm</a>, by Paul Butler</p></li>
 </ol>
 </section>
 </section>
@@ -943,22 +1185,22 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lecture 8. Hidden Markov Models</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hidden-markov-models-hmms">Hidden Markov Models (HMMs)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viterbi-algorithm">Viterbi Algorithm</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-programming-and-seam-carving">Dynamic Programming and Seam Carving</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#viterbi-algorithm">Viterbi Algorithm</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-programming">Dynamic Programming</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#content-aware-image-resizing">Content-Aware Image Resizing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-seams">What Are Seams?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-process">Seam Carving Process</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-programming-and-seam-carving-a-viterbi-perspective">Dynamic Programming and Seam Carving: A Viterbi Perspective</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-algorithm-viterbi-like-perspective">Seam Carving Algorithm (Viterbi-Like Perspective)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dynamic Programming</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-algorithm">Seam Carving Algorithm</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-implementation">Seam-carving implementation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Viterbi Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Viterbi Algorithm</a></li>
 </ul>
 </li>
 </ul>

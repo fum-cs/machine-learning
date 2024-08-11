@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
@@ -191,6 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Lecture 6. Data preprocessing</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 7. Bayesian Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Lecture 8. Hidden Markov Models</a></li>
+
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
 </ul>
@@ -419,11 +420,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes’ rule</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-exploding-sun">Example: exploding sun</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-covid-test">Example: COVID test</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes’ rule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-models">Bayesian models</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-models">Generative models</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a><ul class="nav section-nav flex-column">
@@ -493,7 +490,12 @@ document.write(`
 <p><strong>Mahmood Amintoosi, Spring 2024</strong></p>
 <p>Computer Science Dept, Ferdowsi University of Mashhad</p>
 <p>I should mention that the original material of this course was from <a class="reference external" href="https://ml-course.github.io/">Open Machine Learning Course</a>, by <a class="reference external" href="https://github.com/joaquinvanschoren">Joaquin Vanschoren</a> and others.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-setup when running on Google Colab</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -518,6 +520,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/frequentists_vs_bayesians.png" alt="ml" style="width: 40%"/>
 XKCD, Randall Monroe<section id="bayes-rule">
@@ -528,43 +531,6 @@ XKCD, Randall Monroe<section id="bayes-rule">
 <span class="math notranslate nohighlight">\(P(c)\)</span> is the <em>prior</em> probability of class <span class="math notranslate nohighlight">\(c\)</span>: what you believed before you saw the data <span class="math notranslate nohighlight">\(x\)</span><br />
 <span class="math notranslate nohighlight">\(P(x|c)\)</span> is the <em>likelihood</em> of data point <span class="math notranslate nohighlight">\(x\)</span> given that the class is <span class="math notranslate nohighlight">\(c\)</span> (computed from your data)<br />
 <span class="math notranslate nohighlight">\(P(x)\)</span> is the prior probability of the data (<em>marginal likelihood</em>): the likelihood of the data <span class="math notranslate nohighlight">\(x\)</span> under any circumstance (no matter what the class is)</p>
-<section id="example-exploding-sun">
-<h3>Example: exploding sun<a class="headerlink" href="#example-exploding-sun" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Let’s compute the probability that the sun has exploded</p></li>
-<li><p>Prior <span class="math notranslate nohighlight">\(P(exploded)\)</span>: the sun has an estimated lifespan of 10 billion years,
-<span class="math notranslate nohighlight">\(P(exploded) = \frac{1}{4.38 x 10^{13}}\)</span></p></li>
-<li><p>Likelihood that detector lies: <span class="math notranslate nohighlight">\(P(lie)= \frac{1}{36}\)</span></p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{aligned}
-P(exploded|yes) &amp;= \frac{P(yes|exploded)P(exploded)}{P(yes)} \\
- &amp;= \frac{(1-P(lie)) P(exploded)}{P(exploded)(1-P(lie))+P(lie)(1-P(exploded))} \\
- &amp;= \frac{1}{1.25226 x 10^{12}}
- \end{aligned}\end{split}\]</div>
-<ul class="simple">
-<li><p>The one positive observation of the detector increases the probability</p></li>
-</ul>
-</section>
-<section id="example-covid-test">
-<h3>Example: COVID test<a class="headerlink" href="#example-covid-test" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>What is the probability of having COVID-19 if a 96% accurate test returns positive? Assume a false positive rate of 4%</p></li>
-<li><p>Prior <span class="math notranslate nohighlight">\(P(C): 0.015\)</span> (117M cases, 7.9B people)</p></li>
-<li><p><span class="math notranslate nohighlight">\(P(TP)=P(pos|C)=0.96\)</span>, and <span class="math notranslate nohighlight">\(P(FP)=(pos|notC)=0.04\)</span></p></li>
-<li><p>If test is positive, prior becomes <span class="math notranslate nohighlight">\(P(C)=0.268\)</span>. 2nd positive test: <span class="math notranslate nohighlight">\(P(C|pos)=0.9\)</span></p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{aligned}
-P(C|pos) &amp;= \frac{P(pos|C)P(C)}{P(pos)} \\
- &amp;= \frac{P(pos|C) P(C)}{P(pos|C)P(C)+P(pos|notC)(1-P(C))} \\
- &amp;= \frac{0.96*0.015}{0.96*0.015+0.04*0.985} \\
- &amp;= 0.268
- \end{aligned}\end{split}\]</div>
-<p>2023 update: With 760M cases, <span class="math notranslate nohighlight">\(P(C|pos)=0.718\)</span></p>
-</section>
 </section>
 <section id="bayesian-models">
 <h2>Bayesian models<a class="headerlink" href="#bayesian-models" title="Link to this heading">#</a></h2>
@@ -917,7 +883,9 @@ P(C|pos) &amp;= \frac{P(pos|C)P(C)}{P(pos)} \\
 <p>Linear regression (recap):</p>
 <div class="math notranslate nohighlight">
 \[y = f(\mathbf{x}_i) = \mathbf{x}_i\mathbf{w} + b \]</div>
-<p>For one input feature: $<span class="math notranslate nohighlight">\(y = w_1 \cdot x_1 + b \cdot 1\)</span>$</p>
+<p>For one input feature:</p>
+<div class="math notranslate nohighlight">
+\[y = w_1 \cdot x_1 + b \cdot 1\]</div>
 <p>We can solve this via linear algebra (closed form solution): <span class="math notranslate nohighlight">\(w^{*} = (X^{T}X)^{-1} X^T Y\)</span></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 </pre></div>
@@ -1138,32 +1106,35 @@ P(C|pos) &amp;= \frac{P(pos|C)P(C)}{P(pos)} \\
 </section>
 <section id="how-to-learn-probabilities">
 <h2>How to learn probabilities?<a class="headerlink" href="#how-to-learn-probabilities" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Maximum Likelihood Estimation (MLE): Maximize <span class="math notranslate nohighlight">\(P(\textbf{X}|\textbf{w})\)</span></p>
 <ul>
+<li><p>Maximum Likelihood Estimation (MLE): Maximize <span class="math notranslate nohighlight">\(P(\textbf{X}|\textbf{w})\)</span></p>
+<ul class="simple">
 <li><p>Corresponds to optimizing <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>, using (log) likelihood as the loss function</p></li>
-<li><p>Every prediction has a mean defined by <span class="math notranslate nohighlight">\(\textbf{w}\)</span> and Gaussian noise
-$<span class="math notranslate nohighlight">\(P(\textbf{X}|\textbf{w}) = \prod_{i=0}^{n} P(\mathbf{y}_i|\mathbf{x}_i;\mathbf{w}) = \prod_{i=0}^{n} \mathcal{N}(\mathbf{wx,\sigma^2 I})\)</span>$</p></li>
+<li><p>Every prediction has a mean defined by <span class="math notranslate nohighlight">\(\textbf{w}\)</span> and Gaussian noise</p></li>
 </ul>
+<div class="math notranslate nohighlight">
+\[P(\textbf{X}|\textbf{w}) = \prod_{i=0}^{n} P(\mathbf{y}_i|\mathbf{x}_i;\mathbf{w}) = \prod_{i=0}^{n} \mathcal{N}(\mathbf{wx,\sigma^2 I})\]</div>
 </li>
 </ul>
-<ul class="simple">
-<li><p>Maximum A Posteriori estimation (MAP): Maximize the posterior <span class="math notranslate nohighlight">\(P(\textbf{w}|\textbf{X})\)</span></p>
 <ul>
-<li><p>This can be done using Bayes’ rule after we choose a (Gaussian) prior <span class="math notranslate nohighlight">\(P(\textbf{w})\)</span>:
-$<span class="math notranslate nohighlight">\(P(\textbf{w}|\textbf{X}) = \frac{P(\textbf{X}|\textbf{w})P(\textbf{w})}{P(\textbf{X})}\)</span>$</p></li>
+<li><p>Maximum A Posteriori estimation (MAP): Maximize the posterior <span class="math notranslate nohighlight">\(P(\textbf{w}|\textbf{X})\)</span></p>
+<ul class="simple">
+<li><p>This can be done using Bayes’ rule after we choose a (Gaussian) prior <span class="math notranslate nohighlight">\(P(\textbf{w})\)</span>:</p></li>
 </ul>
+<div class="math notranslate nohighlight">
+\[P(\textbf{w}|\textbf{X}) = \frac{P(\textbf{X}|\textbf{w})P(\textbf{w})}{P(\textbf{X})}\]</div>
 </li>
 <li><p>Bayesian approach: model the prediction <span class="math notranslate nohighlight">\(P(y|x_{test},X)\)</span> directly</p>
-<ul>
+<ul class="simple">
 <li><p>Marginalize <span class="math notranslate nohighlight">\(w\)</span> out: consider all possible models (some are more likely)</p></li>
 <li><p>If prior <span class="math notranslate nohighlight">\(P(\textbf{w})\)</span> is Gaussian, then <span class="math notranslate nohighlight">\(P(y|x_{test},\textbf{X})\)</span> is also Gaussian!</p>
 <ul>
-<li><p>A multivariate Gaussian with mean <span class="math notranslate nohighlight">\(\mu\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\Sigma\)</span>
-$<span class="math notranslate nohighlight">\(P(y|x_{test},\textbf{X}) = \int_w P(y|x_{test},\textbf{w}) P(\textbf{w}|\textbf{X}) dw = \mathcal{N}(\mathbf{\mu,\Sigma})\)</span>$</p></li>
+<li><p>A multivariate Gaussian with mean <span class="math notranslate nohighlight">\(\mu\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\Sigma\)</span></p></li>
 </ul>
 </li>
 </ul>
+<div class="math notranslate nohighlight">
+\[P(y|x_{test},\textbf{X}) = \int_w P(y|x_{test},\textbf{w}) P(\textbf{w}|\textbf{X}) dw = \mathcal{N}(\mathbf{\mu,\Sigma})\]</div>
 </li>
 </ul>
 <section id="gaussian-prior-p-w">
@@ -1175,8 +1146,7 @@ $<span class="math notranslate nohighlight">\(P(y|x_{test},\textbf{X}) = \int_w 
 0 &amp; \alpha
 \end{bmatrix}\)</span></p></li>
 </ul>
-<p>I.e, <span class="math notranslate nohighlight">\(w_i\)</span> is drawn from a Gaussian density with variance <span class="math notranslate nohighlight">\(\alpha\)</span>
-$<span class="math notranslate nohighlight">\(w_i \sim \mathcal{N}(0,\alpha)\)</span>$</p>
+<p>I.e, <span class="math notranslate nohighlight">\(w_i\)</span> is drawn from a Gaussian density with variance <span class="math notranslate nohighlight">\(\alpha\)</span>: <span class="math notranslate nohighlight">\(w_i \sim \mathcal{N}(0,\alpha)\)</span></p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1579,10 +1549,11 @@ $<span class="math notranslate nohighlight">\(w_i \sim \mathcal{N}(0,\alpha)\)</
 <p><a class="reference external" href="https://pymc3-testing.readthedocs.io/en/rtd-docs/notebooks/GP-covariances.html">More examples of covariances</a></p>
 <section id="noisy-functions">
 <h4>Noisy functions<a class="headerlink" href="#noisy-functions" title="Link to this heading">#</a></h4>
-<p>We normally add Gaussian noise to obtain our observations:
-$<span class="math notranslate nohighlight">\(
+<p>We normally add Gaussian noise to obtain our observations:</p>
+<div class="math notranslate nohighlight">
+\[
 \mathbf{y} = \mathbf{f} + \boldsymbol{\epsilon}
-\)</span>$</p>
+\]</div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1674,14 +1645,20 @@ k(\mathbf{x}, \mathbf{x}^\prime) = \alpha \exp\left( -\frac{\left\Vert \mathbf{x
 <section id="computing-the-posterior-p-mathbf-y-mathbf-x">
 <h3>Computing the posterior <span class="math notranslate nohighlight">\(P(\mathbf{y}|\mathbf{X})\)</span><a class="headerlink" href="#computing-the-posterior-p-mathbf-y-mathbf-x" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Assuming that <span class="math notranslate nohighlight">\(P(X)\)</span> is a Gaussian density with a covariance given by kernel matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>, the model likelihood becomes:
-$<span class="math notranslate nohighlight">\(
+<li><p>Assuming that <span class="math notranslate nohighlight">\(P(X)\)</span> is a Gaussian density with a covariance given by kernel matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>, the model likelihood becomes:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
 P(\mathbf{y}|\mathbf{X}) = \frac{P(y) \ P(\mathbf{X} \mid y)}{P(\mathbf{X})} = \frac{1}{(2\pi)^{\frac{n}{2}}|\mathbf{K}|^{\frac{1}{2}}} \exp\left(-\frac{1}{2}\mathbf{y}^\top \left(\mathbf{K}+\sigma^2 \mathbf{I}\right)^{-1}\mathbf{y}\right)
-\)</span>$</p></li>
-<li><p>Hence, the negative log likelihood (the objective function) is given by:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<ul class="simple">
+<li><p>Hence, the negative log likelihood (the objective function) is given by:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
 E(\boldsymbol{\theta}) = \frac{1}{2} \log |\mathbf{K}| + \frac{1}{2} \mathbf{y}^\top \left(\mathbf{K} + \sigma^2\mathbf{I}\right)^{-1}\mathbf{y}
-\)</span>$</p></li>
+\]</div>
+<ul class="simple">
 <li><p>The model parameters (e.g. noise variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>) and the kernel parameters (e.g. lengthscale, variance) can be embedded in the covariance function and learned from data.</p></li>
 <li><p>Good news: This loss function can be optimized using linear algebra (Cholesky Decomposition)</p></li>
 <li><p>Bad news: This is cubic in the number of data points AND the number of features: <span class="math notranslate nohighlight">\(\mathcal{O}(n^3 d^3)\)</span></p></li>
@@ -1738,14 +1715,15 @@ $<span class="math notranslate nohighlight">\(
 <section id="conditional-density-p-mathbf-y-x-test-mathbf-x">
 <h3>Conditional Density <span class="math notranslate nohighlight">\(P(\mathbf{y}|x_{test} , \mathbf{X})\)</span><a class="headerlink" href="#conditional-density-p-mathbf-y-x-test-mathbf-x" title="Link to this heading">#</a></h3>
 <p>Finally, we need to define <em>conditional</em> distributions to answer particular questions of interest</p>
-<p>We will need the <em>conditional density</em> for making predictions.
-$<span class="math notranslate nohighlight">\(
+<p>We will need the <em>conditional density</em> for making predictions.</p>
+<div class="math notranslate nohighlight">
+\[
 \mathbf{f}^* | \mathbf{y} \sim \mathcal{N}(\boldsymbol{\mu}_f,\mathbf{C}_f)
-\)</span><span class="math notranslate nohighlight">\(
-with a mean given by
-\)</span>
-\boldsymbol{\mu}<em>f = \mathbf{K}</em>*^\top \left[\mathbf{K} + \sigma^2 \mathbf{I}\right]^{-1} \mathbf{y}
-$</p>
+\]</div>
+<p>with a mean given by
+<span class="math notranslate nohighlight">\(
+\boldsymbol{\mu}_f = \mathbf{K}_*^\top \left[\mathbf{K} + \sigma^2 \mathbf{I}\right]^{-1} \mathbf{y}
+\)</span></p>
 <p>and a covariance given by
 <span class="math notranslate nohighlight">\(
 \mathbf{C}_f = \mathbf{K}_{*,*} - \mathbf{K}_*^\top \left[\mathbf{K} + \sigma^2 \mathbf{I}\right]^{-1} \mathbf{K}_\ast.
@@ -2403,11 +2381,7 @@ $<span class="math notranslate nohighlight">\(EI(X) := \mathbb{E}\left[ \max\{0,
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes’ rule</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-exploding-sun">Example: exploding sun</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-covid-test">Example: COVID test</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-rule">Bayes’ rule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-models">Bayesian models</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-models">Generative models</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a><ul class="nav section-nav flex-column">
