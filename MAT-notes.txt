@@ -1,1 +1,56 @@
 In HP-Elite X2: pth2
+
+# Viterbi Algorithm
+
+The Viterbi algorithm is an efficient **dynamic programming** technique used to find *the most likely sequence of hidden states* (the Viterbi path) given a sequence of observations. It's particularly useful for decoding in HMMs. Here's how it works:
+
+1. **Initialization**: Initialize a matrix where each cell represents the probability of being in a specific state at a given time step. Set the initial probabilities based on the starting state probabilities and emission probabilities.
+
+2. **Recursion**: Iterate through the observation sequence. At each time step, update the probabilities for each state by considering the previous time step's probabilities and transition probabilities.
+
+3. **Backtracking**: After processing all observations, backtrack through the matrix to find the most likely sequence of states (the Viterbi path).
+
+The Viterbi algorithm has linear runtime with respect to the length of the observation sequence, making it efficient for practical use.
+
+
+# Viterbi Algorithm
+
+The Viterbi Algorithm is a dynamic programming solution for finding the most probable hidden state sequence. If we have a set of states $Q$ and a set of observations $O$, we are trying to find the state sequence that maximizes $P(Q|O)$. By conditional probability, we can transform $P(Q|O)$ to $P(Q,O)/P(O)$, but there is no need in finding $P(O)$ as $P(O)$ does not pertain to changes in state sequences. We can just find the state sequence that maximizes $P(Q,O)$. Let’s dive into the formula for $P(Q, O)$.
+
+<!-- ![viterbi0](img/08_viterbi00.png) -->
+
+$$
+\begin{align}
+P(Q,O) &= P(O|Q)P(Q) \nonumber\\
+&=P(o_1 \dots o_T|q_1 \dots q_T)\Pi_{i=1}^T P(q_i|q_1 \dots q_{i-1}) \nonumber \\
+&=P(o_1 \dots o_T|q_1 \dots q_T)\Pi_{i=1}^T P(q_i|q_{i-1}) \nonumber \\
+&=\Pi_{i=1}^TP(o_i|o_1 \dots o_{i-1},q_1 \dots q_{i-1})\Pi_{i=1}^T P(q_i|q_{i-1}) \nonumber \\
+&=\Pi_{i=1}^TP(o_i|q_i) P(q_i|q_{i-1}) \nonumber \\
+\end{align}
+$$
+
+$T$ is the number of observations in the sequence.
+
+So, if we wanted to find the state sequence to maximize $P(Q, O)$, you could imagine this would be quite expensive as we would have to maximize $P(Q, O)$ for all possible state sequences. This is where the Viterbi algorithm comes in. The Viterbi algorithm is an iterative approach to solving for the most likely sequence. Rather than finding the most probable hidden state sequence for all the observations, we just want to find the next most probable hidden state. We iteratively find the most probable states until we are done with the sequence of observations.
+
+There are some symbols we should denote for the Viterbi algorithm before we dive deeper into the steps.
+
+![viterbi symbols](img/08_viterbi01.png)
+
+The Viterbi Algorithm is composed of three steps.
+
+1. **Initialization**
+
+We first create a start state $q^*$. We then find the probabilities of the initial states and the observations given the initial states. In this case, $P(q_i|q^*)$ is the the probability that the start state is $q_i$.
+
+![initial](img/08_viterbi02.png)
+
+2. **Induction**
+
+We perform the induction step when $t$ is greater than or equal to 2 and less than or equal to $T$ where $T$ is the number of observations + 1 (the plus 1 comes from the added start state). $T$ represents to total number of observations.
+
+![induction](img/08_viterbi03.png)
+
+3. **Termination**
+
+![termination](img/08_viterbi04.png)
