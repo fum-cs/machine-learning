@@ -54,3 +54,70 @@ We perform the induction step when $t$ is greater than or equal to 2 and less th
 3. **Termination**
 
 ![termination](img/08_viterbi04.png)
+
+
+
+
+--------------
+
+# Viterbi Algorithm
+
+The Viterbi algorithm is a dynamic programming algorithm used for finding the most likely sequence of hidden states (also known as the Viterbi path) in a hidden Markov model (HMM) given a sequence of observations (**problem 2**).
+The Viterbi algorithm aims to find the most likely sequence of hidden states $Q = q_1 q_2 ... q_T$ that maximizes the probability $P(O,Q|\lambda)$. 
+According to the law total probability, the probability of the observation sequence is computed as follows:
+
+$$P(O|\lambda) = \sum_{all q}P(O|q,\lambda)P(q|\lambda)$$
+
+where $P(q|\lambda) = \pi_{q1} a_{q1q2} a_{q2q3} ... a_{q_{T-1}q_T}$
+
+
+For simplicity we discard the $\lambda$ in the conditional probablities.
+
+If we have a set of states $Q$ and a set of observations $O$, we are trying to find the state sequence that maximizes $P(Q|O)$. By conditional probability, we can transform $P(Q|O)$ to $P(Q,O)/P(O)$, but there is no need in finding $P(O)$ as $P(O)$ does not pertain to changes in state sequences. We can just find the state sequence that maximizes $P(Q,O)$. Let’s dive into the formula for $P(Q, O)$.
+
+<!-- ![viterbi0](img/08_viterbi00.png) -->
+
+$$
+\begin{align}
+P(Q,O) &= P(O|Q)P(Q) \nonumber\\
+&=P(o_1 \dots o_T|q_1 \dots q_T)\Pi_{i=1}^T P(q_i|q_1 \dots q_{i-1}) \nonumber \\
+&=P(o_1 \dots o_T|q_1 \dots q_T)\Pi_{i=1}^T P(q_i|q_{i-1}) \nonumber \\
+&=\Pi_{i=1}^TP(o_i|o_1 \dots o_{i-1},q_1 \dots q_{i-1})\Pi_{i=1}^T P(q_i|q_{i-1}) \nonumber \\
+&=\Pi_{i=1}^TP(o_i|q_i) P(q_i|q_{i-1}) \nonumber \\
+\end{align}
+$$
+
+$T$ is the number of observations in the sequence.
+
+So, if we wanted to find the state sequence to maximize $P(Q, O)$, you could imagine this would be quite expensive as we would have to maximize $P(Q, O)$ for all possible state sequences. This is where the Viterbi algorithm comes in. The Viterbi algorithm is an iterative approach to solving for the most likely sequence. Rather than finding the most probable hidden state sequence for all the observations, we just want to find the next most probable hidden state. We iteratively find the most probable states until we are done with the sequence of observations.
+
+There are some symbols we should denote for the Viterbi algorithm before we dive deeper into the steps.
+
+![viterbi symbols](img/08_viterbi01.png)
+
+
+
+The algorithm uses the following recurrence relation:
+
+$$\delta_t(i) = \max_{1 \leq j \leq N} [\delta_{t-1}(j) a_{ji}] b_i(O_t)$$
+
+where $\delta_t(i)$ represents the maximum probability of the most likely sequence of states ending in state $i$ at time $t$ and observing the partial sequence $O_1O_2...O_t$.
+
+The Viterbi algorithm can be summarized as follows:
+
+1. Initialization:
+   - $\delta_1(i) = \pi_i b_i(O_1)$, for $1 \leq i \leq N$
+   - $\psi_1(i) = 0$
+
+2. Recursion:
+   - $\delta_t(i) = \max_{1 \leq j \leq N} [\delta_{t-1}(j) a_{ji}] b_i(O_t)$, for $2 \leq t \leq T$ and $1 \leq i \leq N$
+   - $\psi_t(i) = \arg\max_{1 \leq j \leq N} [\delta_{t-1}(j) a_{ji}]$, for $2 \leq t \leq T$ and $1 \leq i \leq N$
+
+3. Termination:
+   - $P^* = \max_{1 \leq i \leq N} \delta_T(i)$
+   - $q_T^* = \arg\max_{1 \leq i \leq N} \delta_T(i)$
+
+4. Backtracking:
+   - $q_t^* = \psi_{t+1}(q_{t+1}^*)$, for $t = T-1, T-2, ..., 1$
+
+The final result is the most likely sequence of hidden states $Q^* = q_1^* q_2^* ... q_T^*$ and the maximum probability $P^*$.
