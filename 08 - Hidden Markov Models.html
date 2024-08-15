@@ -649,36 +649,35 @@ Figure: Trellis of the observation sequence <span class="math notranslate nohigh
 <ol class="arabic simple">
 <li><p><strong>Energy Calculation</strong>:</p>
 <ul class="simple">
-<li><p>Compute the energy of each pixel in the image.</p></li>
-<li><p>Define an energy matrix where each entry represents the cumulative energy from the top-left corner to that pixel.</p></li>
+<li><p>Compute the energy of each pixel in the image using an energy function (e.g., Sobel operator, gradient magnitude).</p></li>
+<li><p>Create an energy matrix where each entry represents the energy value of the corresponding pixel.</p></li>
 </ul>
 </li>
 <li><p><strong>Dynamic Programming Table</strong>:</p>
 <ul class="simple">
-<li><p>Create a dynamic programming table (similar to the Viterbi trellis).</p></li>
+<li><p>Create a dynamic programming table (similar to the Viterbi trellis) with the same dimensions as the input image.</p></li>
 <li><p>Initialize the first row of the table with the energy values from the energy matrix.</p></li>
 </ul>
 </li>
 <li><p><strong>Optimal Seam Identification</strong>:</p>
 <ul class="simple">
-<li><p>For each subsequent row, compute the cumulative energy by considering the neighboring pixels (left, above-left, and above-right).</p></li>
-<li><p>Update the dynamic programming table with the minimum cumulative energy path.</p></li>
-<li><p>The optimal seam corresponds to the path with the lowest cumulative energy in the last row.</p></li>
+<li><p>For each subsequent row, compute the cumulative energy of each pixel by considering the minimum cumulative energy of its neighboring pixels (left, above-left, and above-right) and adding the current pixel’s energy.</p></li>
+<li><p>Update the dynamic programming table with the minimum cumulative energy for each pixel.</p></li>
+<li><p>The optimal seam corresponds to the path with the lowest cumulative energy in the last row of the dynamic programming table.</p></li>
 </ul>
 </li>
 <li><p><strong>Seam Removal</strong>:</p>
 <ul class="simple">
+<li><p>Trace back the optimal seam from the last row of the dynamic programming table to the first row.</p></li>
 <li><p>Remove the pixels along the identified seam.</p></li>
 <li><p>Shift the remaining pixels to close the gap.</p></li>
-<li><p>Repeat until the desired image width is achieved.</p></li>
+<li><p>Repeat the process (from step 1) until the desired image width is achieved.</p></li>
 </ul>
 </li>
 </ol>
-<ul class="simple">
-<li><p>Seam carving and the Viterbi algorithm exemplify the versatility of dynamic programming. Whether we’re resizing images or decoding hidden states, dynamic programming provides elegant solutions.</p></li>
-<li><p>Seam carving minimizes energy, while the Viterbi algorithm maximizes probabilities.</p></li>
-<li><p>Both algorithms find an optimal path based on dynamic programming principles.</p></li>
-</ul>
+<p>Seam carving and the Viterbi algorithm exemplify the versatility of dynamic programming. Whether we’re resizing images or decoding hidden states, dynamic programming provides elegant solutions.</p>
+<p>Seam carving aims to find the path (seam) with the minimum cumulative energy, while the Viterbi algorithm aims to find the path (sequence of hidden states) with the maximum probability. Both algorithms use dynamic programming principles to identify the optimal path, but the specific objectives and the way they compute the optimal path differ.</p>
+<p>Despite these differences, both algorithms demonstrate the power of dynamic programming in solving complex optimization problems.</p>
 <section id="seam-carving-implementation">
 <h3>Seam-carving implementation<a class="headerlink" href="#seam-carving-implementation" title="Link to this heading">#</a></h3>
 <p>My first implementation of seam-carving was in MATLAB, then by Python. In the following, my new code which is a combination of my previous code and <a class="reference external" href="https://karthikkaranth.me/blog/implementing-seam-carving-with-python/">Karthik Karanth</a>’s code is provided.</p>
