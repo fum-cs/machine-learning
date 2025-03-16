@@ -33,3 +33,10 @@ Come and [join our Slack](https://join.slack.com/t/fum-cs/shared_invite/zt-1zntz
 ---
 
 I should mention that the original material of this course was from [Open Machine Learning Course](https://ml-course.github.io/), by [Joaquin Vanschoren](https://github.com/joaquinvanschoren) and others. I have forked his repository and modified it to suit my own needs and preferences. I would like to thank him for his great work and generosity.
+
+---
+
+## References
+
+```{bibliography}
+```

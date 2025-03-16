@@ -1,0 +1,1123 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Bayesian Decision Theory &#8212; ML</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Bayesian-Decision-Theory';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mahalanobis Distance" href="Mahalanobis-Distance.html" />
+    <link rel="prev" title="Naive Bayes Classification" href="Naive-Bayes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="ML - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="ML - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Bayesian Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/machine-learning/blob/main/notebooks/Bayesian-Decision-Theory.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2FBayesian-Decision-Theory.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Bayesian-Decision-Theory.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Bayesian Decision Theory</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts">Key Concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-formula">Bayes’ Formula</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-rule">Decision Rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalization-to-more-than-two-classes">Generalization to More Than Two Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions">Discriminant Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-density">Normal Density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-normal-density">Multivariate Normal Density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formal-definitions">Formal Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-the-covariance-matrix">Properties of the Covariance Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Multivariate Normal Density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bayesian-decision-theory">
+<h1>Bayesian Decision Theory<a class="headerlink" href="#bayesian-decision-theory" title="Link to this heading">#</a></h1>
+<p>Chapter 2 of Pattern Classification <span id="id1">[<a class="reference internal" href="index.html#id2" title="Richard O. Duda, Peter E. Hart, and David G. Stork. Pattern Classification (2nd Edition). Wiley-Interscience, 2 edition, November 2000. ISBN 0471056693. URL: https://file.fouladi.ir/courses/pr/books/%5BDuda%5D_PatternClassification.pdf.">DHS00</a>]</span></p>
+<p><img alt="" src="_images/Duda-front.png" /></p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Bayesian Decision Theory</strong> is a statistical approach to pattern classification.</p></li>
+<li><p>It quantifies tradeoffs between classification decisions using probabilities and costs.</p></li>
+<li><p>Assumes all relevant probabilities are known.</p></li>
+<li><p>Example: Classifying fish (sea bass vs. salmon) based on features like lightness.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>State of Nature</strong> (<span class="math notranslate nohighlight">\( \omega \)</span>): Represents the true category (e.g., sea bass or salmon).</p></li>
+<li><p><strong>Prior Probability</strong> (<span class="math notranslate nohighlight">\( P(\omega_j) \)</span>): Probability of a category before observing any data.</p></li>
+<li><p><strong>Class-Conditional Probability Density</strong> (<span class="math notranslate nohighlight">\( p(x|\omega_j) \)</span>): Probability of observing feature <span class="math notranslate nohighlight">\( x \)</span> given category <span class="math notranslate nohighlight">\( \omega_j \)</span>.</p></li>
+<li><p><strong>Posterior Probability</strong> (<span class="math notranslate nohighlight">\( P(\omega_j|x) \)</span>): Probability of category <span class="math notranslate nohighlight">\( \omega_j \)</span> after observing feature <span class="math notranslate nohighlight">\( x \)</span>.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="bayes-formula">
+<h2>Bayes’ Formula<a class="headerlink" href="#bayes-formula" title="Link to this heading">#</a></h2>
+<ul>
+<li><p>Bayes’ Theorem:</p>
+<div class="math notranslate nohighlight">
+\[
+  P(\omega_j|x) = \frac{p(x|\omega_j) P(\omega_j)}{p(x)}
+  \]</div>
+<ul class="simple">
+<li><p><strong>Posterior</strong> = (Likelihood × Prior) / Evidence</p></li>
+</ul>
+</li>
+<li><p><strong>Evidence</strong> (<span class="math notranslate nohighlight">\( p(x) \)</span>): Normalizing constant, often ignored in classification.</p>
+<div class="math notranslate nohighlight">
+\[
+  p(x) = \sum_{j=1}^c p(x|\omega_j) P(\omega_j)
+  \]</div>
+</li>
+</ul>
+<hr class="docutils" />
+<p>The probability <span class="math notranslate nohighlight">\( P(\omega_j) \)</span> is converted to the <strong>a posteriori probability</strong> (or <strong>posterior probability</strong>) <span class="math notranslate nohighlight">\( P(\omega_j|x) \)</span> — the probability of the state of nature being <span class="math notranslate nohighlight">\( \omega_j \)</span> given that feature value <span class="math notranslate nohighlight">\( x \)</span> has been measured. We call <span class="math notranslate nohighlight">\( p(x|\omega_j) \)</span> the <strong>likelihood</strong> of <span class="math notranslate nohighlight">\( \omega_j \)</span> with respect to <span class="math notranslate nohighlight">\( x \)</span> (a term chosen to indicate that, other things being equal, the category <span class="math notranslate nohighlight">\( \omega_j \)</span> for which <span class="math notranslate nohighlight">\( p(x|\omega_j) \)</span> is large is more “likely” to be the true category).</p>
+<p>Notice that it is the product of the <strong>likelihood</strong> and the <strong>prior probability</strong> that is most important in determining the posterior probability; the <strong>evidence factor</strong>, <span class="math notranslate nohighlight">\( p(x) \)</span>, can be viewed as merely a scale factor that guarantees that the posterior probabilities sum to one, as all good probabilities must. The variation of <span class="math notranslate nohighlight">\( P(\omega_j|x) \)</span> with <span class="math notranslate nohighlight">\( x \)</span> is illustrated in <strong>Figure 2.2</strong> for the case <span class="math notranslate nohighlight">\( P(\omega_1) = \frac{2}{3} \)</span> and <span class="math notranslate nohighlight">\( P(\omega_2) = \frac{1}{3} \)</span>.</p>
+<p><img alt="Figure 2.1" src="_images/Duda-Figure-2.1.png" /></p>
+<p><strong>Figure 2.1</strong>: Hypothetical class-conditional probability density functions show the probability density of measuring a particular feature value <span class="math notranslate nohighlight">\( x \)</span> given the pattern is in category <span class="math notranslate nohighlight">\( \omega_i \)</span>. If <span class="math notranslate nohighlight">\( x \)</span> represents the length of a fish, the two curves might describe the difference in length of populations of two types of fish. Density functions are normalized, and thus the area under each curve is 1.0.</p>
+</section>
+<section id="decision-rule">
+<h2>Decision Rule<a class="headerlink" href="#decision-rule" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Minimum Error Rate Classification</strong>:</p>
+<ul>
+<li><p>Decide <span class="math notranslate nohighlight">\( \omega_1 \)</span> if <span class="math notranslate nohighlight">\( P(\omega_1|x) &gt; P(\omega_2|x) \)</span>, otherwise decide <span class="math notranslate nohighlight">\( \omega_2 \)</span>.</p></li>
+<li><p>Equivalent to:
+<span class="math notranslate nohighlight">\(
+\text{Decide } \omega_1 \text{ if } p(x|\omega_1) P(\omega_1) &gt; p(x|\omega_2) P(\omega_2)
+\)</span></p></li>
+<li><p>Probability of error:
+<span class="math notranslate nohighlight">\(
+P(\text{error}|x) = \min[P(\omega_1|x), P(\omega_2|x)]
+\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="Figure 2.2" src="_images/Duda-Figure-2.2.png" /></p>
+<p><strong>Figure 2.2</strong>: Posterior probabilities for the particular priors <span class="math notranslate nohighlight">\(P(\omega_1) = \frac{2}{3}\)</span> and <span class="math notranslate nohighlight">\(P(\omega_2) = \frac{1}{3}\)</span> for the class-conditional probability densities shown in <strong>Figure 2.1</strong>. Thus, in this case, given that a pattern is measured to have feature value <span class="math notranslate nohighlight">\(x = 14\)</span>, the probability it is in category <span class="math notranslate nohighlight">\(\omega_2\)</span> is roughly <span class="math notranslate nohighlight">\(0.08\)</span>, and that it is in <span class="math notranslate nohighlight">\(\omega_1\)</span> is <span class="math notranslate nohighlight">\(0.92\)</span>. At every <span class="math notranslate nohighlight">\(x\)</span>, the posteriors sum to <span class="math notranslate nohighlight">\(1.0\)</span>.</p>
+<p>Some additional insight can be obtained by considering a few special cases:</p>
+<ol class="arabic simple">
+<li><p><strong>Case 1</strong>: If for some <span class="math notranslate nohighlight">\( x \)</span> we have <span class="math notranslate nohighlight">\( p(x|\omega_1) = p(x|\omega_2) \)</span>, then that particular observation gives us no information about the state of nature. In this case, the decision hinges entirely on the <strong>prior probabilities</strong> <span class="math notranslate nohighlight">\( P(\omega_1) \)</span> and <span class="math notranslate nohighlight">\( P(\omega_2) \)</span>.</p></li>
+<li><p><strong>Case 2</strong>: If <span class="math notranslate nohighlight">\( P(\omega_1) = P(\omega_2) \)</span>, then the states of nature are equally probable. In this case, the decision is based entirely on the <strong>likelihoods</strong> <span class="math notranslate nohighlight">\( p(x|\omega_j) \)</span>.</p></li>
+<li><p><strong>General Case</strong>: In general, both the <strong>prior probabilities</strong> and the <strong>likelihoods</strong> are important in making a decision. The <strong>Bayes decision rule</strong> combines these factors to achieve the <strong>minimum probability of error</strong>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="generalization-to-more-than-two-classes">
+<h2>Generalization to More Than Two Classes<a class="headerlink" href="#generalization-to-more-than-two-classes" title="Link to this heading">#</a></h2>
+<p>The <strong>Bayes decision rule</strong> to minimize risk calls for selecting the action that minimizes the <strong>conditional risk</strong>. To minimize the average probability of error, we should select the class <span class="math notranslate nohighlight">\(i\)</span> that maximizes the <strong>posterior probability</strong> <span class="math notranslate nohighlight">\(P(\omega_i|\mathbf{x})\)</span>. In other words, for <strong>minimum error rate</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Decide } \omega_i \text{ if } P(\omega_i|\mathbf{x}) &gt; P(\omega_j|\mathbf{x}) \quad \text{for all } j \neq i.
+\]</div>
+<p>This rule generalizes naturally to <strong>multiple classes</strong> (<span class="math notranslate nohighlight">\(c &gt; 2\)</span>). For each class <span class="math notranslate nohighlight">\(\omega_i\)</span>, we compute the posterior probability <span class="math notranslate nohighlight">\(P(\omega_i|\mathbf{x})\)</span> and assign the feature vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to the class with the highest posterior probability. This ensures that the <strong>probability of error</strong> is minimized.</p>
+</section>
+<hr class="docutils" />
+<section id="discriminant-functions">
+<h2>Discriminant Functions<a class="headerlink" href="#discriminant-functions" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Discriminant Function</strong> (<span class="math notranslate nohighlight">\( g_i(\mathbf{x}) \)</span>): Used to assign a feature vector <span class="math notranslate nohighlight">\( \mathbf{x} \)</span> to class <span class="math notranslate nohighlight">\( \omega_i \)</span>.</p>
+<ul>
+<li><p>For minimum error rate:
+<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = P(\omega_i|\mathbf{x})
+\)</span></p></li>
+<li><p>Can also be expressed as:
+<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = p(\mathbf{x}|\omega_i) P(\omega_i)
+\)</span></p></li>
+<li><p>Or in log form:
+<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = \ln p(\mathbf{x}|\omega_i) + \ln P(\omega_i)
+\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="_images/Duda-Figure-2.5.png" />
+Figure 2.5: The functional structure of a general statistical pattern classifier which includes <span class="math notranslate nohighlight">\(d\)</span> inputs and <span class="math notranslate nohighlight">\(c\)</span> discriminant functions <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span>. A subsequent step determines which of the discriminant values is the maximum, and categorizes the input pattern accordingly. The arrows show the direction of the flow of information, though frequently the arrows are omitted when the direction of flow is self-evident.</p>
+<p><img alt="Figure 2.6" src="_images/Duda-Figure-2.6.png" /></p>
+<p><strong>Figure 2.6</strong>: In this two-dimensional two-category classifier, the probability densities are Gaussian (with <span class="math notranslate nohighlight">\(1/e\)</span> ellipses shown), the decision boundary consists of two hyperbolas, and thus the decision region <span class="math notranslate nohighlight">\(\mathcal{R}_2\)</span> is not simply connected.</p>
+</section>
+<hr class="docutils" />
+<section id="normal-density">
+<h2>Normal Density<a class="headerlink" href="#normal-density" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Univariate Normal Density</strong>:
+<span class="math notranslate nohighlight">\(
+p(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left[-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2\right]
+\)</span></p></li>
+</ul>
+<p>For which the <strong>expected value</strong> of <span class="math notranslate nohighlight">\(x\)</span> (an average, here taken over the feature space) is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mu = \mathbb{E}[x] = \int_{-\infty}^{\infty} x \, p(x) \, dx 
+\]</div>
+<p>and where the <strong>expected squared deviation</strong> or <strong>variance</strong> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma^2 = \mathbb{E}[(x - \mu)^2] = \int_{-\infty}^{\infty} (x - \mu)^2 \, p(x) \, dx 
+\]</div>
+<p>The <strong>univariate normal density</strong> is completely specified by two parameters: its <strong>mean</strong> <span class="math notranslate nohighlight">\(\mu\)</span> and <strong>variance</strong> <span class="math notranslate nohighlight">\(\sigma^2\)</span>. For simplicity, we often abbreviate <span class="math notranslate nohighlight">\(p(x)\)</span> by writing <span class="math notranslate nohighlight">\(p(x) \sim N(\mu, \sigma^2)\)</span> to say that <span class="math notranslate nohighlight">\(x\)</span> is distributed normally with mean <span class="math notranslate nohighlight">\(\mu\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>. Samples from normal distributions tend to cluster about the mean, with a spread related to the <strong>standard deviation</strong> <span class="math notranslate nohighlight">\(\sigma\)</span> (see <strong>Figure 2.7</strong>).</p>
+<p><img alt="Figure 2.7" src="_images/Duda-Figure-2.7.png" /></p>
+<p><strong>Figure 2.7</strong>: A univariate normal distribution has roughly <span class="math notranslate nohighlight">\(95\%\)</span> of its area in the range <span class="math notranslate nohighlight">\(|x - \mu| \leq 2\sigma\)</span>, as shown. The peak of the distribution has value <span class="math notranslate nohighlight">\(p(\mu) = \frac{1}{\sqrt{2\pi}\sigma}\)</span>.</p>
+</section>
+<section id="multivariate-normal-density">
+<h2>Multivariate Normal Density<a class="headerlink" href="#multivariate-normal-density" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[
+p(\mathbf{x}) = \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu})\right]
+\]</div>
+<ul class="simple">
+<li><p><strong>Mean vector</strong> (<span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>) and <strong>covariance matrix</strong> (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>) describe the distribution.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="formal-definitions">
+<h2>Formal Definitions<a class="headerlink" href="#formal-definitions" title="Link to this heading">#</a></h2>
+<p>Formally, we have:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\mu} = \mathbb{E}[\mathbf{x}] = \int \mathbf{x} \, p(\mathbf{x}) \, d\mathbf{x} 
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\Sigma} = \mathbb{E}[(\mathbf{x}-\boldsymbol{\mu})(\mathbf{x}-\boldsymbol{\mu})^T]
+\]</div>
+<p>where the expected value of a vector or a matrix is found by taking the expected values of its components. In other words, if <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>th component of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, <span class="math notranslate nohighlight">\(\mu_i\)</span> the <span class="math notranslate nohighlight">\(i\)</span>th component of <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>, and <span class="math notranslate nohighlight">\(\sigma_{ij}\)</span> the <span class="math notranslate nohighlight">\(ij\)</span>th component of <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_i = \mathbb{E}[x_i]
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma_{ij} = \mathbb{E}[(x_i - \mu_i)(x_j - \mu_j)]. \quad \text{(42)}
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="properties-of-the-covariance-matrix">
+<h2>Properties of the Covariance Matrix<a class="headerlink" href="#properties-of-the-covariance-matrix" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <strong>covariance matrix</strong> <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is always <strong>symmetric</strong> and <strong>positive semidefinite</strong>.</p></li>
+<li><p>We restrict our attention to the case where <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is <strong>positive definite</strong>, so that the determinant of <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is strictly positive.</p></li>
+<li><p>The <strong>diagonal elements</strong> <span class="math notranslate nohighlight">\(\sigma_{ii}\)</span> are the <strong>variances</strong> of the respective <span class="math notranslate nohighlight">\(x_i\)</span> (i.e., <span class="math notranslate nohighlight">\(\sigma_i^2\)</span>).</p></li>
+<li><p>The <strong>off-diagonal elements</strong> <span class="math notranslate nohighlight">\(\sigma_{ij}\)</span> are the <strong>covariances</strong> of <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span>.</p>
+<ul>
+<li><p>Example: For the length and weight features of a population of fish, we would expect a <strong>positive covariance</strong>.</p></li>
+</ul>
+</li>
+<li><p>If <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span> are <strong>statistically independent</strong>, then <span class="math notranslate nohighlight">\(\sigma_{ij} = 0\)</span>.</p></li>
+<li><p>If <strong>all off-diagonal elements are zero</strong>, <span class="math notranslate nohighlight">\(p(\mathbf{x})\)</span> reduces to the product of the <strong>univariate normal densities</strong> for the components of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>Multivariate Normal Density<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>The <strong>multivariate normal density</strong> is completely specified by <span class="math notranslate nohighlight">\(d + \frac{d(d+1)}{2}\)</span> parameters:</p>
+<ul class="simple">
+<li><p>The <span class="math notranslate nohighlight">\(d\)</span> elements of the <strong>mean vector</strong> <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(\frac{d(d+1)}{2}\)</span> independent elements of the <strong>covariance matrix</strong> <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>.</p></li>
+</ul>
+<p>Samples drawn from a normal population tend to fall in a single <strong>cluster</strong> (see <strong>Figure 2.9</strong>):</p>
+<ul class="simple">
+<li><p>The <strong>center</strong> of the cluster is determined by the mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>.</p></li>
+<li><p>The <strong>shape</strong> of the cluster is determined by the covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>.</p></li>
+</ul>
+<p>The loci of points of constant density are <strong>hyperellipsoids</strong> defined by the quadratic form:
+$<span class="math notranslate nohighlight">\(
+(\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) = \text{constant}.
+\)</span>$</p>
+<ul class="simple">
+<li><p>The <strong>principal axes</strong> of these hyperellipsoids are given by the <strong>eigenvectors</strong> of <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> (denoted by <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}\)</span>).</p></li>
+<li><p>The <strong>eigenvalues</strong> (denoted by <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span>) determine the lengths of these axes.</p></li>
+</ul>
+<p>The quantity <span class="math notranslate nohighlight">\(r^2 = (\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})\)</span>
+is called the <strong>squared Mahalanobis distance</strong> from <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>. Thus:</p>
+<ul class="simple">
+<li><p>The <strong>contours of constant density</strong> are hyperellipsoids of constant Mahalanobis distance to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>.</p></li>
+<li><p>The <strong>volume</strong> of these hyperellipsoids measures the scatter of the samples about the mean.</p></li>
+</ul>
+<p><img alt="Figure 2.9" src="_images/Duda-Figure-2.9.png" /></p>
+<p><strong>Figure 2.9</strong>: Samples drawn from a two-dimensional Gaussian lie in a cloud centered on the mean <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>. The red ellipses show lines of equal probability density of the Gaussian.</p>
+</section>
+<hr class="docutils" />
+<section id="discriminant-functions-for-normal-density">
+<h2>Discriminant Functions for Normal Density<a class="headerlink" href="#discriminant-functions-for-normal-density" title="Link to this heading">#</a></h2>
+<section id="case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">
+<h3>Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):<a class="headerlink" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>The discriminant function is linear:</p>
+<div class="math notranslate nohighlight">
+\[
+    g_i(\mathbf{x}) = -\frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2} + \ln P(\omega_i)
+    \]</div>
+</li>
+<li><p>Decision boundaries are <strong>hyperplanes</strong>.</p></li>
+<li><p>If the <strong>prior probabilities</strong> are not equal, the squared distance <span class="math notranslate nohighlight">\(\|\mathbf{x}-\boldsymbol{\mu}_i\|^2\)</span> is normalized by the variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> and offset by adding <span class="math notranslate nohighlight">\(\ln P(\omega_i)\)</span>. This means that if <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is equally near two different mean vectors, the optimal decision will favor the <strong>a priori more likely category</strong>.</p></li>
+<li><p>It is not necessary to compute distances explicitly. Expanding the quadratic form <span class="math notranslate nohighlight">\((\mathbf{x} - \boldsymbol{\mu}_i)^T (\mathbf{x} - \boldsymbol{\mu}_i)\)</span> yields:</p>
+<div class="math notranslate nohighlight">
+\[
+    g_i(\mathbf{x}) = -\frac{1}{2\sigma^2} \left[ \mathbf{x}^T \mathbf{x} - 2 \boldsymbol{\mu}_i^T \mathbf{x} + \boldsymbol{\mu}_i^T \boldsymbol{\mu}_i \right] + \ln P(\omega_i)
+    \]</div>
+<p>The quadratic term <span class="math notranslate nohighlight">\(\mathbf{x}^T \mathbf{x}\)</span> is the same for all <span class="math notranslate nohighlight">\(i\)</span>, so it can be ignored as an additive constant. This simplifies the discriminant function to:</p>
+<div class="math notranslate nohighlight">
+\[
+    g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0},
+    \]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{w}_i = \frac{\boldsymbol{\mu}_i}{\sigma^2} \quad \text{(52)}
+    \]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+    w_{i0} = -\frac{\boldsymbol{\mu}_i^T \boldsymbol{\mu}_i}{2\sigma^2} + \ln P(\omega_i) 
+    \]</div>
+<p>Here, <span class="math notranslate nohighlight">\(w_{i0}\)</span> is called the <strong>threshold</strong> or <strong>bias</strong> in the <span class="math notranslate nohighlight">\(i^{th}\)</span> direction.</p>
+</li>
+<li><p>A classifier that uses <strong>linear discriminant functions</strong> is called a <strong>linear machine</strong>. The decision surfaces for a linear machine are pieces of <strong>hyperplanes</strong> defined by the linear equations <span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = g_j(\mathbf{x})\)</span> for the two categories with the highest posterior probabilities. For our case, this equation can be written as:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{w}^T (\mathbf{x} - \mathbf{x}_0) = 0 
+    \]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{w} = \boldsymbol{\mu}_i - \boldsymbol{\mu}_j 
+    \]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{x}_0 = \frac{1}{2} (\boldsymbol{\mu}_i + \boldsymbol{\mu}_j) - \frac{\sigma^2}{\|\boldsymbol{\mu}_i - \boldsymbol{\mu}_j\|^2} \ln \frac{P(\omega_i)}{P(\omega_j)}(\boldsymbol{\mu}_i - \boldsymbol{\mu}_j) \quad \text{(56)}.
+    \]</div>
+<p>This defines a <strong>hyperplane</strong> through the point <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> and orthogonal to the vector <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>. Since <span class="math notranslate nohighlight">\(\mathbf{w} = \boldsymbol{\mu}_i - \boldsymbol{\mu}_j\)</span>, the hyperplane separating <span class="math notranslate nohighlight">\(\mathcal{R}_i\)</span> and <span class="math notranslate nohighlight">\(\mathcal{R}_j\)</span> is orthogonal to the line linking the means. If <span class="math notranslate nohighlight">\(P(\omega_i) = P(\omega_j)\)</span>, the hyperplane is the <strong>perpendicular bisector</strong> of the line between the means. If the prior probabilities are unequal, the point <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> shifts away from the more likely mean.</p>
+</li>
+</ul>
+<hr class="docutils" />
+<p><img alt="Figure 2.10" src="_images/Duda-Figure-2.10.png" /></p>
+<p><strong>Figure 2.10</strong>: If the covariances of two distributions are equal and proportional to the identity matrix, the distributions are spherical in <span class="math notranslate nohighlight">\(d\)</span> dimensions, and the boundary is a generalized hyperplane of <span class="math notranslate nohighlight">\(d-1\)</span> dimensions, perpendicular to the line separating the means.</p>
+<p>The equation <span class="math notranslate nohighlight">\(\mathbf{w}^T (\mathbf{x} - \mathbf{x}_0) = 0\)</span> represents a <strong>hyperplane</strong> in <span class="math notranslate nohighlight">\(n\)</span>-dimensional space. Here’s how to interpret and visualize it:</p>
+<hr class="docutils" />
+<p><strong>Interpretation</strong></p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{w}\)</span>: A normal vector to the hyperplane (defines the orientation of the hyperplane).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>: A fixed point on the hyperplane.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}\)</span>: A variable point on the hyperplane.</p></li>
+</ol>
+<p>The equation states that the vector <span class="math notranslate nohighlight">\(\mathbf{x} - \mathbf{x}_0\)</span> is perpendicular to <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>, meaning all points <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> on the hyperplane satisfy this condition.</p>
+<hr class="docutils" />
+<p><strong>Visualization in 2D</strong>
+In 2D space (<span class="math notranslate nohighlight">\(n = 2\)</span>), the equation reduces to a <strong>line</strong>. Let’s break it down:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{w} = \begin{bmatrix} w_1 \\ w_2 \end{bmatrix}\)</span>: The normal vector to the line.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_0 = \begin{bmatrix} x_0 \\ y_0 \end{bmatrix}\)</span>: A fixed point on the line.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x} = \begin{bmatrix} x \\ y \end{bmatrix}\)</span>: A variable point on the line.</p></li>
+</ol>
+<p>The equation becomes:
+<span class="math notranslate nohighlight">\(w_1 (x - x_0) + w_2 (y - y_0) = 0\)</span></p>
+<p>This is the equation of a line in 2D.</p>
+<hr class="docutils" />
+<p><strong>Drawing the Hyperplane (Line in 2D)</strong>
+Here’s how to draw it:</p>
+<ol class="arabic simple">
+<li><p><strong>Plot the point <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>:</strong> This is a fixed point on the line.</p></li>
+<li><p><strong>Draw the normal vector <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>:</strong> This vector is perpendicular to the line.</p></li>
+<li><p><strong>Draw the line:</strong> The line passes through <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> and is perpendicular to <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>.</p></li>
+</ol>
+<hr class="docutils" />
+<p><strong>Example</strong>
+Let’s use the following values:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{w} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}\)</span> (normal vector).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}_0 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\)</span> (a point on the line).</p></li>
+</ul>
+<p>The equation becomes:
+<span class="math notranslate nohighlight">\(2(x - 1) + 1(y - 1) = 0\)</span>
+Simplify:
+<span class="math notranslate nohighlight">\(2x - 2 + y - 1 = 0 \implies 2x + y - 3 = 0\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define the normal vector w and point x0</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># Normal vector</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># Point on the line</span>
+
+<span class="c1"># Define the line equation: 2x + y - 3 = 0 =&gt; y = -2x + 3</span>
+<span class="n">x_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># Range of x values</span>
+<span class="n">y_values</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x_values</span> <span class="o">+</span> <span class="mi">3</span>  <span class="c1"># Corresponding y values</span>
+
+<span class="c1"># Plot the line</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_values</span><span class="p">,</span> <span class="n">y_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Line: $2x + y - 3 = 0$&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the point x0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Point $\mathbf</span><span class="si">{x}</span><span class="s2">_0 = (1, 1)$&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the normal vector w starting from x0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">x0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Normal vector $\mathbf</span><span class="si">{w}</span><span class="s2"> = (2, 1)$&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add labels and legend</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># x-axis</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># y-axis</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Line and Normal Vector Visualization&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Adjust x-axis limits</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Adjust y-axis limits</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>  <span class="c1"># Equal aspect ratio</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/cc698d936a75538507b2f88c616465118688f2439d1a9a189d631f083e917d1d.png" src="_images/cc698d936a75538507b2f88c616465118688f2439d1a9a189d631f083e917d1d.png" />
+</div>
+</div>
+<p><strong>Hyperplane and Decision Boundary</strong></p>
+<p>The equation:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w}^T (\mathbf{x} - \mathbf{x}_0) = 0
+\]</div>
+<p>defines a <strong>hyperplane</strong> through the point <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> and orthogonal to the vector <span class="math notranslate nohighlight">\(\mathbf{w}\)</span>. Since <span class="math notranslate nohighlight">\(\mathbf{w} = \boldsymbol{\mu}_i - \boldsymbol{\mu}_j\)</span>, the hyperplane separating <span class="math notranslate nohighlight">\(\mathcal{R}_i\)</span> and <span class="math notranslate nohighlight">\(\mathcal{R}_j\)</span> is orthogonal to the line linking the means.</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(P(\omega_i) = P(\omega_j)\)</span>, the second term in <strong>Eq. 56</strong> vanishes, and the point <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> is <strong>halfway between the means</strong>. In this case, the hyperplane is the <strong>perpendicular bisector</strong> of the line between the means (see <strong>Figure 2.11</strong>).</p></li>
+<li><p>If the prior probabilities are <strong>unequal</strong>, the point <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span> shifts away from the more likely mean.</p></li>
+<li><p>Note that if the variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> is small relative to the squared distance <span class="math notranslate nohighlight">\(\|\boldsymbol{\mu}_i - \boldsymbol{\mu}_j\|^2\)</span>, the position of the decision boundary is relatively <strong>insensitive</strong> to the exact values of the prior probabilities.</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Minimum Distance Classifier</strong></p>
+<ul class="simple">
+<li><p>If the <strong>prior probabilities</strong> <span class="math notranslate nohighlight">\(P(\omega_i)\)</span> are the same for all <span class="math notranslate nohighlight">\(c\)</span> classes, the term <span class="math notranslate nohighlight">\(\ln P(\omega_i)\)</span> becomes an unimportant additive constant and can be ignored.</p></li>
+<li><p>In this case, the <strong>optimum decision rule</strong> simplifies to:</p>
+<ul>
+<li><p>Measure the <strong>Euclidean distance</strong> <span class="math notranslate nohighlight">\(\|\mathbf{x} - \boldsymbol{\mu}_i\|\)</span> from <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to each of the <span class="math notranslate nohighlight">\(c\)</span> mean vectors.</p></li>
+<li><p>Assign <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to the category of the <strong>nearest mean</strong>.</p></li>
+</ul>
+</li>
+<li><p>Such a classifier is called a <strong>minimum distance classifier</strong>.</p></li>
+<li><p>If each mean vector is considered an <strong>ideal prototype</strong> or <strong>template</strong> for patterns in its class, this is essentially a <strong>template-matching procedure</strong> (see <strong>Figure 2.10</strong>). This technique is similar to <strong>nearest-neighbor algorithm</strong> visited in the previous chapter.</p></li>
+</ul>
+<p><img alt="Figure 2.11" src="_images/Duda-Figure-2.11.png" /></p>
+<p>Figure 2.11: As the priors are changed, the decision boundary shifts; for sufficiently disparate priors the boundary will not lie between the means of these 1-, 2- and 3-dimensional spherical Gaussian distributions</p>
+<p><strong>Exercise: Validating the Decision Boundary in Case 2 and Comparing with GaussianNB</strong></p>
+<p><strong>Objective</strong>
+In this exercise, you will:</p>
+<ol class="arabic simple">
+<li><p>Generate two groups of data with Gaussian distributions.</p></li>
+<li><p>Compute the decision boundary for <strong>Case 2</strong> (equal but arbitrary covariance matrices) using the theoretical approach.</p></li>
+<li><p>Compare the results with the decision boundary generated by Scikit-Learn’s <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code>.</p></li>
+<li><p>Visualize the results in a single plot or side-by-side plots.</p></li>
+</ol>
+<hr class="docutils" />
+<p><strong>Steps to Follow</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Generate Data</strong>:</p>
+<ul class="simple">
+<li><p>Create two classes of data points, each following a <strong>multivariate Gaussian distribution</strong> with the same covariance matrix but different mean vectors.</p></li>
+<li><p>Use the following parameters for the two classes:</p>
+<ul>
+<li><p>Class 1: Mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_1 = [2, 3]\)</span>, Covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma} = \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{bmatrix}\)</span>.</p></li>
+<li><p>Class 2: Mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_2 = [6, 5]\)</span>, Covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma} = \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{bmatrix}\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Generate 200 data points for each class.</p></li>
+</ul>
+</li>
+<li><p><strong>Compute the Decision Boundary (Theoretical Approach)</strong>:</p>
+<ul class="simple">
+<li><p>Use the <strong>linear discriminant function</strong> for Case 2:
+$<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}_i) + \ln P(\omega_i).
+\)</span>$</p></li>
+<li><p>Assume equal prior probabilities (<span class="math notranslate nohighlight">\(P(\omega_1) = P(\omega_2) = 0.5\)</span>).</p></li>
+<li><p>The decision boundary is the set of points where <span class="math notranslate nohighlight">\(g_1(\mathbf{x}) = g_2(\mathbf{x})\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Compute the Decision Boundary (GaussianNB)</strong>:</p>
+<ul class="simple">
+<li><p>Use Scikit-Learn’s <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code> to fit the data and predict the labels for test points.</p></li>
+</ul>
+</li>
+<li><p><strong>Generate Test Points</strong>:</p>
+<ul class="simple">
+<li><p>Create a grid of test points covering the entire plot area (e.g., using <code class="docutils literal notranslate"><span class="pre">np.meshgrid</span></code>).</p></li>
+<li><p>Predict the class labels for these test points using both the theoretical decision boundary and <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Visualize the Results</strong>:</p>
+<ul class="simple">
+<li><p>Plot the original data points for both classes.</p></li>
+<li><p>Plot the test points with their predicted labels (use transparency to avoid obscuring the original data).</p></li>
+<li><p>Draw the <strong>decision boundary</strong> for both the theoretical approach and <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code>.</p></li>
+<li><p>Draw the <strong>line connecting the two class centers</strong> and the <strong>perpendicular bisector</strong>.</p></li>
+</ul>
+</li>
+</ol>
+<hr class="docutils" />
+<p><strong>Expected Output</strong></p>
+<ul class="simple">
+<li><p>A figure with two subplots:</p>
+<ol class="arabic simple">
+<li><p><strong>Theoretical Decision Boundary</strong>:</p>
+<ul>
+<li><p>The original data points for both classes.</p></li>
+<li><p>The test points with their predicted labels (shaded regions).</p></li>
+<li><p>The theoretical decision boundary (black line).</p></li>
+<li><p>The line connecting the two class centers (dashed black line).</p></li>
+<li><p>The perpendicular bisector (dotted green line).</p></li>
+</ul>
+</li>
+<li><p><strong>GaussianNB Decision Boundary</strong>:</p>
+<ul>
+<li><p>The original data points for both classes.</p></li>
+<li><p>The test points with their predicted labels (shaded regions).</p></li>
+<li><p>The decision boundary generated by <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code> (black line).</p></li>
+<li><p>The line connecting the two class centers (dashed black line).</p></li>
+<li><p>The perpendicular bisector (dotted green line).</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">
+<h3>Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):<a class="headerlink" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Discriminant function is still linear:
+$<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) + \ln P(\omega_i)
+\)</span>$</p></li>
+<li><p>Decision boundaries are hyperplanes, but not necessarily orthogonal to the line between means.</p></li>
+</ul>
+</section>
+<section id="case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">
+<h3>Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):<a class="headerlink" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>Discriminant function is quadratic:</p>
+<div class="math notranslate nohighlight">
+\[
+    g_i(\mathbf{x}) = \mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mathbf{w}_i^T \mathbf{x} + w_{i0}
+    \]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{W}_i = -\frac{1}{2} \boldsymbol{\Sigma}_i^{-1}, \quad \mathbf{w}_i = \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i, \quad w_{i0} = -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i - \frac{1}{2} \ln |\boldsymbol{\Sigma}_i| + \ln P(\omega_i)
+    \]</div>
+</li>
+</ul>
+  <!-- - Decision boundaries are hyperquadrics (e.g., hyperplanes, hyperellipsoids, hyperparaboloids).
+  - ![Figure 2.14](img/Duda-Figure-2.14.png)
+  - ![Figure 2.15](img/Duda-Figure-2.15.png) -->
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Bayesian Decision Theory provides a framework for optimal classification under uncertainty.</p></li>
+<li><p>Key components:</p>
+<ul>
+<li><p>Prior probabilities.</p></li>
+<li><p>Likelihoods (class-conditional densities).</p></li>
+<li><p>Posterior probabilities.</p></li>
+</ul>
+</li>
+<li><p>Decision rules minimize error rates or expected loss.</p></li>
+<li><p>Normal distributions are commonly used due to their mathematical tractability.</p></li>
+</ul>
+<hr class="docutils" />
+<!-- 
+## **12. Example: Two-Category Classification**
+- Given two classes $ \omega_1 $ and $ \omega_2 $ with:
+  - Mean vectors:
+    $$
+    \boldsymbol{\mu}_1 = \begin{bmatrix} 3 \\ 6 \end{bmatrix}, \quad \boldsymbol{\mu}_2 = \begin{bmatrix} 3 \\ -2 \end{bmatrix}
+    $$
+  - Covariance matrices:
+    $$
+    \boldsymbol{\Sigma}_1 = \begin{bmatrix} 1/2 & 0 \\ 0 & 2 \end{bmatrix}, \quad \boldsymbol{\Sigma}_2 = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}
+    $$
+  - Equal prior probabilities: $ P(\omega_1) = P(\omega_2) = 0.5 $.
+- The decision boundary is a parabola:
+  $$
+  x_2 = 3.514 - 1.125 x_1 + 0.1875 x_1^2
+  $$
+  - ![Figure 2.16](img/Duda-Figure-2.16.png)
+
+--- -->
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Naive-Bayes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Naive Bayes Classification</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Mahalanobis-Distance.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mahalanobis Distance</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concepts">Key Concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-formula">Bayes’ Formula</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-rule">Decision Rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalization-to-more-than-two-classes">Generalization to More Than Two Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions">Discriminant Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-density">Normal Density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-normal-density">Multivariate Normal Density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formal-definitions">Formal Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-the-covariance-matrix">Properties of the Covariance Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Multivariate Normal Density</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

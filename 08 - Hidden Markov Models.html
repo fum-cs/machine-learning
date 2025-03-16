@@ -8,51 +8,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lecture 8. Hidden Markov Models &#8212; ML</title>
+    <title>Hidden Markov Models &#8212; ML</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -64,7 +64,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Appendix A: Kernel SVM and Kernel Regression" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html" />
-    <link rel="prev" title="Lecture 7. Bayesian Learning" href="07%20-%20Bayesian%20Learning.html" />
+    <link rel="prev" title="Bayesian Learning" href="07%20-%20Bayesian%20Learning.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -74,27 +74,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -116,8 +112,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -141,6 +142,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="index.html">
   
@@ -162,7 +165,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -181,16 +184,21 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Lecture 1: Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Lecture 2: Linear models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Lecture 3: Kernel Trick</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Lecture 4: Model Selection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Lecture 5. Ensemble Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Lecture 6. Data preprocessing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Lecture 7. Bayesian Learning</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 8. Hidden Markov Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Bayesian Learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hidden Markov Models</a></li>
 
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
@@ -209,7 +217,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -218,14 +226,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -250,14 +258,14 @@
       
       <li><a href="https://colab.research.google.com/github/fum-cs/machine-learning/blob/main/notebooks/08 - Hidden Markov Models.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="_static/images/logo_colab.png">
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -381,10 +389,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -392,14 +400,14 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -410,7 +418,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Lecture 8. Hidden Markov Models</h1>
+    <h1>Hidden Markov Models</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -420,7 +428,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lecture 8. Hidden Markov Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Hidden Markov Models</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hidden-markov-models-hmms">Hidden Markov Models (HMMs)</a></li>
 </ul>
 </li>
@@ -430,7 +438,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-seams">What Are Seams?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-process">Seam Carving Process</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-demos">Online demos</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dynamic Programming</a></li>
@@ -455,8 +462,8 @@ document.write(`
                   
   <p><img alt="" src="_images/banner.png" /></p>
 <script src="require.js"></script>
-<section class="tex2jax_ignore mathjax_ignore" id="lecture-8-hidden-markov-models">
-<h1>Lecture 8. Hidden Markov Models<a class="headerlink" href="#lecture-8-hidden-markov-models" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="hidden-markov-models">
+<h1>Hidden Markov Models<a class="headerlink" href="#hidden-markov-models" title="Link to this heading">#</a></h1>
 <p><strong>Mahmood Amintoosi, Spring 2024</strong></p>
 <p>Computer Science Dept, Ferdowsi University of Mashhad</p>
 <div class="cell tag_hide-input docutils container">
@@ -629,15 +636,8 @@ Figure: Trellis of the observation sequence <span class="math notranslate nohigh
 </section>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
-<p>Consider the <a class="reference external" href="https://esimov.com/2019/05/caire-a-content-aware-image-resizing-library">following image</a>; Seam carving identifies the lowest-energy seam, which typically runs through less interesting areas. By removing this seam, we resize the image without sacrificing essential details.</p>
-<p><img alt="Seam-Carving Image" src="_images/08-seam-carving-sample.jpg" /></p>
-</section>
-<section id="online-demos">
-<h3>Online demos<a class="headerlink" href="#online-demos" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.aryan.app/seam-carving/">Seam Carving Demo</a></p></li>
-<li><p><a class="reference external" href="https://trekhleb.dev/js-image-carver/">JS Image Carver</a></p></li>
-</ul>
+<p>Consider the <a class="reference external" href="https://www.ulfdittmer.com/imagej/seam-carving.html">following image</a>; Seam carving identifies the lowest-energy seam, which typically runs through less interesting areas. By removing this seam, we resize the image without sacrificing essential details.</p>
+<p><img alt="Seam-Carving Image" src="_images/seam-carving.jpg" /></p>
 </section>
 </section>
 <section id="id1">
@@ -649,35 +649,36 @@ Figure: Trellis of the observation sequence <span class="math notranslate nohigh
 <ol class="arabic simple">
 <li><p><strong>Energy Calculation</strong>:</p>
 <ul class="simple">
-<li><p>Compute the energy of each pixel in the image using an energy function (e.g., Sobel operator, gradient magnitude).</p></li>
-<li><p>Create an energy matrix where each entry represents the energy value of the corresponding pixel.</p></li>
+<li><p>Compute the energy of each pixel in the image.</p></li>
+<li><p>Define an energy matrix where each entry represents the cumulative energy from the top-left corner to that pixel.</p></li>
 </ul>
 </li>
 <li><p><strong>Dynamic Programming Table</strong>:</p>
 <ul class="simple">
-<li><p>Create a dynamic programming table (similar to the Viterbi trellis) with the same dimensions as the input image.</p></li>
+<li><p>Create a dynamic programming table (similar to the Viterbi trellis).</p></li>
 <li><p>Initialize the first row of the table with the energy values from the energy matrix.</p></li>
 </ul>
 </li>
 <li><p><strong>Optimal Seam Identification</strong>:</p>
 <ul class="simple">
-<li><p>For each subsequent row, compute the cumulative energy of each pixel by considering the minimum cumulative energy of its neighboring pixels (left, above-left, and above-right) and adding the current pixel’s energy.</p></li>
-<li><p>Update the dynamic programming table with the minimum cumulative energy for each pixel.</p></li>
-<li><p>The optimal seam corresponds to the path with the lowest cumulative energy in the last row of the dynamic programming table.</p></li>
+<li><p>For each subsequent row, compute the cumulative energy by considering the neighboring pixels (left, above-left, and above-right).</p></li>
+<li><p>Update the dynamic programming table with the minimum cumulative energy path.</p></li>
+<li><p>The optimal seam corresponds to the path with the lowest cumulative energy in the last row.</p></li>
 </ul>
 </li>
 <li><p><strong>Seam Removal</strong>:</p>
 <ul class="simple">
-<li><p>Trace back the optimal seam from the last row of the dynamic programming table to the first row.</p></li>
 <li><p>Remove the pixels along the identified seam.</p></li>
 <li><p>Shift the remaining pixels to close the gap.</p></li>
-<li><p>Repeat the process (from step 1) until the desired image width is achieved.</p></li>
+<li><p>Repeat until the desired image width is achieved.</p></li>
 </ul>
 </li>
 </ol>
-<p>Seam carving and the Viterbi algorithm exemplify the versatility of dynamic programming. Whether we’re resizing images or decoding hidden states, dynamic programming provides elegant solutions.</p>
-<p>Seam carving aims to find the path (seam) with the minimum cumulative energy, while the Viterbi algorithm aims to find the path (sequence of hidden states) with the maximum probability. Both algorithms use dynamic programming principles to identify the optimal path, but the specific objectives and the way they compute the optimal path differ.</p>
-<p>Despite these differences, both algorithms demonstrate the power of dynamic programming in solving complex optimization problems.</p>
+<ul class="simple">
+<li><p>Seam carving and the Viterbi algorithm exemplify the versatility of dynamic programming. Whether we’re resizing images or decoding hidden states, dynamic programming provides elegant solutions.</p></li>
+<li><p>Seam carving minimizes energy, while the Viterbi algorithm maximizes probabilities.</p></li>
+<li><p>Both algorithms find an optimal path based on dynamic programming principles.</p></li>
+</ul>
 <section id="seam-carving-implementation">
 <h3>Seam-carving implementation<a class="headerlink" href="#seam-carving-implementation" title="Link to this heading">#</a></h3>
 <p>My first implementation of seam-carving was in MATLAB, then by Python. In the following, my new code which is a combination of my previous code and <a class="reference external" href="https://karthikkaranth.me/blog/implementing-seam-carving-with-python/">Karthik Karanth</a>’s code is provided.</p>
@@ -843,7 +844,7 @@ Figure: Trellis of the observation sequence <span class="math notranslate nohigh
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/8689d2a896246f9740f758bd2eaef4d53ef5bd927a3cbdb04e80be34b91ac218.png" src="_images/8689d2a896246f9740f758bd2eaef4d53ef5bd927a3cbdb04e80be34b91ac218.png" />
+<img alt="_images/161dea62b5957c3dedde8b7643b79bfd75983375b0f77e2a07ecc6749f0821d8.png" src="_images/161dea62b5957c3dedde8b7643b79bfd75983375b0f77e2a07ecc6749f0821d8.png" />
 </div>
 </div>
 <p>Make the image smaller: 324x324 -&gt; 240x240</p>
@@ -893,36 +894,36 @@ Figure: Trellis of the observation sequence <span class="math notranslate nohigh
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">interactive</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
 
-    <span class="c1"># plt.subplot(2, 3, 3)</span>
-    <span class="c1"># plt.axis(&quot;off&quot;)</span>
-    <span class="c1"># plt.imshow(im_vs)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im_hs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im_vs</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
-    <span class="c1"># plt.subplot(2, 3, 5)</span>
-    <span class="c1"># plt.axis(&quot;off&quot;)</span>
-    <span class="c1"># plt.imshow(calc_energy(img))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im_hs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/2e838ef4305143d995d40db1896a856d0ae58b2ad5f51fb0433ea67f945e0715.png" src="_images/2e838ef4305143d995d40db1896a856d0ae58b2ad5f51fb0433ea67f945e0715.png" />
+<img alt="_images/e5e633463927c247f300b2de8c6e2e261f9de2bbb9cfe9f29f5c42acf8d67cf4.png" src="_images/e5e633463927c247f300b2de8c6e2e261f9de2bbb9cfe9f29f5c42acf8d67cf4.png" />
 </div>
 </div>
 </section>
@@ -1170,7 +1171,7 @@ where <span class="math notranslate nohighlight">\(\pi_j\)</span> is the initial
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -1179,7 +1180,7 @@ where <span class="math notranslate nohighlight">\(\pi_j\)</span> is the initial
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Lecture 7. Bayesian Learning</p>
+        <p class="prev-next-title">Bayesian Learning</p>
       </div>
     </a>
     <a class="right-next"
@@ -1207,7 +1208,7 @@ where <span class="math notranslate nohighlight">\(\pi_j\)</span> is the initial
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Lecture 8. Hidden Markov Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Hidden Markov Models</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hidden-markov-models-hmms">Hidden Markov Models (HMMs)</a></li>
 </ul>
 </li>
@@ -1217,7 +1218,6 @@ where <span class="math notranslate nohighlight">\(\pi_j\)</span> is the initial
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-seams">What Are Seams?</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seam-carving-process">Seam Carving Process</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-demos">Online demos</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Dynamic Programming</a></li>
@@ -1277,8 +1277,8 @@ By Mahmood Amintoosi
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
