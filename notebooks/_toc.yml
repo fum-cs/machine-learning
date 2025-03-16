@@ -9,6 +9,9 @@ parts:
 - caption: Lectures
   chapters:
   - file: 01 - Introduction
+  - file: Naive-Bayes
+  - file: Bayesian-Decision-Theory
+  - file: Mahalanobis-Distance
   - file: 02 - Linear Models
   - file: 03 - Kernel Trick
   - file: 04 - Model Selection
