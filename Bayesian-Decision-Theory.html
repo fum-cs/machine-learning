@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -197,7 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Bayesian Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
 
 
@@ -442,6 +442,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
 </ul>
 </li>
@@ -662,7 +663,7 @@ $<span class="math notranslate nohighlight">\(
 <li><p>The <strong>eigenvalues</strong> (denoted by <span class="math notranslate nohighlight">\(\boldsymbol{\Lambda}\)</span>) determine the lengths of these axes.</p></li>
 </ul>
 <p>The quantity <span class="math notranslate nohighlight">\(r^2 = (\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})\)</span>
-is called the <strong>squared Mahalanobis distance</strong> from <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>. Thus:</p>
+is called the <strong>squared <a class="reference internal" href="Mahalanobis-Distance.html"><span class="std std-doc">Mahalanobis distance</span></a></strong> from <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>. Thus:</p>
 <ul class="simple">
 <li><p>The <strong>contours of constant density</strong> are hyperellipsoids of constant Mahalanobis distance to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>.</p></li>
 <li><p>The <strong>volume</strong> of these hyperellipsoids measures the scatter of the samples about the mean.</p></li>
@@ -834,6 +835,84 @@ Simplify:
 </ul>
 <p><img alt="Figure 2.11" src="_images/Duda-Figure-2.11.png" /></p>
 <p>Figure 2.11: As the priors are changed, the decision boundary shifts; for sufficiently disparate priors the boundary will not lie between the means of these 1-, 2- and 3-dimensional spherical Gaussian distributions</p>
+</section>
+<hr class="docutils" />
+<section id="case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">
+<h3>Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):<a class="headerlink" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Discriminant function is still linear:
+$<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) + \ln P(\omega_i)
+\)</span>$</p></li>
+<li><p>Decision boundaries are hyperplanes, but not necessarily orthogonal to the line between means.</p></li>
+</ul>
+</section>
+<section id="case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">
+<h3>Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)<a class="headerlink" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i" title="Link to this heading">#</a></h3>
+<p>When the covariance matrices for all classes are identical but arbitrary (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span>), the discriminant function defined in <strong>Eq. 51</strong> simplifies. First, the term <span class="math notranslate nohighlight">\(\ln |\boldsymbol{\Sigma}_i|\)</span> becomes <span class="math notranslate nohighlight">\(\ln |\boldsymbol{\Sigma}|\)</span>, which is the same constant for all classes <span class="math notranslate nohighlight">\(i\)</span>. Since it doesn’t affect the decision, we can ignore it. Similarly, the term <span class="math notranslate nohighlight">\(-\frac{d}{2} \ln(2\pi)\)</span> is also a constant independent of <span class="math notranslate nohighlight">\(i\)</span> and can be dropped. Thus, we have:</p>
+<div class="math notranslate nohighlight">
+\[g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) + \ln P(\omega_i)\]</div>
+<p>Now, let’s expand the quadratic term:</p>
+<div class="math notranslate nohighlight">
+\[
+(\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) = (\mathbf{x}^T - 
+\boldsymbol{\mu}_i^T) \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}_i)
+= \mathbf{x}^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - \mathbf{x}^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i - \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \mathbf{x} + \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is symmetric, its inverse <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}^{-1}\)</span> is also symmetric. The term <span class="math notranslate nohighlight">\(\mathbf{x}^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i\)</span> is a scalar, so it is equal to its transpose:
+<span class="math notranslate nohighlight">\(\mathbf{x}^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i = (\mathbf{x}^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i)^T = \boldsymbol{\mu}_i^T (\boldsymbol{\Sigma}^{-1})^T (\mathbf{x}^T)^T = \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \mathbf{x}\)</span>.
+Therefore:</p>
+<div class="math notranslate nohighlight">
+\[
+(\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) = \mathbf{x}^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - 2 \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \mathbf{x} + \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i
+\]</div>
+<p>Substituting this back into the expression for <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}^T \boldsymbol{\Sigma}^{-1} \mathbf{x}) + \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - \frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_i + \ln P(\omega_i)
+\]</div>
+<p>Notice that the term <span class="math notranslate nohighlight">\(-\frac{1}{2} (\mathbf{x}^T \boldsymbol{\Sigma}^{-1} \mathbf{x})\)</span> is independent of the class <span class="math notranslate nohighlight">\(i\)</span>. Since we are interested in comparing <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span> and <span class="math notranslate nohighlight">\(g_j(\mathbf{x})\)</span> (e.g., finding the maximum), any term that does not depend on <span class="math notranslate nohighlight">\(i\)</span> can be dropped without affecting the decision rule or the location of the decision boundaries. Thus, we can simplify the discriminant function to:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - \frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i + \ln P(\omega_i)
+\]</div>
+<p>This discriminant function is linear in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. We can rewrite it in the familiar linear form:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0} \quad \mathbf{(Eq. 59)}
+\]</div>
+<p>where the weight vector <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span> and the bias term <span class="math notranslate nohighlight">\(w_{i0}\)</span> are defined as:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{w}_i = \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i \quad \mathbf{(Eq. 60)}\]</div>
+<div class="math notranslate nohighlight">
+\[w_{i0} = -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i + \ln P(\omega_i) \quad \mathbf{(Eq. 61)}\]</div>
+<p>Since the discriminant function <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span> is linear, the decision boundaries between any two classes <span class="math notranslate nohighlight">\(\omega_i\)</span> and <span class="math notranslate nohighlight">\(\omega_j\)</span>, defined by <span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = g_j(\mathbf{x})\)</span>, are hyperplanes. Let’s examine the equation for the decision boundary:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{w}_i^T \mathbf{x} + w_{i0} = \mathbf{w}_j^T \mathbf{x} + w_{j0}\]</div>
+<div class="math notranslate nohighlight">
+\[(\mathbf{w}_i - \mathbf{w}_j)^T \mathbf{x} + (w_{i0} - w_{j0}) = 0\]</div>
+<p>Substituting the expressions for <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span>, <span class="math notranslate nohighlight">\(\mathbf{w}_j\)</span>, <span class="math notranslate nohighlight">\(w_{i0}\)</span>, and <span class="math notranslate nohighlight">\(w_{j0}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+(\boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i - \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_j)^T \mathbf{x} + \left( -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i + \ln P(\omega_i) \right) - \left( -\frac{1}{2} \boldsymbol{\mu}_j^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_j + \ln P(\omega_j) \right) = 0
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+(\boldsymbol{\mu}_i - \boldsymbol{\mu}_j)^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - \frac{1}{2} (\boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i - \boldsymbol{\mu}_j^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_j) + \ln \frac{P(\omega_i)}{P(\omega_j)} = 0
+\]</div>
+<p>This equation defines a hyperplane. Let <span class="math notranslate nohighlight">\(\mathbf{w} = \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu}_i - \boldsymbol{\mu}_j)\)</span>. The equation can be written as:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{w}^T \mathbf{x} + w_0 = 0\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[w_0 = - \frac{1}{2} (\boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i - \boldsymbol{\mu}_j^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_j) + \ln \frac{P(\omega_i)}{P(\omega_j)}\]</div>
+<p>The vector <span class="math notranslate nohighlight">\(\mathbf{w} = \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu}_i - \boldsymbol{\mu}_j)\)</span> is normal to the decision hyperplane. Note that this normal vector is generally <em>not</em> in the direction of the difference between the means <span class="math notranslate nohighlight">\((\boldsymbol{\mu}_i - \boldsymbol{\mu}_j)\)</span> unless <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is proportional to the identity matrix (Case 1).</p>
+<p>The location of the hyperplane is influenced by the prior probabilities <span class="math notranslate nohighlight">\(P(\omega_i)\)</span> and <span class="math notranslate nohighlight">\(P(\omega_j)\)</span>. If the priors are equal (<span class="math notranslate nohighlight">\(P(\omega_i) = P(\omega_j)\)</span>), then <span class="math notranslate nohighlight">\(\ln \frac{P(\omega_i)}{P(\omega_j)} = \ln 1 = 0\)</span>. The equation simplifies further, and the threshold <span class="math notranslate nohighlight">\(w_0\)</span> is determined solely by the means and the covariance matrix. Specifically, the boundary passes through the point <span class="math notranslate nohighlight">\(\mathbf{x}_0 = \frac{1}{2}(\boldsymbol{\mu}_i + \boldsymbol{\mu}_j)\)</span> if <span class="math notranslate nohighlight">\(P(\omega_i)=P(\omega_j)\)</span>.</p>
+<p><strong>Geometric Interpretation:</strong>
+The decision boundaries are hyperplanes. Unlike Case 1 where the hyperplanes are orthogonal to the line connecting the means, here the orientation of the hyperplanes depends on the shared covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>. The surfaces of constant Mahalanobis distance from the means are hyperellipsoids, all having the same shape and orientation determined by <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>. The decision boundaries are linear because the quadratic terms <span class="math notranslate nohighlight">\(\mathbf{x}^T \boldsymbol{\Sigma}^{-1} \mathbf{x}\)</span> cancelled out.</p>
+<p><img alt="" src="_images/Duda-Figure-2.12.png" /></p>
+<p><strong>Figure 2.12</strong> (from DHS book) illustrates this scenario for Gaussian distributions. It shows how the equal covariance matrices lead to linear decision boundaries, but these boundaries are not necessarily perpendicular to the line connecting the class means, unlike the simpler Case 1. The shape and orientation of the ellipses (representing contours of equal probability density) are the same for both classes, reflecting the shared covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>. The decision boundary shifts depending on the prior probabilities.</p>
+<hr class="docutils" />
 <p><strong>Exercise: Validating the Decision Boundary in Case 2 and Comparing with GaussianNB</strong></p>
 <p><strong>Objective</strong>
 In this exercise, you will:</p>
@@ -843,7 +922,6 @@ In this exercise, you will:</p>
 <li><p>Compare the results with the decision boundary generated by Scikit-Learn’s <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code>.</p></li>
 <li><p>Visualize the results in a single plot or side-by-side plots.</p></li>
 </ol>
-<hr class="docutils" />
 <p><strong>Steps to Follow</strong></p>
 <ol class="arabic simple">
 <li><p><strong>Generate Data</strong>:</p>
@@ -888,7 +966,6 @@ g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\
 </ul>
 </li>
 </ol>
-<hr class="docutils" />
 <p><strong>Expected Output</strong></p>
 <ul class="simple">
 <li><p>A figure with two subplots:</p>
@@ -916,37 +993,99 @@ g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\
 </ul>
 </section>
 <hr class="docutils" />
-<section id="case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">
-<h3>Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):<a class="headerlink" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Discriminant function is still linear:
-$<span class="math notranslate nohighlight">\(
-g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) + \ln P(\omega_i)
-\)</span>$</p></li>
-<li><p>Decision boundaries are hyperplanes, but not necessarily orthogonal to the line between means.</p></li>
-</ul>
-</section>
 <section id="case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">
 <h3>Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):<a class="headerlink" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i" title="Link to this heading">#</a></h3>
+<p>This is the most general case for Gaussian distributions. Here, each class <span class="math notranslate nohighlight">\(\omega_i\)</span> is modeled by a multivariate normal distribution <span class="math notranslate nohighlight">\(N(\boldsymbol{\mu}_i, \boldsymbol{\Sigma}_i)\)</span>, where both the mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_i\)</span> and the covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i\)</span> can be different for each class.</p>
+<p>We start again with the general discriminant function, dropping the constant term <span class="math notranslate nohighlight">\(-\frac{d}{2} \ln(2\pi)\)</span> as it doesn’t affect the decision:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \ln p(\mathbf{x} | \omega_i) + \ln P(\omega_i)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}_i^{-1} (\mathbf{x} - \boldsymbol{\mu}_i) - \frac{1}{2} \ln |\boldsymbol{\Sigma}_i| + \ln P(\omega_i) \quad \mathbf{(Eq. 62)}
+\]</div>
+<p>Now, we expand the quadratic term <span class="math notranslate nohighlight">\((\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}_i^{-1} (\mathbf{x} - \boldsymbol{\mu}_i)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+(\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}_i^{-1} (\mathbf{x} - \boldsymbol{\mu}_i) = \mathbf{x}^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} - \mathbf{x}^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i - \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} + \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i^{-1}\)</span> is symmetric, the two middle terms are equal scalar values: <span class="math notranslate nohighlight">\(\mathbf{x}^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i = (\boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x})^T = \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x}\)</span>.
+So the expansion becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} - 2 \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} + \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i
+\]</div>
+<p>Substituting this back into the expression for <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = -\frac{1}{2} \left( \mathbf{x}^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} - 2 \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} + \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i \right) - \frac{1}{2} \ln |\boldsymbol{\Sigma}_i| + \ln P(\omega_i)
+\]</div>
+<p>Rearranging the terms to group by powers of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \left(-\frac{1}{2} \mathbf{x}^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x}\right) + \left( \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} \right) + \left( -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i - \frac{1}{2} \ln |\boldsymbol{\Sigma}_i| + \ln P(\omega_i) \right)
+\]</div>
+<p>We can see this is a quadratic function of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. It can be written in the general quadratic form:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mathbf{w}_i^T \mathbf{x} + w_{i0} \quad \mathbf{(Eq. 63)}
+\]</div>
+<p>where the components are identified by comparing the terms:</p>
 <ul>
-<li><p>Discriminant function is quadratic:</p>
+<li><p><strong>Matrix <span class="math notranslate nohighlight">\(\mathbf{W}_i\)</span>:</strong> Determines the quadratic term.</p>
 <div class="math notranslate nohighlight">
 \[
-    g_i(\mathbf{x}) = \mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mathbf{w}_i^T \mathbf{x} + w_{i0}
+    \mathbf{W}_i = -\frac{1}{2} \boldsymbol{\Sigma}_i^{-1} 
     \]</div>
-<p>where:</p>
+</li>
+<li><p><strong>Vector <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span>:</strong> Determines the linear term. Note that <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \mathbf{x} = (\boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i)^T \mathbf{x}\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
-    \mathbf{W}_i = -\frac{1}{2} \boldsymbol{\Sigma}_i^{-1}, \quad \mathbf{w}_i = \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i, \quad w_{i0} = -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i - \frac{1}{2} \ln |\boldsymbol{\Sigma}_i| + \ln P(\omega_i)
+    \mathbf{w}_i = \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i 
+    \]</div>
+</li>
+<li><p><strong>Scalar <span class="math notranslate nohighlight">\(w_{i0}\)</span>:</strong> Represents the constant or threshold term.</p>
+<div class="math notranslate nohighlight">
+\[
+    w_{i0} = -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}_i^{-1} \boldsymbol{\mu}_i - \frac{1}{2} \ln |\boldsymbol{\Sigma}_i| + \ln P(\omega_i) 
     \]</div>
 </li>
 </ul>
-  <!-- - Decision boundaries are hyperquadrics (e.g., hyperplanes, hyperellipsoids, hyperparaboloids).
-  - ![Figure 2.14](img/Duda-Figure-2.14.png)
-  - ![Figure 2.15](img/Duda-Figure-2.15.png) -->
+<p>Since the discriminant function <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span> contains the quadratic term <span class="math notranslate nohighlight">\(\mathbf{x}^T \mathbf{W}_i \mathbf{x}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{W}_i = -\frac{1}{2} \boldsymbol{\Sigma}_i^{-1}\)</span> depends on the class <span class="math notranslate nohighlight">\(i\)</span>, the resulting function is quadratic in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<p>The decision boundary between two classes <span class="math notranslate nohighlight">\(\omega_i\)</span> and <span class="math notranslate nohighlight">\(\omega_j\)</span> is defined by <span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = g_j(\mathbf{x})\)</span>, which leads to:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) - g_j(\mathbf{x}) = (\mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mathbf{w}_i^T \mathbf{x} + w_{i0}) - (\mathbf{x}^T \mathbf{W}_j \mathbf{x} + \mathbf{w}_j^T \mathbf{x} + w_{j0}) = 0
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x}^T (\mathbf{W}_i - \mathbf{W}_j) \mathbf{x} + (\mathbf{w}_i - \mathbf{w}_j)^T \mathbf{x} + (w_{i0} - w_{j0}) = 0
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\(\mathbf{W}_i \neq \mathbf{W}_j\)</span> in general (since <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i \neq \boldsymbol{\Sigma}_j\)</span>), the quadratic term <span class="math notranslate nohighlight">\(\mathbf{x}^T (\mathbf{W}_i - \mathbf{W}_j) \mathbf{x}\)</span> does not cancel out. This equation describes a <em>hyperquadric</em> surface in the feature space <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>.</p>
+<p>These hyperquadric decision boundaries can take various forms, including:</p>
+<ul class="simple">
+<li><p>Hyperplanes (only if <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}_j\)</span>, which reduces to Case 2)</p></li>
+<li><p>Pairs of hyperplanes</p></li>
+<li><p>Hyperspheres</p></li>
+<li><p>Hyperellipsoids</p></li>
+<li><p>Hyperparaboloids</p></li>
+<li><p>Hyperhyperboloids</p></li>
+</ul>
+<p>In 2D space, these correspond to familiar shapes like lines, pairs of lines, circles, ellipses, parabolas, and hyperbolas. The specific shape depends on the eigenvalues of the matrix <span class="math notranslate nohighlight">\((\mathbf{W}_i - \mathbf{W}_j)\)</span> and the other terms in the equation.</p>
+<p>This general case allows for much more complex decision boundaries compared to the linear boundaries of Cases 1 and 2, reflecting the greater flexibility afforded by allowing each class to have its own unique covariance matrix.</p>
+<p>The figures referenced illustrate this complexity:</p>
+<ul class="simple">
+<li><p><strong>Figure 2.14:</strong> Shows various quadratic decision boundaries (ellipses, hyperbolas, parabolas, lines) that can arise in 2D when covariance matrices are arbitrary.</p></li>
+</ul>
+<p><img alt="Figure 2.14" src="_images/Duda-Figure-2.14.png" /></p>
+<p>Figure 2.14: Arbitrary Gaussian distributions lead to Bayes decision boundaries that are general hyperquadrics. Conversely, given any hyperquadratic, one can find two Gaussian distributions whose Bayes decision boundary is that hyperquadric.</p>
+<p>This quadratic classifier is the most general form for Gaussian distributions under the Bayesian framework.</p>
+<p>The extension of these results to more than two categories is straightforward though we need to keep clear which two of the total c categories are responsible for any boundary segment. Figure 2.16 shows the decision surfaces for a four-category case made up of Gaussian distributions. Of course, if the distributions are more complicated, the decision regions can be even more complex, though the same underlying theory holds there too.</p>
+<p><img alt="Figure 2.16" src="_images/Duda-Figure-2.16.png" /></p>
+<p>Figure 2.16: The decision regions for four normal distributions. Even with such a low number of categories, the shapes of the boundary regions can be rather complex.</p>
 </section>
 </section>
-<hr class="docutils" />
 <section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -1062,6 +1201,7 @@ g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Si
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
 </ul>
 </li>
