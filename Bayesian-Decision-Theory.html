@@ -441,7 +441,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Multivariate Normal Density</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
 </ul>
@@ -836,17 +835,6 @@ Simplify:
 <p><img alt="Figure 2.11" src="_images/Duda-Figure-2.11.png" /></p>
 <p>Figure 2.11: As the priors are changed, the decision boundary shifts; for sufficiently disparate priors the boundary will not lie between the means of these 1-, 2- and 3-dimensional spherical Gaussian distributions</p>
 </section>
-<hr class="docutils" />
-<section id="case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">
-<h3>Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):<a class="headerlink" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Discriminant function is still linear:
-$<span class="math notranslate nohighlight">\(
-g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}_i) + \ln P(\omega_i)
-\)</span>$</p></li>
-<li><p>Decision boundaries are hyperplanes, but not necessarily orthogonal to the line between means.</p></li>
-</ul>
-</section>
 <section id="case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">
 <h3>Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)<a class="headerlink" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i" title="Link to this heading">#</a></h3>
 <p>When the covariance matrices for all classes are identical but arbitrary (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span>), the discriminant function defined in <strong>Eq. 51</strong> simplifies. First, the term <span class="math notranslate nohighlight">\(\ln |\boldsymbol{\Sigma}_i|\)</span> becomes <span class="math notranslate nohighlight">\(\ln |\boldsymbol{\Sigma}|\)</span>, which is the same constant for all classes <span class="math notranslate nohighlight">\(i\)</span>. Since it doesn’t affect the decision, we can ignore it. Similarly, the term <span class="math notranslate nohighlight">\(-\frac{d}{2} \ln(2\pi)\)</span> is also a constant independent of <span class="math notranslate nohighlight">\(i\)</span> and can be dropped. Thus, we have:</p>
@@ -879,13 +867,13 @@ g_i(\mathbf{x}) = \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - \fr
 <p>This discriminant function is linear in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. We can rewrite it in the familiar linear form:</p>
 <div class="math notranslate nohighlight">
 \[
-g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0} \quad \mathbf{(Eq. 59)}
+g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0} 
 \]</div>
 <p>where the weight vector <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span> and the bias term <span class="math notranslate nohighlight">\(w_{i0}\)</span> are defined as:</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{w}_i = \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i \quad \mathbf{(Eq. 60)}\]</div>
+\[\mathbf{w}_i = \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i \]</div>
 <div class="math notranslate nohighlight">
-\[w_{i0} = -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i + \ln P(\omega_i) \quad \mathbf{(Eq. 61)}\]</div>
+\[w_{i0} = -\frac{1}{2} \boldsymbol{\mu}_i^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_i + \ln P(\omega_i) \]</div>
 <p>Since the discriminant function <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span> is linear, the decision boundaries between any two classes <span class="math notranslate nohighlight">\(\omega_i\)</span> and <span class="math notranslate nohighlight">\(\omega_j\)</span>, defined by <span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = g_j(\mathbf{x})\)</span>, are hyperplanes. Let’s examine the equation for the decision boundary:</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{w}_i^T \mathbf{x} + w_{i0} = \mathbf{w}_j^T \mathbf{x} + w_{j0}\]</div>
@@ -1200,7 +1188,6 @@ g_i(\mathbf{x}) - g_j(\mathbf{x}) = (\mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mat
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Multivariate Normal Density</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i = \boldsymbol{\Sigma} \)</span>):</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
 </ul>
