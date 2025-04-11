@@ -11,6 +11,7 @@ parts:
   - file: 01 - Introduction
   - file: Naive-Bayes
   - file: Bayesian-Decision-Theory
+  - file: MLE-introduction.md
   - file: Mahalanobis-Distance
   - file: 02 - Linear Models
   - file: 03 - Kernel Trick
@@ -20,6 +21,7 @@ parts:
   - file: 07 - Bayesian Learning
   - file: 08 - Hidden Markov Models
   - file: AppenixA-Kernel-SVM-and-Kernel-Regression
+  - file: Appendix-BDT-Discrete-Features.md
   # - file: 08 - Neural Networks
   # - file: 09 - Convolutional Neural Networks
 #   - file: 10 - Neural Networks for text
