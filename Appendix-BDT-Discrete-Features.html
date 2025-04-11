@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9) &#8212; ML</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix-BDT-Discrete-Features';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Appendix A: Kernel SVM and Kernel Regression" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="ML - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="ML - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mle_introduction.html">Introduction</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2FAppendix-BDT-Discrete-Features.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Appendix-BDT-Discrete-Features.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#challenges-with-discrete-features">Challenges with Discrete Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-p-mathbf-x-omega-i-for-discrete-features-the-naive-bayes-assumption">Modeling <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> for Discrete Features: The Naive Bayes Assumption</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-naive-bayes-assumption">The Naive Bayes Assumption</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-estimation-and-smoothing">Parameter Estimation and Smoothing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-independent-binary-features-section-2-9-1">Case Study: Independent Binary Features (Section 2.9.1)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-the-discriminant-function">Deriving the Discriminant Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation">Estimation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-bayes-decision-theory-discrete-features-based-on-duda-et-al-section-2-9">
+<h1>Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)<a class="headerlink" href="#appendix-bayes-decision-theory-discrete-features-based-on-duda-et-al-section-2-9" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>In the general formulation of Bayes Decision Theory, we aim to minimize the probability of error (or more generally, the expected risk) by assigning a feature vector <strong>x</strong> to the class <span class="math notranslate nohighlight">\(\omega_i\)</span> that maximizes the posterior probability <span class="math notranslate nohighlight">\(P(\omega_i | \mathbf{x})\)</span>. Using Bayes’ theorem, this is often equivalent to maximizing the product of the likelihood <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> and the prior probability <span class="math notranslate nohighlight">\(P(\omega_i)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Choose } \omega_i \text{ such that } P(\mathbf{x} | \omega_i) P(\omega_i) \ge P(\mathbf{x} | \omega_j) P(\omega_j) \text{ for all } j \neq i
+\]</div>
+<p>While the framework remains the same whether the features are continuous or discrete, the nature of the features significantly impacts how we model and estimate the class-conditional probability density (or probability mass function) <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span>. This section focuses on the case where the feature vector <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, x_2, ..., x_d]^T\)</span> consists of <em>discrete</em> features.</p>
+</section>
+<section id="challenges-with-discrete-features">
+<h2>Challenges with Discrete Features<a class="headerlink" href="#challenges-with-discrete-features" title="Link to this heading">#</a></h2>
+<p>When features <span class="math notranslate nohighlight">\(x_j\)</span> are discrete, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> can take on a finite number of possible values. Let <span class="math notranslate nohighlight">\(V_j\)</span> be the number of possible values for feature <span class="math notranslate nohighlight">\(x_j\)</span>. Then the total number of possible feature vectors <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is <span class="math notranslate nohighlight">\(V = \prod_{j=1}^{d} V_j\)</span>.</p>
+<p>Estimating <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> directly involves estimating the probability for each possible configuration of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> for each class <span class="math notranslate nohighlight">\(\omega_i\)</span>.</p>
+<ul class="simple">
+<li><p><strong>Curse of Dimensionality:</strong> If the dimensionality <span class="math notranslate nohighlight">\(d\)</span> is large, or if the features <span class="math notranslate nohighlight">\(x_j\)</span> can take many values (<span class="math notranslate nohighlight">\(V_j\)</span> is large), the total number of possible vectors <span class="math notranslate nohighlight">\(V\)</span> becomes enormous.</p></li>
+<li><p><strong>Data Sparsity:</strong> To get reliable estimates for <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> for every possible <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, we would need a vast amount of training data. Many possible feature vectors might not appear even once in the training set for a given class, leading to zero probability estimates, which is problematic.</p></li>
+</ul>
+</section>
+<section id="modeling-p-mathbf-x-omega-i-for-discrete-features-the-naive-bayes-assumption">
+<h2>Modeling <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> for Discrete Features: The Naive Bayes Assumption<a class="headerlink" href="#modeling-p-mathbf-x-omega-i-for-discrete-features-the-naive-bayes-assumption" title="Link to this heading">#</a></h2>
+<p>Due to the challenges above, directly estimating the full joint probability <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i) = P(x_1, x_2, ..., x_d | \omega_i)\)</span> is often infeasible. A common and simplifying approach is to assume <strong>conditional independence</strong> of the features given the class.</p>
+<section id="the-naive-bayes-assumption">
+<h3>The Naive Bayes Assumption<a class="headerlink" href="#the-naive-bayes-assumption" title="Link to this heading">#</a></h3>
+<p>The <em>Naive Bayes</em> assumption states that the features <span class="math notranslate nohighlight">\(x_j\)</span> are independent of each other, given the class <span class="math notranslate nohighlight">\(\omega_i\)</span>. Mathematically:</p>
+<div class="math notranslate nohighlight">
+\[
+P(\mathbf{x} | \omega_i) = P(x_1, x_2, ..., x_d | \omega_i) \approx \prod_{j=1}^{d} P(x_j | \omega_i)
+\]</div>
+<p>This assumption dramatically simplifies the problem: instead of estimating one large joint probability table, we only need to estimate <span class="math notranslate nohighlight">\(d\)</span> smaller probability distributions <span class="math notranslate nohighlight">\(P(x_j | \omega_i)\)</span> for each class <span class="math notranslate nohighlight">\(\omega_i\)</span>.</p>
+</section>
+<section id="parameter-estimation-and-smoothing">
+<h3>Parameter Estimation and Smoothing<a class="headerlink" href="#parameter-estimation-and-smoothing" title="Link to this heading">#</a></h3>
+<p>The parameters <span class="math notranslate nohighlight">\(P(x_j=v | \omega_i)\)</span> and the prior probabilities <span class="math notranslate nohighlight">\(P(\omega_i)\)</span> are typically estimated from the training data using Maximum Likelihood Estimation (MLE) or smoothed versions (like Laplace smoothing) to avoid zero probabilities:</p>
+<ul class="simple">
+<li><p><strong>Prior Probability:</strong> <span class="math notranslate nohighlight">\(\hat{P}(\omega_i) = N_i / N\)</span></p></li>
+<li><p><strong>Class-Conditional Feature Probability (MLE):</strong> <span class="math notranslate nohighlight">\(\hat{P}(x_j=v | \omega_i) = N_{ijv} / N_i\)</span></p></li>
+<li><p><strong>Class-Conditional Feature Probability (Laplace Smoothing):</strong> <span class="math notranslate nohighlight">\(\hat{P}(x_j=v | \omega_i) = (N_{ijv} + \alpha) / (N_i + \alpha V_j)\)</span></p></li>
+</ul>
+</section>
+</section>
+<section id="case-study-independent-binary-features-section-2-9-1">
+<h2>Case Study: Independent Binary Features (Section 2.9.1)<a class="headerlink" href="#case-study-independent-binary-features-section-2-9-1" title="Link to this heading">#</a></h2>
+<p>A particularly important special case arises when all <span class="math notranslate nohighlight">\(d\)</span> features are <strong>binary</strong>, i.e., <span class="math notranslate nohighlight">\(x_j \in \{0, 1\}\)</span>. This is common in areas like document classification (presence/absence of words) or medical diagnosis (presence/absence of symptoms).</p>
+<p>Let’s define the probability that feature <span class="math notranslate nohighlight">\(j\)</span> is present (takes value 1) for class <span class="math notranslate nohighlight">\(\omega_i\)</span> as:
+$<span class="math notranslate nohighlight">\(
+p_{ji} = P(x_j=1 | \omega_i) \quad \quad (Eq. 84 \text{ concept})
+\)</span><span class="math notranslate nohighlight">\(
+Consequently, the probability that the feature is absent (takes value 0) is:
+\)</span><span class="math notranslate nohighlight">\(
+P(x_j=0 | \omega_i) = 1 - p_{ji}
+\)</span><span class="math notranslate nohighlight">\(
+We can write the class-conditional probability for a single feature \)</span>x_j<span class="math notranslate nohighlight">\( using the Bernoulli formula:
+\)</span><span class="math notranslate nohighlight">\(
+P(x_j | \omega_i) = p_{ji}^{x_j} (1 - p_{ji})^{1-x_j} \quad \quad (Eq. 85)
+\)</span><span class="math notranslate nohighlight">\(
+This formula works whether \)</span>x_j=1<span class="math notranslate nohighlight">\( or \)</span>x_j=0$.</p>
+<p>Under the Naive Bayes assumption (conditional independence), the full class-conditional probability for the feature vector <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, ..., x_d]^T\)</span> is:
+$<span class="math notranslate nohighlight">\(
+P(\mathbf{x} | \omega_i) = \prod_{j=1}^{d} P(x_j | \omega_i) = \prod_{j=1}^{d} p_{ji}^{x_j} (1 - p_{ji})^{1-x_j} \quad \quad (Eq. 86)
+\)</span>$</p>
+<section id="deriving-the-discriminant-function">
+<h3>Deriving the Discriminant Function<a class="headerlink" href="#deriving-the-discriminant-function" title="Link to this heading">#</a></h3>
+<p>To classify a new sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, we use the decision rule based on the discriminant functions <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span>. For convenience, we use the log-posterior (ignoring the constant <span class="math notranslate nohighlight">\(P(\mathbf{x})\)</span> term):
+$<span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = \log P(\mathbf{x} | \omega_i) + \log P(\omega_i) \quad \quad (Eq. 87 \text{ base})
+\)</span><span class="math notranslate nohighlight">\(
+Substituting the expression for \)</span>P(\mathbf{x} | \omega_i)<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = \log \left( \prod_{j=1}^{d} p_{ji}^{x_j} (1 - p_{ji})^{1-x_j} \right) + \log P(\omega_i)
+\)</span><span class="math notranslate nohighlight">\(
+Using the properties of logarithms (\)</span>\log(ab) = \log a + \log b<span class="math notranslate nohighlight">\( and \)</span>\log(a^b) = b \log a<span class="math notranslate nohighlight">\():
+\)</span><span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) = \sum_{j=1}^{d} \log \left( p_{ji}^{x_j} (1 - p_{ji})^{1-x_j} \right) + \log P(\omega_i)
+\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(
+g_i(\mathbf{x}) =g_i(\mathbf{x}) = \sum_{j=1}^{d} \left[ \log(p_{ji}^{x_j}) + \log((1 - p_{ji})^{1-x_j}) \right] + \log P(\omega_i)
+\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \sum_{j=1}^{d} \left[ x_j \log p_{ji} + (1-x_j) \log (1 - p_{ji}) \right] + \log P(\omega_i) \quad \quad (Eq. 88 \text{ structure})\]</div>
+<p>We can rearrange this expression to highlight its linear form with respect to the features <span class="math notranslate nohighlight">\(x_j\)</span>. Let’s expand the term inside the summation:
+$<span class="math notranslate nohighlight">\(x_j \log p_{ji} + (1-x_j) \log (1 - p_{ji}) = x_j \log p_{ji} + \log (1 - p_{ji}) - x_j \log (1 - p_{ji})\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(= x_j \left( \log p_{ji} - \log (1 - p_{ji}) \right) + \log (1 - p_{ji})\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(= x_j \log \left( \frac{p_{ji}}{1 - p_{ji}} \right) + \log (1 - p_{ji})\)</span><span class="math notranslate nohighlight">\(
+The term \)</span>\log \left( \frac{p_{ji}}{1 - p_{ji}} \right)<span class="math notranslate nohighlight">\( is the **log-odds** or **logit** of the probability \)</span>p_{ji}$.</p>
+<p>Substituting this back into the equation for <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[g_i(\mathbf{x}) = \sum_{j=1}^{d} \left[ x_j \log \left( \frac{p_{ji}}{1 - p_{ji}} \right) + \log (1 - p_{ji}) \right] + \log P(\omega_i)\]</div>
+<p>Separating the terms that depend on <span class="math notranslate nohighlight">\(x_j\)</span> from those that do not:
+$<span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = \sum_{j=1}^{d} \underbrace{\left( \log \frac{p_{ji}}{1 - p_{ji}} \right)}_{w_{ji}} x_j + \underbrace{\left[ \sum_{k=1}^{d} \log (1 - p_{ki}) + \log P(\omega_i) \right]}_{w_{i0}} \quad \quad (\text{Eq. 89 form})\)</span><span class="math notranslate nohighlight">\(
+This shows that the discriminant function \)</span>g_i(\mathbf{x})<span class="math notranslate nohighlight">\( is **linear** in the features \)</span>x_j<span class="math notranslate nohighlight">\(:
+\)</span><span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0}\)</span>$
+where:</p>
+<ul class="simple">
+<li><p>The weight vector <span class="math notranslate nohighlight">\(\mathbf{w}_i\)</span> has components <span class="math notranslate nohighlight">\(w_{ji} = \log \frac{p_{ji}}{1 - p_{ji}}\)</span> (the log-odds for feature <span class="math notranslate nohighlight">\(j\)</span> being 1 in class <span class="math notranslate nohighlight">\(i\)</span>). (<span class="math notranslate nohighlight">\(Eq. 90a\)</span>)</p></li>
+<li><p>The bias term (or threshold) <span class="math notranslate nohighlight">\(w_{i0} = \sum_{k=1}^{d} \log (1 - p_{ki}) + \log P(\omega_i)\)</span>. (<span class="math notranslate nohighlight">\(Eq. 90b\)</span>, index updated)</p></li>
+</ul>
+<p><strong>Key Result:</strong> For binary features under the Naive Bayes assumption, the optimal Bayes discriminant function <span class="math notranslate nohighlight">\(g_i(\mathbf{x})\)</span> is a linear discriminant function. This provides an interesting link between generative models (like Naive Bayes, which models <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> and <span class="math notranslate nohighlight">\(P(\omega_i)\)</span>) and discriminative models (which directly model the decision boundary or discriminant functions, often assuming linearity).</p>
+<p>The decision boundary between two classes, say <span class="math notranslate nohighlight">\(\omega_i\)</span> and <span class="math notranslate nohighlight">\(\omega_k\)</span>, is found by setting <span class="math notranslate nohighlight">\(g_i(\mathbf{x}) = g_k(\mathbf{x})\)</span>, which leads to a linear equation in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>:
+$<span class="math notranslate nohighlight">\((\mathbf{w}_i - \mathbf{w}_k)^T \mathbf{x} + (w_{i0} - w_{k0}) = 0\)</span>$</p>
+</section>
+<section id="estimation">
+<h3>Estimation<a class="headerlink" href="#estimation" title="Link to this heading">#</a></h3>
+<p>The parameters <span class="math notranslate nohighlight">\(p_{ji} = P(x_j=1 | \omega_i)\)</span> and <span class="math notranslate nohighlight">\(P(\omega_i)\)</span> are estimated from the training data, often using MLE or MAP (e.g., with Laplace smoothing).</p>
+<ul class="simple">
+<li><p>MLE: <span class="math notranslate nohighlight">\(\hat{p}_{ji} = \frac{\text{Number of times } x_j=1 \text{ in class } \omega_i}{\text{Total number of samples in class } \omega_i}\)</span></p></li>
+<li><p>MLE: <span class="math notranslate nohighlight">\(\hat{P}(\omega_i) = \frac{\text{Total number of samples in class } \omega_i}{\text{Total number of samples}}\)</span>
+Smoothing is typically applied, especially for <span class="math notranslate nohighlight">\(p_{ji}\)</span>, to avoid issues with zero counts leading to log probabilities of <span class="math notranslate nohighlight">\(-\infty\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>Handling discrete features in Bayesian decision theory often requires simplifying assumptions due to the curse of dimensionality. The Naive Bayes assumption (conditional independence of features given the class) is a common and effective approach.</p>
+<ul class="simple">
+<li><p>It simplifies the estimation of class-conditional probabilities from <span class="math notranslate nohighlight">\(O(V)\)</span> parameters to <span class="math notranslate nohighlight">\(O(d \times \bar{V})\)</span> parameters (where <span class="math notranslate nohighlight">\(\bar{V}\)</span> is the average number of values per feature).</p></li>
+<li><p>In the specific case of <strong>independent binary features</strong>, the Naive Bayes classifier results in a <strong>linear discriminant function</strong>. This highlights a connection between generative probability modeling and linear classifiers.</p></li>
+</ul>
+<p>While the independence assumption might seem overly simplistic (“naive”), Naive Bayes classifiers often perform surprisingly well in practice, particularly in domains like text classification.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="AppenixA-Kernel-SVM-and-Kernel-Regression.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Appendix A: Kernel SVM and Kernel Regression</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#challenges-with-discrete-features">Challenges with Discrete Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-p-mathbf-x-omega-i-for-discrete-features-the-naive-bayes-assumption">Modeling <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> for Discrete Features: The Naive Bayes Assumption</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-naive-bayes-assumption">The Naive Bayes Assumption</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-estimation-and-smoothing">Parameter Estimation and Smoothing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-independent-binary-features-section-2-9-1">Case Study: Independent Binary Features (Section 2.9.1)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-the-discriminant-function">Deriving the Discriminant Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation">Estimation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

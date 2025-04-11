@@ -28,8 +28,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
@@ -63,7 +63,7 @@
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Mahalanobis Distance" href="Mahalanobis-Distance.html" />
+    <link rel="next" title="Introduction" href="mle_introduction.html" />
     <link rel="prev" title="Naive Bayes Classification" href="Naive-Bayes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -189,6 +189,11 @@
 
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mle_introduction.html">Introduction</a></li>
+
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
 
@@ -202,6 +207,7 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
 </ul>
 
     </div>
@@ -441,6 +447,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Multivariate Normal Density</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#given"><strong>Given:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#substitute-boldsymbol-sigma-i-sigma-2-mathbf-i-into-the-pdf">Substitute <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span> into the PDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-bayes-rule-for-posterior-probability">Apply Bayes’ Rule for Posterior Probability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-the-logarithm-of-the-pdf">Take the Logarithm of the PDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combine-with-prior-and-ignore-constants">Combine with Prior and Ignore Constants</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
 </ul>
@@ -675,13 +686,108 @@ is called the <strong>squared <a class="reference internal" href="Mahalanobis-Di
 <h2>Discriminant Functions for Normal Density<a class="headerlink" href="#discriminant-functions-for-normal-density" title="Link to this heading">#</a></h2>
 <section id="case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">
 <h3>Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):<a class="headerlink" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i" title="Link to this heading">#</a></h3>
-<ul>
-<li><p>The discriminant function is linear:</p>
+<ul class="simple">
+<li><p>The discriminant function is linear:</p></li>
+</ul>
 <div class="math notranslate nohighlight">
 \[
-    g_i(\mathbf{x}) = -\frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2} + \ln P(\omega_i)
-    \]</div>
-</li>
+g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + b,
+\]</div>
+<p><strong>How?</strong></p>
+<p>Let’s derive the simplified form of the log-likelihood <span class="math notranslate nohighlight">\( g_i(\mathbf{x}) \)</span> for the case where the covariance matrices are equal and isotropic (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>). We’ll start with the given multivariate normal density and show how it reduces to the stated form.</p>
+</section>
+<hr class="docutils" />
+<section id="given">
+<h3><strong>Given:</strong><a class="headerlink" href="#given" title="Link to this heading">#</a></h3>
+<p>The probability density function (PDF) for class <span class="math notranslate nohighlight">\(\omega_i\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+p(\mathbf{x} \mid \omega_i) = \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}_i|^{1/2}} \exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}_i^{-1} (\mathbf{x}-\boldsymbol{\mu}_i)\right],
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span> (isotropic covariance, equal across classes).</p></li>
+<li><p><span class="math notranslate nohighlight">\(|\boldsymbol{\Sigma}_i| = (\sigma^2)^d\)</span> (determinant of <span class="math notranslate nohighlight">\(\sigma^2 \mathbf{I}\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i^{-1} = \frac{1}{\sigma^2} \mathbf{I}\)</span> (inverse of diagonal matrix).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="substitute-boldsymbol-sigma-i-sigma-2-mathbf-i-into-the-pdf">
+<h3>Substitute <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span> into the PDF<a class="headerlink" href="#substitute-boldsymbol-sigma-i-sigma-2-mathbf-i-into-the-pdf" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+p(\mathbf{x} \mid \omega_i) = \frac{1}{(2\pi)^{d/2} (\sigma^2)^{d/2}} \exp\left[-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu}_i)^T \left(\frac{1}{\sigma^2} \mathbf{I}\right) (\mathbf{x}-\boldsymbol{\mu}_i)\right].
+\]</div>
+<p>Simplify the exponent:</p>
+<div class="math notranslate nohighlight">
+\[
+(\mathbf{x}-\boldsymbol{\mu}_i)^T \left(\frac{1}{\sigma^2} \mathbf{I}\right) (\mathbf{x}-\boldsymbol{\mu}_i) = \frac{1}{\sigma^2} (\mathbf{x}-\boldsymbol{\mu}_i)^T (\mathbf{x}-\boldsymbol{\mu}_i) = \frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{\sigma^2},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\|\mathbf{x}-\boldsymbol{\mu}_i\|^2\)</span> is the squared Euclidean distance.</p>
+<p>Thus, the PDF becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+p(\mathbf{x} \mid \omega_i) = \frac{1}{(2\pi\sigma^2)^{d/2}} \exp\left[-\frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2}\right].
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="apply-bayes-rule-for-posterior-probability">
+<h3>Apply Bayes’ Rule for Posterior Probability<a class="headerlink" href="#apply-bayes-rule-for-posterior-probability" title="Link to this heading">#</a></h3>
+<p>The posterior probability <span class="math notranslate nohighlight">\( P(\omega_i \mid \mathbf{x}) \)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+P(\omega_i \mid \mathbf{x}) = \frac{p(\mathbf{x} \mid \omega_i) P(\omega_i)}{p(\mathbf{x})},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\( p(\mathbf{x}) = \sum_j p(\mathbf{x} \mid \omega_j) P(\omega_j) \)</span> is the evidence (ignored in discriminant functions).</p>
+<p>The <strong>log-posterior</strong> (discriminant function <span class="math notranslate nohighlight">\( g_i(\mathbf{x}) \)</span>) is:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \ln p(\mathbf{x} \mid \omega_i) + \ln P(\omega_i).
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="take-the-logarithm-of-the-pdf">
+<h3>Take the Logarithm of the PDF<a class="headerlink" href="#take-the-logarithm-of-the-pdf" title="Link to this heading">#</a></h3>
+<p>Compute <span class="math notranslate nohighlight">\(\ln p(\mathbf{x} \mid \omega_i)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\ln p(\mathbf{x} \mid \omega_i) = \ln\left(\frac{1}{(2\pi\sigma^2)^{d/2}}\right) - \frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2}.
+\]</div>
+<p>Simplify the first term:</p>
+<div class="math notranslate nohighlight">
+\[
+\ln\left((2\pi\sigma^2)^{-d/2}\right) = -\frac{d}{2} \ln(2\pi\sigma^2).
+\]</div>
+<p>Thus:</p>
+<div class="math notranslate nohighlight">
+\[
+\ln p(\mathbf{x} \mid \omega_i) = -\frac{d}{2} \ln(2\pi\sigma^2) - \frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2}.
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="combine-with-prior-and-ignore-constants">
+<h3>Combine with Prior and Ignore Constants<a class="headerlink" href="#combine-with-prior-and-ignore-constants" title="Link to this heading">#</a></h3>
+<p>The discriminant function becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+g_i(\mathbf{x}) = \ln p(\mathbf{x} \mid \omega_i) + \ln P(\omega_i) = -\frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2} - \frac{d}{2} \ln(2\pi\sigma^2) + \ln P(\omega_i).
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\( \frac{d}{2} \ln(2\pi\sigma^2) \)</span> is <strong>constant across all classes</strong> <span class="math notranslate nohighlight">\( \omega_i \)</span>, it does not affect the classification decision (we compare <span class="math notranslate nohighlight">\( g_i(\mathbf{x}) \)</span> across <span class="math notranslate nohighlight">\( i \)</span>, and the constant cancels out). Therefore, we drop it and write:</p>
+<!-- $$
+g_i(\mathbf{x}) = -\frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2} + \ln P(\omega_i).
+$$
+
+---
+
+### **Key Points:**
+1. **Isotropic Covariance**: The simplification relies on $\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}$, which makes the Mahalanobis distance reduce to the scaled Euclidean distance.
+2. **Ignored Constant**: The term $-\frac{d}{2} \ln(2\pi\sigma^2)$ is class-independent and does not influence $\arg\max_i g_i(\mathbf{x})$.
+3. **Decision Boundary**: Classification reduces to comparing the **squared distances** $\|\mathbf{x}-\boldsymbol{\mu}_i\|^2$ (weighted by the prior $P(\omega_i)$). -->
+<div class="math notranslate nohighlight">
+\[
+\boxed{g_i(\mathbf{x}) = -\frac{\|\mathbf{x}-\boldsymbol{\mu}_i\|^2}{2\sigma^2} + \ln P(\omega_i)}
+\]</div>
+<ul>
 <li><p>Decision boundaries are <strong>hyperplanes</strong>.</p></li>
 <li><p>If the <strong>prior probabilities</strong> are not equal, the squared distance <span class="math notranslate nohighlight">\(\|\mathbf{x}-\boldsymbol{\mu}_i\|^2\)</span> is normalized by the variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> and offset by adding <span class="math notranslate nohighlight">\(\ln P(\omega_i)\)</span>. This means that if <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is equally near two different mean vectors, the optimal decision will favor the <strong>a priori more likely category</strong>.</p></li>
 <li><p>It is not necessary to compute distances explicitly. Expanding the quadratic form <span class="math notranslate nohighlight">\((\mathbf{x} - \boldsymbol{\mu}_i)^T (\mathbf{x} - \boldsymbol{\mu}_i)\)</span> yields:</p>
@@ -692,7 +798,9 @@ is called the <strong>squared <a class="reference internal" href="Mahalanobis-Di
 <p>The quadratic term <span class="math notranslate nohighlight">\(\mathbf{x}^T \mathbf{x}\)</span> is the same for all <span class="math notranslate nohighlight">\(i\)</span>, so it can be ignored as an additive constant. This simplifies the discriminant function to:</p>
 <div class="math notranslate nohighlight">
 \[
-    g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0},
+    \boxed{
+    g_i(\mathbf{x}) = \mathbf{w}_i^T \mathbf{x} + w_{i0}
+    }
     \]</div>
 <p>where:</p>
 <div class="math notranslate nohighlight">
@@ -911,7 +1019,7 @@ In this exercise, you will:</p>
 <li><p>Visualize the results in a single plot or side-by-side plots.</p></li>
 </ol>
 <p><strong>Steps to Follow</strong></p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p><strong>Generate Data</strong>:</p>
 <ul class="simple">
 <li><p>Create two classes of data points, each following a <strong>multivariate Gaussian distribution</strong> with the same covariance matrix but different mean vectors.</p></li>
@@ -925,11 +1033,13 @@ In this exercise, you will:</p>
 </ul>
 </li>
 <li><p><strong>Compute the Decision Boundary (Theoretical Approach)</strong>:</p>
-<ul class="simple">
-<li><p>Use the <strong>linear discriminant function</strong> for Case 2:
-$<span class="math notranslate nohighlight">\(
-g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}_i) + \ln P(\omega_i).
-\)</span>$</p></li>
+<ul>
+<li><p>Use the <strong>linear discriminant function</strong> for Case 2:</p>
+<div class="math notranslate nohighlight">
+\[
+     g_i(\mathbf{x}) = -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}_i) + \ln P(\omega_i).
+     \]</div>
+</li>
 <li><p>Assume equal prior probabilities (<span class="math notranslate nohighlight">\(P(\omega_1) = P(\omega_2) = 0.5\)</span>).</p></li>
 <li><p>The decision boundary is the set of points where <span class="math notranslate nohighlight">\(g_1(\mathbf{x}) = g_2(\mathbf{x})\)</span>.</p></li>
 </ul>
@@ -1151,11 +1261,11 @@ g_i(\mathbf{x}) - g_j(\mathbf{x}) = (\mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mat
       </div>
     </a>
     <a class="right-next"
-       href="Mahalanobis-Distance.html"
+       href="mle_introduction.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Mahalanobis Distance</p>
+        <p class="prev-next-title">Introduction</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1188,6 +1298,11 @@ g_i(\mathbf{x}) - g_j(\mathbf{x}) = (\mathbf{x}^T \mathbf{W}_i \mathbf{x} + \mat
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Multivariate Normal Density</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discriminant-functions-for-normal-density">Discriminant Functions for Normal Density</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-equal-covariance-matrices-boldsymbol-sigma-i-sigma-2-mathbf-i">Case 1: Equal Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span>):</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#given"><strong>Given:</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#substitute-boldsymbol-sigma-i-sigma-2-mathbf-i-into-the-pdf">Substitute <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \sigma^2 \mathbf{I}\)</span> into the PDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-bayes-rule-for-posterior-probability">Apply Bayes’ Rule for Posterior Probability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#take-the-logarithm-of-the-pdf">Take the Logarithm of the PDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combine-with-prior-and-ignore-constants">Combine with Prior and Ignore Constants</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-equal-but-arbitrary-covariance-matrices-boldsymbol-sigma-i-boldsymbol-sigma-for-all-i">Case 2: Equal but Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i = \boldsymbol{\Sigma}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-3-arbitrary-covariance-matrices-boldsymbol-sigma-i">Case 3: Arbitrary Covariance Matrices (<span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}_i \)</span>):</a></li>
 </ul>

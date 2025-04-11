@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Maximum Likelihood Estimation &#8212; ML</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MLE-introduction';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mahalanobis Distance" href="Mahalanobis-Distance.html" />
+    <link rel="prev" title="Bayesian Decision Theory" href="Bayesian-Decision-Theory.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="ML - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="ML - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2FMLE-introduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/MLE-introduction.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Maximum Likelihood Estimation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-likelihood">Log-Likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-maximum">Finding the Maximum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-mle-for-multivariate-gaussian-unknown-mean-and-covariance">Example: MLE for Multivariate Gaussian (Unknown Mean and Covariance)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-bayesian-classification">Application to Bayesian Classification</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="maximum-likelihood-estimation">
+<h1>Maximum Likelihood Estimation<a class="headerlink" href="#maximum-likelihood-estimation" title="Link to this heading">#</a></h1>
+<p>In many pattern recognition problems, especially within the framework of Bayesian decision theory, we assume a specific parametric form for the class-conditional probability densities <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span>, but we don’t know the exact values of the parameters. For example, we might assume that the features <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> for class <span class="math notranslate nohighlight">\(\omega_i\)</span> follow a multivariate Gaussian distribution <span class="math notranslate nohighlight">\(N(\boldsymbol{\mu}_i, \boldsymbol{\Sigma}_i)\)</span>, but the mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_i\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i\)</span> are unknown.</p>
+<p><strong>Maximum Likelihood Estimation (MLE)</strong> is a fundamental method for estimating the parameters of a probability distribution based on observed data. The core idea is to choose the parameter values that maximize the probability (or likelihood) of observing the actual training data we have.</p>
+<p>Let <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> represent the vector of unknown parameters for a distribution <span class="math notranslate nohighlight">\(P(\mathbf{x} | \boldsymbol{\theta})\)</span>. Suppose we have a set of <span class="math notranslate nohighlight">\(n\)</span> training samples <span class="math notranslate nohighlight">\(\mathcal{D} = \{\mathbf{x}_1, \dots, \mathbf{x}_n\}\)</span>, which are assumed to be drawn independently and identically distributed (i.i.d.) from <span class="math notranslate nohighlight">\(P(\mathbf{x} | \boldsymbol{\theta})\)</span>.</p>
+<p>The <strong>likelihood function</strong>, denoted <span class="math notranslate nohighlight">\(L(\boldsymbol{\theta})\)</span> or <span class="math notranslate nohighlight">\(P(\mathcal{D} | \boldsymbol{\theta})\)</span>, represents the probability of observing the dataset <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> given a specific choice of parameters <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>. Due to the independence assumption, the likelihood is the product of the probabilities of each individual sample:</p>
+<div class="math notranslate nohighlight">
+\[L(\boldsymbol{\theta}) = P(\mathcal{D} | \boldsymbol{\theta}) = \prod_{k=1}^{n} P(\mathbf{x}_k | \boldsymbol{\theta})\]</div>
+<p>The goal of MLE is to find the value of <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> that makes the observed data <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> “most likely”. The Maximum Likelihood Estimate (MLE) of <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, denoted <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\theta}}_{MLE}\)</span> or simply <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\theta}}\)</span>, is the value of <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> that maximizes this likelihood function:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\boldsymbol{\theta}}_{MLE} = \arg \max_{\boldsymbol{\theta}} L(\boldsymbol{\theta})\]</div>
+<section id="log-likelihood">
+<h2>Log-Likelihood<a class="headerlink" href="#log-likelihood" title="Link to this heading">#</a></h2>
+<p>Maximizing the product <span class="math notranslate nohighlight">\(L(\boldsymbol{\theta})\)</span> can be difficult computationally and numerically (due to potential underflow with many small probabilities). Since the logarithm function <span class="math notranslate nohighlight">\(\log(\cdot)\)</span> is monotonically increasing, maximizing <span class="math notranslate nohighlight">\(L(\boldsymbol{\theta})\)</span> is equivalent to maximizing its logarithm, <span class="math notranslate nohighlight">\(\log L(\boldsymbol{\theta})\)</span>. This logarithm is called the <strong>log-likelihood function</strong>, often denoted <span class="math notranslate nohighlight">\(\ell(\boldsymbol{\theta})\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\ell(\boldsymbol{\theta}) = \log L(\boldsymbol{\theta}) = \log \left( \prod_{k=1}^{n} P(\mathbf{x}_k | \boldsymbol{\theta}) \right) = \sum_{k=1}^{n} \log P(\mathbf{x}_k | \boldsymbol{\theta})\]</div>
+<p>Using the log-likelihood turns the product into a sum, which is usually much easier to work with, especially when taking derivatives. The MLE estimate is then found by:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\boldsymbol{\theta}}_{MLE} = \arg \max_{\boldsymbol{\theta}} \ell(\boldsymbol{\theta})\]</div>
+<hr class="docutils" />
+<p><img alt="" src="_images/Duda-Figure-3.1.png" /></p>
+<p><strong>Figure 3.1:</strong> The top graph shows several training points in one dimension, known or assumed to be drawn from a Gaussian of a particular variance, but unknown mean (<span class="math notranslate nohighlight">\(\theta\)</span>). Four of the infinite number of candidate source distributions <span class="math notranslate nohighlight">\(p(x|\theta)\)</span> are shown in dashed lines. The middle figure shows the likelihood <span class="math notranslate nohighlight">\(p(\mathcal{D}|\theta)\)</span> as a function of the mean parameter <span class="math notranslate nohighlight">\(\theta\)</span>. If we had a very large number of training points, this likelihood function would become very narrow. The value that maximizes the likelihood is marked <span class="math notranslate nohighlight">\(\hat{\theta}\)</span>; it also maximizes the logarithm of the likelihood — i.e., the log-likelihood <span class="math notranslate nohighlight">\(l(\theta)\)</span>, shown at the bottom. Note especially that the likelihood <span class="math notranslate nohighlight">\(p(\mathcal{D}|\theta)\)</span> lies in a different space from <span class="math notranslate nohighlight">\(p(x|\hat{\theta})\)</span>, and the two can have different functional forms. (Adapted from Duda, Hart &amp; Stork).</p>
+</section>
+<hr class="docutils" />
+<section id="finding-the-maximum">
+<h2>Finding the Maximum<a class="headerlink" href="#finding-the-maximum" title="Link to this heading">#</a></h2>
+<p>If the log-likelihood function <span class="math notranslate nohighlight">\(\ell(\boldsymbol{\theta})\)</span> is differentiable with respect to the parameters <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>, we can typically find the maximum by:</p>
+<ol class="arabic simple">
+<li><p>Taking the derivative (or gradient if <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span> is a vector) of <span class="math notranslate nohighlight">\(\ell(\boldsymbol{\theta})\)</span> with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.</p></li>
+<li><p>Setting the derivative(s) equal to zero: <span class="math notranslate nohighlight">\(\nabla_{\boldsymbol{\theta}} \ell(\boldsymbol{\theta}) = \mathbf{0}\)</span>.</p></li>
+<li><p>Solving these equations for <span class="math notranslate nohighlight">\(\boldsymbol{\theta}\)</span>.</p></li>
+<li><p>(Optionally) Verifying that the solution corresponds to a maximum (e.g., using second derivatives).</p></li>
+</ol>
+</section>
+<section id="example-mle-for-multivariate-gaussian-unknown-mean-and-covariance">
+<h2>Example: MLE for Multivariate Gaussian (Unknown Mean and Covariance)<a class="headerlink" href="#example-mle-for-multivariate-gaussian-unknown-mean-and-covariance" title="Link to this heading">#</a></h2>
+<p>Let’s consider the important case where the feature vectors <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> (within a specific class, although we omit the class index for now) are assumed to be drawn from a <span class="math notranslate nohighlight">\(d\)</span>-dimensional multivariate Gaussian distribution with unknown mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> and unknown covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>. The parameters to estimate are <span class="math notranslate nohighlight">\(\boldsymbol{\theta} = (\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>.</p>
+<p>The probability density function (PDF) for a single sample <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[P(\mathbf{x} | \boldsymbol{\mu}, \boldsymbol{\Sigma}) = \frac{1}{(2\pi)^{d/2} |\boldsymbol{\Sigma}|^{1/2}} \exp \left[ -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right]\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\boldsymbol{\Sigma}|\)</span> is the determinant of the covariance matrix.</p>
+<p>Given an i.i.d. dataset <span class="math notranslate nohighlight">\(\mathcal{D} = \{\mathbf{x}_1, \dots, \mathbf{x}_n\}\)</span>, the log-likelihood function <span class="math notranslate nohighlight">\(\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) = \log \prod_{k=1}^{n} P(\mathbf{x}_k | \boldsymbol{\mu}, \boldsymbol{\Sigma}) = \sum_{k=1}^{n} \log P(\mathbf{x}_k | \boldsymbol{\mu}, \boldsymbol{\Sigma})\]</div>
+<p>Substituting the Gaussian PDF and using properties of logarithms:</p>
+<div class="math notranslate nohighlight">
+\[\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) = \sum_{k=1}^{n} \left[ -\frac{d}{2} \log(2\pi) - \frac{1}{2} \log |\boldsymbol{\Sigma}| - \frac{1}{2} (\mathbf{x}_k - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}_k - \boldsymbol{\mu}) \right]\]</div>
+<div class="math notranslate nohighlight">
+\[\ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) = -\frac{nd}{2} \log(2\pi) - \frac{n}{2} \log |\boldsymbol{\Sigma}| - \frac{1}{2} \sum_{k=1}^{n} (\mathbf{x}_k - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}_k - \boldsymbol{\mu})\]</div>
+<p>To find the MLEs <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\mu}}\)</span> and <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Sigma}}\)</span>, we take the gradients with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> (or <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}^{-1}\)</span>) and set them to zero.</p>
+<p><strong>1. Estimating <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>:</strong>
+Taking the gradient with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\boldsymbol{\mu}} \ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) = \nabla_{\boldsymbol{\mu}} \left[ - \frac{1}{2} \sum_{k=1}^{n} (\mathbf{x}_k - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}_k - \boldsymbol{\mu}) \right]\]</div>
+<p>Using the identity <span class="math notranslate nohighlight">\(\nabla_{\mathbf{z}} (\mathbf{a} - \mathbf{z})^T \mathbf{B} (\mathbf{a} - \mathbf{z}) = -2 \mathbf{B} (\mathbf{a} - \mathbf{z})\)</span> (for symmetric <span class="math notranslate nohighlight">\(\mathbf{B}\)</span>), we get:</p>
+<div class="math notranslate nohighlight">
+\[\nabla_{\boldsymbol{\mu}} \ell(\boldsymbol{\mu}, \boldsymbol{\Sigma}) = - \frac{1}{2} \sum_{k=1}^{n} (-2 \boldsymbol{\Sigma}^{-1} (\mathbf{x}_k - \boldsymbol{\mu})) = \sum_{k=1}^{n} \boldsymbol{\Sigma}^{-1} (\mathbf{x}_k - \boldsymbol{\mu})\]</div>
+<p>Setting the gradient to zero:</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\Sigma}^{-1} \sum_{k=1}^{n} (\mathbf{x}_k - \hat{\boldsymbol{\mu}}) = \mathbf{0}\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}^{-1}\)</span> is invertible (assuming <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is positive definite), this requires:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{k=1}^{n} (\mathbf{x}_k - \hat{\boldsymbol{\mu}}) = \mathbf{0} \implies \sum_{k=1}^{n} \mathbf{x}_k - n \hat{\boldsymbol{\mu}} = \mathbf{0}\]</div>
+<div class="math notranslate nohighlight">
+\[\boxed{\hat{\boldsymbol{\mu}}_{MLE} = \frac{1}{n} \sum_{k=1}^{n} \mathbf{x}_k}\]</div>
+<p>The MLE for the mean vector <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> is the <strong>sample mean</strong> of the data.</p>
+<p><strong>2. Estimating <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>:</strong>
+Finding the MLE for <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> involves matrix calculus. Taking the derivative of <span class="math notranslate nohighlight">\(\ell\)</span> with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}^{-1}\)</span> (often simpler) and setting it to zero, or directly with respect to <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>, and substituting the MLE <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\mu}}\)</span> derived above, leads to the following result:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\hat{\boldsymbol{\Sigma}}_{MLE} = \frac{1}{n} \sum_{k=1}^{n} (\mathbf{x}_k - \hat{\boldsymbol{\mu}}) (\mathbf{x}_k - \hat{\boldsymbol{\mu}})^T}\]</div>
+<p>The MLE for the covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is the <strong>sample covariance matrix</strong> calculated using the MLE sample mean <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\mu}}\)</span>.</p>
+<p><strong>Important Note:</strong> The MLE estimate <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Sigma}}\)</span> is known to be a <em>biased</em> estimate of the true covariance matrix. The corresponding <em>unbiased</em> sample covariance uses a factor of <span class="math notranslate nohighlight">\(1/(n-1)\)</span> instead of <span class="math notranslate nohighlight">\(1/n\)</span>. However, for MLE, the <span class="math notranslate nohighlight">\(1/n\)</span> factor is the correct one that maximizes the likelihood function. For large <span class="math notranslate nohighlight">\(n\)</span>, the difference is small.</p>
+</section>
+<section id="application-to-bayesian-classification">
+<h2>Application to Bayesian Classification<a class="headerlink" href="#application-to-bayesian-classification" title="Link to this heading">#</a></h2>
+<p>In the context of Bayesian decision theory where we assume Gaussian class-conditional densities <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i) \sim N(\boldsymbol{\mu}_i, \boldsymbol{\Sigma}_i)\)</span>, we apply MLE separately for each class <span class="math notranslate nohighlight">\(\omega_i\)</span> using its corresponding training data subset <span class="math notranslate nohighlight">\(\mathcal{D}_i\)</span> (containing <span class="math notranslate nohighlight">\(n_i\)</span> samples):</p>
+<ul class="simple">
+<li><p><strong>Estimate Priors:</strong> <span class="math notranslate nohighlight">\(\hat{P}(\omega_i) = \frac{n_i}{n}\)</span> (where <span class="math notranslate nohighlight">\(n = \sum n_i\)</span> is the total number of samples)</p></li>
+<li><p><strong>Estimate Mean for class <span class="math notranslate nohighlight">\(i\)</span>:</strong> <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\mu}}_i = \frac{1}{n_i} \sum_{\mathbf{x}_k \in \mathcal{D}_i} \mathbf{x}_k\)</span></p></li>
+<li><p><strong>Estimate Covariance for class <span class="math notranslate nohighlight">\(i\)</span>:</strong> <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Sigma}}_i = \frac{1}{n_i} \sum_{\mathbf{x}_k \in \mathcal{D}_i} (\mathbf{x}_k - \hat{\boldsymbol{\mu}}_i) (\mathbf{x}_k - \hat{\boldsymbol{\mu}}_i)^T\)</span></p></li>
+</ul>
+<p>Once we have these MLE estimates <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\mu}}_i\)</span>, <span class="math notranslate nohighlight">\(\hat{\boldsymbol{\Sigma}}_i\)</span>, and <span class="math notranslate nohighlight">\(\hat{P}(\omega_i)\)</span> for all classes, we plug them into the Gaussian-based discriminant functions (e.g., quadratic or linear discriminant functions, depending on assumptions about covariance matrices) to classify new data points.</p>
+<p><strong>In summary:</strong> MLE provides a systematic way to learn the unknown probabilistic components (<span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> parameters and <span class="math notranslate nohighlight">\(P(\omega_i)\)</span>) of a Bayesian classifier directly from labeled training data by choosing the parameter values that best explain that data. For the common case of assuming multivariate Gaussian distributions, the MLE estimates for the mean and covariance matrix are simply the sample mean and sample covariance calculated from the training data for each class.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Bayesian-Decision-Theory.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bayesian Decision Theory</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Mahalanobis-Distance.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mahalanobis Distance</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#log-likelihood">Log-Likelihood</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-maximum">Finding the Maximum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-mle-for-multivariate-gaussian-unknown-mean-and-covariance">Example: MLE for Multivariate Gaussian (Unknown Mean and Covariance)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-bayesian-classification">Application to Bayesian Classification</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
