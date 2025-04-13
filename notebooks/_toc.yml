@@ -13,6 +13,8 @@ parts:
   - file: Bayesian-Decision-Theory
   - file: MLE-introduction.md
   - file: Mahalanobis-Distance
+  - file: Feature-Map
+  - file: Kernel-Trick
   - file: 02 - Linear Models
   - file: 03 - Kernel Trick
   - file: 04 - Model Selection

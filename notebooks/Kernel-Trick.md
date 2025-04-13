@@ -134,7 +134,7 @@ Any algorithm that can be expressed solely in terms of dot products between inpu
 
 *   **Linear Classifiers:** Algorithms like the Perceptron or Logistic Regression (when expressed in their dual forms) rely on dot products. By replacing the standard dot product $\mathbf{x}_i^T \mathbf{x}_j$ with $K(\mathbf{x}_i, \mathbf{x}_j)$, these algorithms implicitly operate in the feature space $\mathcal{F}$. While they find a *linear* separator (hyperplane) in $\mathcal{F}$, this separator corresponds to a *non-linear* decision boundary in the original input space $\mathcal{X}$.
 *   **Kernel PCA:** Principal Component Analysis (PCA) finds principal components by analyzing the eigenvectors of the covariance matrix, which can be computed from dot products. Kernel PCA performs PCA in the feature space $\mathcal{F}$ defined by the kernel $K$, allowing it to find non-linear structures in the data.
-*   **Support Vector Machines (SVM):** (Though not covered yet) SVMs are perhaps the most famous example of kernelized algorithms. They find an optimal separating hyperplane, and the kernel trick allows them to find complex, non-linear decision boundaries efficiently.
+*   **Support Vector Machines (SVM):**  SVMs are perhaps the most famous example of kernelized algorithms. They find an optimal separating hyperplane, and the kernel trick allows them to find complex, non-linear decision boundaries efficiently.
 *   **Other Examples:** Gaussian Processes, Ridge Regression (Kernel Ridge Regression), clustering algorithms (like Spectral Clustering) can also leverage kernels.
 
 ## 6. Common Kernel Functions
@@ -202,7 +202,6 @@ Okay, I understand. You want to incorporate these specific concepts from Zaki's 
 
 ---
 
-(You can insert this section, perhaps after the "Common Kernel Functions" or "Mercer's Theorem" section, or integrate the points logically into the existing structure.)
 
 ## 8. Further Interpretations and Operations in Feature Space (via Kernels)
 
