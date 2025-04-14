@@ -195,8 +195,6 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">The Kernel Method (Kernel Trick)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
@@ -429,6 +427,9 @@ document.write(`
 <h2>1. Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>Many machine learning algorithms, including linear regression, logistic regression, Principal Component Analysis (PCA), and linear classifiers (like the Perceptron or linear Support Vector Machines), rely on linear relationships between data points. These algorithms perform well when the data is linearly separable or can be adequately modeled by linear functions. However, many real-world problems involve complex, non-linear data structures that linear models cannot capture effectively.</p>
 <p>The <strong>Kernel Method</strong> (often called the <strong>Kernel Trick</strong>) provides a powerful way to apply linear algorithms to non-linear data. The core idea is to map the data into a higher-dimensional <strong>feature space</strong> (<span class="math notranslate nohighlight">\(\mathcal{F}\)</span>) where the data becomes linearly separable or easier to model linearly. The “trick” is that this mapping can be done <em>implicitly</em> using a <strong>kernel function</strong>, without ever needing to explicitly compute the coordinates of the data points in the high-dimensional (and potentially infinite-dimensional) feature space. This avoids the computational burden associated with explicit mapping.</p>
+<blockquote>
+<div><p><strong>Note:</strong> Kernel trick, which is also known as <em><a class="reference external" href="https://en.wikipedia.org/wiki/Kernel_method">kernel method</a></em> or <em>kernel machines</em> are a class of algorithms for pattern analysis, where involve using linear classifiers to solve nonlinear problems. These methods are different from <em><a class="reference external" href="https://en.wikipedia.org/wiki/Kernelization">kernelization</a></em>, that is a technique for designing efficient algorithms that achieve their efficiency by a preprocessing stage in which inputs to the algorithm are replaced by a smaller input, called a “kernel”.</p>
+</div></blockquote>
 </section>
 <section id="limitations-of-linear-models">
 <h2>2. Limitations of Linear Models<a class="headerlink" href="#limitations-of-linear-models" title="Link to this heading">#</a></h2>
@@ -462,7 +463,7 @@ document.write(`
 <ul class="simple">
 <li><p>The dot product <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)\)</span> measures the similarity between points <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> and <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> in the feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p></li>
 <li><p>Therefore, a kernel function <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span> can be thought of as a <strong>generalized similarity measure</strong> between points in the original space, implicitly corresponding to a dot product in some (potentially high-dimensional or even infinite-dimensional) feature space.</p></li>
-<li><p>The feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is formally known as a <strong>Reproducing Kernel Hilbert Space (RKHS)</strong>.</p></li>
+<li><p>The feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is formally known as a <a class="reference external" href="https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space">Reproducing Kernel Hilbert Space (RKHS)</a>.</p></li>
 </ul>
 <p><img alt="" src="_images/RKHS.png" /></p>
 <p>Illustration depicting the mapping <span class="math notranslate nohighlight">\(\phi\)</span> and the kernel function <span class="math notranslate nohighlight">\(k\)</span>.</p>

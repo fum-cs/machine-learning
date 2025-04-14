@@ -9,6 +9,9 @@ Many machine learning algorithms, including linear regression, logistic regressi
 
 The **Kernel Method** (often called the **Kernel Trick**) provides a powerful way to apply linear algorithms to non-linear data. The core idea is to map the data into a higher-dimensional **feature space** ($\mathcal{F}$) where the data becomes linearly separable or easier to model linearly. The "trick" is that this mapping can be done *implicitly* using a **kernel function**, without ever needing to explicitly compute the coordinates of the data points in the high-dimensional (and potentially infinite-dimensional) feature space. This avoids the computational burden associated with explicit mapping.
 
+> **Note:** Kernel trick, which is also known as *[kernel method](https://en.wikipedia.org/wiki/Kernel_method)* or *kernel machines* are a class of algorithms for pattern analysis, where involve using linear classifiers to solve nonlinear problems. These methods are different from *[kernelization](https://en.wikipedia.org/wiki/Kernelization)*, that is a technique for designing efficient algorithms that achieve their efficiency by a preprocessing stage in which inputs to the algorithm are replaced by a smaller input, called a "kernel".
+
+
 ## 2. Limitations of Linear Models
 
 Consider a binary classification problem. A linear model attempts to find a **hyperplane** to separate the data points belonging to different classes.
@@ -43,7 +46,7 @@ This allows us to effectively operate in the high-dimensional feature space $\ma
 
 *   The dot product $\phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)$ measures the similarity between points $\mathbf{x}_i$ and $\mathbf{x}_j$ in the feature space $\mathcal{H}$.
 *   Therefore, a kernel function $k(\mathbf{x}_i, \mathbf{x}_j)$ can be thought of as a **generalized similarity measure** between points in the original space, implicitly corresponding to a dot product in some (potentially high-dimensional or even infinite-dimensional) feature space.
-*   The feature space $\mathcal{H}$ is formally known as a **Reproducing Kernel Hilbert Space (RKHS)**.
+*   The feature space $\mathcal{H}$ is formally known as a [Reproducing Kernel Hilbert Space (RKHS)](https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space).
 
 ![](img/RKHS.png)
 
