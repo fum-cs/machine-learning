@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -191,10 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
@@ -472,7 +469,7 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-setup when running on Google Colab</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;/content/machine-learning&#39;</span><span class="p">):</span>
     <span class="o">!</span>git<span class="w"> </span>clone<span class="w"> </span>-q<span class="w"> </span>https://github.com/fum-cs/machine-learning.git<span class="w"> </span>/content/machine-learning
     <span class="o">!</span>pip<span class="w"> </span>--quiet<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/content/machine-learning/requirements_colab.txt
@@ -480,7 +477,7 @@ document.write(`
 
 <span class="c1"># Global imports and settings</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">from</span> <span class="nn">preamble</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">preamble</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="n">interactive</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Set to True for interactive plots</span>
 <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
     <span class="n">fig_scale</span> <span class="o">=</span> <span class="mf">0.61</span>
@@ -575,27 +572,27 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="n">Ix</span><span class="p">,</span> <span class="n">Iy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
     <span class="n">energy_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Ix</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Iy</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">energy_map</span>
 
 
-<span class="k">def</span> <span class="nf">crop_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">crop_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">([</span><span class="n">num_seams</span><span class="p">,</span> <span class="n">c</span><span class="p">])):</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">carve_column</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">img</span>
 
 
-<span class="k">def</span> <span class="nf">crop_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">crop_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">crop_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">)</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">img</span>
 
 
-<span class="k">def</span> <span class="nf">carve_column</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">carve_column</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span> <span class="o">=</span> <span class="n">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
@@ -610,7 +607,7 @@ document.write(`
     <span class="k">return</span> <span class="n">img</span>
 
 
-<span class="k">def</span> <span class="nf">find_optimal_seam</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_optimal_seam</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span><span class="p">):</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
     <span class="c1"># Find the column index with the minimum energy in the last row</span>
     <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -638,7 +635,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">energy_map</span> <span class="o">=</span> <span class="n">calc_energy</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 
@@ -809,7 +806,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">insert_column</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>  
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">insert_column</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>  
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>  
     <span class="n">M</span><span class="p">,</span> <span class="n">backtrack</span> <span class="o">=</span> <span class="n">minimum_seam</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>  
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>  
@@ -826,13 +823,13 @@ document.write(`
     <span class="n">new_img</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>  
     <span class="k">return</span> <span class="n">new_img</span>
 
-<span class="k">def</span> <span class="nf">expand_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>  
+<span class="k">def</span><span class="w"> </span><span class="nf">expand_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>  
     <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>  
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">([</span><span class="n">num_seams</span><span class="p">,</span> <span class="n">c</span><span class="p">])):</span>  
         <span class="n">img</span> <span class="o">=</span> <span class="n">insert_column</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>  
     <span class="k">return</span> <span class="n">img</span>  
 
-<span class="k">def</span> <span class="nf">expand_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>  
+<span class="k">def</span><span class="w"> </span><span class="nf">expand_r</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">):</span>  
     <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  
     <span class="n">img</span> <span class="o">=</span> <span class="n">expand_c</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">num_seams</span><span class="p">)</span>  
     <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rot90</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  
