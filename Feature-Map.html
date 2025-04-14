@@ -1237,22 +1237,31 @@ Transformed X_poly (first 5 samples) [x, x^2]:
 <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">w₁*x</span> <span class="pre">+</span> <span class="pre">w₂*x²</span> <span class="pre">+</span> <span class="pre">b</span></code>
 where <code class="docutils literal notranslate"><span class="pre">w₁</span></code>, <code class="docutils literal notranslate"><span class="pre">w₂</span></code> are the weights (coefficients) and <code class="docutils literal notranslate"><span class="pre">b</span></code> is the intercept (bias). This is a linear model with respect to the <em>new features</em> <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">x²</span></code>.</p>
 <p>Original linear model:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\hat{y} = \mathbf{w}^T\mathbf{x} = \sum_{i=1}^{p} w_i x_i 
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+\hat{y} = \mathbf{w}^T\mathbf{x} = \sum_{i=1}^{p} w_i x_i 
+\]</div>
 <p>A transformation <span class="math notranslate nohighlight">\(\phi\)</span> that maps features to higher dimensions:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\phi: \mathbb{R}^p \rightarrow \mathbb{R}^d \quad (d \gg p)
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+\phi: \mathbb{R}^p \rightarrow \mathbb{R}^d \quad (d \gg p)
+\]</div>
 <p>New model becomes:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\hat{y} = \mathbf{w}^T\phi(\mathbf{x})
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+\hat{y} = \mathbf{w}^T\phi(\mathbf{x})
+\]</div>
 <p>For p=1, degree=2:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>[1, x_1] \xrightarrow{\phi} [1, x_1, x_1^2]
-</pre></div>
-</div>
-<div class="cell docutils container">
+<div class="math notranslate nohighlight">
+\[
+[1, x_1] \xrightarrow{\phi} [1, x_1, x_1^2]
+\]</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train a linear regression model on the polynomial features</span>
 <span class="n">poly_lin_reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
@@ -1280,6 +1289,7 @@ where <code class="docutils literal notranslate"><span class="pre">w₁</span></
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <img alt="_images/5d57cbca298cfdfecd38158ea9d4aadf5943161a6beddbbeed5baab5ccc12781.png" src="_images/5d57cbca298cfdfecd38158ea9d4aadf5943161a6beddbbeed5baab5ccc12781.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Polynomial Regression Score (R^2): 0.8525
@@ -1295,7 +1305,7 @@ Intercept (b): [1.78134581]
 <p>By mapping the original single feature <code class="docutils literal notranslate"><span class="pre">x</span></code> to a higher-dimensional space <code class="docutils literal notranslate"><span class="pre">[x,</span> <span class="pre">x²]</span></code>, we enabled a standard linear regression model to perfectly capture the non-linear (quadratic) relationship present in the data. The resulting fit is much better, as indicated visually and by the significantly higher R² score.</p>
 <p>This example illustrates the power of feature maps: transforming data into a space where linear models can become effective, even if the original relationship was non-linear.</p>
 <p><strong>Transition to Kernel Trick:</strong> While this explicit feature mapping works well for low-dimensional data and simple transformations, calculating and storing these higher-dimensional features can become computationally expensive or even infeasible if the original data or the target feature space is very high-dimensional (e.g., using polynomial features of a very high degree or other complex maps). The <strong>Kernel Trick</strong> provides a mathematical shortcut to achieve the same result as working in the high-dimensional feature space <em>without</em> explicitly computing the coordinates of the data in that space. It allows algorithms that only depend on dot products between data points (like Support Vector Machines) to operate implicitly in the high-dimensional feature space, making complex mappings computationally tractable. This regression example helps build the intuition for <em>why</em> such implicit mappings are desirable.</p>
-<p><em>Reference</em>: For modern approaches, see <a class="reference external" href="https://arxiv.org/html/2406.03505v1">arXiv:2406.03505</a>.</p>
+<p>For modern approaches, see <a class="reference external" href="https://arxiv.org/html/2406.03505v1">arXiv:2406.03505</a>.</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -1312,10 +1322,10 @@ Intercept (b): [1.78134581]
 <li><p>Implicit computation via <span class="math notranslate nohighlight">\(k(x_i,x_j) = \langle \phi(x_i), \phi(x_j) \rangle\)</span></p></li>
 <li><p>Example: RBF kernel <span class="math notranslate nohighlight">\(k(x,y) = \exp(-\gamma \|x-y\|^2)\)</span> corresponds to infinite-dimensional <span class="math notranslate nohighlight">\(\phi\)</span></p></li>
 </ul>
-<p>For Ridge regression:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\mathbf{w}^* = (\Phi(X)^T\Phi(X) + \alpha I)^{-1} \Phi(X)^T \mathbf{y}
-</pre></div>
-</div>
+<p>For Ridge regression:
+$<span class="math notranslate nohighlight">\(
+\mathbf{w}^* = (\Phi(X)^T\Phi(X) + \alpha I)^{-1} \Phi(X)^T \mathbf{y}
+\)</span>$</p>
 <ul class="simple">
 <li><p>Original features (p=1): O(1) computation</p></li>
 <li><p>After polynomial expansion (d=10): O(100) computation</p></li>
