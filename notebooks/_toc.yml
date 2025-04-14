@@ -16,7 +16,6 @@ parts:
   - file: Feature-Map
   - file: Kernel-Trick
   - file: 02 - Linear Models
-  - file: 03 - Kernel Trick
   - file: 04 - Model Selection
   - file: 05 - Ensemble Learning
   - file: 06 - Data Preprocessing
