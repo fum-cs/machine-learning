@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Kernel Method (Kernel Trick) &#8212; ML</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Kernel-Trick';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Linear models" href="02%20-%20Linear%20Models.html" />
+    <link rel="prev" title="Feature Maps: Bridging to Kernel Methods" href="Feature-Map.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="ML - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="ML - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The Kernel Method (Kernel Trick)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2FKernel-Trick.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Kernel-Trick.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Kernel Method (Kernel Trick)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-linear-models">2. Limitations of Linear Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-mapping">3. Feature Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick">4. The Kernel Trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-using-kernels">5. Algorithms Using Kernels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-kernel-functions">6. Common Kernel Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mercer-s-theorem-when-is-k-a-valid-kernel">7. Mercer’s Theorem: When is K a Valid Kernel?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-interpretations-and-operations-in-feature-space-via-kernels">8. Further Interpretations and Operations in Feature Space (via Kernels)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-disadvantages-of-the-kernel-trick">9. Advantages and Disadvantages of the Kernel Trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="" src="_images/banner.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="the-kernel-method-kernel-trick">
+<h1>The Kernel Method (Kernel Trick)<a class="headerlink" href="#the-kernel-method-kernel-trick" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>1. Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Many machine learning algorithms, including linear regression, logistic regression, Principal Component Analysis (PCA), and linear classifiers (like the Perceptron or linear Support Vector Machines), rely on linear relationships between data points. These algorithms perform well when the data is linearly separable or can be adequately modeled by linear functions. However, many real-world problems involve complex, non-linear data structures that linear models cannot capture effectively.</p>
+<p>The <strong>Kernel Method</strong> (often called the <strong>Kernel Trick</strong>) provides a powerful way to apply linear algorithms to non-linear data. The core idea is to map the data into a higher-dimensional <strong>feature space</strong> (<span class="math notranslate nohighlight">\(\mathcal{F}\)</span>) where the data becomes linearly separable or easier to model linearly. The “trick” is that this mapping can be done <em>implicitly</em> using a <strong>kernel function</strong>, without ever needing to explicitly compute the coordinates of the data points in the high-dimensional (and potentially infinite-dimensional) feature space. This avoids the computational burden associated with explicit mapping.</p>
+</section>
+<section id="limitations-of-linear-models">
+<h2>2. Limitations of Linear Models<a class="headerlink" href="#limitations-of-linear-models" title="Link to this heading">#</a></h2>
+<p>Consider a binary classification problem. A linear model attempts to find a <strong>hyperplane</strong> to separate the data points belonging to different classes.</p>
+<ul class="simple">
+<li><p>In 2D space, a hyperplane is a line (<span class="math notranslate nohighlight">\(\mathbf{w}^T\mathbf{x} + b = w_1 x_1 + w_2 x_2 + b = 0\)</span>).</p></li>
+<li><p>In 3D space, a hyperplane is a plane (<span class="math notranslate nohighlight">\(w_1 x_1 + w_2 x_2 + w_3 x_3 + b = 0\)</span>).</p></li>
+<li><p>In a <span class="math notranslate nohighlight">\(p\)</span>-dimensional space, a hyperplane is a <span class="math notranslate nohighlight">\((p-1)\)</span>-dimensional subspace.</p></li>
+</ul>
+<p>If such a separating hyperplane exists, the data is called <strong>linearly separable</strong>. However, if the data has a non-linear structure, like the classic XOR problem or concentric circles, no single hyperplane can correctly separate the classes in the original input space.</p>
+</section>
+<section id="feature-mapping">
+<h2>3. Feature Mapping<a class="headerlink" href="#feature-mapping" title="Link to this heading">#</a></h2>
+<p>To handle non-linear data, we can transform the data into a new, higher-dimensional feature space where it might become linearly separable. This is done using a <strong>mapping function</strong>, denoted by <span class="math notranslate nohighlight">\(\phi\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \phi: \mathcal{X} \to \mathcal{F} \]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathcal{X}\)</span>: The original input space (e.g., <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{F}\)</span>: The feature space, usually of much higher dimension than <span class="math notranslate nohighlight">\(\mathcal{X}\)</span> (e.g., <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span> where <span class="math notranslate nohighlight">\(d \gg p\)</span>, or even infinite-dimensional).</p></li>
+</ul>
+</section>
+<section id="the-kernel-trick">
+<h2>4. The Kernel Trick<a class="headerlink" href="#the-kernel-trick" title="Link to this heading">#</a></h2>
+<p>The power of the kernel method lies in the observation that many linear algorithms can be formulated such that they only require <strong>dot products</strong> between data points (<span class="math notranslate nohighlight">\(\mathbf{x}_i^T \mathbf{x}_j\)</span>). Examples include the Perceptron (in its dual form), Logistic Regression (dual form), PCA, and Support Vector Machines.</p>
+<p>If we use a feature map <span class="math notranslate nohighlight">\(\phi\)</span>, these algorithms would need to compute dot products in the high-dimensional feature space: <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)\)</span>. Calculating <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> explicitly can be computationally very expensive, especially if <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> has extremely high or infinite dimensions.</p>
+<p>The <strong>kernel trick</strong> avoids this explicit computation. We define a <strong>kernel function</strong> <span class="math notranslate nohighlight">\(K\)</span> that computes the dot product in the feature space directly from the original input vectors:</p>
+<div class="math notranslate nohighlight">
+\[ K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T \phi(\mathbf{z}) \]</div>
+<p>If we can find a function <span class="math notranslate nohighlight">\(K\)</span> that computes this dot product efficiently <em>without</em> first computing <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> and <span class="math notranslate nohighlight">\(\phi(\mathbf{z})\)</span>, we can use it in our linear algorithm. We simply replace every occurrence of the dot product <span class="math notranslate nohighlight">\(\mathbf{x}_i^T \mathbf{x}_j\)</span> with the kernel function evaluation <span class="math notranslate nohighlight">\(K(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p>
+<p>This allows us to effectively operate in the high-dimensional feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> while only doing computations in the original input space <span class="math notranslate nohighlight">\(\mathcal{X}\)</span>.</p>
+<ul class="simple">
+<li><p>The dot product <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)\)</span> measures the similarity between points <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> and <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> in the feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p></li>
+<li><p>Therefore, a kernel function <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span> can be thought of as a <strong>generalized similarity measure</strong> between points in the original space, implicitly corresponding to a dot product in some (potentially high-dimensional or even infinite-dimensional) feature space.</p></li>
+<li><p>The feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is formally known as a <strong>Reproducing Kernel Hilbert Space (RKHS)</strong>.</p></li>
+</ul>
+<p><img alt="" src="_images/RKHS.png" /></p>
+<p>Illustration depicting the mapping <span class="math notranslate nohighlight">\(\phi\)</span> and the kernel function <span class="math notranslate nohighlight">\(k\)</span>.</p>
+</section>
+<section id="algorithms-using-kernels">
+<h2>5. Algorithms Using Kernels<a class="headerlink" href="#algorithms-using-kernels" title="Link to this heading">#</a></h2>
+<p>Any algorithm that can be expressed solely in terms of dot products between input samples can potentially be “kernelized”.</p>
+<ul class="simple">
+<li><p><strong>Linear Classifiers:</strong> Algorithms like the Perceptron or Logistic Regression (when expressed in their dual forms) rely on dot products. By replacing the standard dot product <span class="math notranslate nohighlight">\(\mathbf{x}_i^T \mathbf{x}_j\)</span> with <span class="math notranslate nohighlight">\(K(\mathbf{x}_i, \mathbf{x}_j)\)</span>, these algorithms implicitly operate in the feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>. While they find a <em>linear</em> separator (hyperplane) in <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>, this separator corresponds to a <em>non-linear</em> decision boundary in the original input space <span class="math notranslate nohighlight">\(\mathcal{X}\)</span>.</p></li>
+<li><p><strong>Kernel PCA:</strong> Principal Component Analysis (PCA) finds principal components by analyzing the eigenvectors of the covariance matrix, which can be computed from dot products. Kernel PCA performs PCA in the feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> defined by the kernel <span class="math notranslate nohighlight">\(K\)</span>, allowing it to find non-linear structures in the data.</p></li>
+<li><p><strong>Support Vector Machines (SVM):</strong>  SVMs are perhaps the most famous example of kernelized algorithms. They find an optimal separating hyperplane, and the kernel trick allows them to find complex, non-linear decision boundaries efficiently.</p></li>
+<li><p><strong>Other Examples:</strong> Gaussian Processes, Ridge Regression (Kernel Ridge Regression), clustering algorithms (like Spectral Clustering) can also leverage kernels.</p></li>
+</ul>
+</section>
+<section id="common-kernel-functions">
+<h2>6. Common Kernel Functions<a class="headerlink" href="#common-kernel-functions" title="Link to this heading">#</a></h2>
+<p>Several standard kernel functions exist, each corresponding to a different feature map <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
+<ul>
+<li><p><strong>Linear Kernel:</strong></p>
+<div class="math notranslate nohighlight">
+\[ K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T \mathbf{z} \]</div>
+<p>This is the standard dot product. The feature map is simply the identity: <span class="math notranslate nohighlight">\(\phi(\mathbf{x}) = \mathbf{x}\)</span>. Using this kernel recovers the original linear algorithm.</p>
+</li>
+<li><p><strong>Polynomial Kernel:</strong></p>
+<div class="math notranslate nohighlight">
+\[ K(\mathbf{x}, \mathbf{z}) = (\gamma \mathbf{x}^T \mathbf{z} + c)^d \]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\gamma\)</span>, <span class="math notranslate nohighlight">\(c \ge 0\)</span>, and <span class="math notranslate nohighlight">\(d\)</span> (the degree) are hyperparameters. This kernel corresponds to a feature space containing polynomial combinations of the original features up to degree <span class="math notranslate nohighlight">\(d\)</span>. For example, if <span class="math notranslate nohighlight">\(\mathcal{X} = \mathbb{R}^2\)</span>, <span class="math notranslate nohighlight">\(\gamma=1, c=0, d=2\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T \mathbf{z})^2 = (x_1 z_1 + x_2 z_2)^2 = x_1^2 z_1^2 + x_2^2 z_2^2 + 2 x_1 x_2 z_1 z_2\]</div>
+<p>This corresponds to the feature map <span class="math notranslate nohighlight">\(\phi(\mathbf{x}) = (x_1^2, x_2^2, \sqrt{2} x_1 x_2)\)</span>, since <span class="math notranslate nohighlight">\(\phi(\mathbf{x})^T \phi(\mathbf{z}) = x_1^2 z_1^2 + x_2^2 z_2^2 + 2 x_1 x_2 z_1 z_2\)</span>.</p>
+</li>
+<li><p><strong>Gaussian Kernel (Radial Basis Function - RBF):</strong></p>
+<div class="math notranslate nohighlight">
+\[ K(\mathbf{x}, \mathbf{z}) = \exp\left(-\frac{\|\mathbf{x} - \mathbf{z}\|^2}{2\sigma^2}\right) = \exp(-\gamma \|\mathbf{x} - \mathbf{z}\|^2) \]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma = 1/(2\sigma^2)\)</span> is a hyperparameter. This is one of the most popular kernels. It corresponds to an <em>infinite-dimensional</em> feature space. It measures similarity based on distance; points close together in the input space have a kernel value close to 1, while points far apart have a value close to 0.</p>
+</li>
+</ul>
+<!-- *   **String Kernels (Example: DNA Sequences):**
+    Kernels can be defined for non-vector data, such as strings. This is useful in bioinformatics (e.g., comparing DNA or protein sequences) or text processing.
+    A simple string kernel might count the number of shared *k*-mers (substrings of length *k*) between two strings.
+    **Example (Spectrum Kernel):** Let $s_1$ and $s_2$ be two DNA sequences (strings over the alphabet {A, C, G, T}). Let $k$ be a fixed integer (e.g., $k=3$).
+    The feature map $\phi(s)$ maps a sequence $s$ to a vector counting the occurrences of each possible $k$-mer. For $k=3$ over {A, C, G, T}, there are $4^3 = 64$ possible $k$-mers (AAA, AAC, ..., TTT).
+    $$ \phi(s) = (\text{#AAA in } s, \text{#AAC in } s, ..., \text{#TTT in } s) $$
+    The kernel is the dot product of these count vectors:
+    $$ K(s_1, s_2) = \phi(s_1)^T \phi(s_2) = \sum_{\alpha \in \{A,C,G,T\}^k} (\text{#}\alpha \text{ in } s_1) \times (\text{#}\alpha \text{ in } s_2) $$
+    This kernel measures the similarity between sequences based on their shared subsequence content without explicit alignment. More sophisticated string kernels exist (e.g., considering gaps). -->
+</section>
+<section id="mercer-s-theorem-when-is-k-a-valid-kernel">
+<h2>7. Mercer’s Theorem: When is K a Valid Kernel?<a class="headerlink" href="#mercer-s-theorem-when-is-k-a-valid-kernel" title="Link to this heading">#</a></h2>
+<p>Not every function <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z})\)</span> can be interpreted as a dot product <span class="math notranslate nohighlight">\(\phi(\mathbf{x})^T \phi(\mathbf{z})\)</span> in some feature space (specifically, a Hilbert space). <strong>Mercer’s Theorem</strong> provides the condition for a function to be a valid kernel.</p>
+<p><strong>Definition: Gram Matrix</strong>
+Given a dataset <span class="math notranslate nohighlight">\(\{\mathbf{x}_1, \dots, \mathbf{x}_n\}\)</span> and a function <span class="math notranslate nohighlight">\(K\)</span>, the <strong>Gram matrix</strong> <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix where the entry <span class="math notranslate nohighlight">\((i, j)\)</span> is <span class="math notranslate nohighlight">\(K(\mathbf{x}_i, \mathbf{x}_j)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{K}_{ij} = K(\mathbf{x}_i, \mathbf{x}_j) \]</div>
+<p><strong>Definition: Positive Semidefinite (PSD) Matrix</strong>
+A symmetric matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is positive semidefinite if for any non-zero vector <span class="math notranslate nohighlight">\(\mathbf{c} \in \mathbb{R}^n\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} \ge 0 \]</div>
+<p><strong>Mercer’s Theorem (Simplified):</strong>
+Let <span class="math notranslate nohighlight">\(\mathcal{X}\)</span> be a compact subset of <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>. A continuous, symmetric function <span class="math notranslate nohighlight">\(K: \mathcal{X} \times \mathcal{X} \to \mathbb{R}\)</span> is a valid kernel (i.e., there exists a mapping <span class="math notranslate nohighlight">\(\phi\)</span> to a Hilbert space such that <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z}) = \langle \phi(\mathbf{x}), \phi(\mathbf{z}) \rangle\)</span>) if and only if the Gram matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is positive semidefinite for <em>any</em> finite set of points <span class="math notranslate nohighlight">\(\{\mathbf{x}_1, \dots, \mathbf{x}_n\}\)</span> drawn from <span class="math notranslate nohighlight">\(\mathcal{X}\)</span>.</p>
+<p><strong>Proof: If <span class="math notranslate nohighlight">\(K\)</span> is a kernel <span class="math notranslate nohighlight">\(\implies\)</span> Gram matrix is PSD</strong>
+Assume <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T \phi(\mathbf{z})\)</span> for some mapping <span class="math notranslate nohighlight">\(\phi\)</span>. Let <span class="math notranslate nohighlight">\(\{\mathbf{x}_1, \dots, \mathbf{x}_n\}\)</span> be any set of points and <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> be the corresponding Gram matrix (<span class="math notranslate nohighlight">\(\mathbf{K}_{ij} = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)\)</span>).
+For any vector <span class="math notranslate nohighlight">\(\mathbf{c} = (c_1, \dots, c_n)^T \in \mathbb{R}^n\)</span>, consider the quadratic form:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} = \sum_{i=1}^n \sum_{j=1}^n c_i c_j \mathbf{K}_{ij} \]</div>
+<p>Substitute <span class="math notranslate nohighlight">\(\mathbf{K}_{ij} = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} = \sum_{i=1}^n \sum_{j=1}^n c_i c_j (\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)) \]</div>
+<p>Rearrange the terms:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} = \sum_{i=1}^n c_i \phi(\mathbf{x}_i)^T \left( \sum_{j=1}^n c_j \phi(\mathbf{x}_j) \right) \]</div>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} = \left( \sum_{i=1}^n c_i \phi(\mathbf{x}_i) \right)^T \left( \sum_{j=1}^n c_j \phi(\mathbf{x}_j) \right) \]</div>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{v} = \sum_{i=1}^n c_i \phi(\mathbf{x}_i)\)</span>. This is a vector in the feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>. The expression becomes:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} = \mathbf{v}^T \mathbf{v} = \|\mathbf{v}\|^2 \]</div>
+<p>Since the squared Euclidean norm (or the squared norm in the Hilbert space) of any vector is always non-negative, we have:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{c}^T \mathbf{K} \mathbf{c} = \left\| \sum_{i=1}^n c_i \phi(\mathbf{x}_i) \right\|^2 \ge 0 \]</div>
+<p>Thus, the Gram matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is positive semidefinite.</p>
+<p>The other direction of Mercer’s theorem (that any function <span class="math notranslate nohighlight">\(K\)</span> generating PSD Gram matrices corresponds to <em>some</em> feature map <span class="math notranslate nohighlight">\(\phi\)</span>) is more involved to prove but guarantees that functions like the Gaussian or polynomial kernels are valid.</p>
+<p><strong>Implications:</strong>
+Mercer’s theorem is fundamental because it tells us which functions <span class="math notranslate nohighlight">\(K\)</span> we can legally use as kernels in our algorithms. We don’t need to explicitly find <span class="math notranslate nohighlight">\(\phi\)</span>; we just need to verify the positive semidefinite condition on <span class="math notranslate nohighlight">\(K\)</span>. In practice, we often use well-known kernels (like linear, polynomial, RBF) that are known to satisfy Mercer’s condition. It also allows us to construct new valid kernels from existing ones (e.g., the sum or product of valid kernels is also a valid kernel).</p>
+<p>Okay, I understand. You want to incorporate these specific concepts from Zaki’s slides into the explanation of the kernel trick. Here’s how they fit in, building upon the previous explanation:</p>
+</section>
+<hr class="docutils" />
+<section id="further-interpretations-and-operations-in-feature-space-via-kernels">
+<h2>8. Further Interpretations and Operations in Feature Space (via Kernels)<a class="headerlink" href="#further-interpretations-and-operations-in-feature-space-via-kernels" title="Link to this heading">#</a></h2>
+<p>The kernel trick not only allows us to run algorithms implicitly in the feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> but also enables us to understand and compute certain properties related to the data within that space, all without needing the explicit coordinates <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span>.</p>
+<p><strong>Kernel Value as Similarity:</strong></p>
+<p>As mentioned earlier, the kernel function <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T \phi(\mathbf{z})\)</span> represents the dot product between the feature vectors <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> and <span class="math notranslate nohighlight">\(\phi(\mathbf{z})\)</span>. In Euclidean space (and Hilbert spaces), the dot product is closely related to the angle between vectors. A larger, positive dot product implies the vectors point in similar directions, indicating higher similarity. Therefore, <strong>the kernel value <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z})\)</span> can be interpreted as a measure of similarity between the original points <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> after they have been mapped into the feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span></strong>. This interpretation is fundamental to why kernels work well in algorithms like SVM (finding points similar to support vectors) or clustering (grouping similar points). Different kernels capture different notions of similarity.</p>
+<p><strong>Norm of a Point in Feature Space:</strong></p>
+<p>The squared Euclidean norm (or squared length) of a mapped point <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> in the feature space can be computed using the kernel function. Recall that the squared norm of a vector is its dot product with itself:</p>
+<div class="math notranslate nohighlight">
+\[ \|\phi(\mathbf{x})\|^2 = \phi(\mathbf{x})^T \phi(\mathbf{x}) \]</div>
+<p>Using the definition of the kernel, this is simply:</p>
+<div class="math notranslate nohighlight">
+\[ \|\phi(\mathbf{x})\|^2 = K(\mathbf{x}, \mathbf{x}) \]</div>
+<p>So, the diagonal elements of the Gram matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> give the squared norms of the data points in the feature space. This is useful, for instance, if we need to normalize points in <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>.</p>
+<p><strong>Mean in Feature Space:</strong></p>
+<p>Given a dataset <span class="math notranslate nohighlight">\(\{\mathbf{x}_1, \mathbf{x}_2, ..., \mathbf{x}_n\}\)</span>, the mean of their representations in the feature space is:</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{m}_\phi = \frac{1}{n} \sum_{i=1}^n \phi(\mathbf{x}_i) \]</div>
+<p>While we usually cannot compute or store <span class="math notranslate nohighlight">\(\mathbf{m}_\phi\)</span> directly (as it lives in <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>), we can compute its dot product with any mapped point <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> using the kernel:</p>
+<div class="math notranslate nohighlight">
+\[ \phi(\mathbf{x})^T \mathbf{m}_\phi = \phi(\mathbf{x})^T \left( \frac{1}{n} \sum_{j=1}^n \phi(\mathbf{x}_j) \right) = \frac{1}{n} \sum_{j=1}^n \phi(\mathbf{x})^T \phi(\mathbf{x}_j) = \frac{1}{n} \sum_{j=1}^n K(\mathbf{x}, \mathbf{x}_j) \]</div>
+<p>Similarly, the squared norm of the mean vector can also be computed:</p>
+<div class="math notranslate nohighlight">
+\[ \|\mathbf{m}_\phi\|^2 = \mathbf{m}_\phi^T \mathbf{m}_\phi = \left( \frac{1}{n} \sum_{i=1}^n \phi(\mathbf{x}_i) \right)^T \left( \frac{1}{n} \sum_{j=1}^n \phi(\mathbf{x}_j) \right) = \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j) = \frac{1}{n^2} \sum_{i=1}^n \sum_{j=1}^n K(\mathbf{x}_i, \mathbf{x}_j) \]</div>
+<p>This ability to work with the mean implicitly is crucial for algorithms like Kernel PCA that require centering the data in the feature space.</p>
+<p><strong>Distance between Points:</strong></p>
+<p>The distance between <span class="math notranslate nohighlight">\(\phi(\textbf{x}_i)\)</span> and <span class="math notranslate nohighlight">\(\phi(\textbf{x}_{j})\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+  \|\phi(\textbf{x}_i) -\phi(\textbf{x}_{j})\|^2 = \|\phi(\textbf{x}_i)\|^2 +
+  \|\phi(\textbf{x}_{j})\|^2 - 2
+  \phi(\textbf{x}_i)^T\phi(\textbf{x}_{j})\\
+     = K(\textbf{x}_i,\textbf{x}_i) + K (\textbf{x}_{j}, \textbf{x}_{j}) - 2 K(\textbf{x}_i,\textbf{x}_{j})
+\end{split}\]</div>
+<p>which implies that</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}
+  \|\phi(\textbf{x}_i) -\phi(\textbf{x}_{j})\| =\\  \sqrt{K(\textbf{x}_i,\textbf{x}_i) + K (\textbf{x}_{j}, \textbf{x}_{j}) - 2 K(\textbf{x}_i,\textbf{x}_{j})}
+\end{aligned}\end{align} \]</div>
+<p><strong>Total Variance in Feature Space:</strong></p>
+<p>The total variance of the data in the feature space measures the spread of the points <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i)\)</span> around their mean <span class="math notranslate nohighlight">\(\mathbf{m}_\phi\)</span>. It’s typically defined as the average squared distance from the mean:</p>
+<div class="math notranslate nohighlight">
+\[ \text{Var}_\phi = \frac{1}{n} \sum_{i=1}^n \|\phi(\mathbf{x}_i) - \mathbf{m}_\phi\|^2 \]</div>
+<p>We can compute this using kernels. Expanding the norm:</p>
+<div class="math notranslate nohighlight">
+\[ \|\phi(\mathbf{x}_i) - \mathbf{m}_\phi\|^2 = \|\phi(\mathbf{x}_i)\|^2 - 2 \phi(\mathbf{x}_i)^T \mathbf{m}_\phi + \|\mathbf{m}_\phi\|^2 \]</div>
+<p>Now, substitute the kernel expressions we found above:</p>
+<div class="math notranslate nohighlight">
+\[ \|\phi(\mathbf{x}_i) - \mathbf{m}_\phi\|^2 = K(\mathbf{x}_i, \mathbf{x}_i) - \frac{2}{n} \sum_{j=1}^n K(\mathbf{x}_i, \mathbf{x}_j) + \frac{1}{n^2} \sum_{k=1}^n \sum_{l=1}^n K(\mathbf{x}_k, \mathbf{x}_l) \]</div>
+<p>Summing over <span class="math notranslate nohighlight">\(i\)</span> and dividing by <span class="math notranslate nohighlight">\(n\)</span> gives the total variance, computable entirely from the kernel values <span class="math notranslate nohighlight">\(K(\mathbf{x}_i, \mathbf{x}_j)\)</span>. This calculation is central to Kernel PCA.</p>
+<p><strong>Normalizing Data in Feature Space:</strong></p>
+<p>Sometimes it’s desirable to normalize the data points in the feature space. Two common types of normalization are:</p>
+<ul class="simple">
+<li><p><strong>Centering:</strong> This involves subtracting the mean <span class="math notranslate nohighlight">\(\mathbf{m}_\phi\)</span> from each point:</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(\tilde{\phi}(\mathbf{x}_i) = \phi(\mathbf{x}_i) - \mathbf{m}_\phi\)</span>.</p>
+<p>While we don’t compute <span class="math notranslate nohighlight">\(\tilde{\phi}(\mathbf{x}_i)\)</span> explicitly, we can compute the kernel matrix <span class="math notranslate nohighlight">\(\mathbf{\tilde{K}}\)</span> corresponding to these centered points using the original kernel matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span>. The operation effectively centers the data within <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>. The formula for the centered kernel matrix <span class="math notranslate nohighlight">\(\mathbf{\tilde{K}}\)</span> where <span class="math notranslate nohighlight">\(\tilde{K}_{ij} = \tilde{\phi}(\mathbf{x}_i)^T \tilde{\phi}(\mathbf{x}_j)\)</span> is <span class="math notranslate nohighlight">\(\mathbf{\tilde{K}} = \mathbf{K} - \mathbf{1}_n \mathbf{K} - \mathbf{K} \mathbf{1}_n + \mathbf{1}_n \mathbf{K} \mathbf{1}_n\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{1}_n\)</span> is the <span class="math notranslate nohighlight">\(n \times n\)</span> matrix with all entries equal to <span class="math notranslate nohighlight">\(1/n\)</span>. This is precisely the centering step used in Kernel PCA.</p>
+<ul>
+<li><p><strong>Unit Norm Scaling:</strong> We can scale each point <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> to have a norm of 1 in the feature space:</p>
+<div class="math notranslate nohighlight">
+\[ \phi_{norm}(\mathbf{x}) = \frac{\phi(\mathbf{x})}{\|\phi(\mathbf{x})\|} \]</div>
+<p>provided <span class="math notranslate nohighlight">\(\|\phi(\mathbf{x})\| \neq 0\)</span>. Using <span class="math notranslate nohighlight">\(\|\phi(\mathbf{x})\|^2 = K(\mathbf{x}, \mathbf{x})\)</span>, we have <span class="math notranslate nohighlight">\(\|\phi(\mathbf{x})\| = \sqrt{K(\mathbf{x}, \mathbf{x})}\)</span>. The kernel function corresponding to these normalized points is:</p>
+<div class="math notranslate nohighlight">
+\[ K_{norm}(\mathbf{x}, \mathbf{z}) = \phi_{norm}(\mathbf{x})^T \phi_{norm}(\mathbf{z}) = \frac{\phi(\mathbf{x})^T \phi(\mathbf{z})}{\|\phi(\mathbf{x})\| \|\phi(\mathbf{z})\|} = \frac{K(\mathbf{x}, \mathbf{z})}{\sqrt{K(\mathbf{x}, \mathbf{x})} \sqrt{K(\mathbf{z}, \mathbf{z})}} \]</div>
+<p>This is sometimes called the “cosine kernel” or “normalized kernel”. It ensures all points lie on</p>
+</li>
+</ul>
+</section>
+<section id="advantages-and-disadvantages-of-the-kernel-trick">
+<h2>9. Advantages and Disadvantages of the Kernel Trick<a class="headerlink" href="#advantages-and-disadvantages-of-the-kernel-trick" title="Link to this heading">#</a></h2>
+<p><strong>Advantages:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Ability to Model Non-linearity:</strong> Kernels allow linear algorithms to model complex, non-linear relationships and decision boundaries without changing the core algorithm itself.</p></li>
+<li><p><strong>Computational Efficiency:</strong> Avoids explicit computation of potentially very high-dimensional or infinite-dimensional feature vectors <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span>. Calculations remain in the original input space dimension, depending only on the number of data points when computing the Gram matrix.</p></li>
+<li><p><strong>Modularity:</strong> We can easily switch between different types of non-linearities by simply changing the kernel function (e.g., from polynomial to RBF).</p></li>
+<li><p><strong>Works with Non-vectorial Data:</strong> Kernels can be defined for data types that are not naturally represented as fixed-size vectors, such as strings, graphs, or images, as long as a meaningful similarity function (satisfying Mercer’s condition) can be defined.</p></li>
+</ol>
+<p><strong>Disadvantages:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Computational Cost with Large Datasets:</strong> Computing and storing the Gram matrix <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> takes <span class="math notranslate nohighlight">\(O(n^2 d)\)</span> or <span class="math notranslate nohighlight">\(O(n^2)\)</span> time (depending on kernel complexity) and <span class="math notranslate nohighlight">\(O(n^2)\)</span> space, where <span class="math notranslate nohighlight">\(n\)</span> is the number of samples and <span class="math notranslate nohighlight">\(d\)</span> is the original dimension. This becomes prohibitive for very large <span class="math notranslate nohighlight">\(n\)</span>. Algorithms using the kernel typically have a complexity related to <span class="math notranslate nohighlight">\(n^2\)</span> or <span class="math notranslate nohighlight">\(n^3\)</span>.</p></li>
+<li><p><strong>Choice of Kernel and Hyperparameters:</strong> The performance is highly sensitive to the choice of the kernel function (e.g., Linear, RBF, Polynomial) and its hyperparameters (e.g., <span class="math notranslate nohighlight">\(\gamma\)</span> for RBF, <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(c\)</span> for Polynomial). This often requires careful tuning using techniques like cross-validation.</p></li>
+<li><p><strong>Interpretability:</strong> While the decision boundary in the feature space is linear, the corresponding boundary in the original input space can be very complex and hard to interpret directly. It’s less straightforward than interpreting the coefficients of a simple linear model.</p></li>
+</ol>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>The Kernel Trick is a powerful mathematical technique that allows linear algorithms (specifically, those relying only on dot products) to operate implicitly in a high-dimensional feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span>. By defining a kernel function <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T \phi(\mathbf{z})\)</span>, we replace dot products in the original algorithm with kernel evaluations. This avoids the potentially expensive computation of the feature map <span class="math notranslate nohighlight">\(\phi\)</span> while achieving the effect of mapping data to a space where it might be linearly separable or where linear patterns might emerge. Key aspects include:</p>
+<ul class="simple">
+<li><p><strong>Feature Mapping:</strong> Transforming data <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathcal{X}\)</span> to <span class="math notranslate nohighlight">\(\phi(\mathbf{x}) \in \mathcal{F}\)</span>.</p></li>
+<li><p><strong>Kernel Function:</strong> <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z})\)</span> computes the dot product in <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> directly.</p></li>
+<li><p><strong>Common Kernels:</strong> Linear, Polynomial, RBF (Gaussian).</p></li>
+<li><p><strong>Mercer’s Theorem:</strong> Defines the condition (positive semidefinite Gram matrix) for a function to be a valid kernel.</p></li>
+<li><p><strong>Applications:</strong> SVM, Kernel PCA, Kernel Ridge Regression, etc.</p></li>
+<li><p><strong>Trade-offs:</strong> Enables non-linearity but can be computationally expensive for large datasets and requires careful kernel selection/tuning.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Feature-Map.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Feature Maps: Bridging to Kernel Methods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02%20-%20Linear%20Models.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Linear models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1. Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-linear-models">2. Limitations of Linear Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-mapping">3. Feature Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick">4. The Kernel Trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-using-kernels">5. Algorithms Using Kernels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-kernel-functions">6. Common Kernel Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mercer-s-theorem-when-is-k-a-valid-kernel">7. Mercer’s Theorem: When is K a Valid Kernel?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#further-interpretations-and-operations-in-feature-space-via-kernels">8. Further Interpretations and Operations in Feature Space (via Kernels)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-disadvantages-of-the-kernel-trick">9. Advantages and Disadvantages of the Kernel Trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

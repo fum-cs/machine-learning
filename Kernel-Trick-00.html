@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Kernel Method: Enabling Non-Linearity in Linear Models &#8212; ML</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Kernel-Trick-00';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="ML - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="ML - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Kernel%20Trick.html">Kernel Trick</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2FKernel-Trick-00.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Kernel-Trick-00.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Kernel Method: Enabling Non-Linearity in Linear Models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-limitations-of-linear-models">1. Motivation: Limitations of Linear Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-maps-explicit-non-linear-transformation">2. Feature Maps: Explicit Non-Linear Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick-implicit-computation-in-feature-space">3. The Kernel Trick: Implicit Computation in Feature Space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-definition-and-properties">4. Kernel Definition and Properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-kernel-functions">5. Common Kernel Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernelizing-algorithms">6. Kernelizing Algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-kernels-and-parameters">7. Choosing Kernels and Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-disadvantages">8. Advantages and Disadvantages</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="" src="_images/banner.png" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="the-kernel-method-enabling-non-linearity-in-linear-models">
+<h1>The Kernel Method: Enabling Non-Linearity in Linear Models<a class="headerlink" href="#the-kernel-method-enabling-non-linearity-in-linear-models" title="Link to this heading">#</a></h1>
+<p>This document provides an overview of the Kernel Method (also known as Kernel Machines), based significantly on Chapter 5 of the book “Data Mining and Machine Learning: Fundamental Concepts and Algorithms” by Mohammed J. Zaki and Wagner Meira Jr., supplemented with examples and motivation from the “03 - Kernel Trick.ipynb” notebook.</p>
+<section id="motivation-limitations-of-linear-models">
+<h2>1. Motivation: Limitations of Linear Models<a class="headerlink" href="#motivation-limitations-of-linear-models" title="Link to this heading">#</a></h2>
+<p>Linear models are fundamental in machine learning due to their simplicity and interpretability. A linear model makes predictions using a linear function of the input features:</p>
+<div class="math notranslate nohighlight">
+\[ \hat{y} = \mathbf{w}^T\mathbf{x} + w_0 = \sum_{i=1}^{p} w_i x_i + w_0 \]</div>
+<p>However, many real-world datasets are not linearly separable or cannot be accurately modeled by a linear function.</p>
+<p>Consider a simple classification or regression task where the relationship between features and the target is inherently non-linear. A linear model would perform poorly.</p>
+</section>
+<section id="feature-maps-explicit-non-linear-transformation">
+<h2>2. Feature Maps: Explicit Non-Linear Transformation<a class="headerlink" href="#feature-maps-explicit-non-linear-transformation" title="Link to this heading">#</a></h2>
+<p>One way to overcome the limitations of linear models is to transform the original features into a higher-dimensional space where the data <em>might</em> become linearly separable or fit a linear model better. This transformation is done using a <strong>feature map</strong> (or <em>basis expansion</em>), denoted by <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ \mathbf{x} \in \mathbb{R}^p \xrightarrow{\phi} \phi(\mathbf{x}) \in \mathcal{H} \]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is the (often higher-dimensional) feature space. The linear model is then applied in this new space:</p>
+<div class="math notranslate nohighlight">
+\[ \hat{y} = \mathbf{w}^T \phi(\mathbf{x}) + w_0 \]</div>
+<p><strong>Example: Polynomial Features</strong>
+A common feature map is the polynomial feature map. For input <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, ..., x_p]\)</span>, a polynomial map of degree <span class="math notranslate nohighlight">\(d\)</span> might create features like:</p>
+<div class="math notranslate nohighlight">
+\[ \phi(\mathbf{x}) = [1, x_1, ..., x_p, x_1^2, ..., x_p^2, ..., x_p^d, x_1 x_2, ..., x_{p-1} x_p] \]</div>
+<p><strong>Example from Notebook (Ridge Regression):</strong>
+The notebook demonstrates fitting Ridge Regression to 1D data. A linear fit is poor. By applying a polynomial feature map (degree 10), a much better fit is achieved.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example concept: Adding polynomial features</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">mglearn</span>
+
+<span class="c1"># --- Data Generation (from notebook) ---</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mglearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">make_wave</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># --- Linear Fit ---</span>
+<span class="n">reg_linear</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># --- Polynomial Features ---</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">X_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">line_poly</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="c1"># --- Fit on Polynomial Features ---</span>
+<span class="n">reg_poly</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_poly</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># --- Plotting (conceptual representation) ---</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">reg_linear</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Linear Fit&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Linear Ridge Regression&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Input feature&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Regression output&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">reg_poly</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">line_poly</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Polynomial Fit (d=10)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Ridge Regression with Polynomial Features&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Input feature&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Regression output&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Example from Notebook (Linear SVM):</strong>
+Similarly, the notebook shows data that is not linearly separable in 2D. By adding a feature <span class="math notranslate nohighlight">\(x_2^2\)</span>, the data becomes linearly separable in 3D.</p>
+<p><strong>Challenges of Explicit Feature Maps:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Computational Cost:</strong> The dimensionality of the feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> can grow extremely large (e.g., exponentially for polynomial kernels of high degree). Computing <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> explicitly can be infeasible.</p></li>
+<li><p><strong>Memory Cost:</strong> Storing <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> for all data points can require vast amounts of memory.</p></li>
+<li><p><strong>Increased Model Complexity:</strong> With many features, the number of parameters (<span class="math notranslate nohighlight">\(w_i\)</span>) increases, raising the risk of overfitting, especially if the number of training samples <span class="math notranslate nohighlight">\(n\)</span> is not significantly larger than the new dimension <span class="math notranslate nohighlight">\(d'\)</span>. Regularization (like in Ridge or SVM) becomes crucial. For instance, Ridge complexity is roughly <span class="math notranslate nohighlight">\(\mathcal{O}(d'^2 n)\)</span>.</p></li>
+</ol>
+</section>
+<section id="the-kernel-trick-implicit-computation-in-feature-space">
+<h2>3. The Kernel Trick: Implicit Computation in Feature Space<a class="headerlink" href="#the-kernel-trick-implicit-computation-in-feature-space" title="Link to this heading">#</a></h2>
+<p>The <strong>Kernel Trick</strong> provides a way to get the benefits of high-dimensional feature maps without explicitly computing the coordinates <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span>. The key insight is that many linear algorithms (like SVM, Ridge Regression, PCA) can be formulated such that the input data points <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> only appear in the form of <strong>dot products</strong> <span class="math notranslate nohighlight">\(\mathbf{x}_i \cdot \mathbf{x}_j\)</span>.</p>
+<p>If we use a feature map <span class="math notranslate nohighlight">\(\phi\)</span>, these dot products become <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)\)</span>. The kernel trick relies on finding a <strong>kernel function</strong> <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span> that computes this dot product in the feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> <em>directly</em> from the inputs <span class="math notranslate nohighlight">\(\mathbf{x}_i, \mathbf{x}_j\)</span> in the original space:</p>
+<div class="math notranslate nohighlight">
+\[ k(\mathbf{x}_i, \mathbf{x}_j) = \langle \phi(\mathbf{x}_i), \phi(\mathbf{x}_j) \rangle = \phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j) \]</div>
+<p>If such a function <span class="math notranslate nohighlight">\(k\)</span> exists and is efficient to compute, we can substitute all occurrences of <span class="math notranslate nohighlight">\(\mathbf{x}_i \cdot \mathbf{x}_j\)</span> in the original algorithm with <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span> and effectively operate in the high-dimensional feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> without ever instantiating vectors <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span>.</p>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p>The dot product <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i) \cdot \phi(\mathbf{x}_j)\)</span> measures the similarity between points <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span> and <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> in the feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span>.</p></li>
+<li><p>Therefore, a kernel function <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span> can be thought of as a <strong>generalized similarity measure</strong> between points in the original space, implicitly corresponding to a dot product in some (potentially high-dimensional or even infinite-dimensional) feature space.</p></li>
+<li><p>The feature space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is formally known as a <strong>Reproducing Kernel Hilbert Space (RKHS)</strong>.</p></li>
+</ul>
+<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/RKHS.png" alt="RKHS Illustration" style="margin: 0 auto; width: 700px;"/>
+*Illustration depicting the mapping $\phi$ and the kernel function $k$.*
+</section>
+<section id="kernel-definition-and-properties">
+<h2>4. Kernel Definition and Properties<a class="headerlink" href="#kernel-definition-and-properties" title="Link to this heading">#</a></h2>
+<p>Formally, a function <span class="math notranslate nohighlight">\(k: \mathcal{X} \times \mathcal{X} \rightarrow \mathbb{R}\)</span> is a <strong>kernel function</strong> if it corresponds to a dot product in some Hilbert space <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> via a feature map <span class="math notranslate nohighlight">\(\phi: \mathcal{X} \rightarrow \mathcal{H}\)</span>.</p>
+<p><strong>Key Properties:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Symmetry:</strong> <span class="math notranslate nohighlight">\(k(\mathbf{x}, \mathbf{z}) = k(\mathbf{z}, \mathbf{x})\)</span> for all <span class="math notranslate nohighlight">\(\mathbf{x}, \mathbf{z} \in \mathcal{X}\)</span>. This follows directly from the symmetry of the dot product.</p></li>
+<li><p><strong>Positive Semidefiniteness:</strong> For any finite set of points <span class="math notranslate nohighlight">\(\{\mathbf{x}_1, ..., \mathbf{x}_n\} \subset \mathcal{X}\)</span> and any real coefficients <span class="math notranslate nohighlight">\(c_1, ..., c_n \in \mathbb{R}\)</span>, the following must hold:
+$<span class="math notranslate nohighlight">\( \sum_{i=1}^{n} \sum_{j=1}^{n} c_i c_j k(\mathbf{x}_i, \mathbf{x}_j) \ge 0 \)</span><span class="math notranslate nohighlight">\(
+This condition ensures that the **Gram matrix** \)</span>K<span class="math notranslate nohighlight">\(, where \)</span>K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j)$, is positive semidefinite. This property is crucial because it guarantees that the “distances” or “similarities” defined by the kernel behave appropriately in a geometric sense, corresponding to a valid Hilbert space.</p></li>
+</ol>
+<p><strong>Mercer’s Theorem:</strong>
+Mercer’s theorem provides the necessary and sufficient conditions for a continuous, symmetric function <span class="math notranslate nohighlight">\(k(\mathbf{x}, \mathbf{z})\)</span> to be a valid kernel (i.e., correspond to a dot product in some feature space). Essentially, if a function is symmetric and positive semidefinite, it’s a valid kernel.</p>
+</section>
+<section id="common-kernel-functions">
+<h2>5. Common Kernel Functions<a class="headerlink" href="#common-kernel-functions" title="Link to this heading">#</a></h2>
+<p>Several standard kernel functions are widely used:</p>
+<ol class="arabic simple">
+<li><p><strong>Linear Kernel:</strong>
+$<span class="math notranslate nohighlight">\( k(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i \cdot \mathbf{x}_j \)</span><span class="math notranslate nohighlight">\(
+This corresponds to the standard dot product in the original space (i.e., \)</span>\phi(\mathbf{x}) = \mathbf{x}$). It recovers the original linear model.</p></li>
+<li><p><strong>Polynomial Kernel:</strong>
+$<span class="math notranslate nohighlight">\( k(\mathbf{x}_i, \mathbf{x}_j) = (\gamma \mathbf{x}_i \cdot \mathbf{x}_j + r)^d \)</span>$</p>
+<ul class="simple">
+<li><p>Parameters: degree <span class="math notranslate nohighlight">\(d\)</span>, coefficient <span class="math notranslate nohighlight">\(\gamma\)</span>, and constant offset <span class="math notranslate nohighlight">\(r\)</span>.</p></li>
+<li><p>Implicitly maps data to a feature space containing polynomial terms up to degree <span class="math notranslate nohighlight">\(d\)</span>.</p></li>
+<li><p>Can model complex interactions. When <span class="math notranslate nohighlight">\(r=0\)</span>, it maps to a space of homogeneous polynomials of degree <span class="math notranslate nohighlight">\(d\)</span>. When <span class="math notranslate nohighlight">\(r&gt;0\)</span> and <span class="math notranslate nohighlight">\(\gamma=1\)</span>, it corresponds to a feature space including all terms up to degree <span class="math notranslate nohighlight">\(d\)</span>.</p></li>
+</ul>
+</li>
+<li><p><strong>Gaussian Kernel (Radial Basis Function - RBF):</strong>
+$<span class="math notranslate nohighlight">\( k(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2\right) \)</span>$</p>
+<ul class="simple">
+<li><p>Parameter: <span class="math notranslate nohighlight">\(\gamma\)</span> (gamma, often related to <span class="math notranslate nohighlight">\(1/(2\sigma^2)\)</span> where <span class="math notranslate nohighlight">\(\sigma\)</span> is the standard deviation).</p></li>
+<li><p>Maps to an <em>infinite-dimensional</em> feature space.</p></li>
+<li><p>Interpreted as a similarity measure that decays exponentially with the squared Euclidean distance between points. Points that are close in the input space have a kernel value near 1; distant points have a value near 0.</p></li>
+<li><p>Very flexible and widely used. The parameter <span class="math notranslate nohighlight">\(\gamma\)</span> controls the “width” or “reach” of the kernel; small <span class="math notranslate nohighlight">\(\gamma\)</span> means a broader influence, large <span class="math notranslate nohighlight">\(\gamma\)</span> means a more localized influence.</p></li>
+</ul>
+</li>
+<li><p><strong>Sigmoid Kernel (Hyperbolic Tangent Kernel):</strong>
+$<span class="math notranslate nohighlight">\( k(\mathbf{x}_i, \mathbf{x}_j) = \tanh(\gamma \mathbf{x}_i \cdot \mathbf{x}_j + r) \)</span>$</p>
+<ul class="simple">
+<li><p>Parameters: <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(r\)</span>.</p></li>
+<li><p>Related to neural networks with a sigmoid activation function.</p></li>
+<li><p>Does not satisfy Mercer’s condition (not always positive semidefinite) for all <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(r\)</span>, but is sometimes used in practice.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="kernelizing-algorithms">
+<h2>6. Kernelizing Algorithms<a class="headerlink" href="#kernelizing-algorithms" title="Link to this heading">#</a></h2>
+<p>To apply the kernel trick to a linear algorithm:</p>
+<ol class="arabic simple">
+<li><p><strong>Dual Formulation:</strong> Reformulate the algorithm so that the data points only appear in dot products <span class="math notranslate nohighlight">\(\mathbf{x}_i \cdot \mathbf{x}_j\)</span>. This often involves working with the dual optimization problem (as in SVM) or expressing the solution in terms of the input data points (as in Ridge Regression via the Representer Theorem).</p></li>
+<li><p><strong>Substitute Kernel:</strong> Replace every occurrence of the dot product <span class="math notranslate nohighlight">\(\mathbf{x}_i \cdot \mathbf{x}_j\)</span> with the chosen kernel function <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p></li>
+<li><p><strong>Prediction:</strong> The prediction for a new point <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> will typically also depend on kernel evaluations involving <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> and the training data points (often the support vectors in SVM).</p></li>
+</ol>
+<p><strong>Example: Kernel Support Vector Machines (SVM)</strong>
+The standard linear SVM finds a hyperplane <span class="math notranslate nohighlight">\(\mathbf{w}^T \mathbf{x} + w_0 = 0\)</span>. In its dual formulation, the optimization problem involves maximizing <span class="math notranslate nohighlight">\(\sum_i \alpha_i - \frac{1}{2} \sum_i \sum_j \alpha_i \alpha_j y_i y_j (\mathbf{x}_i \cdot \mathbf{x}_j)\)</span>, subject to constraints. The prediction for a new point <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> is <span class="math notranslate nohighlight">\(\text{sign}(\sum_i \alpha_i y_i (\mathbf{x}_i \cdot \mathbf{z}) + w_0)\)</span>.</p>
+<p>By replacing <span class="math notranslate nohighlight">\(\mathbf{x}_i \cdot \mathbf{x}_j\)</span> with <span class="math notranslate nohighlight">\(k(\mathbf{x}_i, \mathbf{x}_j)\)</span>, we get Kernel SVM:</p>
+<ul class="simple">
+<li><p><strong>Dual Objective:</strong> Maximize <span class="math notranslate nohighlight">\(\sum_i \alpha_i - \frac{1}{2} \sum_i \sum_j \alpha_i \alpha_j y_i y_j k(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p></li>
+<li><p><strong>Prediction:</strong> <span class="math notranslate nohighlight">\(\text{sign}(\sum_{i \in \mathcal{S}} \alpha_i y_i k(\mathbf{x}_i, \mathbf{z}) + w_0)\)</span>, where <span class="math notranslate nohighlight">\(\mathcal{S}\)</span> is the set of support vectors.</p></li>
+</ul>
+<p>The notebook demonstrates SVM with RBF kernel:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example concept: SVM with RBF kernel</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">mglearn</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+
+<span class="c1"># --- Data Generation (from notebook concept) ---</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">centers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">%</span> <span class="mi">2</span> <span class="c1"># Make it binary class</span>
+
+<span class="c1"># --- Fit SVM with RBF kernel ---</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># --- Plotting (conceptual) ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">mglearn</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">plot_2d_separator</span><span class="p">(</span><span class="n">svm</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">mglearn</span><span class="o">.</span><span class="n">discrete_scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
+<span class="c1"># Plot support vectors</span>
+<span class="n">sv</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">support_vectors_</span>
+<span class="n">sv_labels</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">dual_coef_</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="n">mglearn</span><span class="o">.</span><span class="n">discrete_scatter</span><span class="p">(</span><span class="n">sv</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sv</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">sv_labels</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;SVM with RBF Kernel&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Feature 0&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Feature 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<p><strong>Example: Kernel Ridge Regression (KRR)</strong>
+Ridge Regression minimizes <span class="math notranslate nohighlight">\(\|\mathbf{y} - X\mathbf{w}\|^2 + \lambda \|\mathbf{w}\|^2\)</span>. The solution can be written as <span class="math notranslate nohighlight">\(\mathbf{w} = X^T(XX^T + \lambda I)^{-1}\mathbf{y}\)</span>. Notice that <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> is a linear combination of the input vectors. Using the Representer Theorem, the solution can also be expressed in the dual form involving coefficients <span class="math notranslate nohighlight">\(\alpha\)</span>: <span class="math notranslate nohighlight">\(\mathbf{w} = X^T \alpha\)</span>. The prediction for a new point <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> is <span class="math notranslate nohighlight">\(\hat{y} = \mathbf{z}^T \mathbf{w} = \mathbf{z}^T X^T \alpha\)</span>. The term <span class="math notranslate nohighlight">\(\mathbf{z}^T X^T\)</span> involves dot products between <span class="math notranslate nohighlight">\(\mathbf{z}\)</span> and the training <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span>.</p>
+<p>With kernels, we work directly with <span class="math notranslate nohighlight">\(\alpha\)</span>. The solution involves solving <span class="math notranslate nohighlight">\((K + \lambda I)\alpha = \mathbf{y}\)</span>, where <span class="math notranslate nohighlight">\(K\)</span> is the Gram matrix <span class="math notranslate nohighlight">\(K_{ij} = k(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p>
+<ul class="simple">
+<li><p><strong>Solution:</strong> <span class="math notranslate nohighlight">\(\alpha = (K + \lambda I)^{-1} \mathbf{y}\)</span>.</p></li>
+<li><p><strong>Prediction:</strong> <span class="math notranslate nohighlight">\(\hat{y}(\mathbf{z}) = \sum_{i=1}^n \alpha_i k(\mathbf{x}_i, \mathbf{z})\)</span>.</p></li>
+</ul>
+<p>The complexity is dominated by inverting the <span class="math notranslate nohighlight">\(n \times n\)</span> matrix <span class="math notranslate nohighlight">\((K+\lambda I)\)</span>, which is typically <span class="math notranslate nohighlight">\(\mathcal{O}(n^3)\)</span>. Prediction takes <span class="math notranslate nohighlight">\(\mathcal{O}(n p)\)</span> time (or faster depending on kernel structure).</p>
+</section>
+<section id="choosing-kernels-and-parameters">
+<h2>7. Choosing Kernels and Parameters<a class="headerlink" href="#choosing-kernels-and-parameters" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The choice of kernel and its parameters (like <span class="math notranslate nohighlight">\(\gamma\)</span> in RBF or <span class="math notranslate nohighlight">\(d\)</span> in Polynomial) is crucial and data-dependent.</p></li>
+<li><p>These are <strong>hyperparameters</strong> that need to be tuned, typically using techniques like <strong>grid search</strong> or <strong>random search</strong> with <strong>cross-validation</strong>.</p></li>
+<li><p>The RBF kernel is often a good default choice due to its flexibility.</p></li>
+<li><p>The linear kernel is useful if the data is already close to linearly separable or as a baseline.</p></li>
+<li><p>Polynomial kernels are useful when feature interactions are suspected.</p></li>
+<li><p>Kernel parameters control the complexity of the model. For example, in RBF:</p>
+<ul>
+<li><p>Small <span class="math notranslate nohighlight">\(\gamma\)</span>: Smoother decision boundary, lower complexity (wider influence, more points considered similar). Potential for underfitting.</p></li>
+<li><p>Large <span class="math notranslate nohighlight">\(\gamma\)</span>: More complex, wiggly boundary, higher complexity (localized influence, only very close points considered similar). Potential for overfitting.</p></li>
+</ul>
+</li>
+<li><p>Regularization parameters (like <span class="math notranslate nohighlight">\(C\)</span> in SVM or <span class="math notranslate nohighlight">\(\lambda\)</span> in KRR) also need tuning and interact with kernel parameters.</p></li>
+</ul>
+</section>
+<section id="advantages-and-disadvantages">
+<h2>8. Advantages and Disadvantages<a class="headerlink" href="#advantages-and-disadvantages" title="Link to this heading">#</a></h2>
+<p><strong>Advantages:</strong></p>
+<ul class="simple">
+<li><p>Allows linear algorithms to model complex, non-linear relationships.</p></li>
+<li><p>Avoids explicit computation in potentially very high (or infinite) dimensional feature spaces.</p></li>
+<li><p>Works by defining a similarity measure (the kernel) directly, which can be intuitive.</p></li>
+<li><p>Many standard algorithms have kernelized versions (SVM, Ridge, PCA, LDA, etc.).</p></li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul class="simple">
+<li><p><strong>Computational Cost:</strong> Calculating the <span class="math notranslate nohighlight">\(n \times n\)</span> Gram matrix <span class="math notranslate nohighlight">\(K\)</span> takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^2 p)\)</span> time. Solving systems involving <span class="math notranslate nohighlight">\(K\)</span> (like in KRR or SVM training) often takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^3)\)</span> time or <span class="math notranslate nohighlight">\(\mathcal{O}(n^2)\)</span> space. This makes kernel methods computationally expensive for large datasets (<span class="math notranslate nohighlight">\(n \gg 10,000 - 100,000\)</span>).</p></li>
+<li><p><strong>Prediction Cost:</strong> Predicting for a new point often requires computing the kernel between the new point and many (or all) training points (e.g., <span class="math notranslate nohighlight">\(\mathcal{O}(np)\)</span> for KRR, or <span class="math notranslate nohighlight">\(\mathcal{O}(n_{sv} p)\)</span> for SVM where <span class="math notranslate nohighlight">\(n_{sv}\)</span> is the number of support vectors). This can be slow compared to linear models where prediction is <span class="math notranslate nohighlight">\(\mathcal{O}(p)\)</span>.</p></li>
+<li><p><strong>Interpretability:</strong> The model becomes less interpretable as the decision boundary exists in the high-dimensional feature space, not the original input space.</p></li>
+<li><p><strong>Kernel Choice and Tuning:</strong> Selecting the right kernel and tuning its parameters can be challenging and requires careful cross-validation.</p></li>
+</ul>
+<p>The kernel trick is a powerful concept that significantly extends the applicability of linear models to non-linear problems, although computational scaling can be a limitation for very large datasets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-limitations-of-linear-models">1. Motivation: Limitations of Linear Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-maps-explicit-non-linear-transformation">2. Feature Maps: Explicit Non-Linear Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kernel-trick-implicit-computation-in-feature-space">3. The Kernel Trick: Implicit Computation in Feature Space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-definition-and-properties">4. Kernel Definition and Properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-kernel-functions">5. Common Kernel Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernelizing-algorithms">6. Kernelizing Algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-kernels-and-parameters">7. Choosing Kernels and Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-disadvantages">8. Advantages and Disadvantages</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

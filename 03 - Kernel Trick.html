@@ -52,7 +52,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -189,12 +189,11 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mle_introduction.html">Introduction</a></li>
-
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Kernel Trick</a></li>
@@ -470,7 +469,7 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="kernel-trick">
 <h1>Kernel Trick<a class="headerlink" href="#kernel-trick" title="Link to this heading">#</a></h1>
 <p><strong>Making linear models non-linear</strong></p>
-<p><strong>Mahmood Amintoosi, Spring 2024</strong></p>
+<p><strong>Mahmood Amintoosi, Spring 2025</strong></p>
 <p>Computer Science Dept, Ferdowsi University of Mashhad</p>
 <p>I should mention that the original material of this course was from <a class="reference external" href="https://ml-course.github.io/">Open Machine Learning Course</a>, by <a class="reference external" href="https://github.com/joaquinvanschoren">Joaquin Vanschoren</a> and others.</p>
 <blockquote>
@@ -545,7 +544,7 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Regression output&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Input feature&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -718,7 +717,7 @@ document.write(`
 </li>
 <li><p>Ridge has a closed-form solution which we can compute with linear algebra:
 $<span class="math notranslate nohighlight">\(w^{*} = (X^{T}X + \alpha I)^{-1} X^T Y\)</span>$</p></li>
-<li><p>Since X has <span class="math notranslate nohighlight">\(n\)</span> rows (examples), and <span class="math notranslate nohighlight">\(d\)</span> columns (features), <span class="math notranslate nohighlight">\(X^{T}X\)</span> has dimensionality <span class="math notranslate nohighlight">\(d x d\)</span></p></li>
+<li><p>Since X has <span class="math notranslate nohighlight">\(n\)</span> rows (examples), and <span class="math notranslate nohighlight">\(d\)</span> columns (features), <span class="math notranslate nohighlight">\(X^{T}X\)</span> has dimensionality <span class="math notranslate nohighlight">\(d \times d\)</span></p></li>
 <li><p>Hence Ridge is quadratic in the number of features, <span class="math notranslate nohighlight">\(\mathcal{O}(d^2n)\)</span></p></li>
 <li><p>After the feature map <span class="math notranslate nohighlight">\(\Phi\)</span>, we get
 $<span class="math notranslate nohighlight">\(w^{*} = (\Phi(X)^{T}\Phi(X) + \alpha I)^{-1} \Phi(X)^T Y\)</span>$</p></li>

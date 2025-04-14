@@ -1,6 +1,6 @@
 # Machine Learning
 
-**Mahmood Amintoosi, Spring 2024**
+**Mahmood Amintoosi, Spring 2025**
 
 Computer Science Dept, Ferdowsi University of Mashhad
 
