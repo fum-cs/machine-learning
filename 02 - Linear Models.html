@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -529,7 +529,7 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-setup when running on Google Colab</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;/content/machine-learning&#39;</span><span class="p">):</span>
     <span class="o">!</span>git<span class="w"> </span>clone<span class="w"> </span>-q<span class="w"> </span>https://github.com/fum-cs/machine-learning.git<span class="w"> </span>/content/machine-learning
     <span class="o">!</span>pip<span class="w"> </span>--quiet<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>/content/machine-learning/requirements_colab.txt
@@ -537,7 +537,7 @@ document.write(`
 
 <span class="c1"># Global imports and settings</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">from</span><span class="w"> </span><span class="nn">preamble</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">preamble</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">interactive</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Set to True for interactive plots</span>
 <span class="k">if</span> <span class="n">interactive</span><span class="p">:</span>
     <span class="n">fig_scale</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -689,20 +689,20 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits</span><span class="w"> </span><span class="kn">import</span> <span class="n">mplot3d</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interact_manual</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits</span> <span class="kn">import</span> <span class="n">mplot3d</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interact_manual</span>
 
 <span class="c1"># f = -(x0^2 + x1^2)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">g_f</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">g_f</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">):</span>
     <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">x0</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">x1</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">g_dfx0</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">g_dfx0</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x0</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">g_dfx1</span><span class="p">(</span><span class="n">x1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">g_dfx1</span><span class="p">(</span><span class="n">x1</span><span class="p">):</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x1</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_gradient</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">240</span><span class="p">,</span><span class="mi">10</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_gradient</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">240</span><span class="p">,</span><span class="mi">10</span><span class="p">)):</span>
     <span class="c1"># plot surface of f</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
@@ -820,9 +820,9 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mglearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_wave</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">mglearn.datasets</span> <span class="kn">import</span> <span class="n">make_wave</span>
 
 <span class="n">Xw</span><span class="p">,</span> <span class="n">yw</span> <span class="o">=</span> <span class="n">make_wave</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
 <span class="n">Xw_train</span><span class="p">,</span> <span class="n">Xw_test</span><span class="p">,</span> <span class="n">yw_train</span><span class="p">,</span> <span class="n">yw_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">Xw</span><span class="p">,</span> <span class="n">yw</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
@@ -941,16 +941,16 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="c1"># Some convex function to represent the loss</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">l_fx</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">l_fx</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> 
 <span class="c1"># Derivative to compute the gradient</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">l_dfx0</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">l_dfx0</span><span class="p">(</span><span class="n">x0</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">x0</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_learning_rate</span><span class="p">(</span><span class="n">learn_rate</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">exp_decay</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_learning_rate</span><span class="p">(</span><span class="n">learn_rate</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">exp_decay</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
     <span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="n">l_fx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">w</span><span class="p">]</span>
     <span class="n">w_current</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.75</span>
@@ -1002,11 +1002,11 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow_addons</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tfa</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_addons</span> <span class="k">as</span> <span class="nn">tfa</span>
 
 <span class="c1"># Toy surface</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="mf">1.5</span> <span class="o">-</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.25</span> <span class="o">-</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.625</span> <span class="o">-</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
 
 <span class="c1"># Tensorflow optimizers</span>
@@ -1056,11 +1056,11 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogNorm</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 
 <span class="c1"># Toy surface</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="mf">1.5</span> <span class="o">-</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.25</span> <span class="o">-</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.625</span> <span class="o">-</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
 
 <span class="c1"># Tensorflow optimizers</span>
@@ -1115,7 +1115,7 @@ document.write(`
 <span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_points</span><span class="p">,</span> <span class="n">y_points</span><span class="p">)</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">yps</span><span class="p">)</span> <span class="k">for</span> <span class="n">xps</span><span class="p">,</span> <span class="n">yps</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">)])</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_optimizers</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">optimizers</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_optimizers</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">optimizers</span><span class="p">):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">norm</span><span class="o">=</span><span class="n">LogNorm</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">fig_scale</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">minima</span><span class="p">,</span> <span class="s1">&#39;r*&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">opt_names</span><span class="p">,</span> <span class="n">all_paths</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
@@ -1143,7 +1143,7 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># Training for momentum</span>
 <span class="n">all_lr_paths</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1190,7 +1190,7 @@ document.write(`
 <span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_points</span><span class="p">,</span> <span class="n">y_points</span><span class="p">)</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">xps</span><span class="p">,</span> <span class="n">yps</span><span class="p">)</span> <span class="k">for</span> <span class="n">xps</span><span class="p">,</span> <span class="n">yps</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">)])</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_learning_rate_optimizers</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_learning_rate_optimizers</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x_mesh</span><span class="p">,</span> <span class="n">y_mesh</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">norm</span><span class="o">=</span><span class="n">LogNorm</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">fig_scale</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">minima</span><span class="p">,</span> <span class="s1">&#39;r*&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">lrate</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">all_lr_paths</span><span class="p">,</span> <span class="n">lr_range</span><span class="p">):</span>
@@ -1220,7 +1220,7 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_lr</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.005</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_lr</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">learning_rate</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.005</span><span class="p">)):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mi">4</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">plot_learning_rate_optimizers</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">iterations</span><span class="p">,</span><span class="n">learning_rate</span><span class="p">)</span>
     
@@ -1243,7 +1243,7 @@ document.write(`
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">compare_optimizers</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">optimizer1</span><span class="o">=</span><span class="n">opt_names</span><span class="p">,</span> <span class="n">optimizer2</span><span class="o">=</span><span class="n">opt_names</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">compare_optimizers</span><span class="p">(</span><span class="n">iterations</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">optimizer1</span><span class="o">=</span><span class="n">opt_names</span><span class="p">,</span> <span class="n">optimizer2</span><span class="o">=</span><span class="n">opt_names</span><span class="p">):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mi">4</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">plot_optimizers</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">iterations</span><span class="p">,[</span><span class="n">optimizer1</span><span class="p">,</span><span class="n">optimizer2</span><span class="p">])</span>
     
@@ -1306,7 +1306,7 @@ document.write(`
 </ul>
 </li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 <span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1317,8 +1317,8 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
 <span class="n">X_B</span><span class="p">,</span> <span class="n">y_B</span> <span class="o">=</span> <span class="n">mglearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_extended_boston</span><span class="p">()</span>
 <span class="n">X_B_train</span><span class="p">,</span> <span class="n">X_B_test</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">,</span> <span class="n">y_B_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_B</span><span class="p">,</span> <span class="n">y_B</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1414,7 +1414,7 @@ Test set score (R^2): 0.61
 </ul>
 <section id="id2">
 <h4>In practice<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ridge</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
 <span class="n">lr</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1425,7 +1425,7 @@ Test set score (R^2): 0.61
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ridge</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
 <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_B_train</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Weights (coefficients): </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">40</span><span class="p">]))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bias (intercept): </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ridge</span><span class="o">.</span><span class="n">intercept_</span><span class="p">))</span>
@@ -1459,13 +1459,13 @@ Test set score: 0.75
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interact_manual</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ridge</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interact_manual</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)):</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_B_train</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mf">1.5</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
@@ -1610,10 +1610,10 @@ Test set score: 0.75
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lasso</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.005</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.005</span><span class="p">)):</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_B_train</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mf">1.5</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
@@ -1704,7 +1704,7 @@ $<span class="math notranslate nohighlight">\(\partial_{w_i} \mathcal{L}_{SSE}(w
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_rho</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_rho</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)):</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">w</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">alpha</span><span class="p">)</span>
     <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="n">alpha</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="n">alpha</span> <span class="k">else</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">alpha</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">alpha</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">w</span><span class="p">]</span>
@@ -1757,20 +1757,20 @@ $<span class="math notranslate nohighlight">\(\partial_{w_i} \mathcal{L}_{SSE}(w
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">c_fx</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">c_fx</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">fX</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># Some convex function to represent the loss</span>
     <span class="k">return</span> <span class="n">fX</span><span class="o">/</span><span class="mi">9</span> <span class="c1"># Scaling</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">c_fl2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">c_fl2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">c_fx</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">c_fl1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">c_fl1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">c_fx</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">l2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">l2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">l1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">l1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">alpha</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_losses</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_losses</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)):</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
     <span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_fx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">w</span><span class="p">]</span>
     <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_fl2</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">alpha</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">w</span><span class="p">]</span>
@@ -1840,7 +1840,7 @@ $<span class="math notranslate nohighlight">\(\partial_{w_i} \mathcal{L}_{SSE}(w
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_loss_interpretation</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_loss_interpretation</span><span class="p">():</span>
     <span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
     <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
@@ -1947,8 +1947,8 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearSVC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
 
 <span class="n">Xf</span><span class="p">,</span> <span class="n">yf</span> <span class="o">=</span> <span class="n">mglearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">make_forge</span><span class="p">()</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mi">4</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
@@ -2016,11 +2016,11 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">w1</span><span class="p">,</span><span class="n">w0</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">w1</span><span class="p">,</span><span class="n">w0</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">w1</span><span class="o">+</span><span class="n">w0</span><span class="p">)))</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_logreg</span><span class="p">(</span><span class="n">w0</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">w1</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_logreg</span><span class="p">(</span><span class="n">w0</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">w1</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">)):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">red</span> <span class="o">=</span> <span class="p">[</span><span class="n">Xf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yf</span><span class="p">))</span> <span class="k">if</span> <span class="n">yf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">blue</span> <span class="o">=</span> <span class="p">[</span><span class="n">Xf</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yf</span><span class="p">))</span> <span class="k">if</span> <span class="n">yf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
@@ -2080,11 +2080,11 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lr_clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xf</span><span class="p">,</span> <span class="n">yf</span><span class="p">)</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid2d</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">w1</span><span class="p">,</span><span class="n">w2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">sigmoid2d</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">w0</span><span class="p">,</span><span class="n">w1</span><span class="p">,</span><span class="n">w2</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x2</span><span class="o">*</span><span class="n">w2</span><span class="o">+</span><span class="n">x1</span><span class="o">*</span><span class="n">w1</span><span class="o">+</span><span class="n">w0</span><span class="p">)))</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_logistic_fit</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">10</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_logistic_fit</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">10</span><span class="p">)):</span>
     <span class="n">w0</span> <span class="o">=</span> <span class="n">lr_clf</span><span class="o">.</span><span class="n">intercept_</span>
     <span class="n">w1</span> <span class="o">=</span> <span class="n">lr_clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">w2</span> <span class="o">=</span> <span class="n">lr_clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
@@ -2165,7 +2165,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">yHat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">yHat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">yHat</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -2239,7 +2239,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 </li>
 <li><p>Increasing C: less regularization, tries to overfit individual points</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 <span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2250,10 +2250,10 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_lr</span><span class="p">(</span><span class="n">C_log</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_lr</span><span class="p">(</span><span class="n">C_log</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)):</span>
     <span class="c1"># Still using artificial data</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">mglearn</span><span class="o">.</span><span class="n">discrete_scatter</span><span class="p">(</span><span class="n">Xf</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Xf</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">yf</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
@@ -2303,8 +2303,8 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_openml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_validate</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_validate</span>
 
 <span class="n">spam_data</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;qsar-biodeg&quot;</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">X_C</span><span class="p">,</span> <span class="n">y_C</span> <span class="o">=</span> <span class="n">spam_data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">spam_data</span><span class="o">.</span><span class="n">target</span>
@@ -2347,7 +2347,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_C_train</span><span class="p">,</span> <span class="n">X_C_test</span><span class="p">,</span> <span class="n">y_C_train</span><span class="p">,</span> <span class="n">y_C_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_C</span><span class="p">,</span> <span class="n">y_C</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_logreg</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">1000.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">penalty</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span><span class="s1">&#39;l2&#39;</span><span class="p">]):</span>
+<span class="k">def</span> <span class="nf">plot_logreg</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">1000.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">penalty</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;l1&#39;</span><span class="p">,</span><span class="s1">&#39;l2&#39;</span><span class="p">]):</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="n">penalty</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;liblinear&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_C_train</span><span class="p">,</span> <span class="n">y_C_train</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">,</span><span class="mf">1.9</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">)</span>
@@ -2438,7 +2438,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 
 <span class="c1"># we create 40 separable points</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -2450,7 +2450,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="n">s_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sX</span><span class="p">,</span> <span class="n">sY</span><span class="p">)</span>
 
 <span class="nd">@interact</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_svc_fit</span><span class="p">(</span><span class="n">rotationX</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">rotationY</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">1</span><span class="p">)):</span>
+<span class="k">def</span> <span class="nf">plot_svc_fit</span><span class="p">(</span><span class="n">rotationX</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">rotationY</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">1</span><span class="p">)):</span>
     <span class="c1"># get the separating hyperplane</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">s_clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -2570,10 +2570,10 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 
 <span class="c1"># Plot SVM support vectors</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_linear_svm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">ax</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_linear_svm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">ax</span><span class="p">):</span>
 
     <span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
     <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -2688,7 +2688,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hinge_loss</span><span class="p">(</span><span class="n">yHat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hinge_loss</span><span class="p">(</span><span class="n">yHat</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">yHat</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -2851,7 +2851,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">svm</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
 
 <span class="c1"># Linearly separable dat</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -2949,7 +2949,7 @@ Coefficients:
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">modified_huber_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">modified_huber_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">*</span> <span class="n">y_true</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span> <span class="o">*</span> <span class="n">z</span>
     <span class="n">loss</span><span class="p">[</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
@@ -3021,7 +3021,7 @@ Coefficients:
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_blobs</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">linear_svm</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>

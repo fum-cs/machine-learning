@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -547,9 +547,7 @@ For any vector <span class="math notranslate nohighlight">\(\mathbf{c} = (c_1, \
 <p>The other direction of Mercer’s theorem (that any function <span class="math notranslate nohighlight">\(K\)</span> generating PSD Gram matrices corresponds to <em>some</em> feature map <span class="math notranslate nohighlight">\(\phi\)</span>) is more involved to prove but guarantees that functions like the Gaussian or polynomial kernels are valid.</p>
 <p><strong>Implications:</strong>
 Mercer’s theorem is fundamental because it tells us which functions <span class="math notranslate nohighlight">\(K\)</span> we can legally use as kernels in our algorithms. We don’t need to explicitly find <span class="math notranslate nohighlight">\(\phi\)</span>; we just need to verify the positive semidefinite condition on <span class="math notranslate nohighlight">\(K\)</span>. In practice, we often use well-known kernels (like linear, polynomial, RBF) that are known to satisfy Mercer’s condition. It also allows us to construct new valid kernels from existing ones (e.g., the sum or product of valid kernels is also a valid kernel).</p>
-<p>Okay, I understand. You want to incorporate these specific concepts from Zaki’s slides into the explanation of the kernel trick. Here’s how they fit in, building upon the previous explanation:</p>
 </section>
-<hr class="docutils" />
 <section id="further-interpretations-and-operations-in-feature-space-via-kernels">
 <h2>8. Further Interpretations and Operations in Feature Space (via Kernels)<a class="headerlink" href="#further-interpretations-and-operations-in-feature-space-via-kernels" title="Link to this heading">#</a></h2>
 <p>The kernel trick not only allows us to run algorithms implicitly in the feature space <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> but also enables us to understand and compute certain properties related to the data within that space, all without needing the explicit coordinates <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span>.</p>
@@ -585,9 +583,10 @@ Mercer’s theorem is fundamental because it tells us which functions <span clas
 \end{split}\]</div>
 <p>which implies that</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}
-  \|\phi(\textbf{x}_i) -\phi(\textbf{x}_{j})\| =\\  \sqrt{K(\textbf{x}_i,\textbf{x}_i) + K (\textbf{x}_{j}, \textbf{x}_{j}) - 2 K(\textbf{x}_i,\textbf{x}_{j})}
-\end{aligned}\end{align} \]</div>
+\[
+  \|\phi(\textbf{x}_i) -\phi(\textbf{x}_{j})\| =
+  \sqrt{K(\textbf{x}_i,\textbf{x}_i) + K (\textbf{x}_{j}, \textbf{x}_{j}) - 2 K(\textbf{x}_i,\textbf{x}_{j})}
+\]</div>
 <p><strong>Total Variance in Feature Space:</strong></p>
 <p>The total variance of the data in the feature space measures the spread of the points <span class="math notranslate nohighlight">\(\phi(\mathbf{x}_i)\)</span> around their mean <span class="math notranslate nohighlight">\(\mathbf{m}_\phi\)</span>. It’s typically defined as the average squared distance from the mean:</p>
 <div class="math notranslate nohighlight">
