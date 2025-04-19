@@ -146,11 +146,6 @@ The other direction of Mercer's theorem (that any function $K$ generating PSD Gr
 **Implications:**
 Mercer's theorem is fundamental because it tells us which functions $K$ we can legally use as kernels in our algorithms. We don't need to explicitly find $\phi$; we just need to verify the positive semidefinite condition on $K$. In practice, we often use well-known kernels (like linear, polynomial, RBF) that are known to satisfy Mercer's condition. It also allows us to construct new valid kernels from existing ones (e.g., the sum or product of valid kernels is also a valid kernel).
 
-Okay, I understand. You want to incorporate these specific concepts from Zaki's slides into the explanation of the kernel trick. Here's how they fit in, building upon the previous explanation:
-
----
-
-
 ## 8. Further Interpretations and Operations in Feature Space (via Kernels)
 
 The kernel trick not only allows us to run algorithms implicitly in the feature space $\mathcal{F}$ but also enables us to understand and compute certain properties related to the data within that space, all without needing the explicit coordinates $\phi(\mathbf{x})$.
@@ -202,7 +197,6 @@ which implies that
 
 $$
   \|\phi(\textbf{x}_i) -\phi(\textbf{x}_{j})\| =
-
   \sqrt{K(\textbf{x}_i,\textbf{x}_i) + K (\textbf{x}_{j}, \textbf{x}_{j}) - 2 K(\textbf{x}_i,\textbf{x}_{j})}
 $$
 
