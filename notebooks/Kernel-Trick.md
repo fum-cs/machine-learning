@@ -305,12 +305,14 @@ To overcome the linearity limitation, Kernel K-means uses the **kernel trick** t
 **Definitions:**
 - Let $\mathbf{K}$ be the $n \times n$ kernel matrix with $K_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)$.
 - The centroid of cluster $C_i$ in feature space is:
+- 
   $$
   \boldsymbol{\mu}_i^\phi = \frac{1}{n_i} \sum_{\mathbf{x}_j \in C_i} \phi(\mathbf{x}_j)
   $$
 
 **Distance in Feature Space:**
 The squared distance between a point and a cluster centroid in feature space can be computed using only kernel values:
+
 $$
 \|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2 = K(\mathbf{x}_j, \mathbf{x}_j) - \frac{2}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j) + \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)
 $$
@@ -322,13 +324,12 @@ $$
      - $\text{sqnorm}_i = \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)$
      - $\text{avg}_{ji} = \frac{1}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j)$
    - Compute the distance:
-     $$
-     d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}
-     $$
+     $d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}$
 3. **Assignment Step:** Assign each point to the cluster with the minimum $d(\mathbf{x}_j, C_i)$.
 4. **Repeat** steps 2 and 3 until convergence.
 
 **Objective Function in Kernel Space:**
+
 $$
 \min_{\mathcal{C}} \; SSE(\mathcal{C}) =
 \sum_{i=1}^k \sum_{\mathbf{x}_j \in C_i}
