@@ -272,16 +272,15 @@ K-means is a widely used clustering algorithm that partitions a dataset into $k$
 **Algorithm Steps:**
 1. **Initialization:** Randomly select $k$ initial centroids $\boldsymbol{\mu}_1, \ldots, \boldsymbol{\mu}_k$.
 2. **Assignment Step:** Assign each data point $\mathbf{x}_j$ to the nearest centroid:
-   $$
-   i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}
-   $$
+   $  i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}   $
 3. **Update Step:** Recompute each centroid as the mean of the points assigned to it:
-   $$
+   $
    \boldsymbol{\mu}_i = \frac{1}{|C_i|} \sum_{\mathbf{x}_j \in C_i} \mathbf{x}_j
-   $$
+   $
 4. **Repeat** steps 2 and 3 until convergence (i.e., assignments no longer change or centroids stabilize).
 
 **Objective Function:**
+
 $$
 SSE(\mathcal{C}) = \sum_{i=1}^{k} \sum_{\mathbf{x}_j \in C_i} \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2
 $$
@@ -305,12 +304,14 @@ To overcome the linearity limitation, Kernel K-means uses the **kernel trick** t
 **Definitions:**
 - Let $\mathbf{K}$ be the $n \times n$ kernel matrix with $K_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)$.
 - The centroid of cluster $C_i$ in feature space is:
+- 
   $$
   \boldsymbol{\mu}_i^\phi = \frac{1}{n_i} \sum_{\mathbf{x}_j \in C_i} \phi(\mathbf{x}_j)
   $$
 
 **Distance in Feature Space:**
 The squared distance between a point and a cluster centroid in feature space can be computed using only kernel values:
+
 $$
 \|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2 = K(\mathbf{x}_j, \mathbf{x}_j) - \frac{2}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j) + \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)
 $$
@@ -322,13 +323,12 @@ $$
      - $\text{sqnorm}_i = \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)$
      - $\text{avg}_{ji} = \frac{1}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j)$
    - Compute the distance:
-     $$
-     d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}
-     $$
+     $d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}$
 3. **Assignment Step:** Assign each point to the cluster with the minimum $d(\mathbf{x}_j, C_i)$.
 4. **Repeat** steps 2 and 3 until convergence.
 
 **Objective Function in Kernel Space:**
+
 $$
 \min_{\mathcal{C}} \; SSE(\mathcal{C}) =
 \sum_{i=1}^k \sum_{\mathbf{x}_j \in C_i}

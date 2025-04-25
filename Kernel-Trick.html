@@ -668,19 +668,18 @@ Mercer’s theorem is fundamental because it tells us which functions <span clas
 <ol class="arabic simple">
 <li><p><strong>Initialization:</strong> Randomly select <span class="math notranslate nohighlight">\(k\)</span> initial centroids <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_1, \ldots, \boldsymbol{\mu}_k\)</span>.</p></li>
 <li><p><strong>Assignment Step:</strong> Assign each data point <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> to the nearest centroid:
-$<span class="math notranslate nohighlight">\(
-i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}
-\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(  i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}   \)</span></p></li>
 <li><p><strong>Update Step:</strong> Recompute each centroid as the mean of the points assigned to it:
-$<span class="math notranslate nohighlight">\(
+<span class="math notranslate nohighlight">\(
 \boldsymbol{\mu}_i = \frac{1}{|C_i|} \sum_{\mathbf{x}_j \in C_i} \mathbf{x}_j
-\)</span>$</p></li>
+\)</span></p></li>
 <li><p><strong>Repeat</strong> steps 2 and 3 until convergence (i.e., assignments no longer change or centroids stabilize).</p></li>
 </ol>
-<p><strong>Objective Function:</strong>
-$<span class="math notranslate nohighlight">\(
+<p><strong>Objective Function:</strong></p>
+<div class="math notranslate nohighlight">
+\[
 SSE(\mathcal{C}) = \sum_{i=1}^{k} \sum_{\mathbf{x}_j \in C_i} \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2
-\)</span>$</p>
+\]</div>
 <p><strong>Limitation:</strong><br />
 K-means can only find clusters separated by linear boundaries. It fails when clusters have nonlinear structure.</p>
 </section>
@@ -697,18 +696,21 @@ K-means can only find clusters separated by linear boundaries. It fails when clu
 <section id="kernel-k-means-algorithm">
 <h2>Kernel K-means Algorithm<a class="headerlink" href="#kernel-k-means-algorithm" title="Link to this heading">#</a></h2>
 <p><strong>Definitions:</strong></p>
-<ul class="simple">
+<ul>
 <li><p>Let <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> be the <span class="math notranslate nohighlight">\(n \times n\)</span> kernel matrix with <span class="math notranslate nohighlight">\(K_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p></li>
-<li><p>The centroid of cluster <span class="math notranslate nohighlight">\(C_i\)</span> in feature space is:
-$<span class="math notranslate nohighlight">\(
-\boldsymbol{\mu}_i^\phi = \frac{1}{n_i} \sum_{\mathbf{x}_j \in C_i} \phi(\mathbf{x}_j)
-\)</span>$</p></li>
+<li><p>The centroid of cluster <span class="math notranslate nohighlight">\(C_i\)</span> in feature space is:</p></li>
+<li><div class="math notranslate nohighlight">
+\[
+  \boldsymbol{\mu}_i^\phi = \frac{1}{n_i} \sum_{\mathbf{x}_j \in C_i} \phi(\mathbf{x}_j)
+  \]</div>
+</li>
 </ul>
 <p><strong>Distance in Feature Space:</strong>
-The squared distance between a point and a cluster centroid in feature space can be computed using only kernel values:
-$<span class="math notranslate nohighlight">\(
+The squared distance between a point and a cluster centroid in feature space can be computed using only kernel values:</p>
+<div class="math notranslate nohighlight">
+\[
 \|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2 = K(\mathbf{x}_j, \mathbf{x}_j) - \frac{2}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j) + \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)
-\)</span>$</p>
+\]</div>
 <p><strong>Algorithm Steps:</strong></p>
 <ol class="arabic simple">
 <li><p><strong>Initialization:</strong> Randomly assign points to <span class="math notranslate nohighlight">\(k\)</span> clusters.</p></li>
@@ -721,20 +723,19 @@ $<span class="math notranslate nohighlight">\(
 </ul>
 </li>
 <li><p>Compute the distance:
-$<span class="math notranslate nohighlight">\(
-d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}
-\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}\)</span></p></li>
 </ul>
 </li>
 <li><p><strong>Assignment Step:</strong> Assign each point to the cluster with the minimum <span class="math notranslate nohighlight">\(d(\mathbf{x}_j, C_i)\)</span>.</p></li>
 <li><p><strong>Repeat</strong> steps 2 and 3 until convergence.</p></li>
 </ol>
-<p><strong>Objective Function in Kernel Space:</strong>
-$<span class="math notranslate nohighlight">\(
+<p><strong>Objective Function in Kernel Space:</strong></p>
+<div class="math notranslate nohighlight">
+\[
 \min_{\mathcal{C}} \; SSE(\mathcal{C}) =
 \sum_{i=1}^k \sum_{\mathbf{x}_j \in C_i}
 \|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2
-\)</span>$</p>
+\]</div>
 </section>
 <hr class="docutils" />
 <section id="notes">
