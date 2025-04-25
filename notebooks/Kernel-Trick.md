@@ -272,16 +272,15 @@ K-means is a widely used clustering algorithm that partitions a dataset into $k$
 **Algorithm Steps:**
 1. **Initialization:** Randomly select $k$ initial centroids $\boldsymbol{\mu}_1, \ldots, \boldsymbol{\mu}_k$.
 2. **Assignment Step:** Assign each data point $\mathbf{x}_j$ to the nearest centroid:
-   $$
-   i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}
-   $$
+   $  i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}   $
 3. **Update Step:** Recompute each centroid as the mean of the points assigned to it:
-   $$
+   $
    \boldsymbol{\mu}_i = \frac{1}{|C_i|} \sum_{\mathbf{x}_j \in C_i} \mathbf{x}_j
-   $$
+   $
 4. **Repeat** steps 2 and 3 until convergence (i.e., assignments no longer change or centroids stabilize).
 
 **Objective Function:**
+
 $$
 SSE(\mathcal{C}) = \sum_{i=1}^{k} \sum_{\mathbf{x}_j \in C_i} \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2
 $$
