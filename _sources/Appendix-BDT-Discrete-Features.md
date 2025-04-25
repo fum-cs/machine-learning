@@ -1,4 +1,4 @@
-# Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)
+# Appendix: Bayes Decision Theory — Discrete Features 
 
 ## Introduction
 
@@ -121,3 +121,5 @@ Handling discrete features in Bayesian decision theory often requires simplifyin
 *   In the specific case of **independent binary features**, the Naive Bayes classifier results in a **linear discriminant function**. This highlights a connection between generative probability modeling and linear classifiers.
 
 While the independence assumption might seem overly simplistic ("naive"), Naive Bayes classifiers often perform surprisingly well in practice, particularly in domains like text classification.
+
+- For further information see section 2.9 of Duda et al.

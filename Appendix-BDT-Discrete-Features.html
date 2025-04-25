@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9) &#8212; ML</title>
+    <title>Appendix: Bayes Decision Theory — Discrete Features &#8212; ML</title>
   
   
   
@@ -52,7 +52,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -192,6 +192,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
@@ -202,7 +204,7 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Appendix: Bayes Decision Theory — Discrete Features</a></li>
 </ul>
 
     </div>
@@ -388,7 +390,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</h1>
+    <h1>Appendix: Bayes Decision Theory — Discrete Features</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -422,8 +424,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="appendix-bayes-decision-theory-discrete-features-based-on-duda-et-al-section-2-9">
-<h1>Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)<a class="headerlink" href="#appendix-bayes-decision-theory-discrete-features-based-on-duda-et-al-section-2-9" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="appendix-bayes-decision-theory-discrete-features">
+<h1>Appendix: Bayes Decision Theory — Discrete Features<a class="headerlink" href="#appendix-bayes-decision-theory-discrete-features" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>In the general formulation of Bayes Decision Theory, we aim to minimize the probability of error (or more generally, the expected risk) by assigning a feature vector <strong>x</strong> to the class <span class="math notranslate nohighlight">\(\omega_i\)</span> that maximizes the posterior probability <span class="math notranslate nohighlight">\(P(\omega_i | \mathbf{x})\)</span>. Using Bayes’ theorem, this is often equivalent to maximizing the product of the likelihood <span class="math notranslate nohighlight">\(P(\mathbf{x} | \omega_i)\)</span> and the prior probability <span class="math notranslate nohighlight">\(P(\omega_i)\)</span>:</p>
@@ -543,6 +545,9 @@ Smoothing is typically applied, especially for <span class="math notranslate noh
 <li><p>In the specific case of <strong>independent binary features</strong>, the Naive Bayes classifier results in a <strong>linear discriminant function</strong>. This highlights a connection between generative probability modeling and linear classifiers.</p></li>
 </ul>
 <p>While the independence assumption might seem overly simplistic (“naive”), Naive Bayes classifiers often perform surprisingly well in practice, particularly in domains like text classification.</p>
+<ul class="simple">
+<li><p>For further information see section 2.9 of Duda et al.</p></li>
+</ul>
 </section>
 </section>
 

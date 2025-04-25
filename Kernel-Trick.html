@@ -52,7 +52,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -63,7 +63,7 @@
     <link rel="icon" href="_static/fum-logo.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Linear models" href="02%20-%20Linear%20Models.html" />
+    <link rel="next" title="Kernel Regression: From Linear to Nonlinear Modeling" href="Kernel-Regression.html" />
     <link rel="prev" title="Feature Maps: Bridging to Kernel Methods" href="Feature-Map.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -193,6 +193,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
@@ -203,7 +205,7 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features (Based on Duda et al., Section 2.9)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features</a></li>
 </ul>
 
     </div>
@@ -399,6 +401,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">The Kernel Method (Kernel Trick)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1. Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-linear-models">2. Limitations of Linear Models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-mapping">3. Feature Mapping</a></li>
@@ -410,6 +413,17 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-disadvantages-of-the-kernel-trick">9. Advantages and Disadvantages of the Kernel Trick</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-k-means-clustering">Kernel K-means Clustering</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#review-standard-k-means-algorithm">Review: Standard K-means Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-k-means-motivation">Kernel K-means: Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-k-means-algorithm">Kernel K-means Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-gaussian-kernel">Example: Gaussian Kernel</a></li>
+</ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -640,9 +654,105 @@ Mercer’s theorem is fundamental because it tells us which functions <span clas
 <li><p><strong>Kernel Function:</strong> <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z})\)</span> computes the dot product in <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> directly.</p></li>
 <li><p><strong>Common Kernels:</strong> Linear, Polynomial, RBF (Gaussian).</p></li>
 <li><p><strong>Mercer’s Theorem:</strong> Defines the condition (positive semidefinite Gram matrix) for a function to be a valid kernel.</p></li>
-<li><p><strong>Applications:</strong> SVM, Kernel PCA, Kernel Ridge Regression, etc.</p></li>
+<li><p><strong>Applications:</strong> Kernel K-means, Kernel PCA, Kernel Ridge Regression, etc.</p></li>
 <li><p><strong>Trade-offs:</strong> Enables non-linearity but can be computationally expensive for large datasets and requires careful kernel selection/tuning.</p></li>
 </ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="kernel-k-means-clustering">
+<h1>Kernel K-means Clustering<a class="headerlink" href="#kernel-k-means-clustering" title="Link to this heading">#</a></h1>
+<section id="review-standard-k-means-algorithm">
+<h2>Review: Standard K-means Algorithm<a class="headerlink" href="#review-standard-k-means-algorithm" title="Link to this heading">#</a></h2>
+<p>K-means is a widely used clustering algorithm that partitions a dataset into <span class="math notranslate nohighlight">\(k\)</span> clusters by minimizing the sum of squared distances between each point and its assigned cluster centroid.</p>
+<p><strong>Algorithm Steps:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Initialization:</strong> Randomly select <span class="math notranslate nohighlight">\(k\)</span> initial centroids <span class="math notranslate nohighlight">\(\boldsymbol{\mu}_1, \ldots, \boldsymbol{\mu}_k\)</span>.</p></li>
+<li><p><strong>Assignment Step:</strong> Assign each data point <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> to the nearest centroid:
+$<span class="math notranslate nohighlight">\(
+i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}
+\)</span>$</p></li>
+<li><p><strong>Update Step:</strong> Recompute each centroid as the mean of the points assigned to it:
+$<span class="math notranslate nohighlight">\(
+\boldsymbol{\mu}_i = \frac{1}{|C_i|} \sum_{\mathbf{x}_j \in C_i} \mathbf{x}_j
+\)</span>$</p></li>
+<li><p><strong>Repeat</strong> steps 2 and 3 until convergence (i.e., assignments no longer change or centroids stabilize).</p></li>
+</ol>
+<p><strong>Objective Function:</strong>
+$<span class="math notranslate nohighlight">\(
+SSE(\mathcal{C}) = \sum_{i=1}^{k} \sum_{\mathbf{x}_j \in C_i} \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2
+\)</span>$</p>
+<p><strong>Limitation:</strong><br />
+K-means can only find clusters separated by linear boundaries. It fails when clusters have nonlinear structure.</p>
+</section>
+<hr class="docutils" />
+<section id="kernel-k-means-motivation">
+<h2>Kernel K-means: Motivation<a class="headerlink" href="#kernel-k-means-motivation" title="Link to this heading">#</a></h2>
+<p>To overcome the linearity limitation, Kernel K-means uses the <strong>kernel trick</strong> to implicitly map data into a higher-dimensional feature space where clusters may become linearly separable.</p>
+<ul class="simple">
+<li><p>Let <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> be a mapping from the input space to a (possibly infinite-dimensional) feature space.</p></li>
+<li><p>Instead of computing <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> explicitly, we use a kernel function <span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z}) = \langle \phi(\mathbf{x}), \phi(\mathbf{z}) \rangle\)</span>.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="kernel-k-means-algorithm">
+<h2>Kernel K-means Algorithm<a class="headerlink" href="#kernel-k-means-algorithm" title="Link to this heading">#</a></h2>
+<p><strong>Definitions:</strong></p>
+<ul class="simple">
+<li><p>Let <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> be the <span class="math notranslate nohighlight">\(n \times n\)</span> kernel matrix with <span class="math notranslate nohighlight">\(K_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p></li>
+<li><p>The centroid of cluster <span class="math notranslate nohighlight">\(C_i\)</span> in feature space is:
+$<span class="math notranslate nohighlight">\(
+\boldsymbol{\mu}_i^\phi = \frac{1}{n_i} \sum_{\mathbf{x}_j \in C_i} \phi(\mathbf{x}_j)
+\)</span>$</p></li>
+</ul>
+<p><strong>Distance in Feature Space:</strong>
+The squared distance between a point and a cluster centroid in feature space can be computed using only kernel values:
+$<span class="math notranslate nohighlight">\(
+\|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2 = K(\mathbf{x}_j, \mathbf{x}_j) - \frac{2}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j) + \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)
+\)</span>$</p>
+<p><strong>Algorithm Steps:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Initialization:</strong> Randomly assign points to <span class="math notranslate nohighlight">\(k\)</span> clusters.</p></li>
+<li><p><strong>For each cluster <span class="math notranslate nohighlight">\(C_i\)</span> and each point <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span>:</strong></p>
+<ul class="simple">
+<li><p>Compute:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\text{sqnorm}_i = \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{avg}_{ji} = \frac{1}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j)\)</span></p></li>
+</ul>
+</li>
+<li><p>Compute the distance:
+$<span class="math notranslate nohighlight">\(
+d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}
+\)</span>$</p></li>
+</ul>
+</li>
+<li><p><strong>Assignment Step:</strong> Assign each point to the cluster with the minimum <span class="math notranslate nohighlight">\(d(\mathbf{x}_j, C_i)\)</span>.</p></li>
+<li><p><strong>Repeat</strong> steps 2 and 3 until convergence.</p></li>
+</ol>
+<p><strong>Objective Function in Kernel Space:</strong>
+$<span class="math notranslate nohighlight">\(
+\min_{\mathcal{C}} \; SSE(\mathcal{C}) =
+\sum_{i=1}^k \sum_{\mathbf{x}_j \in C_i}
+\|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2
+\)</span>$</p>
+</section>
+<hr class="docutils" />
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If the kernel is linear (<span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T \mathbf{z}\)</span>), Kernel K-means reduces to standard K-means.</p></li>
+<li><p>Using nonlinear kernels (e.g., Gaussian/RBF), Kernel K-means can find clusters with nonlinear boundaries.</p></li>
+<li><p>All computations are performed using kernel values; the explicit mapping <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> is never needed.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="example-gaussian-kernel">
+<h2>Example: Gaussian Kernel<a class="headerlink" href="#example-gaussian-kernel" title="Link to this heading">#</a></h2>
+<p>With the Gaussian (RBF) kernel:
+$<span class="math notranslate nohighlight">\(
+K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{\|\mathbf{x}_i - \mathbf{x}_j\|^2}{2\sigma^2}\right)
+\)</span>$
+Kernel K-means can separate concentric or otherwise nonlinearly separable clusters.</p>
 </section>
 </section>
 
@@ -686,11 +796,11 @@ Mercer’s theorem is fundamental because it tells us which functions <span clas
       </div>
     </a>
     <a class="right-next"
-       href="02%20-%20Linear%20Models.html"
+       href="Kernel-Regression.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Linear models</p>
+        <p class="prev-next-title">Kernel Regression: From Linear to Nonlinear Modeling</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -710,6 +820,7 @@ Mercer’s theorem is fundamental because it tells us which functions <span clas
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">The Kernel Method (Kernel Trick)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">1. Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-linear-models">2. Limitations of Linear Models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-mapping">3. Feature Mapping</a></li>
@@ -721,6 +832,17 @@ Mercer’s theorem is fundamental because it tells us which functions <span clas
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advantages-and-disadvantages-of-the-kernel-trick">9. Advantages and Disadvantages of the Kernel Trick</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-k-means-clustering">Kernel K-means Clustering</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#review-standard-k-means-algorithm">Review: Standard K-means Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-k-means-motivation">Kernel K-means: Motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-k-means-algorithm">Kernel K-means Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-gaussian-kernel">Example: Gaussian Kernel</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
