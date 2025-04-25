@@ -259,5 +259,97 @@ The Kernel Trick is a powerful mathematical technique that allows linear algorit
 *   **Kernel Function:** $K(\mathbf{x}, \mathbf{z})$ computes the dot product in $\mathcal{F}$ directly.
 *   **Common Kernels:** Linear, Polynomial, RBF (Gaussian).
 *   **Mercer's Theorem:** Defines the condition (positive semidefinite Gram matrix) for a function to be a valid kernel.
-*   **Applications:** SVM, Kernel PCA, Kernel Ridge Regression, etc.
+*   **Applications:** Kernel K-means, Kernel PCA, Kernel Ridge Regression, etc.
 *   **Trade-offs:** Enables non-linearity but can be computationally expensive for large datasets and requires careful kernel selection/tuning.
+   
+
+# Kernel K-means Clustering
+
+## Review: Standard K-means Algorithm
+
+K-means is a widely used clustering algorithm that partitions a dataset into $k$ clusters by minimizing the sum of squared distances between each point and its assigned cluster centroid.
+
+**Algorithm Steps:**
+1. **Initialization:** Randomly select $k$ initial centroids $\boldsymbol{\mu}_1, \ldots, \boldsymbol{\mu}_k$.
+2. **Assignment Step:** Assign each data point $\mathbf{x}_j$ to the nearest centroid:
+   $$
+   i^* = \arg\min_{i} \left\{ \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2 \right\}
+   $$
+3. **Update Step:** Recompute each centroid as the mean of the points assigned to it:
+   $$
+   \boldsymbol{\mu}_i = \frac{1}{|C_i|} \sum_{\mathbf{x}_j \in C_i} \mathbf{x}_j
+   $$
+4. **Repeat** steps 2 and 3 until convergence (i.e., assignments no longer change or centroids stabilize).
+
+**Objective Function:**
+$$
+SSE(\mathcal{C}) = \sum_{i=1}^{k} \sum_{\mathbf{x}_j \in C_i} \|\mathbf{x}_j - \boldsymbol{\mu}_i\|^2
+$$
+
+**Limitation:**  
+K-means can only find clusters separated by linear boundaries. It fails when clusters have nonlinear structure.
+
+---
+
+## Kernel K-means: Motivation
+
+To overcome the linearity limitation, Kernel K-means uses the **kernel trick** to implicitly map data into a higher-dimensional feature space where clusters may become linearly separable.
+
+- Let $\phi(\mathbf{x})$ be a mapping from the input space to a (possibly infinite-dimensional) feature space.
+- Instead of computing $\phi(\mathbf{x})$ explicitly, we use a kernel function $K(\mathbf{x}, \mathbf{z}) = \langle \phi(\mathbf{x}), \phi(\mathbf{z}) \rangle$.
+
+---
+
+## Kernel K-means Algorithm
+
+**Definitions:**
+- Let $\mathbf{K}$ be the $n \times n$ kernel matrix with $K_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)$.
+- The centroid of cluster $C_i$ in feature space is:
+  $$
+  \boldsymbol{\mu}_i^\phi = \frac{1}{n_i} \sum_{\mathbf{x}_j \in C_i} \phi(\mathbf{x}_j)
+  $$
+
+**Distance in Feature Space:**
+The squared distance between a point and a cluster centroid in feature space can be computed using only kernel values:
+$$
+\|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2 = K(\mathbf{x}_j, \mathbf{x}_j) - \frac{2}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j) + \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)
+$$
+
+**Algorithm Steps:**
+1. **Initialization:** Randomly assign points to $k$ clusters.
+2. **For each cluster $C_i$ and each point $\mathbf{x}_j$:**
+   - Compute:
+     - $\text{sqnorm}_i = \frac{1}{n_i^2} \sum_{\mathbf{x}_a, \mathbf{x}_b \in C_i} K(\mathbf{x}_a, \mathbf{x}_b)$
+     - $\text{avg}_{ji} = \frac{1}{n_i} \sum_{\mathbf{x}_a \in C_i} K(\mathbf{x}_a, \mathbf{x}_j)$
+   - Compute the distance:
+     $$
+     d(\mathbf{x}_j, C_i) = \text{sqnorm}_i - 2 \cdot \text{avg}_{ji}
+     $$
+3. **Assignment Step:** Assign each point to the cluster with the minimum $d(\mathbf{x}_j, C_i)$.
+4. **Repeat** steps 2 and 3 until convergence.
+
+**Objective Function in Kernel Space:**
+$$
+\min_{\mathcal{C}} \; SSE(\mathcal{C}) =
+\sum_{i=1}^k \sum_{\mathbf{x}_j \in C_i}
+\|\phi(\mathbf{x}_j) - \boldsymbol{\mu}_i^\phi\|^2
+$$
+
+---
+
+## Notes
+
+- If the kernel is linear ($K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T \mathbf{z}$), Kernel K-means reduces to standard K-means.
+- Using nonlinear kernels (e.g., Gaussian/RBF), Kernel K-means can find clusters with nonlinear boundaries.
+- All computations are performed using kernel values; the explicit mapping $\phi(\mathbf{x})$ is never needed.
+
+---
+
+## Example: Gaussian Kernel
+
+With the Gaussian (RBF) kernel:
+$$
+K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{\|\mathbf{x}_i - \mathbf{x}_j\|^2}{2\sigma^2}\right)
+$$
+Kernel K-means can separate concentric or otherwise nonlinearly separable clusters.
+

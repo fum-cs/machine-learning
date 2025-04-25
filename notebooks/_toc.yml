@@ -15,6 +15,7 @@ parts:
   - file: Mahalanobis-Distance
   - file: Feature-Map
   - file: Kernel-Trick
+  - file: Kernel-Regression
   - file: 02 - Linear Models
   - file: 04 - Model Selection
   - file: 05 - Ensemble Learning
