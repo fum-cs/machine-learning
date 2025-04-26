@@ -52,7 +52,7 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -473,7 +473,7 @@ document.write(`
 <h1>Kernel Regression: From Linear to Nonlinear Modeling<a class="headerlink" href="#kernel-regression-from-linear-to-nonlinear-modeling" title="Link to this heading">#</a></h1>
 <section id="linear-regression-foundation">
 <h2>1. Linear Regression Foundation<a class="headerlink" href="#linear-regression-foundation" title="Link to this heading">#</a></h2>
-<p>The goal of regression is to predict a continuous output <span class="math notranslate nohighlight">\(y\)</span> from input features <span class="math notranslate nohighlight">\(\mathbf{x} = (x_1, ..., x_d)^T\)</span> using a learned function <span class="math notranslate nohighlight">\(f\)</span>:</p>
+<p>The goal of regression is to predict a continuous output <span class="math notranslate nohighlight">\(y\)</span> from input features <span class="math notranslate nohighlight">\(\mathbf{x} = (x_0, x_1, ..., x_d)^T\)</span> using a learned function <span class="math notranslate nohighlight">\(f\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 y = f(\mathbf{x}) + \varepsilon
@@ -481,12 +481,12 @@ y = f(\mathbf{x}) + \varepsilon
 <p>where <span class="math notranslate nohighlight">\(\varepsilon\)</span> is noise. In <strong>linear regression</strong>, we assume:</p>
 <div class="math notranslate nohighlight">
 \[
-f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b
+f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} 
 \]</div>
 <p>The parameters <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are found by minimizing the <strong>sum of squared errors (SSE)</strong>:</p>
 <div class="math notranslate nohighlight">
 \[
-\min_{\mathbf{w}, b} \sum_{i=1}^n (y_i - \mathbf{w}^T\mathbf{x}_i - b)^2
+\min_{\mathbf{w}} \sum_{i=1}^n (y_i - \mathbf{w}^T\mathbf{x}_i)^2
 \]</div>
 </section>
 <hr class="docutils" />
@@ -849,13 +849,17 @@ X^T (X X^T)^{-1} (X X^T) = X^T I = X^T
 \[
 (X^T X)^{-1} X^T X X^T = I X^T = X^T
 \]</div>
-<p>Therefore, both <span class="math notranslate nohighlight">\((X^T X)^{-1} X^T\)</span> and <span class="math notranslate nohighlight">\(X^T (X X^T)^{-1}\)</span> are left inverses of <span class="math notranslate nohighlight">\(X\)</span>.</p>
-<p>To show they are equal, multiply both sides by <span class="math notranslate nohighlight">\(X\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}\begin{split}
-(X^T X)^{-1} X^T X = X^T (X X^T)^{-1} X\\\end{split}\\I = X^T (X X^T)^{-1} X
-\end{aligned}\end{align} \]</div>
-<p>But <span class="math notranslate nohighlight">\(X^T (X X^T)^{-1} X\)</span> is the <span class="math notranslate nohighlight">\(d \times d\)</span> identity matrix, so both sides are equal.</p>
+ <!-- Therefore, both $(X^T X)^{-1} X^T$ and $X^T (X X^T)^{-1}$ are left inverses of $X$.
+
+To show they are equal, multiply both sides by $X$:
+
+$$
+(X^T X)^{-1} X^T X = X^T (X X^T)^{-1} X\\
+
+I = X^T (X X^T)^{-1} X
+$$
+
+But $X^T (X X^T)^{-1} X$ is the $d \times d$ identity matrix, so both sides are equal. -->
 <p>Therefore,</p>
 <div class="math notranslate nohighlight">
 \[
