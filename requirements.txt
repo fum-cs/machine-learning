@@ -12,6 +12,9 @@ openml>=0.14.2
 seaborn>=0.13.2
 tensorflow_addons>=0.23.0
 graphviz>=0.20.1
-tensorflow
+tensorflow==2.16.1
 #fancyimpute>=0.7.0
 hidden_markov
+imageio
+scikit-image
+ipywidgets

@@ -24,6 +24,7 @@ parts:
   - file: 08 - Hidden Markov Models
   - file: AppenixA-Kernel-SVM-and-Kernel-Regression
   - file: Appendix-BDT-Discrete-Features.md
+  - file: Support vector machines
   # - file: 08 - Neural Networks
   # - file: 09 - Convolutional Neural Networks
 #   - file: 10 - Neural Networks for text
