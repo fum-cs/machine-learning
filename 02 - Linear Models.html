@@ -197,7 +197,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Linear models</a></li>
 
-
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
@@ -468,28 +467,21 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-optimization-theory-and-applications">Sparse Optimization: Theory and Applications</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-signal-denoising-via-weighted-lasso-in-dct-domain">Sparse Signal Denoising via Weighted Lasso in DCT Domain</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-formulation">Problem Formulation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components">Key Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-signal-denoising-via-weighted-lasso-in-dct-domain">Sparse Signal Denoising via Weighted Lasso in DCT Domain</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#signal-representation">1. Signal Representation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-lasso-optimization">2. Weighted Lasso Optimization</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-parameters">3. Algorithm Parameters</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-works">Why This Works</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-sparsity-dichotomy">Noise-Sparsity Dichotomy</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-l1-magic">Weighted ℓ₁ Magic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-analysis">Performance Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-guarantees">Theoretical Guarantees</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-considerations">Practical Considerations</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-analysis">Performance Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-guarantees">Theoretical Guarantees</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-considerations">Practical Considerations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-classification">Linear models for Classification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-cross-entropy-further-reading">Loss function: Cross-entropy (Further Reading)</a></li>
@@ -1436,8 +1428,10 @@ Error: X^T X is singular and cannot be inverted (as expected when n &lt; p).
 </ul>
 </li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<p>$$ python
+from sklearn.linear_model import LinearRegression
+lr = LinearRegression().fit(X_train, y_train)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -2127,28 +2121,24 @@ Test set score: 0.75
 <p>The field continues to evolve with <strong>non-convex penalties</strong> (e.g., SCAD) and <strong>greedy algorithms</strong> (OMP), balancing computational efficiency and statistical guarantees. For a unified perspective, see the cited references and tutorials.</p>
 </section>
 </section>
-</section>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="sparse-signal-denoising-via-weighted-lasso-in-dct-domain">
-<h1>Sparse Signal Denoising via Weighted Lasso in DCT Domain<a class="headerlink" href="#sparse-signal-denoising-via-weighted-lasso-in-dct-domain" title="Link to this heading">#</a></h1>
-<section id="problem-formulation">
-<h2>Problem Formulation<a class="headerlink" href="#problem-formulation" title="Link to this heading">#</a></h2>
+<section id="sparse-signal-denoising-via-weighted-lasso-in-dct-domain">
+<h2>Sparse Signal Denoising via Weighted Lasso in DCT Domain<a class="headerlink" href="#sparse-signal-denoising-via-weighted-lasso-in-dct-domain" title="Link to this heading">#</a></h2>
 <p>Given a noisy 1D signal:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>y(t) = f(t) + \epsilon(t)
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+y(t) = f(t) + \epsilon(t)
+\]</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">f(t)</span></code> is the clean signal (sparse in frequency domain)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ϵ(t)</span></code> is Gaussian noise (non-sparse in any basis)</p></li>
 </ul>
 <p>We solve the weighted Lasso problem:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\min_x \|y - \text{IDCT}(x)\|^2_2 + \alpha \sum_{i&gt;n_{freq}} |x_i|
-</pre></div>
-</div>
-</section>
-<section id="key-components">
-<h2>Key Components<a class="headerlink" href="#key-components" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[
+\min_x \|y - \text{IDCT}(x)\|^2_2 + \alpha \sum_{i&gt;n_{freq}} |x_i|
+\]</div>
 <section id="signal-representation">
 <h3>1. Signal Representation<a class="headerlink" href="#signal-representation" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dct_coeffs</span> <span class="o">=</span> <span class="n">dct</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">)</span>
@@ -2201,9 +2191,6 @@ Test set score: 0.75
 </table>
 </div>
 </section>
-</section>
-<section id="why-this-works">
-<h2>Why This Works<a class="headerlink" href="#why-this-works" title="Link to this heading">#</a></h2>
 <section id="noise-sparsity-dichotomy">
 <h3>Noise-Sparsity Dichotomy<a class="headerlink" href="#noise-sparsity-dichotomy" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -2213,19 +2200,19 @@ Test set score: 0.75
 </section>
 <section id="weighted-l1-magic">
 <h3>Weighted ℓ₁ Magic<a class="headerlink" href="#weighted-l1-magic" title="Link to this heading">#</a></h3>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\text{Effective penalty} = \alpha \sum_{i&gt;n_{freq}} |x_i|
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Effective penalty} = \alpha \sum_{i&gt;n_{freq}} |x_i|
+\]</div>
 <ul class="simple">
 <li><p>Preserves signal structure (low frequencies)</p></li>
 <li><p>Aggressively truncates noise (high frequencies)</p></li>
 </ul>
 </section>
-</section>
 <section id="performance-analysis">
-<h2>Performance Analysis<a class="headerlink" href="#performance-analysis" title="Link to this heading">#</a></h2>
+<h3>Performance Analysis<a class="headerlink" href="#performance-analysis" title="Link to this heading">#</a></h3>
 <section id="theoretical-guarantees">
-<h3>Theoretical Guarantees<a class="headerlink" href="#theoretical-guarantees" title="Link to this heading">#</a></h3>
+<h4>Theoretical Guarantees<a class="headerlink" href="#theoretical-guarantees" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Exact Recovery</strong>: Possible if:</p>
 <ul>
@@ -2237,7 +2224,7 @@ Test set score: 0.75
 </ul>
 </section>
 <section id="practical-considerations">
-<h3>Practical Considerations<a class="headerlink" href="#practical-considerations" title="Link to this heading">#</a></h3>
+<h4>Practical Considerations<a class="headerlink" href="#practical-considerations" title="Link to this heading">#</a></h4>
 <ol class="arabic">
 <li><p><strong>Parameter Tuning</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cross-validate alpha using MSE</span>
@@ -2256,7 +2243,7 @@ Test set score: 0.75
 </section>
 </section>
 <section id="applications">
-<h2>Applications<a class="headerlink" href="#applications" title="Link to this heading">#</a></h2>
+<h3>Applications<a class="headerlink" href="#applications" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Biomedical signal processing (EEG/ECG denoising)</p></li>
 <li><p>Seismic data analysis</p></li>
@@ -2264,7 +2251,7 @@ Test set score: 0.75
 </ul>
 </section>
 <section id="limitations">
-<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<h3>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Assumes signal sparsity in chosen basis</p></li>
 <li><p>Requires tuning for each application</p></li>
@@ -2344,6 +2331,7 @@ Test set score: 0.75
     * `SGDRegressor` in sklearn
 
 <img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/huber.png" alt="ml" style="width: 500px;"/> --></section>
+</section>
 <section id="linear-models-for-classification">
 <h2>Linear models for Classification<a class="headerlink" href="#linear-models-for-classification" title="Link to this heading">#</a></h2>
 <p>Aims to find a hyperplane that separates the examples of each class.<br />
@@ -3306,28 +3294,21 @@ th {font-size: 16px}
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-optimization-theory-and-applications">Sparse Optimization: Theory and Applications</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-signal-denoising-via-weighted-lasso-in-dct-domain">Sparse Signal Denoising via Weighted Lasso in DCT Domain</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-formulation">Problem Formulation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-components">Key Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-signal-denoising-via-weighted-lasso-in-dct-domain">Sparse Signal Denoising via Weighted Lasso in DCT Domain</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#signal-representation">1. Signal Representation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-lasso-optimization">2. Weighted Lasso Optimization</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-parameters">3. Algorithm Parameters</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-works">Why This Works</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-sparsity-dichotomy">Noise-Sparsity Dichotomy</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-l1-magic">Weighted ℓ₁ Magic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-analysis">Performance Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-guarantees">Theoretical Guarantees</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-considerations">Practical Considerations</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-analysis">Performance Analysis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-guarantees">Theoretical Guarantees</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-considerations">Practical Considerations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-classification">Linear models for Classification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-cross-entropy-further-reading">Loss function: Cross-entropy (Further Reading)</a></li>
