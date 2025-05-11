@@ -197,6 +197,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Linear models</a></li>
 
+
 <li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
@@ -482,6 +483,12 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-matching-pursuit-omp-for-sparse-recovery">Orthogonal Matching Pursuit (OMP) for Sparse Recovery</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation">Mathematical Formulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-lasso">Comparison with LASSO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-omp">When to Use OMP</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-classification">Linear models for Classification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-cross-entropy-further-reading">Loss function: Cross-entropy (Further Reading)</a></li>
@@ -2401,6 +2408,250 @@ y(t) = f(t) + \epsilon(t)
 <img alt="_images/4a626df7792c58ca8aa1b03245fa413426480a3c5f226d6c4fb6146c09fc9e60.png" src="_images/4a626df7792c58ca8aa1b03245fa413426480a3c5f226d6c4fb6146c09fc9e60.png" />
 </div>
 </div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="orthogonal-matching-pursuit-omp-for-sparse-recovery">
+<h1>Orthogonal Matching Pursuit (OMP) for Sparse Recovery<a class="headerlink" href="#orthogonal-matching-pursuit-omp-for-sparse-recovery" title="Link to this heading">#</a></h1>
+<p><strong>Orthogonal Matching Pursuit (OMP)</strong> is a greedy algorithm that solves the sparse approximation problem:</p>
+<p><strong>Problem Statement</strong>: Given a design matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> (where typically <span class="math notranslate nohighlight">\(n \ll p\)</span>) and observations <span class="math notranslate nohighlight">\(\mathbf{y} \in \mathbb{R}^n\)</span>, find the sparsest vector <span class="math notranslate nohighlight">\(\mathbf{w} \in \mathbb{R}^p\)</span> such that <span class="math notranslate nohighlight">\(\mathbf{y} \approx X\mathbf{w}\)</span>.</p>
+<p><strong>Key characteristics</strong>:</p>
+<ul class="simple">
+<li><p>Iterative approach that selects one feature per iteration based on maximum correlation</p></li>
+<li><p>Provides exact recovery guarantees under Restricted Isometry Property (RIP) conditions</p></li>
+<li><p>Computationally efficient (<span class="math notranslate nohighlight">\(O(knp)\)</span> complexity) compared to <span class="math notranslate nohighlight">\(\ell_0\)</span>-norm minimization</p></li>
+<li><p>Widely used in compressed sensing, signal processing, and feature selection</p></li>
+<li><p>Preserves interpretability through explicit feature selection</p></li>
+</ul>
+<p>This method complements LASSO by offering an alternative approach to sparse recovery with distinct theoretical guarantees and computational trade-offs.</p>
+<p>While LASSO solves the <span class="math notranslate nohighlight">\(\ell_1\)</span>-regularized problem:
+$<span class="math notranslate nohighlight">\(
+\min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{y} - X\mathbf{w}\|_2^2 + \alpha \|\mathbf{w}\|_1
+\)</span>$</p>
+<p>OMP provides a greedy alternative for sparse approximation, solving:
+$<span class="math notranslate nohighlight">\(
+\min_{\mathbf{w}} \|\mathbf{w}\|_0 \quad \text{subject to} \quad \|\mathbf{y} - X\mathbf{w}\|_2 \leq \epsilon
+\)</span>$</p>
+<section id="mathematical-formulation">
+<h2>Mathematical Formulation<a class="headerlink" href="#mathematical-formulation" title="Link to this heading">#</a></h2>
+<p>Given:</p>
+<ul class="simple">
+<li><p>Design matrix <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> (your notation)</p></li>
+<li><p>Response vector <span class="math notranslate nohighlight">\(\mathbf{y} \in \mathbb{R}^n\)</span></p></li>
+<li><p>Target sparsity level <span class="math notranslate nohighlight">\(k\)</span></p></li>
+</ul>
+<p>At each iteration <span class="math notranslate nohighlight">\(t\)</span>, OMP:</p>
+<ol class="arabic">
+<li><p><strong>Finds the most correlated feature</strong>:</p>
+<div class="math notranslate nohighlight">
+\[j_t = \arg\max_{j} |\mathbf{x}_j^\top \mathbf{r}_{t-1}|\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{r}_{t-1}\)</span> is the current residual.</p>
+</li>
+<li><p><strong>Updates the active set</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{A}_t = \mathcal{A}_{t-1} \cup \{j_t\}\]</div>
+</li>
+<li><p><strong>Solves least squares on active features</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{w}_t = \arg\min_{\mathbf{w}} \|\mathbf{y} - X_{\mathcal{A}_t}\mathbf{w}\|_2^2\]</div>
+</li>
+<li><p><strong>Updates the residual</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{r}_t = \mathbf{y} - X_{\mathcal{A}_t}\mathbf{w}_t\]</div>
+</li>
+</ol>
+</section>
+<section id="comparison-with-lasso">
+<h2>Comparison with LASSO<a class="headerlink" href="#comparison-with-lasso" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>OMP</p></th>
+<th class="head"><p>LASSO</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Objective</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\ell_0\)</span> constraint</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ell_1\)</span> regularization</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Solution</strong></p></td>
+<td><p>Greedy approximation</p></td>
+<td><p>Convex optimization</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Computational</strong></p></td>
+<td><p>Faster for small <span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td><p>Slower but more stable</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Theoretical</strong></p></td>
+<td><p>Exact recovery possible</p></td>
+<td><p>Consistent estimation</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">pinv</span>
+
+<span class="k">def</span> <span class="nf">omp</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal Matching Pursuit</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray, shape (n_samples, n_features)</span>
+<span class="sd">        Design matrix</span>
+<span class="sd">    y : ndarray, shape (n_samples,)</span>
+<span class="sd">        Target vector</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Sparsity level (number of non-zero coefficients)</span>
+<span class="sd">    tol : float</span>
+<span class="sd">        Residual tolerance for early stopping</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    w : ndarray, shape (n_features,)</span>
+<span class="sd">        Sparse coefficient vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+        <span class="c1"># Find most correlated feature</span>
+        <span class="n">correlations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">residual</span><span class="p">)</span>
+        <span class="n">correlations</span><span class="p">[</span><span class="n">active</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># exclude selected</span>
+        <span class="n">new_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">correlations</span><span class="p">)</span>
+        <span class="n">active</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_idx</span><span class="p">)</span>
+        
+        <span class="c1"># Solve least squares on active set</span>
+        <span class="n">X_active</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">active</span><span class="p">]</span>
+        <span class="n">w_active</span> <span class="o">=</span> <span class="n">pinv</span><span class="p">(</span><span class="n">X_active</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span>
+        
+        <span class="c1"># Update residual</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X_active</span> <span class="o">@</span> <span class="n">w_active</span>
+        
+        <span class="c1"># Early stopping if residual is small</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="k">break</span>
+    
+    <span class="c1"># Convert to full coefficient vector</span>
+    <span class="n">w_sparse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">w_sparse</span><span class="p">[</span><span class="n">active</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_active</span>
+    <span class="k">return</span> <span class="n">w_sparse</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+
+<span class="c1"># Generate synthetic data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">w_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">w_true</span><span class="p">[[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">w_true</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="c1"># Split into train/test (80/20)</span>
+<span class="n">split_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">split_idx</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">split_idx</span><span class="p">:]</span>
+<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">split_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">split_idx</span><span class="p">:]</span>
+
+<span class="c1"># --- Run OMP ---</span>
+<span class="n">w_omp</span> <span class="o">=</span> <span class="n">omp</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># --- Run LASSO ---</span>
+<span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">w_lasso</span> <span class="o">=</span> <span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span>
+
+<span class="c1"># --- Evaluation Metrics ---</span>
+<span class="c1"># Print ground truth for reference</span>
+<span class="n">true_nnz</span> <span class="o">=</span> <span class="n">w_true</span><span class="p">[</span><span class="n">w_true</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ground Truth Non-zero Coefficients:&quot;</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">true_nnz</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Performance Comparison:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Method&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Test MSE&#39;</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Support Error&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;ℓ2 Error&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Non-zero Coefficients&#39;</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">75</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;OMP&#39;</span><span class="p">,</span> <span class="n">w_omp</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;LASSO&#39;</span><span class="p">,</span> <span class="n">w_lasso</span><span class="p">)]:</span>
+    <span class="n">test_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_test</span> <span class="o">@</span> <span class="n">w</span> <span class="o">-</span> <span class="n">y_test</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">support_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">w</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">w_true</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">l2_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">w_true</span><span class="p">)</span>
+    <span class="n">nnz_values</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">w</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># Format NNZ values with 2 decimal places</span>
+    <span class="n">nnz_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">nnz_values</span><span class="p">[:</span><span class="mi">5</span><span class="p">]])</span>  <span class="c1"># Show first 5</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nnz_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">nnz_str</span> <span class="o">+=</span> <span class="s2">&quot;, ...&quot;</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_mse</span><span class="si">:</span><span class="s2">.4e</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">support_error</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">l2_error</span><span class="si">:</span><span class="s2">&lt;10.4f</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">nnz_str</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ground Truth Non-zero Coefficients: 1.50, -0.80, 1.20
+
+Performance Comparison:
+Method     Test MSE     Support Error   ℓ2 Error   Non-zero Coefficients         
+---------------------------------------------------------------------------
+OMP        1.6293e-02    0               0.0296     [1.51, -0.80, 1.17]
+LASSO      5.5046e-02    0               0.2214     [1.39, -0.68, 1.05]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Coefficient Visualization ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="o">*</span><span class="n">fig_scale</span><span class="p">))</span>
+
+<span class="c1"># OMP Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w_omp</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">basefmt</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OMP Coefficients</span><span class="se">\n</span><span class="s2">(Test MSE: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_test</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">w_omp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Feature Index&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Coefficient Value&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># LASSO Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">w_lasso</span><span class="p">,</span> <span class="n">markerfmt</span><span class="o">=</span><span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">basefmt</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LASSO Coefficients (α=0.1)</span><span class="se">\n</span><span class="s2">(Test MSE: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_test</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">w_lasso</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Feature Index&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Coefficient Value&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="when-to-use-omp">
+<h2>When to Use OMP<a class="headerlink" href="#when-to-use-omp" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Exactly sparse signals</strong> (few true non-zeros)</p></li>
+<li><p><strong>Small-scale problems</strong> where <span class="math notranslate nohighlight">\(k \ll p\)</span></p></li>
+<li><p><strong>Theoretical analysis</strong> (easier to interpret than LASSO)</p></li>
+<li><p><strong>Dictionary learning</strong> settings</p></li>
+</ol>
 <!-- ### Other loss functions for regression
 * Huber loss: switches from squared loss to linear loss past a value $\epsilon$
     * More robust against outliers
@@ -2412,7 +2663,6 @@ y(t) = f(t) + \epsilon(t)
     * `SGDRegressor` in sklearn
 
 <img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/huber.png" alt="ml" style="width: 500px;"/> --></section>
-</section>
 <section id="linear-models-for-classification">
 <h2>Linear models for Classification<a class="headerlink" href="#linear-models-for-classification" title="Link to this heading">#</a></h2>
 <p>Aims to find a hyperplane that separates the examples of each class.<br />
@@ -3390,6 +3640,12 @@ th {font-size: 16px}
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-matching-pursuit-omp-for-sparse-recovery">Orthogonal Matching Pursuit (OMP) for Sparse Recovery</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation">Mathematical Formulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-lasso">Comparison with LASSO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-omp">When to Use OMP</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-classification">Linear models for Classification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-cross-entropy-further-reading">Loss function: Cross-entropy (Further Reading)</a></li>
