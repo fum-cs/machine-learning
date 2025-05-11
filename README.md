@@ -45,3 +45,4 @@ I should mention that the original material of this course was from [Open Machin
 
 - jupyter-book build ./
 - ghp-import -n -p -f ./_build/html
+- jupyter-book build --builder pdflatex ./
