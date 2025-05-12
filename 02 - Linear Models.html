@@ -448,7 +448,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-regression">Linear models for regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-aka-ordinary-least-squares">Linear Regression (aka Ordinary Least Squares)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-ordinary-least-squares">Solving ordinary least squares</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-x-t-x-is-singular-when-n-p-further-reading"><strong>Why <span class="math notranslate nohighlight">\( X^T X \)</span> is Singular When <span class="math notranslate nohighlight">\( n &lt; p \)</span>?</strong>  (Further Reading)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-x-t-x-is-singular-when-n-p"><strong>Why <span class="math notranslate nohighlight">\( X^T X \)</span> is Singular When <span class="math notranslate nohighlight">\( n &lt; p \)</span>?</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient Descent</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#in-practice">In practice</a></li>
@@ -478,7 +478,6 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-guarantees">Theoretical Guarantees</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 </ul>
 </li>
@@ -486,8 +485,21 @@ document.write(`
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-matching-pursuit-omp-for-sparse-recovery">Orthogonal Matching Pursuit (OMP) for Sparse Recovery</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#omp-algorithm">OMP algorithm</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-lasso">Comparison with LASSO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-lasso">Comparison with LASSO</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practice">Practice</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-omp">When to Use OMP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-between-sparse-learning-and-functional-analysis">Connection Between Sparse Learning and Functional Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hilbert-spaces-and-orthogonal-projections">Hilbert Spaces and Orthogonal Projections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#banach-spaces-and-ell-1-regularization">Banach Spaces and <span class="math notranslate nohighlight">\( \ell_1 \)</span>-Regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier-wavelet-and-other-representations">Fourier, Wavelet, and Other Representations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-fixed-bases-to-learned-representations">From Fixed Bases to Learned Representations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-evolving-role-of-sparse-methods">The Evolving Role of Sparse Methods</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mri-reconstruction-further-reading">MRI reconstruction (Further Reading)</a><ul class="visible nav section-nav flex-column">
@@ -498,11 +510,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-cross-entropy-further-reading">Loss function: Cross-entropy (Further Reading)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-methods-solvers-for-cross-entropy-loss">Optimization methods (solvers) for cross-entropy loss</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">In practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">In practice</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-classification">Ridge Classification</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perceptron">Perceptron</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-multiclass-classification">Linear Models for multiclass classification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-rest-aka-one-vs-all">one-vs-rest (aka one-vs-all)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-one">one-vs-one</a></li>
@@ -633,7 +644,8 @@ document.write(`
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/08_images.png" alt="ml" style="width: 40%;"/><section id="basic-operations">
+<p><img alt="" src="_images/08_images.png" /></p>
+<section id="basic-operations">
 <h3>Basic operations<a class="headerlink" href="#basic-operations" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Sums and products are denoted by capital Sigma and capital Pi:</p></li>
@@ -793,7 +805,8 @@ document.write(`
 </ul>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/02_pdf.png" alt="ml" style="width: 70%;"/></section>
+<p><img alt="" src="_images/02_pdf.png" /></p>
+</section>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="id1">
@@ -874,8 +887,10 @@ document.write(`
 </ul>
 <div class="math notranslate nohighlight">
 \[\mathcal{L}_{SSE} = \sum_{n=1}^{N} (y_n-\hat{y}_n)^2 = \sum_{n=1}^{N} (y_n-(\mathbf{w}\mathbf{x_n} + w_0))^2\]</div>
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/02_least_squares.png" alt="ml" style="margin: 0 auto; width: 750px;"/><section id="solving-ordinary-least-squares">
+<p><img alt="" src="_images/02_least_squares.png" /></p>
+<section id="solving-ordinary-least-squares">
 <h4>Solving ordinary least squares<a class="headerlink" href="#solving-ordinary-least-squares" title="Link to this heading">#</a></h4>
+<p><strong>Closed-Form Solution</strong></p>
 <ul>
 <li><p>Convex optimization problem with unique closed-form solution:</p>
 <div class="math notranslate nohighlight">
@@ -890,25 +905,32 @@ document.write(`
 <li><p>Only works if <span class="math notranslate nohighlight">\(n&gt;p\)</span></p></li>
 </ul>
 </li>
-<li><p><em>Gradient Descent</em></p>
-<ul class="simple">
-<li><p>Faster for large and/or high-dimensional datasets</p></li>
-<li><p>When <span class="math notranslate nohighlight">\(X^{T}X\)</span> cannot be computed or takes too long (<span class="math notranslate nohighlight">\(p\)</span> or <span class="math notranslate nohighlight">\(n\)</span> is too large)</p></li>
-<li><p>When you want more control over the learning process</p></li>
 </ul>
-</li>
-<li><p><strong>Very easily overfits</strong>.</p>
+<p><em>Overfitting Risks of Closed-Form Solution</em></p>
 <ul class="simple">
-<li><p>coefficients <span class="math notranslate nohighlight">\(w\)</span> become very large (steep incline/decline)</p></li>
-<li><p>small change in the input <em>x</em> results in a very different output <em>y</em></p></li>
-<li><p>No hyperparameters that control model complexity</p></li>
+<li><p><strong>The closed-form solution of Ordinary Least Squares (OLS) is highly prone to overfitting</strong>, especially when applied to small or highly correlated datasets.</p></li>
+<li><p><strong>Large coefficients</strong>: In the absence of regularization, weights <span class="math notranslate nohighlight">\( w \)</span> can grow excessively, leading to unstable predictions.</p></li>
+<li><p><strong>Sensitive to input variations</strong>: Small changes in <span class="math notranslate nohighlight">\( x \)</span> may result in disproportionately large shifts in the output <span class="math notranslate nohighlight">\( y \)</span>, making the model unreliable.</p></li>
+<li><p><strong>No direct hyperparameter control</strong>: Unlike Gradient Descent, OLS lacks tuning mechanisms such as learning rate or regularization strength.</p></li>
+</ul>
+<p><strong>Gradient Descent</strong></p>
+<ul class="simple">
+<li><p>More efficient for <strong>large-scale</strong> or <strong>high-dimensional</strong> datasets.</p></li>
+<li><p>Preferred when computing <span class="math notranslate nohighlight">\( X^{T}X \)</span> is infeasible or excessively time-consuming due to large <span class="math notranslate nohighlight">\( p \)</span> or <span class="math notranslate nohighlight">\( n \)</span>.</p></li>
+<li><p>Offers multiple tunable settings to control the learning process, including:</p>
+<ul>
+<li><p><strong>Learning Rate</strong>: Adjusts update speed to balance stability and convergence.</p></li>
+<li><p><strong>Regularization</strong>: Options like L1, L2, or Elastic Net mitigate overfitting.</p></li>
+<li><p><strong>Batch Size</strong>: Influences computational efficiency (Stochastic, Mini-batch, Full-batch).</p></li>
+<li><p><strong>Iterations</strong>: Determines the number of passes over the dataset.</p></li>
+<li><p><strong>Momentum &amp; Decay</strong>: Helps stabilize and refine the learning trajectory.</p></li>
 </ul>
 </li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="why-x-t-x-is-singular-when-n-p-further-reading">
-<h4><strong>Why <span class="math notranslate nohighlight">\( X^T X \)</span> is Singular When <span class="math notranslate nohighlight">\( n &lt; p \)</span>?</strong>  (Further Reading)<a class="headerlink" href="#why-x-t-x-is-singular-when-n-p-further-reading" title="Link to this heading">#</a></h4>
+<section id="why-x-t-x-is-singular-when-n-p">
+<h4><strong>Why <span class="math notranslate nohighlight">\( X^T X \)</span> is Singular When <span class="math notranslate nohighlight">\( n &lt; p \)</span>?</strong><a class="headerlink" href="#why-x-t-x-is-singular-when-n-p" title="Link to this heading">#</a></h4>
 <p>For a design matrix <span class="math notranslate nohighlight">\( X \in \mathbb{R}^{n \times p} \)</span>:</p>
 <ol class="arabic">
 <li><p><strong>Rank Constraint</strong>:</p>
@@ -952,9 +974,14 @@ document.write(`
 </ul>
 </li>
 </ol>
-<p>For further information please See <span id="id2">[<a class="reference internal" href="index.html#id13" title="Mahboube Bakhshali. The subspace pursuit method in sparse optimization. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روش جستجوی زیرفضا در بهینه سازی تنک. URL: http://hcloud.hsu.ac.ir/index.php/s/jacmnZiPfNFpYfk.">Bak18</a>]</span>.</p>
+<p>For further information please See <span id="id2">[<a class="reference internal" href="index.html#id14" title="Mahboube Bakhshali. The subspace pursuit method in sparse optimization. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روش جستجوی زیرفضا در بهینه سازی تنک. URL: http://hcloud.hsu.ac.ir/index.php/s/jacmnZiPfNFpYfk.">Bak18</a>]</span>.</p>
 <hr class="docutils" />
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -987,6 +1014,7 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X (design matrix):
 [[1 2 3]
@@ -1023,7 +1051,8 @@ Error: X^T X is singular and cannot be inverted (as expected when n &lt; p).
 \[\mathbf{w}^{s+1} = \mathbf{w}^s-\eta\nabla \mathcal{L}(\mathbf{w}^s)\]</div>
 </li>
 </ul>
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/01_gradient_descent.jpg" alt="ml" style="width: 700px;"/><ul class="simple">
+<p><img alt="" src="_images/01_gradient_descent.jpg" /></p>
+<ul class="simple">
 <li><p>Important hyperparameters</p>
 <ul>
 <li><p>Learning rate</p>
@@ -1388,8 +1417,8 @@ Error: X^T X is singular and cannot be inverted (as expected when n &lt; p).
 <img alt="_images/dd5e83bec32278c7d976202232134c194bf0035de89fb10eb6689643b725b092.png" src="_images/dd5e83bec32278c7d976202232134c194bf0035de89fb10eb6689643b725b092.png" />
 </div>
 </div>
-<p>In two dimensions:
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/01_gradient_descent_2D.png" alt="ml" style="width: 900px;"/></p>
+<p>In two dimensions:</p>
+<p><img alt="" src="_images/01_gradient_descent_2D.png" /></p>
 <ul class="simple">
 <li><p>You can get stuck in local minima (if the loss is not fully convex)</p>
 <ul>
@@ -1402,7 +1431,7 @@ Error: X^T X is singular and cannot be inverted (as expected when n &lt; p).
 <ul class="simple">
 <li><p>Intuition: walking downhill using only the slope you “feel” nearby</p></li>
 </ul>
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/01_gradient_descent_hill.png" alt="ml" style="width: 1200px;"/>
+<p><img alt="" src="_images/01_gradient_descent_hill.png" /></p>
 <p>(Image by A. Karpathy)</p>
 </section>
 <section id="stochastic-gradient-descent-sgd">
@@ -1417,7 +1446,7 @@ Error: X^T X is singular and cannot be inverted (as expected when n &lt; p).
 <li><p>Many smoother variants, e.g.</p>
 <ul>
 <li><p>Minibatch SGD: compute gradient on batches of data: <span class="math notranslate nohighlight">\(\mathbf{w}^{s+1} = \mathbf{w}^s-\frac{\eta}{B} \sum_{i=1}^{B} \nabla \mathcal{L_i}(\mathbf{w}^s)\)</span></p></li>
-<li><p>Stochastic Average Gradient Descent (<a class="reference external" href="https://link.springer.com/content/pdf/10.1007/s10107-016-1030-6.pdf">SAG</a>, <a class="reference external" href="https://proceedings.neurips.cc/paper/2014/file/ede7e2b6d13a41ddf9f4bdef84fdc737-Paper.pdf">SAGA</a>). With <span class="math notranslate nohighlight">\(i_s \in [1,n]\)</span> randomly chosen per iteration:</p>
+<li><p>Stochastic Average Gradient Descent (<a class="reference external" href="https://link.springer.com/content/pdf/10.1007/s10107-016-1030-6.pdf">SAG</a>). With <span class="math notranslate nohighlight">\(i_s \in [1,n]\)</span> randomly chosen per iteration:</p>
 <ul>
 <li><p>Incremental gradient: <span class="math notranslate nohighlight">\(\mathbf{w}^{s+1} = \mathbf{w}^s-\frac{\eta}{n} \sum_{i=1}^{n} v_i^s\)</span> with <span class="math notranslate nohighlight">\(v_i^s = \begin{cases}\nabla \mathcal{L_i}(\mathbf{w}^s) &amp; i = i_s \\ v_i^{s-1} &amp; \text{otherwise} \end{cases}\)</span></p></li>
 </ul>
@@ -1438,12 +1467,6 @@ Error: X^T X is singular and cannot be inverted (as expected when n &lt; p).
 </ul>
 </li>
 </ul>
-<p>$$ python
-from sklearn.linear_model import LinearRegression
-lr = LinearRegression().fit(X_train, y_train)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -1883,7 +1906,7 @@ Test set score: 0.75
 </ul>
 </li>
 <li><p>Ridge solution: <span class="math notranslate nohighlight">\(w_i = \rho_i - \alpha \cdot \partial_{w_i} w_i^2 = \rho_i - 2\alpha \cdot w_i\)</span>, thus <span class="math notranslate nohighlight">\(w_i^* = \frac{\rho_i}{1 + 2\alpha}\)</span></p></li>
-<li><p>For mor information see <span id="id4">[<a class="reference internal" href="index.html#id16" title="Farzane Rashidabadi. Image matting. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, January 2016. برش هوشمند تصویر. URL: http://hcloud.hsu.ac.ir/index.php/s/OaHkkTSsO8mNrk0.">Ras16</a>]</span></p></li>
+<li><p>For mor information see <span id="id4">[<a class="reference internal" href="index.html#id17" title="Farzane Rashidabadi. Image matting. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, January 2016. برش هوشمند تصویر. URL: http://hcloud.hsu.ac.ir/index.php/s/OaHkkTSsO8mNrk0.">Ras16</a>]</span></p></li>
 </ul>
 <div class="cell tag_hide-input tag_hide-output tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -2083,7 +2106,12 @@ Test set score: 0.75
 <section id="comparing-ridge-and-lasso-for-prediction-and-feature-selection">
 <h3>Comparing Ridge and LASSO for Prediction and Feature Selection<a class="headerlink" href="#comparing-ridge-and-lasso-for-prediction-and-feature-selection" title="Link to this heading">#</a></h3>
 <p>The following code trains and compares Linear Regression, Ridge (L2), and LASSO (L1) regression models. We’ll examine their predictive performance using Mean Squared Error (MSE) and observe how LASSO can be used for feature selection by shrinking some feature coefficients to zero.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -2100,8 +2128,14 @@ Test set score: 0.75
 <span class="c1"># Load extended Boston dataset (with polynomial features)</span>
 <span class="n">X_B</span><span class="p">,</span> <span class="n">y_B</span> <span class="o">=</span> <span class="n">mglearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_extended_boston</span><span class="p">()</span>
 <span class="n">X_B_train</span><span class="p">,</span> <span class="n">X_B_test</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">,</span> <span class="n">y_B_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_B</span><span class="p">,</span> <span class="n">y_B</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># Train models</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train models</span>
 <span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_B_train</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">)</span>
 <span class="n">ridge</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_B_train</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">)</span>
 <span class="n">lasso</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_B_train</span><span class="p">,</span> <span class="n">y_B_train</span><span class="p">)</span>  <span class="c1"># Increased max_iter for convergence</span>
@@ -2155,7 +2189,7 @@ LASSO selected 33 features from total 104 features.
 </section>
 <section id="sparse-optimization-theory-and-applications">
 <h3>Sparse Optimization: Theory and Applications<a class="headerlink" href="#sparse-optimization-theory-and-applications" title="Link to this heading">#</a></h3>
-<p>Sparse optimization is a fundamental paradigm in mathematical modeling that seeks solutions with few non-zero elements, often formalized through ℓ₁-norm regularization or non-convex penalties. This framework is grounded in the <strong>Compressed Sensing (CS)</strong> theory (Candès et al., 2006; Donoho, 2006), which guarantees exact signal recovery from sub-Nyquist measurements if the signal is sparse in some basis. Key applications include:</p>
+<p>Sparse optimization is a fundamental paradigm in mathematical modeling that seeks solutions with few non-zero elements, often formalized through ℓ₁-norm regularization or non-convex penalties. This framework is grounded in the <strong>Compressed Sensing (CS)</strong> theory <span id="id5">[<a class="reference internal" href="index.html#id2" title="David L. Donoho. Compressed sensing. IEEE Transactions on Information Theory, 52(4):1289–1306, 2006. doi:10.1109/TIT.2006.871582.">Don06</a>]</span>, which guarantees exact signal recovery from sub-Nyquist measurements if the signal is sparse in some basis. Key applications include:</p>
 <ol class="arabic simple">
 <li><p><strong>Medical Imaging</strong>: CS enables faster MRI scans by reconstructing images from limited k-space samples (Lustig et al., 2007), as highlighted in the <a class="reference external" href="http://dsp.ee.cuhk.edu.hk/eleg5481/Lecture%20notes/13-%20compressive%20sensing/cs.pdf">CUHK lecture notes on CS</a> (p. 13).</p></li>
 <li><p><strong>Signal Processing</strong>: Sparse methods underpin denoising (e.g., wavelet shrinkage) and inpainting, where total variation minimization preserves edges while removing noise (Figueiredo, 2021, <a class="reference external" href="https://indico.math.cnrs.fr/event/6637/contributions/5334/attachments/3055/3951/Figueiredo_CIMI-ANITI_Toulouse_2021.pdf">slides p. 8</a>).</p></li>
@@ -2240,14 +2274,6 @@ penalty_weights[:n_freq] = 0  # Protect low frequencies
 </ul>
 </section>
 </section>
-<section id="applications">
-<h3>Applications<a class="headerlink" href="#applications" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Biomedical signal processing (EEG/ECG denoising)</p></li>
-<li><p>Seismic data analysis</p></li>
-<li><p>Communications systems</p></li>
-</ul>
-</section>
 <section id="limitations">
 <h3>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -2255,8 +2281,7 @@ penalty_weights[:n_freq] = 0  # Protect low frequencies
 <li><p>Requires tuning for each application</p></li>
 <li><p>Computationally heavier than simple filtering</p></li>
 </ul>
-<p>The key innovation versus standard denoising is the <strong>frequency-adaptive sparsity constraint</strong>, which prevents the oversmoothing seen in the initial straight-line output.</p>
-<p><strong>Signal Denoising using LASSO</strong></p>
+<!-- The key innovation versus standard denoising is the **frequency-adaptive sparsity constraint**, which prevents the oversmoothing seen in the initial straight-line output. --><p><strong>Signal Denoising using LASSO</strong></p>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -2266,8 +2291,8 @@ penalty_weights[:n_freq] = 0  # Protect low frequencies
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">dct</span><span class="p">,</span> <span class="n">idct</span>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
-<span class="kn">from</span> <span class="nn">scipy.fft</span> <span class="kn">import</span> <span class="n">dct</span><span class="p">,</span> <span class="n">idct</span>
 
 <span class="c1"># Generate clean signal with multiple frequencies</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
@@ -2280,29 +2305,33 @@ penalty_weights[:n_freq] = 0  # Protect low frequencies
 <span class="n">noise</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
 <span class="n">f_noisy</span> <span class="o">=</span> <span class="n">f_clean</span> <span class="o">+</span> <span class="n">noise</span>
 
-<span class="k">def</span> <span class="nf">sparse_denoise</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">n_freq</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">sparse_denoise</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Denoise using Lasso in DCT domain with proper frequency retention&quot;&quot;&quot;</span>
     <span class="c1"># DCT transform (sparse representation)</span>
     <span class="n">dct_coeffs</span> <span class="o">=</span> <span class="n">dct</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># LASSO setup - only penalize higher frequencies</span>
-    <span class="n">penalty_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
-    <span class="n">penalty_weights</span><span class="p">[:</span><span class="n">n_freq</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Protect low frequencies</span>
-    
+      
     <span class="n">model</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> 
                   <span class="n">max_iter</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
                   <span class="n">warm_start</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">selection</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">coef_</span> <span class="o">=</span> <span class="n">dct_coeffs</span>  <span class="c1"># Initialize with DCT coeffs</span>
     
-    <span class="c1"># Solve ||y - DCT^-1(x)||² + alpha*||weights*x||₁</span>
+    <span class="c1"># Solve ||y - DCT^-1(x)||² + alpha * ||x||₁ </span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dct_coeffs</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">penalty_weights</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dct_coeffs</span><span class="p">)</span> 
+    
+    <span class="c1"># Count total number of coefficients</span>
+    <span class="n">total_coefs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Count number of non-zero coefficients (NNZ)</span>
+    <span class="n">nnz_count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total number of coefficients: </span><span class="si">{</span><span class="n">total_coefs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of non-zero coefficients (NNZ): </span><span class="si">{</span><span class="n">nnz_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">idct</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">)</span>
 
 <span class="c1"># Denoise with proper parameters</span>
-<span class="n">f_denoised</span> <span class="o">=</span> <span class="n">sparse_denoise</span><span class="p">(</span><span class="n">f_noisy</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_freq</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">f_denoised</span> <span class="o">=</span> <span class="n">sparse_denoise</span><span class="p">(</span><span class="n">f_noisy</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.0009</span><span class="p">)</span>
 
 <span class="c1"># Plot</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -2318,7 +2347,11 @@ penalty_weights[:n_freq] = 0  # Protect low frequencies
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/2d99cbc1169776616ba17c04746fafa14f0aec73894045200c74fd23a3287876.png" src="_images/2d99cbc1169776616ba17c04746fafa14f0aec73894045200c74fd23a3287876.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of coefficients: 1000
+Number of non-zero coefficients (NNZ): 25
+</pre></div>
+</div>
+<img alt="_images/2f7fe44829f71b67add51cb2a62c78c9a7025537344750708b52cb734a78f7f0.png" src="_images/2f7fe44829f71b67add51cb2a62c78c9a7025537344750708b52cb734a78f7f0.png" />
 </div>
 </div>
 </section>
@@ -2337,14 +2370,16 @@ penalty_weights[:n_freq] = 0  # Protect low frequencies
 <li><p>Preserves interpretability through explicit feature selection</p></li>
 </ul>
 <p>This method complements LASSO by offering an alternative approach to sparse recovery with distinct theoretical guarantees and computational trade-offs.</p>
-<p>While LASSO solves the <span class="math notranslate nohighlight">\(\ell_1\)</span>-regularized problem:
-$<span class="math notranslate nohighlight">\(
+<p>While LASSO solves the <span class="math notranslate nohighlight">\(\ell_1\)</span>-regularized problem:</p>
+<div class="math notranslate nohighlight">
+\[
 \min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{y} - X\mathbf{w}\|_2^2 + \alpha \|\mathbf{w}\|_1
-\)</span>$</p>
-<p>OMP provides a greedy alternative for sparse approximation, solving:
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>OMP provides a greedy alternative for sparse approximation, solving:</p>
+<div class="math notranslate nohighlight">
+\[
 \min_{\mathbf{w}} \|\mathbf{w}\|_0 \quad \text{subject to} \quad \|\mathbf{y} - X\mathbf{w}\|_2 \leq \epsilon
-\)</span>$</p>
+\]</div>
 <section id="omp-algorithm">
 <h2>OMP algorithm<a class="headerlink" href="#omp-algorithm" title="Link to this heading">#</a></h2>
 <p>Given:</p>
@@ -2356,23 +2391,23 @@ $<span class="math notranslate nohighlight">\(
 <p>At each iteration:</p>
 <ol class="arabic simple">
 <li><p><strong>Select most correlated feature</strong>:
-$<span class="math notranslate nohighlight">\(j = \arg\max_{j \notin \mathcal{A}} |\mathbf{x}_j^\top \mathbf{r}|\)</span><span class="math notranslate nohighlight">\(
-where \)</span>\mathbf{r}<span class="math notranslate nohighlight">\( is the current residual and \)</span>\mathcal{A}$ is the active feature set.</p></li>
+<span class="math notranslate nohighlight">\(j = \arg\max_{j \notin \mathcal{A}} |\mathbf{x}_j^\top \mathbf{r}|\)</span>,
+where <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> is the current residual and <span class="math notranslate nohighlight">\(\mathcal{A}\)</span> is the active feature set.</p></li>
 <li><p><strong>Update support</strong>:
-$<span class="math notranslate nohighlight">\(\mathcal{A} \leftarrow \mathcal{A} \cup \{j\}\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(\mathcal{A} \leftarrow \mathcal{A} \cup \{j\}\)</span></p></li>
 <li><p><strong>Solve least squares</strong>:
-$<span class="math notranslate nohighlight">\(\mathbf{w} = \arg\min_{\mathbf{w}} \|X_{\mathcal{A}}\mathbf{w} - \mathbf{y}\|_2^2\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(\mathbf{w} = \arg\min_{\mathbf{w}} \|X_{\mathcal{A}}\mathbf{w} - \mathbf{y}\|_2^2\)</span></p></li>
 <li><p><strong>Update residual</strong>:
-$<span class="math notranslate nohighlight">\(\mathbf{r} \leftarrow X_{\mathcal{A}}\mathbf{w} - \mathbf{y}\)</span>$</p></li>
+<span class="math notranslate nohighlight">\(\mathbf{r} \leftarrow X_{\mathcal{A}}\mathbf{w} - \mathbf{y}\)</span></p></li>
 </ol>
 <p>Termination: After <span class="math notranslate nohighlight">\(k\)</span> iterations or when <span class="math notranslate nohighlight">\(\|\mathbf{r}\|_2 &lt; \epsilon\)</span></p>
 <p><img alt="" src="_images/theodoridis-Figure-10.2.png" /></p>
-<p>Figure 10.2 of <span id="id5">[<a class="reference internal" href="index.html#id3" title="S. Theodoridis. Machine Learning: A Bayesian and Optimization Perspective. Academic Press, 2020. ISBN 9780128188040. URL: https://books.google.com/books?id=l-nEDwAAQBAJ.">The20</a>]</span>:</p>
+<p>Figure 10.2 of <span id="id6">[<a class="reference internal" href="index.html#id4" title="S. Theodoridis. Machine Learning: A Bayesian and Optimization Perspective. Academic Press, 2020. ISBN 9780128188040. URL: https://books.google.com/books?id=l-nEDwAAQBAJ.">The20</a>]</span>:</p>
 <p>(A) In the case of an orthogonal matrix, the observations vector y will be orthogonal to any inactive column, here,
 <span class="math notranslate nohighlight">\(x_3^c\)</span>. (B) In the more general case, it is expected to “lean” closer (form smaller angles) to the active than to the
 inactive columns.</p>
 <p><img alt="" src="_images/Bakhshali-Figure-2.3.png" /></p>
-<p>Figure 2.3 of <span id="id6">[<a class="reference internal" href="index.html#id13" title="Mahboube Bakhshali. The subspace pursuit method in sparse optimization. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روش جستجوی زیرفضا در بهینه سازی تنک. URL: http://hcloud.hsu.ac.ir/index.php/s/jacmnZiPfNFpYfk.">Bak18</a>]</span></p>
+<p>Figure 2.3 of <span id="id7">[<a class="reference internal" href="index.html#id14" title="Mahboube Bakhshali. The subspace pursuit method in sparse optimization. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روش جستجوی زیرفضا در بهینه سازی تنک. URL: http://hcloud.hsu.ac.ir/index.php/s/jacmnZiPfNFpYfk.">Bak18</a>]</span></p>
 </section>
 <section id="comparison-with-lasso">
 <h2>Comparison with LASSO<a class="headerlink" href="#comparison-with-lasso" title="Link to this heading">#</a></h2>
@@ -2403,7 +2438,9 @@ inactive columns.</p>
 </tbody>
 </table>
 </div>
-<p>For further information see <span id="id7">[<a class="reference internal" href="index.html#id11" title="Alale Asaran. Super resolution via sparserepresentation. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, Winter 2016. فراتفکیک پذیری با نمایش تنک. URL: http://hcloud.hsu.ac.ir/index.php/s/W9ImIzeV6C1mqZo.">Asa16</a>]</span>.</p>
+<p>For further information see <span id="id8">[<a class="reference internal" href="index.html#id12" title="Alale Asaran. Super resolution via sparserepresentation. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, Winter 2016. فراتفکیک پذیری با نمایش تنک. URL: http://hcloud.hsu.ac.ir/index.php/s/W9ImIzeV6C1mqZo.">Asa16</a>]</span>.</p>
+<section id="practice">
+<h3>Practice<a class="headerlink" href="#practice" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2567,16 +2604,97 @@ LASSO      5.5046e-02    0               0.2214     [1.39, -0.68, 1.05]
 </details>
 </div>
 </section>
+</section>
 <section id="when-to-use-omp">
 <h2>When to Use OMP<a class="headerlink" href="#when-to-use-omp" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p><strong>Exactly sparse signals</strong> (few true non-zeros)</p></li>
-<li><p><strong>Small-scale problems</strong> where <span class="math notranslate nohighlight">\(k \ll p\)</span></p></li>
-<li><p><strong>Theoretical analysis</strong> (easier to interpret than LASSO)</p></li>
-<li><p><strong>Dictionary learning</strong></p></li>
+<li><p><strong>Exactly sparse signals</strong> – OMP is ideal when the underlying signal truly has only a few non-zero coefficients, making it a strong choice for enforcing strict sparsity.</p></li>
+<li><p><strong>Small-scale problems</strong> – Works efficiently when the number of non-zero elements <span class="math notranslate nohighlight">\( k \)</span> is much smaller than the total features <span class="math notranslate nohighlight">\( p \)</span> (i.e., <span class="math notranslate nohighlight">\( k \ll p \)</span>), preventing unnecessary computational overhead.</p></li>
+<li><p><strong>Interpretable solutions</strong> – Since OMP selects features iteratively, the stepwise approach makes it easier to analyze which features contribute to the model, often simpler than interpreting LASSO’s continuous shrinkage.</p></li>
+<li><p><strong>Dictionary learning</strong> – Frequently used in sparse coding applications, where signals are represented as a <strong>sparse combination of dictionary elements</strong>, making it valuable for feature selection in compressed sensing.</p></li>
 </ol>
 </section>
+<section id="connection-between-sparse-learning-and-functional-analysis">
+<h2>Connection Between Sparse Learning and Functional Analysis<a class="headerlink" href="#connection-between-sparse-learning-and-functional-analysis" title="Link to this heading">#</a></h2>
+<p>Sparse recovery techniques like <strong>OMP</strong> and <strong>LASSO</strong> are deeply rooted in <strong>functional analysis</strong>, which explains why terms like <strong>Hilbert spaces</strong> and <strong>Banach spaces</strong> frequently appear in machine learning research. These mathematical frameworks provide the theoretical foundation for understanding sparsity-inducing methods.</p>
+<section id="hilbert-spaces-and-orthogonal-projections">
+<h3>Hilbert Spaces and Orthogonal Projections<a class="headerlink" href="#hilbert-spaces-and-orthogonal-projections" title="Link to this heading">#</a></h3>
+<p>Hilbert spaces (complete inner product spaces) are essential for analyzing <strong>orthogonal projections</strong> and <strong>basis expansions</strong>. For example:</p>
+<ul class="simple">
+<li><p><strong>OMP</strong> iteratively projects the residual onto the span of selected basis vectors, leveraging the <strong>orthogonality principle</strong> to minimize error at each step.</p></li>
+<li><p>The <strong>inner product structure</strong> of Hilbert spaces enables efficient computation of correlations between residuals and dictionary atoms (columns of <span class="math notranslate nohighlight">\( X \)</span>).</p></li>
+</ul>
 </section>
+<section id="banach-spaces-and-ell-1-regularization">
+<h3>Banach Spaces and <span class="math notranslate nohighlight">\( \ell_1 \)</span>-Regularization<a class="headerlink" href="#banach-spaces-and-ell-1-regularization" title="Link to this heading">#</a></h3>
+<p><strong>LASSO</strong> operates in the context of Banach spaces (complete normed vector spaces) due to its reliance on the <span class="math notranslate nohighlight">\( \ell_1 \)</span>-norm:</p>
+<ul class="simple">
+<li><p>The <span class="math notranslate nohighlight">\( \ell_1 \)</span>-norm’s <strong>non-smoothness</strong> at the origin induces sparsity, a property studied in Banach space geometry.</p></li>
+<li><p>Unlike Hilbert spaces, Banach spaces generalize optimization techniques to <strong>non-Euclidean settings</strong>, crucial for sparse regularization.</p></li>
+</ul>
+</section>
+<section id="fourier-wavelet-and-other-representations">
+<h3>Fourier, Wavelet, and Other Representations<a class="headerlink" href="#fourier-wavelet-and-other-representations" title="Link to this heading">#</a></h3>
+<p>Sparse learning often exploits <strong>transform domains</strong> (e.g., Fourier, wavelet, or learned dictionaries) where signals admit <strong>concise representations</strong>: - These domains provide <strong>structured bases</strong> where only a few coefficients are significant. - The <strong>connection to functional analysis</strong> arises because such bases typically form <strong>frames</strong> or <strong>Riesz bases</strong> in Hilbert spaces, ensuring stable sparse approximations.</p>
+</section>
+</section>
+<section id="from-fixed-bases-to-learned-representations">
+<h2>From Fixed Bases to Learned Representations<a class="headerlink" href="#from-fixed-bases-to-learned-representations" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Classical Sparse Coding</strong>:</p>
+<ul class="simple">
+<li><p>Relies on <strong>predefined bases</strong> (e.g., Fourier, wavelets) where signals admit sparse representations.</p></li>
+<li><p>These bases often form <strong>frames</strong> or <strong>Riesz bases</strong> in Hilbert spaces, ensuring stable approximations.</p></li>
+</ul>
+</li>
+<li><p><strong>Convolutional Neural Networks (CNNs)</strong>:</p>
+<ul class="simple">
+<li><p>Learn <strong>adaptive bases/filters</strong> from data, implicitly constructing sparse-like representations through:</p>
+<ul>
+<li><p><strong>Local connectivity</strong>: Filters act as localized basis functions.</p></li>
+<li><p><strong>Activation sparsity</strong>: ReLU promotes de facto sparsity in feature maps.</p></li>
+</ul>
+</li>
+<li><p>While CNNs lack explicit <span class="math notranslate nohighlight">\( \ell_0 \)</span>/<span class="math notranslate nohighlight">\( \ell_1 \)</span> constraints, their hierarchical structure approximates <strong>multi-scale sparse decompositions</strong>, akin to wavelet analysis but data-driven.</p></li>
+</ul>
+</li>
+</ol>
+<section id="the-evolving-role-of-sparse-methods">
+<h3>The Evolving Role of Sparse Methods<a class="headerlink" href="#the-evolving-role-of-sparse-methods" title="Link to this heading">#</a></h3>
+<p>While deep learning has reduced reliance on <em>handcrafted</em> sparse models in some domains, sparse methods remain relevant because:</p>
+<ol class="arabic simple">
+<li><p><strong>Interpretability</strong>:</p>
+<ul class="simple">
+<li><p>OMP/LASSO yield <strong>explicit basis selections</strong>, whereas CNNs operate as black boxes.</p></li>
+<li><p>Critical in fields like medicine or physics where model transparency is required.</p></li>
+</ul>
+</li>
+<li><p><strong>Data-Efficiency</strong>:</p>
+<ul class="simple">
+<li><p>Sparse methods often outperform DL in <strong>low-data regimes</strong> (e.g., medical imaging with small datasets).</p></li>
+</ul>
+</li>
+<li><p><strong>Theoretical Guarantees</strong>:</p>
+<ul class="simple">
+<li><p>Compressed sensing (<strong>OMP</strong>) and convex optimization (<strong>LASSO</strong>) provide <strong>recovery guarantees</strong> under precise conditions, unlike empirical DL results.</p></li>
+</ul>
+</li>
+<li><p><strong>Hybrid Approaches</strong>:</p>
+<ul class="simple">
+<li><p>Modern architectures (e.g., <strong>ISTA-Net</strong>, <strong>Learned Iterative Shrinkage</strong>) blend sparse priors with deep learning, showing that sparsity remains a useful <em>inductive bias</em>.</p></li>
+</ul>
+</li>
+</ol>
+<p>Sparse learning and deep learning are complementary:</p>
+<ul class="simple">
+<li><p><strong>CNNs</strong> dominate when data is abundant and interpretability is secondary.</p></li>
+<li><p><strong>OMP/LASSO</strong> persist in scenarios requiring rigor, efficiency, or transparency.</p></li>
+<li><p><strong>Functional analysis</strong> bridges these paradigms, providing tools to analyze both fixed and learned representations.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="mri-reconstruction-further-reading">
 <h1>MRI reconstruction (Further Reading)<a class="headerlink" href="#mri-reconstruction-further-reading" title="Link to this heading">#</a></h1>
 <p>MRI reconstruction can be formulated as an inverse problem where the goal is to recover the original image <span class="math notranslate nohighlight">\( \mathbf{m} \)</span> from under-sampled k-space measurements <span class="math notranslate nohighlight">\( \mathbf{y} \)</span>. This is achieved using sparse optimization techniques.</p>
@@ -2603,14 +2721,14 @@ LASSO      5.5046e-02    0               0.2214     [1.39, -0.68, 1.05]
 <li><p><strong>Electron Tomography</strong></p></li>
 <li><p><strong>Magnetic Resonance Imaging (MRI)</strong></p></li>
 </ul>
-<p>One of PySAP’s core contributions lies in <strong>sparse optimization</strong>, a powerful technique widely used for reconstructing images from incomplete or noisy data. The package implements advanced <strong>compressed sensing algorithms</strong><span id="id8">[<a class="reference internal" href="index.html#id3" title="S. Theodoridis. Machine Learning: A Bayesian and Optimization Perspective. Academic Press, 2020. ISBN 9780128188040. URL: https://books.google.com/books?id=l-nEDwAAQBAJ.">The20</a>]</span>, allowing efficient image restoration while preserving essential features.</p>
+<p>One of PySAP’s core contributions lies in <strong>sparse optimization</strong>, a powerful technique widely used for reconstructing images from incomplete or noisy data. The package implements advanced <strong>compressed sensing algorithms</strong><span id="id9">[<a class="reference internal" href="index.html#id4" title="S. Theodoridis. Machine Learning: A Bayesian and Optimization Perspective. Academic Press, 2020. ISBN 9780128188040. URL: https://books.google.com/books?id=l-nEDwAAQBAJ.">The20</a>]</span>, allowing efficient image restoration while preserving essential features.</p>
 <p>In medical imaging, PySAP plays a crucial role in MRI reconstruction by leveraging <strong>sparsity-based approaches</strong> to improve scan efficiency. It enables:</p>
 <ul class="simple">
 <li><p>Reduced scanning time while maintaining image quality</p></li>
 <li><p>Improved reconstruction of under-sampled k-space data</p></li>
 <li><p>Integration of machine learning techniques for further enhancement</p></li>
 </ul>
-<p>The first release of PySAP was presented in Farrens et al. <span id="id9">[<a class="reference internal" href="index.html#id2" title="Loubna El Gueddari, Chaithya Giliyar Radhakrishna, Zaccharie Ramzi, Samuel Farrens, Sophie Starck, Antoine Grigis, Jean-Luc Starck, and Philippe Ciuciu. PySAP-MRI: a Python Package for MR Image Reconstruction. In ISMRM workshop on Data Sampling and Image Reconstruction. Sedona, AZ, United States, January 2020. URL: https://inria.hal.science/hal-02399267.">GGRR+20</a>]</span> and continues to evolve as a robust tool for sparse signal processing.</p>
+<p>The first release of PySAP was presented in Farrens et al. <span id="id10">[<a class="reference internal" href="index.html#id3" title="Loubna El Gueddari, Chaithya Giliyar Radhakrishna, Zaccharie Ramzi, Samuel Farrens, Sophie Starck, Antoine Grigis, Jean-Luc Starck, and Philippe Ciuciu. PySAP-MRI: a Python Package for MR Image Reconstruction. In ISMRM workshop on Data Sampling and Image Reconstruction. Sedona, AZ, United States, January 2020. URL: https://inria.hal.science/hal-02399267.">GGRR+20</a>]</span> and continues to evolve as a robust tool for sparse signal processing.</p>
 <p>For further exploration, visit the <a class="reference external" href="https://github.com/CEA-COSMIC/pysap">PySAP GitHub repository</a>.</p>
 <p>In our <a class="reference external" href="http://fum-cs.github.io/dl">deep learning course</a>, we will encounter additional examples of minimizing <span class="math notranslate nohighlight">\( ||Ax - b|| \)</span>, including applications like image deblurring and super-resolution.</p>
 <!-- ### Other loss functions for regression
@@ -2624,9 +2742,10 @@ LASSO      5.5046e-02    0               0.2214     [1.39, -0.68, 1.05]
     * `SGDRegressor` in sklearn
 
 <img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/huber.png" alt="ml" style="width: 500px;"/> --><p><img alt="" src="_images/Rank-Based-Methods.jpg" /></p>
-<p>For valuable references on Ridge and Shrinkage methods, consider consulting Prof. Arashi’s books <span id="id10">[<a class="reference internal" href="index.html#id5" title="A.K.M.E. Saleh, M. Arashi, and B.M.G. Kibria. Theory of Ridge Regression Estimation with Applications. Wiley Series in Probability and Statistics. Wiley, 2019. ISBN 9781118644614. URL: https://books.google.com/books?id=v0KCDwAAQBAJ.">SAK19</a>, <a class="reference internal" href="index.html#id4" title="A.K.M.E. Saleh, M. Arashi, R.A. Saleh, and M. Norouzirad. Rank-Based Methods for Shrinkage and Selection: With Application to Machine Learning. Wiley, 2022. ISBN 9781119625391. URL: https://books.google.com/books?id=f8p6EAAAQBAJ.">SASN22</a>]</span>.</p>
+<p>For valuable references on Ridge and Shrinkage methods, consider consulting Prof. Arashi’s books <span id="id11">[<a class="reference internal" href="index.html#id6" title="A.K.M.E. Saleh, M. Arashi, and B.M.G. Kibria. Theory of Ridge Regression Estimation with Applications. Wiley Series in Probability and Statistics. Wiley, 2019. ISBN 9781118644614. URL: https://books.google.com/books?id=v0KCDwAAQBAJ.">SAK19</a>, <a class="reference internal" href="index.html#id5" title="A.K.M.E. Saleh, M. Arashi, R.A. Saleh, and M. Norouzirad. Rank-Based Methods for Shrinkage and Selection: With Application to Machine Learning. Wiley, 2022. ISBN 9781119625391. URL: https://books.google.com/books?id=f8p6EAAAQBAJ.">SASN22</a>]</span>.</p>
 </section>
 </section>
+<hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="linear-models-for-classification">
 <h1>Linear models for Classification<a class="headerlink" href="#linear-models-for-classification" title="Link to this heading">#</a></h1>
 <p>Aims to find a hyperplane that separates the examples of each class.<br />
@@ -2925,12 +3044,12 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 </li>
 </ul>
 </li>
-<li><p>For further information about conjugate gradients, see <span id="id11">[<a class="reference internal" href="index.html#id52" title="Mehdi Nemati. A gradient based method for thespectral graph partitioning. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روشی مبتنی بر گرادیان برای افرازبندی طیفی گراف. URL: https://hcloud.hsu.ac.ir/index.php/s/tR53d9306yZSAc7.">Nem18</a>]</span></p></li>
+<li><p>For further information about conjugate gradients, see <span id="id12">[<a class="reference internal" href="index.html#id53" title="Mehdi Nemati. A gradient based method for thespectral graph partitioning. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روشی مبتنی بر گرادیان برای افرازبندی طیفی گراف. URL: https://hcloud.hsu.ac.ir/index.php/s/tR53d9306yZSAc7.">Nem18</a>]</span></p></li>
 <li><p>You will see many of these solvers in Optimization course tought by Dr. Ghanbari.</p></li>
 </ul>
 </section>
-<section id="id12">
-<h3>In practice<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<section id="id13">
+<h3>In practice<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Logistic regression can also be found in <code class="docutils literal notranslate"><span class="pre">sklearn.linear_model</span></code>.</p>
 <ul>
@@ -3176,23 +3295,6 @@ saga       → Iterations: 12 (scaled)
 </li>
 </ul>
 </section>
-<section id="perceptron">
-<h2>Perceptron<a class="headerlink" href="#perceptron" title="Link to this heading">#</a></h2>
-<ul>
-<li><p>Represents a single neuron (node) with inputs <span class="math notranslate nohighlight">\(x_i\)</span>, a bias <span class="math notranslate nohighlight">\(w_0\)</span>, and output <span class="math notranslate nohighlight">\(y\)</span></p></li>
-<li><p>Each connection has a (synaptic) weight <span class="math notranslate nohighlight">\(w_i\)</span>. The node outputs <span class="math notranslate nohighlight">\(\hat{y} = \sum_{i}^n x_{i}w_i + w_0\)</span></p></li>
-<li><p>The <em>activation function</em> predicts 1 if <span class="math notranslate nohighlight">\(\mathbf{xw} + w_0 &gt; 0\)</span>, -1 otherwise</p></li>
-<li><p>Weights can be learned with (stochastic) gradient descent and Hinge(0) loss</p>
-<ul class="simple">
-<li><p>Updated <em>only</em> on misclassification, corrects output by <span class="math notranslate nohighlight">\(\pm1\)</span></p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\mathcal{L}_{Perceptron} = max(0,-y_i (\mathbf{w}\mathbf{x_i} + w_0))\]</div>
-<div class="math notranslate nohighlight">
-\[\begin{split}\frac{\partial \mathcal{L_{Perceptron}}}{\partial w_i} =  \begin{cases}-y_i x_i &amp; y_i (\mathbf{w}\mathbf{x_i} + w_0) &lt; 0\\ 0 &amp; \text{otherwise} \\ \end{cases}\end{split}\]</div>
-</li>
-</ul>
-<img src="https://raw.githubusercontent.com/fum-cs/machine-learning/main/notebooks/img/perceptron.png" alt="ml" style="margin: 0 auto; width: 1500px;"/></section>
 <section id="linear-models-for-multiclass-classification">
 <h2>Linear Models for multiclass classification<a class="headerlink" href="#linear-models-for-multiclass-classification" title="Link to this heading">#</a></h2>
 <section id="one-vs-rest-aka-one-vs-all">
@@ -3562,7 +3664,7 @@ th {font-size: 16px}
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-regression">Linear models for regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-aka-ordinary-least-squares">Linear Regression (aka Ordinary Least Squares)</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-ordinary-least-squares">Solving ordinary least squares</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-x-t-x-is-singular-when-n-p-further-reading"><strong>Why <span class="math notranslate nohighlight">\( X^T X \)</span> is Singular When <span class="math notranslate nohighlight">\( n &lt; p \)</span>?</strong>  (Further Reading)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-x-t-x-is-singular-when-n-p"><strong>Why <span class="math notranslate nohighlight">\( X^T X \)</span> is Singular When <span class="math notranslate nohighlight">\( n &lt; p \)</span>?</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient Descent</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#in-practice">In practice</a></li>
@@ -3592,7 +3694,6 @@ th {font-size: 16px}
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#theoretical-guarantees">Theoretical Guarantees</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#applications">Applications</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 </ul>
 </li>
@@ -3600,8 +3701,21 @@ th {font-size: 16px}
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-matching-pursuit-omp-for-sparse-recovery">Orthogonal Matching Pursuit (OMP) for Sparse Recovery</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#omp-algorithm">OMP algorithm</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-lasso">Comparison with LASSO</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-lasso">Comparison with LASSO</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practice">Practice</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-omp">When to Use OMP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-between-sparse-learning-and-functional-analysis">Connection Between Sparse Learning and Functional Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hilbert-spaces-and-orthogonal-projections">Hilbert Spaces and Orthogonal Projections</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#banach-spaces-and-ell-1-regularization">Banach Spaces and <span class="math notranslate nohighlight">\( \ell_1 \)</span>-Regularization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier-wavelet-and-other-representations">Fourier, Wavelet, and Other Representations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-fixed-bases-to-learned-representations">From Fixed Bases to Learned Representations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-evolving-role-of-sparse-methods">The Evolving Role of Sparse Methods</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mri-reconstruction-further-reading">MRI reconstruction (Further Reading)</a><ul class="visible nav section-nav flex-column">
@@ -3612,11 +3726,10 @@ th {font-size: 16px}
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-cross-entropy-further-reading">Loss function: Cross-entropy (Further Reading)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimization-methods-solvers-for-cross-entropy-loss">Optimization methods (solvers) for cross-entropy loss</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">In practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">In practice</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-classification">Ridge Classification</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perceptron">Perceptron</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-models-for-multiclass-classification">Linear Models for multiclass classification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-rest-aka-one-vs-all">one-vs-rest (aka one-vs-all)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-one">one-vs-one</a></li>
