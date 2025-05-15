@@ -23,6 +23,7 @@ parts:
   - file: 07 - Bayesian Learning
   - file: 08 - Hidden Markov Models
   - file: AppenixA-Kernel-SVM-and-Kernel-Regression
+  - file: Appendix-Gaussian-Mixtures
   - file: Appendix-BDT-Discrete-Features.md
   - file: Appendix-Support vector machines
   # - file: 08 - Neural Networks
