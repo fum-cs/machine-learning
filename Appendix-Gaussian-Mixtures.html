@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gaussian Mixture Model &#8212; ML</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Appendix-Gaussian-Mixtures';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendix: Bayes Decision Theory — Discrete Features" href="Appendix-BDT-Discrete-Features.html" />
+    <link rel="prev" title="Appendix A: Kernel SVM and Kernel Regression" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="ML - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="ML - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Feature-Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Model%20Selection.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Gaussian Mixture Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/machine-learning/blob/main/notebooks/Appendix-Gaussian-Mixtures.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2FAppendix-Gaussian-Mixtures.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Appendix-Gaussian-Mixtures.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gaussian Mixture Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-algorithm-review">K-means Algorithm: Review</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-algorithm-steps">K-means Algorithm: Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-algorithm">K-Means Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-maximization-clustering">Expectation-Maximization Clustering</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-likelihood-estimation">Maximum Likelihood Estimation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximizing-log-likelihood-with-expectation-maximization-em"><strong>Maximizing Log-Likelihood with Expectation-Maximization (EM)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-em-help"><strong>How does EM help?</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-maximization-for-gaussian-mixture-models">Expectation-Maximization for Gaussian Mixture Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-case-univariate-normal-clustering"><strong>1D Case: Univariate Normal Clustering</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization"><strong>Initialization</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-step"><strong>Expectation Step</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#maximization-step"><strong>Maximization Step</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-case-full-covariance-gaussian-mixture-model"><strong>Multivariate Case: Full Covariance Gaussian Mixture Model</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-step-multivariate"><strong>Expectation Step (Multivariate)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#maximization-step-multivariate"><strong>Maximization Step (Multivariate)</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-maximization-clustering-algorithm">Expectation-Maximization Clustering Algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-as-a-special-case-of-expectation-maximization-em"><strong>K-Means as a Special Case of Expectation-Maximization (EM)</strong></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gaussian-mixture-model">
+<h1>Gaussian Mixture Model<a class="headerlink" href="#gaussian-mixture-model" title="Link to this heading">#</a></h1>
+<p>The contents of this section are derived from Chapter 13 of <em>Data Mining and Machine Learning</em> by Mohammed J. Zaki and Wagner Meira Jr. (2020) <span id="id1">[]</span>.</p>
+<section id="k-means-algorithm-review">
+<h2>K-means Algorithm: Review<a class="headerlink" href="#k-means-algorithm-review" title="Link to this heading">#</a></h2>
+<p>The <em>sum of squared errors</em> scoring function is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+SSE(\mathcal{C}) = \sum_{i=1}^{k}\sum_{\mathbf{x}_{j} \in
+C_{i}}\|\mathbf{x}_{j}-\mathbf{\mu}_i\|^2
+\]</div>
+<p>The goal is to find the clustering that minimizes the SSE score:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{C}^* = \arg \min_{\mathcal{C}} \{ SSE(\mathcal{C}) \}
+\]</div>
+<p>K-means employs a greedy iterative approach to find a clustering that minimizes the SSE objective. As such, it can converge to a local optimum instead of a globally optimal clustering.</p>
+</section>
+<hr class="docutils" />
+<section id="k-means-algorithm-steps">
+<h2>K-means Algorithm: Steps<a class="headerlink" href="#k-means-algorithm-steps" title="Link to this heading">#</a></h2>
+<p>K-means initializes the cluster means by randomly generating <span class="math notranslate nohighlight">\(k\)</span> points in the data space. Each iteration consists of two steps:</p>
+<ol class="arabic">
+<li><p><strong>Cluster Assignment:</strong> Each point <span class="math notranslate nohighlight">\(\mathbf{x}_{j} \in \mathbf{D}\)</span> is assigned to the closest mean, inducing a clustering with each cluster <span class="math notranslate nohighlight">\(C_i\)</span> comprising points closest to <span class="math notranslate nohighlight">\(\mathbf{\mu}_i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ 
+   i^* = \arg \min_{i=1}^k \Bigl\{\|\mathbf{x}_{j} - \mathbf{\mu}_i\|^2\Bigr\}
+   \]</div>
+</li>
+<li><p><strong>Centroid Update:</strong> New mean values are computed for each cluster from the points in <span class="math notranslate nohighlight">\(C_i\)</span>.</p></li>
+</ol>
+<p>These steps iterate until convergence to a fixed point or local minimum.</p>
+</section>
+<hr class="docutils" />
+<section id="k-means-algorithm">
+<h2>K-Means Algorithm<a class="headerlink" href="#k-means-algorithm" title="Link to this heading">#</a></h2>
+<p><img alt="" src="img/Zaki-Chap13-KMeansAlgorithm.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="expectation-maximization-clustering">
+<h2>Expectation-Maximization Clustering<a class="headerlink" href="#expectation-maximization-clustering" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(X_a\)</span> denote the random variable corresponding to the <span class="math notranslate nohighlight">\(a^{th}\)</span> attribute. Let <span class="math notranslate nohighlight">\(\mathbf{X} = (X_1, X_2, \dots, X_d)\)</span> denote the vector random variable across the <span class="math notranslate nohighlight">\(d\)</span> attributes, with <span class="math notranslate nohighlight">\(\mathbf{x}_{j}\)</span> being a data sample from <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>.</p>
+<p>We assume each cluster <span class="math notranslate nohighlight">\(C_i\)</span> is characterized by a multivariate normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+f_i(\mathbf{x}) = f(\mathbf{x}|\mathbf{\mu}_i,\mathbf{\Sigma}_i)
+= \frac{1}{(2\pi)^\frac{d}{2}|\mathbf{\Sigma}_i|^\frac{1}{2}}
+    \exp\left\{-\frac{(\mathbf{x}-\mathbf{\mu}_{i})^{T} \mathbf{\Sigma}_i^{-1}
+    (\mathbf{x}-\mathbf{\mu}_{i})}{2}\right\}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{\mu}_i \in \mathbb{R}^d\)</span> is the cluster mean and <span class="math notranslate nohighlight">\(\mathbf{\Sigma}_i \in \mathbb{R}^{d \times d}\)</span> is the covariance matrix.</p>
+<p>The probability density function of <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>  is given as a <em>Gaussian mixture model</em> over all the <span class="math notranslate nohighlight">\(k\)</span> clusters:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}) = \sum_{i=1}^k f_i(\mathbf{x}) P(C_i)
+= \sum_{i=1}^k f(\mathbf{x} \mid \mathbf{\mu}_i, \mathbf{\Sigma}_i) P(C_i)
+\]</div>
+<p>where the prior probabilities <span class="math notranslate nohighlight">\(P(C_i)\)</span> are called the  <em>mixture parameters</em>, which must satisfy the condition:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^k P(C_i) = 1
+\]</div>
+<section id="maximum-likelihood-estimation">
+<h3>Maximum Likelihood Estimation<a class="headerlink" href="#maximum-likelihood-estimation" title="Link to this heading">#</a></h3>
+<p>We write the set of all model parameters compactly as:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{\theta} = \left\{\mathbf{\mu}_1,\mathbf{\Sigma}_1,P(C_1), \dots, \mathbf{\mu}_k, \mathbf{\Sigma}_k, P(C_k)\right\}
+\]</div>
+<p>Given the dataset <span class="math notranslate nohighlight">\(\mathbf{D}\)</span>, the <em>likelihood</em> of <span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+P(\mathbf{D} | \mathbf{\theta}) = \prod_{j=1}^n f(\mathbf{x}_{j})
+\]</div>
+<p>MLE chooses parameters <span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span> to maximize likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{\theta}^* = \arg\max_{\mathbf{\theta}} \{\ln P(\mathbf{D} | \mathbf{\theta})\}
+\]</div>
+<p>where the log-likelihood function is:</p>
+<div class="math notranslate nohighlight">
+\[
+\ln P(\mathbf{D} | \mathbf{\theta}) = \sum_{j=1}^n \ln f(\mathbf{x}_{j})
+    = \sum_{j=1}^n \ln \biggl( \sum_{i=1}^k f(\mathbf{x}_{j} | \mathbf{\mu}_i, \mathbf{\Sigma}_i)P(C_i)\biggr)
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="maximizing-log-likelihood-with-expectation-maximization-em">
+<h3><strong>Maximizing Log-Likelihood with Expectation-Maximization (EM)</strong><a class="headerlink" href="#maximizing-log-likelihood-with-expectation-maximization-em" title="Link to this heading">#</a></h3>
+<p>Directly maximizing the log-likelihood over <span class="math notranslate nohighlight">\(\mathbf{\theta}\)</span> is difficult because of the <strong>summation inside the logarithm</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\ln P(\mathbf{D} | \mathbf{\theta}) = \sum_{j=1}^n \ln \left( \sum_{i=1}^k f(\mathbf{x}_{j} | \mathbf{\mu}_i, \mathbf{\Sigma}_i) P(C_i) \right)
+\]</div>
+<p>If the likelihood function involved only a <strong>single Gaussian</strong>, direct differentiation would be straightforward. However, in a Gaussian mixture model, the presence of multiple Gaussians inside the summation complicates differentiation. Since each data point <span class="math notranslate nohighlight">\(\mathbf{x}_j\)</span> does not belong to one cluster deterministically but instead has a probability of belonging to multiple clusters, it is difficult to solve for the parameters analytically.</p>
+<section id="how-does-em-help">
+<h4><strong>How does EM help?</strong><a class="headerlink" href="#how-does-em-help" title="Link to this heading">#</a></h4>
+<p>Expectation-Maximization provides a structured approach to <strong>indirectly</strong> maximize the likelihood by introducing latent variables—the cluster assignments <span class="math notranslate nohighlight">\(w_{ij} = P(C_i | \mathbf{x}_j)\)</span>. The <strong>Expectation step</strong> computes these probabilities, effectively estimating the hidden memberships, while the <strong>Maximization step</strong> updates the parameters using these weights.</p>
+<p>By iterating between these steps, EM avoids the complexity of differentiating the nested sum-log expression directly, making parameter estimation feasible.</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="expectation-maximization-for-gaussian-mixture-models">
+<h2>Expectation-Maximization for Gaussian Mixture Models<a class="headerlink" href="#expectation-maximization-for-gaussian-mixture-models" title="Link to this heading">#</a></h2>
+<section id="d-case-univariate-normal-clustering">
+<h3><strong>1D Case: Univariate Normal Clustering</strong><a class="headerlink" href="#d-case-univariate-normal-clustering" title="Link to this heading">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{D}\)</span> comprise a single attribute <span class="math notranslate nohighlight">\(X\)</span>, where each point <span class="math notranslate nohighlight">\(x_{j} \in \mathbb{R}\)</span> is a random sample from <span class="math notranslate nohighlight">\(X\)</span>. The mixture model uses univariate normal distributions for each cluster:</p>
+<div class="math notranslate nohighlight">
+\[
+f_i(x) = f(x | \mu_i, \sigma_i^2) =
+  \frac{1}{\sqrt{2\pi}\sigma_i} \exp \left\{-\frac{(x -
+  \mu_i)^2}{2\sigma_i^2} \right\}
+\]</div>
+<p>where the cluster parameters include <span class="math notranslate nohighlight">\(\mu_{i}\)</span> (mean), <span class="math notranslate nohighlight">\(\sigma_{i}^2\)</span> (variance), and <span class="math notranslate nohighlight">\(P(C_i)\)</span> (prior probability).</p>
+<section id="initialization">
+<h4><strong>Initialization</strong><a class="headerlink" href="#initialization" title="Link to this heading">#</a></h4>
+<p>Each cluster <span class="math notranslate nohighlight">\(C_i\)</span> (for <span class="math notranslate nohighlight">\(i = 1, 2, \dots, k\)</span>) is randomly initialized with parameters <span class="math notranslate nohighlight">\(\mu_{i}\)</span>, <span class="math notranslate nohighlight">\(\sigma_{i}^2\)</span>, and <span class="math notranslate nohighlight">\(P(C_i)\)</span>.</p>
+</section>
+<section id="expectation-step">
+<h4><strong>Expectation Step</strong><a class="headerlink" href="#expectation-step" title="Link to this heading">#</a></h4>
+<p>Given the mean <span class="math notranslate nohighlight">\(\mu_i\)</span>, variance <span class="math notranslate nohighlight">\(\sigma_i^2\)</span>, and prior probability <span class="math notranslate nohighlight">\(P(C_i)\)</span> for each cluster, the <strong>cluster posterior probability</strong> is computed using Bayes’ theorem:</p>
+<div class="math notranslate nohighlight">
+\[
+w_{ij} = P(C_{i}|x_{j}) =
+    \frac{f(x_{j}|\mu_i,\sigma_i^2) \cdot P(C_{i})}
+    {\sum_{a=1}^k f(x_{j} |\mu_a, \sigma_a^2) \cdot P(C_{a})}
+\]</div>
+</section>
+<section id="maximization-step">
+<h4><strong>Maximization Step</strong><a class="headerlink" href="#maximization-step" title="Link to this heading">#</a></h4>
+<p>Using <span class="math notranslate nohighlight">\( w_{ij} \)</span>, the updated cluster parameters are computed as follows:</p>
+<ul>
+<li><p><strong>Mean update</strong> (weighted average of points):</p>
+<div class="math notranslate nohighlight">
+\[
+  \mu_{i} = \frac{\sum_{j=1}^n w_{ij} \cdot x_{j}}
+    {\sum_{j=1}^n w_{ij}}
+  \]</div>
+</li>
+<li><p><strong>Variance update</strong> (weighted variance of points):</p>
+<div class="math notranslate nohighlight">
+\[
+  \sigma_{i}^{2} =
+    \frac{\sum_{j=1}^n w_{ij}(x_{j}-\mu_{i})^2}
+        {\sum_{j=1}^n w_{ij}}
+  \]</div>
+</li>
+<li><p><strong>Prior probability update</strong> (fraction of weights contributing to the cluster):</p>
+<div class="math notranslate nohighlight">
+\[
+  P(C_{i}) =
+    \frac{\sum_{j=1}^n w_{ij}}{n}
+  \]</div>
+</li>
+</ul>
+<p><img alt="" src="img/Zaki-Chap13-EM1D.png" /></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="multivariate-case-full-covariance-gaussian-mixture-model">
+<h3><strong>Multivariate Case: Full Covariance Gaussian Mixture Model</strong><a class="headerlink" href="#multivariate-case-full-covariance-gaussian-mixture-model" title="Link to this heading">#</a></h3>
+<p>In the <strong>multivariate case</strong>, each cluster <span class="math notranslate nohighlight">\(C_i\)</span> is modeled by a multivariate normal distribution, extending beyond the 1D case:</p>
+<div class="math notranslate nohighlight">
+\[
+f_i(\mathbf{x}) = f(\mathbf{x}|\mathbf{\mu}_i,\mathbf{\Sigma}_i)
+= \frac{1}{(2\pi)^\frac{d}{2}|\mathbf{\Sigma}_i|^\frac{1}{2}}
+    \exp\left\{-\frac{(\mathbf{x}-\mathbf{\mu}_{i})^{T} \mathbf{\Sigma}_i^{-1}
+    (\mathbf{x}-\mathbf{\mu}_{i})}{2}\right\}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{\mu}_i \in \mathbb{R}^d\)</span> is the cluster mean and <span class="math notranslate nohighlight">\(\mathbf{\Sigma}_i \in \mathbb{R}^{d \times d}\)</span> is the covariance matrix.</p>
+<section id="expectation-step-multivariate">
+<h4><strong>Expectation Step (Multivariate)</strong><a class="headerlink" href="#expectation-step-multivariate" title="Link to this heading">#</a></h4>
+<p>Similar to the univariate case, the cluster posterior probability is computed using Bayes’ theorem:</p>
+<div class="math notranslate nohighlight">
+\[
+w_{ij} = P(C_i | \mathbf{x}_{j}) = \frac{f_i(\mathbf{x}_{j}) \cdot P(C_{i})}
+    {\sum_{a=1}^k f_a(\mathbf{x}_{j}) \cdot P(C_{a})}
+\]</div>
+</section>
+<section id="maximization-step-multivariate">
+<h4><strong>Maximization Step (Multivariate)</strong><a class="headerlink" href="#maximization-step-multivariate" title="Link to this heading">#</a></h4>
+<ul>
+<li><p><strong>Mean update</strong> (weighted average of points):</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathbf{\mu}_{i} = \frac{\sum_{j=1}^n P(C_i | \mathbf{x}_j) \cdot \mathbf{x}_{j}}
+  {\sum_{j=1}^n P(C_i | \mathbf{x}_j)}
+  \]</div>
+</li>
+<li><p><strong>Covariance update</strong> (weighted covariance matrix across dimensions):</p>
+<div class="math notranslate nohighlight">
+\[
+  \mathbf{\Sigma}_{i} =
+    \frac{\sum_{j=1}^n P(C_i | \mathbf{x}_j) (\mathbf{x}_j - \mathbf{\mu}_i)(\mathbf{x}_j - \mathbf{\mu}_i)^T}
+    {\sum_{j=1}^n P(C_i | \mathbf{x}_j)}
+  \]</div>
+</li>
+<li><p><strong>Prior probability update</strong> (fraction of total contribution to the cluster):</p>
+<div class="math notranslate nohighlight">
+\[
+  P(C_{i}) =
+    \frac{\sum_{j=1}^n P(C_i | \mathbf{x}_j)}{n}
+  \]</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="expectation-maximization-clustering-algorithm">
+<h2>Expectation-Maximization Clustering Algorithm<a class="headerlink" href="#expectation-maximization-clustering-algorithm" title="Link to this heading">#</a></h2>
+<p><img alt="" src="img/Zaki-Chap13-EMAlgorithm.png" /></p>
+<section id="k-means-as-a-special-case-of-expectation-maximization-em">
+<h3><strong>K-Means as a Special Case of Expectation-Maximization (EM)</strong><a class="headerlink" href="#k-means-as-a-special-case-of-expectation-maximization-em" title="Link to this heading">#</a></h3>
+<p>K-means can be viewed as a <strong>simplified version</strong> of the Expectation-Maximization (EM) algorithm, where cluster assignments are deterministic rather than probabilistic. Specifically, in K-means, each data point <span class="math notranslate nohighlight">\(\mathbf{x}_{j}\)</span> belongs exclusively to one cluster based on the minimum squared distance to the cluster centroid:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P(\mathbf{x}_{j} | C_i) =
+\begin{cases}
+  1 &amp; \text{if } C_i = \arg\min_{C_a} \left\{
+    \|\mathbf{x}_{j} - \mathbf{\mu}_a\|^2\right\}\\
+  0 &amp; \text{otherwise}
+\end{cases}
+\end{split}\]</div>
+<p>The posterior probability of cluster assignment is calculated using Bayes’ theorem:</p>
+<div class="math notranslate nohighlight">
+\[
+P(C_i | \mathbf{x}_{j}) = \frac{P(\mathbf{x}_{j} | C_i) P(C_i)}
+{\sum_{a=1}^k P(\mathbf{x}_{j} | C_a) P(C_a)}
+\]</div>
+<p>Since K-means deterministically assigns each point to exactly one cluster, this simplifies to the following cases:</p>
+<ul>
+<li><p>If <span class="math notranslate nohighlight">\(P(\mathbf{x}_{j} | C_i) = 0\)</span>, then <span class="math notranslate nohighlight">\(P(C_i | \mathbf{x}_{j}) = 0\)</span>.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(P(\mathbf{x}_{j} | C_i) = 1\)</span>, then for all <span class="math notranslate nohighlight">\(a \neq i\)</span>, we have <span class="math notranslate nohighlight">\(P(\mathbf{x}_{j} | C_a) = 0\)</span>, so:</p>
+<div class="math notranslate nohighlight">
+\[
+  P(C_i | \mathbf{x}_{j}) = \frac{1 \cdot P(C_i)}{1 \cdot P(C_i)} = 1.
+  \]</div>
+</li>
+</ul>
+<p>Thus, in K-means, cluster membership is binary:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P(C_i | \mathbf{x}_{j}) =
+\begin{cases}
+  1 &amp; \text{if } \mathbf{x}_{j} \in C_i, \text{i.e., if }
+  C_i = \arg\min_{C_a} \left\{ \|\mathbf{x}_{j} - \mathbf{\mu}_a\|^2\right\}\\
+  0 &amp; \text{otherwise}
+\end{cases}
+\end{split}\]</div>
+<p>Unlike EM, which incorporates covariance matrices to model cluster distributions, K-means <strong>only estimates the cluster centroids <span class="math notranslate nohighlight">\(\mathbf{\mu}_i\)</span> and the cluster proportions <span class="math notranslate nohighlight">\(P(C_i)\)</span></strong>.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="AppenixA-Kernel-SVM-and-Kernel-Regression.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Appendix A: Kernel SVM and Kernel Regression</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Appendix-BDT-Discrete-Features.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Appendix: Bayes Decision Theory — Discrete Features</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-algorithm-review">K-means Algorithm: Review</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-algorithm-steps">K-means Algorithm: Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-algorithm">K-Means Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-maximization-clustering">Expectation-Maximization Clustering</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-likelihood-estimation">Maximum Likelihood Estimation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximizing-log-likelihood-with-expectation-maximization-em"><strong>Maximizing Log-Likelihood with Expectation-Maximization (EM)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-em-help"><strong>How does EM help?</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-maximization-for-gaussian-mixture-models">Expectation-Maximization for Gaussian Mixture Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-case-univariate-normal-clustering"><strong>1D Case: Univariate Normal Clustering</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization"><strong>Initialization</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-step"><strong>Expectation Step</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#maximization-step"><strong>Maximization Step</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-case-full-covariance-gaussian-mixture-model"><strong>Multivariate Case: Full Covariance Gaussian Mixture Model</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-step-multivariate"><strong>Expectation Step (Multivariate)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#maximization-step-multivariate"><strong>Maximization Step (Multivariate)</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-maximization-clustering-algorithm">Expectation-Maximization Clustering Algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means-as-a-special-case-of-expectation-maximization-em"><strong>K-Means as a Special Case of Expectation-Maximization (EM)</strong></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
