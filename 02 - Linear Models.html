@@ -208,6 +208,7 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="AppenixA-Kernel-SVM-and-Kernel-Regression.html">Appendix A: Kernel SVM and Kernel Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-Gaussian-Mixtures.html">Gaussian Mixture Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features</a></li>
 </ul>
 
@@ -503,6 +504,11 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mri-reconstruction-further-reading">MRI reconstruction (Further Reading)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytomography">PyTomography</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features"><strong>Key Features</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-pytomography"><strong>Why Use PyTomography?</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pysap">PySAP</a></li>
 </ul>
 </li>
@@ -2713,6 +2719,28 @@ LASSO      5.5046e-02    0               0.2214     [1.39, -0.68, 1.05]
 <li><p><span class="math notranslate nohighlight">\( \lambda \)</span> controls the balance between data fidelity and sparsity enforcement.</p></li>
 </ul>
 <p>By leveraging sparsity, MRI reconstruction enables faster scans with fewer measurements while preserving essential anatomical details.</p>
+<section id="pytomography">
+<h2>PyTomography<a class="headerlink" href="#pytomography" title="Link to this heading">#</a></h2>
+<p><strong>PyTomography</strong> is an open-source Python library designed for <strong>medical image reconstruction</strong>, particularly in <strong>SPECT (Single-Photon Emission Computed Tomography)</strong> and <strong>PET (Positron Emission Tomography)</strong> imaging. Developed to address the challenges of <strong>quantitative tomographic reconstruction</strong>, PyTomography provides a <strong>flexible, modular framework</strong> for implementing advanced reconstruction algorithms, including <strong>attenuation correction, scatter correction, and resolution modeling</strong>.</p>
+<section id="key-features">
+<h3><strong>Key Features</strong><a class="headerlink" href="#key-features" title="Link to this heading">#</a></h3>
+<p>✅ <strong>Open-source &amp; community-driven</strong> (<a class="reference external" href="https://github.com/PyTomography/PyTomography">GitHub</a>)<br />
+✅ <strong>Supports multiple reconstruction techniques</strong> (OSEM, MLEM, deep learning-based methods)<br />
+✅ <strong>Integrates with GPU acceleration</strong> for faster computations<br />
+✅ <strong>Well-documented</strong> with tutorials and API references (<a class="reference external" href="https://pytomography.readthedocs.io/en/latest/">ReadTheDocs</a>)<br />
+✅ <strong>Validated in peer-reviewed research</strong> (<a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S235271102400390X">Scientific Reports, 2024</a>)</p>
+</section>
+<section id="why-use-pytomography">
+<h3><strong>Why Use PyTomography?</strong><a class="headerlink" href="#why-use-pytomography" title="Link to this heading">#</a></h3>
+<p>PyTomography bridges the gap between <strong>research and clinical applications</strong> by offering:</p>
+<ul class="simple">
+<li><p><strong>Reproducible</strong> reconstruction workflows</p></li>
+<li><p><strong>Customizable</strong> forward and backward projection models</p></li>
+<li><p><strong>Seamless integration</strong> with Python’s scientific computing stack (NumPy, PyTorch)</p></li>
+</ul>
+<p>Whether for <strong>academic research, algorithm development, or clinical prototyping</strong>, PyTomography provides a <strong>powerful, accessible toolkit</strong> for next-generation medical imaging reconstruction.</p>
+</section>
+</section>
 <section id="pysap">
 <h2>PySAP<a class="headerlink" href="#pysap" title="Link to this heading">#</a></h2>
 <p>The <strong>Python Sparse data Analysis Package (PySAP)</strong> was developed as part of COSMIC, a multi-disciplinary collaboration between <strong>NeuroSpin</strong>, experts in biomedical imaging, and <strong>CosmoStat</strong>, experts in astrophysical image processing. PySAP is designed to provide state-of-the-art signal processing tools for various imaging domains, including:</p>
@@ -3045,7 +3073,7 @@ For binary classification (2 classes), we aim to fit the following function:</p>
 </ul>
 </li>
 <li><p>For further information about conjugate gradients, see <span id="id12">[<a class="reference internal" href="index.html#id53" title="Mehdi Nemati. A gradient based method for thespectral graph partitioning. Master's thesis, Hakim Sabzevari University, Faculty of Mathematics and Computer Science, September 2018. روشی مبتنی بر گرادیان برای افرازبندی طیفی گراف. URL: https://hcloud.hsu.ac.ir/index.php/s/tR53d9306yZSAc7.">Nem18</a>]</span></p></li>
-<li><p>You will see many of these solvers in Optimization course tought by Dr. Ghanbari.</p></li>
+<li><p>You will see many of these solvers in Optimization course taught by Dr. Ghanbari.</p></li>
 </ul>
 </section>
 <section id="id13">
@@ -3719,6 +3747,11 @@ th {font-size: 16px}
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mri-reconstruction-further-reading">MRI reconstruction (Further Reading)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytomography">PyTomography</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features"><strong>Key Features</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-pytomography"><strong>Why Use PyTomography?</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pysap">PySAP</a></li>
 </ul>
 </li>
