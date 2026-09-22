@@ -1,6 +1,6 @@
 # Machine Learning
 
-**Mahmood Amintoosi, Spring 2025**
+**Mahmood Amintoosi, Fall 2026**
 
 Computer Science Dept, Ferdowsi University of Mashhad
 
@@ -15,7 +15,9 @@ Book documentation.
 
 # About Machine Learning
 
-In this exciting journey, we'll delve into the fascinating world of **Machine Learning** with Python, where machines learn, adapt, and make decisions based on data. Topics that are covered are Linear Models, Kernel Trick, Model Selection, Ensemble Learning, Data Preprocessing and Bayesian Learning. Neural Networks, Gradient Descent and related subjects are disccussed in [Neural Networks Course](https://fum-cs.github.io/neural-networks/).
+In this exciting journey, we'll delve into the fascinating world of **Machine Learning** with Python, where machines learn, adapt, and make decisions based on data. Topics include learning paradigms, evaluation and overfitting, linear models and gradient methods, decision trees and ensembles, neural networks, kernel methods, Bayesian learning, clustering and EM, ranking, and a survey of computational learning theory and advanced topics.
+
+Related materials from earlier offerings live in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), and [Algorithms for Data Science](https://fum-cs.github.io/a4ds/). The Spring 2025 snapshot of this book (used with Learning Theory) is tagged [`2025-spring`](https://github.com/fum-cs/machine-learning/tree/2025-spring).
 
 
 ## Prerequisites

@@ -6,9 +6,11 @@
 
 An introduction to machine learning.
 
-- [Course Jupyter Book](https://fum-cs.github.io/machine-learning/README.html)
+- [Course Jupyter Book](https://fum-cs.github.io/machine-learning/)
 
-2024 Instructor: Mahmood Amintoosi
+Fall 2026 Instructor: Mahmood Amintoosi
+
+Past offerings are frozen with git tags — see [semesters.md](semesters.md).
 
 I should mention that the original material of this course was from [Open Machine Learning Course](https://ml-course.github.io/), by [Joaquin Vanschoren](https://github.com/joaquinvanschoren) and others.
 
@@ -46,3 +48,14 @@ I should mention that the original material of this course was from [Open Machin
 - jupyter-book build ./
 - ghp-import -n -p -f ./_build/html
 - jupyter-book build --builder pdflatex ./
+
+## Semester snapshots
+
+At the end of each offering, tag the final state (do not rename this repo):
+
+```
+git tag -a YYYY-term -m "Snapshot: ..."
+git push origin YYYY-term
+```
+
+Then add a row in [semesters.md](semesters.md).
