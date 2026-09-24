@@ -4,7 +4,7 @@
 
 Computer Science Dept, Ferdowsi University of Mashhad
 
-Required, 4 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track (usually first semester).
+Required, 4 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track.
 
 ---
 
@@ -16,9 +16,11 @@ This course gives an **integrated picture of machine learning foundations**, **h
 **Tasks:** classification, regression, clustering, and ranking.  
 **Themes:** overfitting and underfitting, the bias–variance tradeoff, the curse of dimensionality, and principled model comparison.
 
-Topics progress roughly as: local models (kNN) and k-means → high-dimensional data and dimensionality reduction (PCA, LDA) → linear models and gradient methods → neural networks (MLP, backpropagation) → kernel methods → Bayesian learning and decision theory → Gaussian mixtures and EM → learning to rank and learning theory (student seminars) → advanced topics and a project. Decision trees are covered if time allows.
+Topics progress roughly as: local models (kNN) and k-means → high-dimensional data and dimensionality reduction (PCA, LDA) → linear models and gradient methods → neural networks (MLP, backpropagation) → kernel methods → Bayesian learning and decision theory → Gaussian mixtures and EM → Decision trees → learning to rank and learning theory → advanced topics and a project.
 
-**Other courses in the track** cover support vector machines, reinforcement learning, and ensembles / model combination. Related material also lives in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), [Algorithms for Data Science](https://fum-cs.github.io/a4ds/), and [MFDS](https://fum-cs.github.io/mfds/). The Spring 2025 snapshot of this book (used with Learning Theory) is tagged [`2025-spring`](https://github.com/fum-cs/machine-learning/tree/2025-spring).
+<!-- **Other courses in the track** cover support vector machines, reinforcement learning, and ensembles / model combination. Related material also lives in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), [Algorithms for Data Science](https://fum-cs.github.io/a4ds/), and [MFDS](https://fum-cs.github.io/mfds/). -->
+
+The Spring 2025 snapshot of this book is tagged [`2025-spring`](https://github.com/fum-cs/machine-learning/tree/2025-spring).
 
 ## Learning outcomes
 
@@ -58,7 +60,7 @@ Course notes and Jupyter notebooks in this book (GitHub), programming in Python 
 
 ## Questions?
 
-Office hours: Monday 10:00–11:30, or email m.amintoosi@um.ac.ir, or talk after class, or [book a slot](https://calendly.com/m-amintoosi/30min).
+Office hours: Sunday 8:00–9:30, or email m.amintoosi@um.ac.ir, or talk after class, or [book a slot](https://calendly.com/m-amintoosi/30min).
 
 ## Slack
 
