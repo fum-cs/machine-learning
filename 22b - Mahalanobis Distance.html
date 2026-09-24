@@ -1,0 +1,2027 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mahalanobis Distance &#8212; Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '22b - Mahalanobis Distance';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gaussian processes" href="23%20-%20Bayesian%20Learning.html" />
+    <link rel="prev" title="Naive Bayes Classification" href="22%20-%20Naive%20Bayes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="Machine Learning - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Local%20Models%20and%20kNN.html">k-Nearest Neighbors and Classification Evaluation Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Model%20Evaluation.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Bias-Variance%20Tradeoff.html">Bias-Variance Tradeoff</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Simple Methods and High Dimension</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20k-means%20Clustering.html">k-means Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b%20-%20Clustering%20Validation.html">Clustering Validation Metrics</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20High-Dimensional%20Data.html">High Dimensional Data &amp; The Curse of Dimensionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20High-Dimensional%20Data%20and%20kNN.html">kNN in high dimensional spaces</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Linear Models and Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Linear%20Regression.html">Linear Regression, Part 1</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="09%20-%20Linear%20Models%20and%20Gradient%20Methods.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20-%20Gradient%20Descent.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11%20-%20Stochastic%20Gradient%20Descent.html">Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20-%20MLP%20and%20Backpropagation.html">Introduction to Pytorch &amp; Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20-%20MLP%20Classification.html">Neural Networks for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20-%20MLP%20Regularization.html">Regularization and Dropout in Neural Networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dimensionality Reduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="15%20-%20PCA%20part%201.html">Principal Component Analysis, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20-%20PCA%20part%202.html">Principal Component Analysis, Part 2</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="17%20-%20PCA%20and%20LDA.html">Comparison of LDA and PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Kernel Methods</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="18%20-%20Feature%20Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19%20-%20Kernel%20Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="20%20-%20Kernel%20Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian and Statistical Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20-%20MLE%20Introduction.html">Maximum Likelihood Estimation (MLE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20-%20Naive%20Bayes.html">Naive Bayes Classification</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20-%20Bayesian%20Decision%20Theory.html">Bayesian Decision Theory</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Latent Variable Models</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="25%20-%20Gaussian%20Mixtures%20part%201.html">Gaussian Mixture Models, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20-%20Gaussian%20Mixtures%20part%202.html">Gaussian Mixture Model, Part 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seminars and Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="27%20-%20Learning%20to%20Rank.html">Learning to Rank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="28%20-%20Learning%20Theory%20and%20VC.html">Learning Theory and VC Dimension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30%20-%20Advanced%20Topics.html">Advanced Topics Survey</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Decision Trees (if time)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="29%20-%20Decision%20Trees.html">Decision Trees and Random Forests</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="31%20-%20Project%20and%20Review.html">Project and Review</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-Gaussian-Mixtures.html">Gaussian Mixture Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/machine-learning/blob/main/notebooks/22b - Mahalanobis Distance.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2F22b - Mahalanobis Distance.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/22b - Mahalanobis Distance.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Mahalanobis Distance</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-do-we-need-mahalanobis-distance">1. Why Do We Need Mahalanobis Distance?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustrative-example-euclidean-vs-mahalanobis-distance">Illustrative Example: Euclidean vs. Mahalanobis Distance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effect-of-feature-scaling">The effect of feature scaling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-iranian-missile-similarity">Case Study: Iranian Missile Similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">1. The Dataset</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-naive-approach-raw-distance">2. The Naive Approach (Raw Distance)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-corrected-approach-standard-scaling">3. The Corrected Approach (Standard Scaling)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-result">4. The Result</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-change">5. Why the Change?</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-logic-summary">Code Logic Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaway">Key Takeaway</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-covariance-matrix">2. Introduction to Covariance Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-interpretation-of-covariance-matrix">3. Geometric Interpretation of Covariance Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-transformations-and-covariance">4. Linear Transformations and Covariance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#theorem-1-covariance-transformation-property"><strong>Theorem 1 (Covariance Transformation Property)</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#whitening-transformation">5. Whitening Transformation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation">Mathematical Formulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-interpretation">Geometric Interpretation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">6. Mahalanobis Distance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-key-insight">The Key Insight</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-relationship">Key Relationship</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation-step-by-step-demonstration">7. Python Implementation: Step-by-Step Demonstration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covariance-matrix-in-bayesian-decision-theory">8. Covariance Matrix in Bayesian Decision Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mahalanobis-distance-and-its-role">9. Mahalanobis Distance and Its Role</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-standardization-z-score">Connection to Standardization (Z-Score)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mahalanobis-distance-intuition">Mahalanobis Distance Intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-whitening-equivalent-to-per-feature-normalization">Is Whitening Equivalent to Per-Feature Normalization?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#per-feature-normalization-standardization">Per-Feature Normalization (Standardization)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#whitening">Whitening</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#key-difference">Key Difference</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-it-matters">Why It Matters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-pca-vs-whitening">10. Comparison: PCA vs. Whitening</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-relationship">Mathematical Relationship</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-differences">Key Differences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-demonstration-pca-vs-whitening">Visual Demonstration: PCA vs. Whitening</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-matters-for-mahalanobis-distance">Why This Matters for Mahalanobis Distance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mahalanobis-distance">
+<h1>Mahalanobis Distance<a class="headerlink" href="#mahalanobis-distance" title="Link to this heading">#</a></h1>
+<p><strong>Understanding Covariance, Geometric Interpretation, and Bayesian Decision Theory</strong></p>
+<p>In this tutorial, we will explore the <strong>covariance matrix</strong>, its geometric interpretation, and its critical role in <strong>Bayesian Decision Theory</strong>, particularly in the context of the <strong>Mahalanobis Distance</strong>. We will derive the mathematical properties of these concepts and illustrate them with Python code and visualizations.</p>
+<p><em>Resources:</em> Adapted from <a class="reference external" href="https://www.visiondummy.com/2014/04/geometric-interpretation-covariance-matrix/">Vision Dummy</a>, <a class="reference external" href="https://blogs.sas.com/content/iml/2012/02/15/what-is-mahalanobis-distance.html">SAS Blogs</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Mahalanobis_distance">Wikipedia</a>, and Chapter 2 of <em>Pattern Classification</em> by Duda, Hart, and Stork <span id="id1">[<a class="reference internal" href="index.html#id7" title="Richard O. Duda, Peter E. Hart, and David G. Stork. Pattern Classification (2nd Edition). Wiley-Interscience, 2 edition, November 2000. ISBN 0471056693. URL: https://file.fouladi.ir/courses/pr/books/%5BDuda%5D_PatternClassification.pdf.">DHS00</a>]</span>.</p>
+<hr class="docutils" />
+<section id="why-do-we-need-mahalanobis-distance">
+<h2>1. Why Do We Need Mahalanobis Distance?<a class="headerlink" href="#why-do-we-need-mahalanobis-distance" title="Link to this heading">#</a></h2>
+<p>In many real-world applications, we deal with <strong>multivariate data</strong> where features are often correlated and have different scales. While the <strong>Euclidean distance</strong> (<span class="math notranslate nohighlight">\(\|\mathbf{x} - \mathbf{y}\|_2\)</span>) is a common choice for measuring distances, it has a significant limitation: it assumes that all features are <strong>uncorrelated</strong> and have the <strong>same variance</strong>. This assumption rarely holds in practice.</p>
+<p>Consider a dataset where one feature is measured in meters and another in kilometers. Euclidean distance would disproportionately weigh the feature with larger values. Similarly, if features are correlated, the “shape” of the data distribution is an ellipsoid rather than a sphere. Euclidean distance fails to account for this underlying structure, leading to misleading results in classification and clustering.</p>
+<p>The <strong>Mahalanobis distance</strong> solves this by measuring the distance between a point and a distribution, normalized by the variance of each feature and the correlations between them.</p>
+<section id="illustrative-example-euclidean-vs-mahalanobis-distance">
+<h3>Illustrative Example: Euclidean vs. Mahalanobis Distance<a class="headerlink" href="#illustrative-example-euclidean-vs-mahalanobis-distance" title="Link to this heading">#</a></h3>
+<p>Let’s visualize this using a 2D Gaussian distribution with high correlation.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">mahalanobis</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span>
+
+<span class="c1"># Set random seed for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Generate 2D Gaussian random points with high correlation</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>  <span class="c1"># Covariance matrix</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Select two points with the same Euclidean distance to the center but different locations</span>
+<span class="c1"># Point 1 is along the direction of high variance</span>
+<span class="c1"># Point 2 is along the direction of low variance</span>
+<span class="n">point1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">point2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+
+<span class="c1"># Compute Euclidean distances</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+<span class="n">euclidean_dist1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point1</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span>
+<span class="n">euclidean_dist2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span>
+
+<span class="c1"># Compute Mahalanobis distances</span>
+<span class="n">inv_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+<span class="n">mahalanobis_dist1</span> <span class="o">=</span> <span class="n">mahalanobis</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">inv_cov</span><span class="p">)</span>
+<span class="n">mahalanobis_dist2</span> <span class="o">=</span> <span class="n">mahalanobis</span><span class="p">(</span><span class="n">point2</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">inv_cov</span><span class="p">)</span>
+
+<span class="c1"># Plot the data and points</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data Points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean (0,0)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Highlight the two comparison points</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">point1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> 
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point 1</span><span class="se">\n</span><span class="s1">Euclidean: </span><span class="si">{</span><span class="n">euclidean_dist1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Mahal: </span><span class="si">{</span><span class="n">mahalanobis_dist1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">point2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> 
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point 2</span><span class="se">\n</span><span class="s1">Euclidean: </span><span class="si">{</span><span class="n">euclidean_dist2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Mahal: </span><span class="si">{</span><span class="n">mahalanobis_dist2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the probability contours</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mf">.01</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mf">.01</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Euclidean vs. Mahalanobis Distance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Feature 2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/7b58dfba41668a4ef8bd9a4b7b806aeea727b7754260cb523e0300f2765d2c60.png" src="_images/7b58dfba41668a4ef8bd9a4b7b806aeea727b7754260cb523e0300f2765d2c60.png" />
+</div>
+</div>
+<p><em>Observation:</em> Point 1 and Point 2 have the same Euclidean distance from the center, yet they lie in different “probability regions.” Point 2 is in a direction of lower variance (orthogonal to the main correlation), making it statistically less likely (further in Mahalanobis distance) than Point 1.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-effect-of-feature-scaling">
+<h2>The effect of feature scaling<a class="headerlink" href="#the-effect-of-feature-scaling" title="Link to this heading">#</a></h2>
+<section id="case-study-iranian-missile-similarity">
+<h3>Case Study: Iranian Missile Similarity<a class="headerlink" href="#case-study-iranian-missile-similarity" title="Link to this heading">#</a></h3>
+<p>In this example, we will use a dataset of <strong>Iranian Ballistic Missiles</strong> to solve a similarity problem. We want to determine which missile is more similar to the <strong>Khaybar Shikan</strong> (Missile A) based on <strong>Range</strong> and <strong>Speed</strong>.</p>
+<section id="the-dataset">
+<h4>1. The Dataset<a class="headerlink" href="#the-dataset" title="Link to this heading">#</a></h4>
+<p>We have the following data for three missiles:</p>
+<!-- | Missile | Range (km) | Speed (Mach) |
+| :--- | :--- | :--- |
+| **A. Khaybar Shikan** (Target) | 1,450 | 5 |
+| **B. Sejjil** | 2,000 | 10 |
+| **C. Fatāh** | 1,400 | 14 | -->
+<html>
+  <table>
+    <tr>
+      <th>Missile</th>
+      <th>Range (km)</th>
+      <th>Speed (Mach)</th>
+    </tr>
+    <tr>
+      <td>A. Khaybar Shikan</td>
+      <td>1,450</td>
+      <td>5</td>
+      <td><img src="_images/Khaybar.jpg" width=300></td>
+    </tr>
+    <tr>
+      <td>B. Sejjil</td>
+      <td>2,000</td>
+      <td>10</td>
+      <td><img src="_images/Sejjil.jpg" width=300></td>
+    </tr>
+    <tr>
+      <td>C. Fatāh</td>
+      <td>1,400</td>
+      <td>14</td>
+      <td><img src="_images/Fattah.jpg" width=300></td>
+    </tr>
+  </table>
+</html>
+</section>
+<section id="the-naive-approach-raw-distance">
+<h4>2. The Naive Approach (Raw Distance)<a class="headerlink" href="#the-naive-approach-raw-distance" title="Link to this heading">#</a></h4>
+<p>Using standard Euclidean distance, we calculate the distance between the Target (Khaybar) and the other missiles.</p>
+<ul class="simple">
+<li><p><strong>Khaybar vs. Sejjil (B):</strong></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\Delta \text{Range} = |2000 - 1450| = 550 \text{ km}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta \text{Speed} = |10 - 5| = 5 \text{ Mach}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(D_{raw} = \sqrt{550^2 + 5^2} = \sqrt{302,500 + 25} \approx \mathbf{550.02}\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Khaybar vs. Fatāh (C):</strong></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\Delta \text{Range} = |1400 - 1450| = 50 \text{ km}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta \text{Speed} = |14 - 5| = 9 \text{ Mach}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(D_{raw} = \sqrt{50^2 + 9^2} = \sqrt{2,500 + 81} \approx \mathbf{50.80}\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p><strong>❌ Problem:</strong> Fatāh looks much closer (50.8) than Sejjil (550.0).
+<strong>Reality Check:</strong> 50 km is negligible in missile range, but 9 Mach is a massive difference in speed class (Hypersonic vs. Medium). The raw calculation is dominated by the <strong>Range</strong> feature.</p>
+</section>
+<section id="the-corrected-approach-standard-scaling">
+<h4>3. The Corrected Approach (Standard Scaling)<a class="headerlink" href="#the-corrected-approach-standard-scaling" title="Link to this heading">#</a></h4>
+<p>To fix this, we normalize the data using Z-scores (<span class="math notranslate nohighlight">\(Z = \frac{x - \mu}{\sigma}\)</span>). This puts both features on the same scale.</p>
+<p><strong>Dataset Statistics (from Code Output):</strong></p>
+<ul class="simple">
+<li><p><strong>Range:</strong> Mean = 1,616.67 km | <strong>Std Dev (Sample)</strong> <span class="math notranslate nohighlight">\(\approx\)</span> 332.92 km</p></li>
+<li><p><strong>Speed:</strong> Mean = 9.67 Mach | <strong>Std Dev (Sample)</strong> <span class="math notranslate nohighlight">\(\approx\)</span> 4.51 Mach</p></li>
+</ul>
+<p><em>Note: The <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> algorithm typically uses Population Std Dev (approx 272 km / 3.7 Mach) for internal transformation to ensure consistency, which results in the final distances below.</em></p>
+<p><strong>A. Khaybar vs. Sejjil (B):</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(D_{scaled} = \sqrt{1.90^2 + 1.40^2} \approx \mathbf{2.44}\)</span></p></li>
+</ul>
+<p><strong>B. Khaybar vs. Fatāh (C):</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(D_{scaled} = \sqrt{0.20^2 + 2.40^2} \approx \mathbf{2.45}\)</span></p></li>
+</ul>
+</section>
+<section id="the-result">
+<h4>4. The Result<a class="headerlink" href="#the-result" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Comparison</p></th>
+<th class="head text-left"><p>Raw Distance</p></th>
+<th class="head text-left"><p><strong>Scaled Distance</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Khaybar vs. Sejjil</strong></p></td>
+<td class="text-left"><p>550.02</p></td>
+<td class="text-left"><p><strong>2.44</strong> ✅</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Khaybar vs. Fatāh</strong></p></td>
+<td class="text-left"><p>50.80</p></td>
+<td class="text-left"><p><strong>2.45</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>✅ Result:</strong> <strong>Sejjil</strong> (2.44) is now correctly identified as the closest match to Khaybar, not Fatāh.</p>
+</section>
+<section id="why-the-change">
+<h4>5. Why the Change?<a class="headerlink" href="#why-the-change" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Raw Data:</strong> The Range feature (km) was numerically huge (1400-2000) compared to Speed (5-14). The algorithm ignored Speed because a change of 50 km is a tiny percentage of the total range, but a change of 9 Mach is a <strong>180% change</strong> in Speed.</p></li>
+<li><p><strong>Scaled Data:</strong> By dividing by the Standard Deviation, we turned Speed into the dominant factor.</p></li>
+<li><p><strong>Conclusion:</strong> The Scaled Distance penalizes the massive speed difference in Fatāh, correctly identifying Sejjil as the more similar missile platform.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="code-logic-summary">
+<h3>Code Logic Summary<a class="headerlink" href="#code-logic-summary" title="Link to this heading">#</a></h3>
+<p>The Python script used <strong><code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code></strong> to handle this automatically. It:</p>
+<ol class="arabic simple">
+<li><p>Calculated the Mean and Standard Deviation for each column.</p></li>
+<li><p>Transformed the values into Z-scores.</p></li>
+<li><p>Calculated Euclidean distance on the <strong>transformed</strong> (standardized) data.</p></li>
+</ol>
+<p>This ensures features with different units (km vs Mach) contribute equally to the similarity score.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># ============================================</span>
+<span class="c1"># 1. REALISTIC IRANIAN MISSILE DATASET</span>
+<span class="c1"># ============================================</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Khaybar Shikan&#39;</span><span class="p">,</span> <span class="s1">&#39;Sejjil&#39;</span><span class="p">,</span> <span class="s1">&#39;Fatāh&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Range_km&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1450</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">1400</span><span class="p">],</span>
+    <span class="s1">&#39;Speed_Mach&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Target: Compare Khaybar Shikan to Sejjil and Fatāh</span>
+<span class="n">target_name</span> <span class="o">=</span> <span class="s1">&#39;Khaybar Shikan&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">other_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Sejjil&#39;</span><span class="p">,</span> <span class="s1">&#39;Fatāh&#39;</span><span class="p">]</span>
+<span class="n">others</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">other_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># ============================================</span>
+<span class="c1"># 2. RAW EUCLIDEAN DISTANCE (Unscaled)</span>
+<span class="c1"># ============================================</span>
+<span class="n">raw_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">others</span> <span class="o">-</span> <span class="n">target</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== RAW EUCLIDEAN DISTANCE (Unscaled) ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">other_names</span><span class="p">,</span> <span class="n">raw_dist</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance to </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># ============================================</span>
+<span class="c1"># 3. SCALED EUCLIDEAN DISTANCE (Standardized)</span>
+<span class="c1"># ============================================</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaled_data</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;Range_km&#39;</span><span class="p">,</span> <span class="s1">&#39;Speed_Mach&#39;</span><span class="p">]])</span>
+<span class="n">df_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="n">target_scaled</span> <span class="o">=</span> <span class="n">df_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">others_scaled</span> <span class="o">=</span> <span class="n">df_scaled</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">other_names</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">scaled_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">others_scaled</span> <span class="o">-</span> <span class="n">target_scaled</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== SCALED EUCLIDEAN DISTANCE (Normalized) ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">other_names</span><span class="p">,</span> <span class="n">scaled_dist</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance to </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># ============================================</span>
+<span class="c1"># 4. SHOW THE FLIP</span>
+<span class="c1"># ============================================</span>
+<span class="n">raw_winner</span> <span class="o">=</span> <span class="n">other_names</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">raw_dist</span><span class="p">)]</span>
+<span class="n">scaled_winner</span> <span class="o">=</span> <span class="n">other_names</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">scaled_dist</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- ANALYSIS ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Raw Distance Winner (Misleading): </span><span class="si">{</span><span class="n">raw_winner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scaled Distance Winner (Correct): </span><span class="si">{</span><span class="n">scaled_winner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># ============================================</span>
+<span class="c1"># 5. SHOW STATISTICS</span>
+<span class="c1"># ============================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- DATASET STATISTICS ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Range Std Dev: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Range_km&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Speed Std Dev: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Speed_Mach&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> Mach&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== RAW EUCLIDEAN DISTANCE (Unscaled) ===
+Distance to Sejjil: 550.02
+Distance to Fatāh: 50.80
+
+=== SCALED EUCLIDEAN DISTANCE (Normalized) ===
+Distance to Sejjil: 2.44
+Distance to Fatāh: 2.45
+
+--- ANALYSIS ---
+Raw Distance Winner (Misleading): Fatāh
+Scaled Distance Winner (Correct): Sejjil
+
+--- DATASET STATISTICS ---
+Range Std Dev: 332.92 km
+Speed Std Dev: 4.51 Mach
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="key-takeaway">
+<h3>Key Takeaway<a class="headerlink" href="#key-takeaway" title="Link to this heading">#</a></h3>
+<p>When building ML models, <strong>Unit Mismatch</strong> is a silent killer.</p>
+<p>Always scale your features (Standardization/Normalization) before calculating distances, training Neural Networks, or using K-Means Clustering.</p>
+</section>
+</section>
+<section id="introduction-to-covariance-matrix">
+<h2>2. Introduction to Covariance Matrix<a class="headerlink" href="#introduction-to-covariance-matrix" title="Link to this heading">#</a></h2>
+<p>The <strong>covariance matrix</strong> is a square matrix that summarizes the variances and covariances of a set of random variables. For a dataset with <span class="math notranslate nohighlight">\(d\)</span> features, the covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> is a <span class="math notranslate nohighlight">\(d \times d\)</span> matrix defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\boldsymbol{\Sigma} = \begin{bmatrix}
+\sigma_{11} &amp; \sigma_{12} &amp; \cdots &amp; \sigma_{1d} \\
+\sigma_{21} &amp; \sigma_{22} &amp; \cdots &amp; \sigma_{2d} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\sigma_{d1} &amp; \sigma_{d2} &amp; \cdots &amp; \sigma_{dd}
+\end{bmatrix}
+\end{split}\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\sigma_{ii} = \operatorname{Var}(x_i)\)</span>: The variance of the <span class="math notranslate nohighlight">\(i\)</span>-th feature (diagonal elements).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_{ij} = \operatorname{Cov}(x_i, x_j)\)</span>: The covariance between the <span class="math notranslate nohighlight">\(i\)</span>-th and <span class="math notranslate nohighlight">\(j\)</span>-th features (off-diagonal elements).</p></li>
+</ul>
+<p><strong>Properties:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Symmetric:</strong> <span class="math notranslate nohighlight">\(\sigma_{ij} = \sigma_{ji}\)</span>, so <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma} = \boldsymbol{\Sigma}^{\top}\)</span>.</p></li>
+<li><p><strong>Positive Semi-Definite:</strong> All eigenvalues are non-negative (<span class="math notranslate nohighlight">\(\lambda_i \geq 0\)</span>).</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="geometric-interpretation-of-covariance-matrix">
+<h2>3. Geometric Interpretation of Covariance Matrix<a class="headerlink" href="#geometric-interpretation-of-covariance-matrix" title="Link to this heading">#</a></h2>
+<p>The covariance matrix defines the <strong>shape</strong> and <strong>orientation</strong> of the data distribution in the feature space.</p>
+<ol class="arabic simple">
+<li><p><strong>Eigenvectors (Directions):</strong> The eigenvectors of <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> represent the principal axes of the data distribution. They indicate the directions of maximum variance.</p></li>
+<li><p><strong>Eigenvalues (Magnitudes):</strong> The corresponding eigenvalues represent the magnitude of variance along these eigenvector directions.</p></li>
+<li><p><strong>Ellipsoid:</strong> In 2D, the covariance matrix defines an ellipse. In <span class="math notranslate nohighlight">\(d\)</span>-dimensions, it defines a hyper-ellipsoid. The axes of this ellipsoid are aligned with the eigenvectors, and the lengths of the axes are proportional to the square roots of the eigenvalues.</p></li>
+</ol>
+<hr class="docutils" />
+<p><strong>Whitening Transformation</strong></p>
+<p>Whitening is a process that transforms data so that its covariance matrix becomes the identity matrix. This transformation removes correlations between features and scales the features to have unit variance. Whitening is particularly useful in machine learning and signal processing because it simplifies the structure of the data, making it easier to apply algorithms that assume uncorrelated features.</p>
+<p><img alt="Figure 2.8 of Duda" src="_images/Duda-Figure-2.8.png" /></p>
+<p>Figure 2.8 <span id="id2">[<a class="reference internal" href="index.html#id7" title="Richard O. Duda, Peter E. Hart, and David G. Stork. Pattern Classification (2nd Edition). Wiley-Interscience, 2 edition, November 2000. ISBN 0471056693. URL: https://file.fouladi.ir/courses/pr/books/%5BDuda%5D_PatternClassification.pdf.">DHS00</a>]</span>: The action of a linear transformation on the feature space will convert an arbitrary normal distribution into another normal distribution.</p>
+<p>In the following we will see that a linear transformation <span class="math notranslate nohighlight">\(W^{\!\top}\)</span> applied to a zero-mean vector <span class="math notranslate nohighlight">\(\mathbf{x}-\boldsymbol{\mu}\)</span> produces a new vector whose covariance is obtained by “sandwiching” the old covariance between <span class="math notranslate nohighlight">\(W^{\!\top}\)</span> and <span class="math notranslate nohighlight">\(W\)</span>. This property is fundamental to <strong>whitening</strong>, where we choose <span class="math notranslate nohighlight">\(W\)</span> specifically so that the new covariance becomes the Identity matrix <span class="math notranslate nohighlight">\(\mathbf{I}\)</span>.</p>
+<p><em>Example: Whitening in Python</em></p>
+<p>The following Python code demonstrates how to whiten a dataset:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">mahalanobis</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span>
+
+<span class="c1"># Generate 2D Gaussian random points</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>  <span class="c1"># Covariance matrix</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># The center</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">mean</span>
+
+<span class="c1"># Select two points with equal Euclidean distance to the center</span>
+<span class="n">point1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">point2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+
+<span class="c1"># Compute Euclidean distances</span>
+<span class="n">euclidean_dist1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point1</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span>
+<span class="n">euclidean_dist2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span>
+
+<span class="c1"># Compute Mahalanobis distances</span>
+<span class="n">inv_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+<span class="n">mahalanobis_dist1</span> <span class="o">=</span> <span class="n">mahalanobis</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">inv_cov</span><span class="p">)</span>
+<span class="n">mahalanobis_dist2</span> <span class="o">=</span> <span class="n">mahalanobis</span><span class="p">(</span><span class="n">point2</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">inv_cov</span><span class="p">)</span>
+
+<span class="c1"># Whitening the data based on Duda&#39;s book</span>
+<span class="c1"># Step 1: Compute the eigenvalues and eigenvectors of the covariance matrix</span>
+<span class="n">eigenvals</span><span class="p">,</span> <span class="n">eigenvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">eigenvals</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">eigenvals</span> <span class="o">=</span> <span class="n">eigenvals</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">eigenvecs</span> <span class="o">=</span> <span class="n">eigenvecs</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+
+<span class="c1"># Step 2: Construct the whitening matrix</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">eigenvals</span><span class="p">))</span>  <span class="c1"># Diagonal matrix of inverse square roots of eigenvalues</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">eigenvecs</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>  <span class="c1"># Whitening matrix</span>
+
+<span class="c1"># Step 3: Whiten the data</span>
+<span class="n">whitened_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">points</span> <span class="o">-</span> <span class="n">center</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>  <span class="c1"># Subtract mean and apply whitening transformation</span>
+<span class="n">whitened_point1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">point1</span> <span class="o">-</span> <span class="n">center</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+<span class="n">whitened_point2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">center</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+
+<span class="c1"># Compute Euclidean distances in the whitened space</span>
+<span class="n">whitened_euclidean_dist1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">whitened_point1</span><span class="p">)</span>
+<span class="n">whitened_euclidean_dist2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">whitened_point2</span><span class="p">)</span>
+
+<span class="c1"># Plot the original and whitened data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Plot original data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">point1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point 1 (Euclidean: </span><span class="si">{</span><span class="n">euclidean_dist1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Mahalanobis: </span><span class="si">{</span><span class="n">mahalanobis_dist1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">point2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">point2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point 2 (Euclidean: </span><span class="si">{</span><span class="n">euclidean_dist2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">, Mahalanobis: </span><span class="si">{</span><span class="n">mahalanobis_dist2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a grid of points for the original data</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mf">.01</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mf">.01</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+
+<span class="c1"># Compute the Gaussian distribution on the grid</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Original Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Feature 2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot whitened data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">whitened_points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">whitened_points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Whitened Points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Center&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">whitened_point1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">whitened_point1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point 1 (Euclidean: </span><span class="si">{</span><span class="n">whitened_euclidean_dist1</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">whitened_point2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">whitened_point2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Point 2 (Euclidean: </span><span class="si">{</span><span class="n">whitened_euclidean_dist2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create a grid of points for the whitened data</span>
+<span class="n">x_whitened</span><span class="p">,</span> <span class="n">y_whitened</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mf">.01</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mf">.01</span><span class="p">]</span>
+<span class="n">pos_whitened</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x_whitened</span><span class="p">,</span> <span class="n">y_whitened</span><span class="p">))</span>
+
+<span class="c1"># Compute the Gaussian distribution on the grid for whitened data</span>
+<span class="n">rv_whitened</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># Covariance matrix is identity after whitening</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x_whitened</span><span class="p">,</span> <span class="n">y_whitened</span><span class="p">,</span> <span class="n">rv_whitened</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos_whitened</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Whitened Data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Whitened Feature 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Whitened Feature 2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/db378baba2a11eb02866b26e1355a0ad2bc09b9dfe6754eae2bdbae93c4e037b.png" src="_images/db378baba2a11eb02866b26e1355a0ad2bc09b9dfe6754eae2bdbae93c4e037b.png" />
+</div>
+</div>
+</section>
+<section id="linear-transformations-and-covariance">
+<h2>4. Linear Transformations and Covariance<a class="headerlink" href="#linear-transformations-and-covariance" title="Link to this heading">#</a></h2>
+<p>To fully understand Mahalanobis distance and whitening, we must understand how covariance changes under linear transformations. The following theorem provides the mathematical foundation for transforming data to a “whitened” space.</p>
+<section id="theorem-1-covariance-transformation-property">
+<h3><strong>Theorem 1 (Covariance Transformation Property)</strong><a class="headerlink" href="#theorem-1-covariance-transformation-property" title="Link to this heading">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^d\)</span> be a random vector with mean <span class="math notranslate nohighlight">\(\boldsymbol{\mu} = \mathbb{E}[\mathbf{x}]\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma} = \operatorname{Cov}(\mathbf{x})\)</span>. Let <span class="math notranslate nohighlight">\(W \in \mathbb{R}^{d \times d}\)</span> be a constant transformation matrix. If the transformed random vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>  defines as <span class="math notranslate nohighlight">\(\mathbf{y} = W^{\!\top}\bigl(\mathbf{x} - \boldsymbol{\mu}\bigr)\)</span>; then, the covariance matrix of the transformed vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> be as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{\operatorname{Cov}(\mathbf{y}) = W^{\!\top}\boldsymbol{\Sigma}W}
+\]</div>
+<p><strong>Proof:</strong>
+We proceed by applying the definition of covariance and the linearity of expectation.</p>
+<ol class="arabic">
+<li><p><strong>Mean of <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>:</strong>
+First, observe that the mean of the centered vector is zero:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{aligned}
+    \mathbb{E}[\mathbf{y}]
+    &amp;= \mathbb{E}\bigl[W^{\!\top}(\mathbf{x} - \boldsymbol{\mu})\bigr] \\
+    &amp;= W^{\!\top}\bigl(\mathbb{E}[\mathbf{x}] - \boldsymbol{\mu}\bigr) \\
+    &amp;= W^{\!\top}(\boldsymbol{\mu} - \boldsymbol{\mu}) \\
+    &amp;= \mathbf{0}.
+    \end{aligned}
+    \end{split}\]</div>
+</li>
+<li><p><strong>Covariance of <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>:</strong></p>
+<div class="math notranslate nohighlight">
+\[\text{Cov}(\mathbf{y}) = \mathbb{E}[(\mathbf{y} - \mathbb{E}[\mathbf{y}])(\mathbf{y} - \mathbb{E}[\mathbf{y}])^T]\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\mathbb{E}[\mathbf{y}] = \mathbf{0}\)</span>, the covariance definition simplifies to <span class="math notranslate nohighlight">\(\operatorname{Cov}(\mathbf{y}) = \mathbb{E}[\mathbf{y}\mathbf{y}^{\!\top}]\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \begin{aligned}
+    \operatorname{Cov}(\mathbf{y})
+    &amp;= \mathbb{E}\bigl[\mathbf{y}\,\mathbf{y}^{\!\top}\bigr] \\
+    &amp;= \mathbb{E}\Big[W^{\!\top}(\mathbf{x}-\boldsymbol{\mu})\,(\mathbf{x}-\boldsymbol{\mu})^{\!\top}W\Big].
+    \end{aligned}
+    \end{split}\]</div>
+<p>By the linearity of the expectation operator, constant matrices <span class="math notranslate nohighlight">\(W^{\!\top}\)</span> and <span class="math notranslate nohighlight">\(W\)</span> can be pulled out of the expectation:</p>
+<div class="math notranslate nohighlight">
+\[
+    \begin{aligned}
+    \operatorname{Cov}(\mathbf{y})
+    &amp;= W^{\!\top}\;\mathbb{E}\Big[(\mathbf{x}-\boldsymbol{\mu})(\mathbf{x}-\boldsymbol{\mu})^{\!\top}\Big]\;W.
+    \end{aligned}
+    \]</div>
+<p>Recognizing that the term inside the expectation is exactly the definition of <span class="math notranslate nohighlight">\(\operatorname{Cov}(\mathbf{x}) = \boldsymbol{\Sigma}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+    \operatorname{Cov}(\mathbf{y}) = W^{\!\top}\boldsymbol{\Sigma}W. \quad \square
+    \]</div>
+</li>
+</ol>
+<p><strong>Remark (Whitening Application):</strong>
+This property is fundamental to <strong>whitening</strong>. By choosing <span class="math notranslate nohighlight">\(W\)</span> such that <span class="math notranslate nohighlight">\(W^{\!\top}\boldsymbol{\Sigma}W = \mathbf{I}\)</span>, we transform the data into a space where features are uncorrelated and have unit variance. As shown in Section 5, this <span class="math notranslate nohighlight">\(W\)</span> is constructed using the eigendecomposition of <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>.</p>
+</section>
+</section>
+<section id="whitening-transformation">
+<h2>5. Whitening Transformation<a class="headerlink" href="#whitening-transformation" title="Link to this heading">#</a></h2>
+<p><strong>Whitening</strong> is a preprocessing step that transforms data so that its covariance matrix becomes the Identity matrix (<span class="math notranslate nohighlight">\(\mathbf{I}\)</span>). This implies the transformed features are <strong>uncorrelated</strong> and have <strong>unit variance</strong>.</p>
+<section id="mathematical-formulation">
+<h3>Mathematical Formulation<a class="headerlink" href="#mathematical-formulation" title="Link to this heading">#</a></h3>
+<p>We seek a transformation matrix <span class="math notranslate nohighlight">\(W\)</span> such that if <span class="math notranslate nohighlight">\(\mathbf{y} = W^{\top}(\mathbf{x} - \boldsymbol{\mu})\)</span>, then <span class="math notranslate nohighlight">\(\operatorname{Cov}(\mathbf{y}) = \mathbf{I}\)</span>.</p>
+<p>From the proof in Section 4:</p>
+<div class="math notranslate nohighlight">
+\[ \operatorname{Cov}(\mathbf{y}) = W^{\!\top}\boldsymbol{\Sigma}W = \mathbf{I} \]</div>
+<p>We can solve for <span class="math notranslate nohighlight">\(W\)</span> using the <strong>Eigen Decomposition</strong> of <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>. Let <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma} = \Phi \Lambda \Phi^{\top}\)</span>, where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\Phi\)</span> is the orthogonal matrix of eigenvectors.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Lambda\)</span> is the diagonal matrix of eigenvalues.</p></li>
+</ul>
+<p>We choose <span class="math notranslate nohighlight">\(W = \Phi \Lambda^{-1/2}\)</span>. Let’s verify:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\operatorname{Cov}(\mathbf{y}) &amp;= (\Phi \Lambda^{-1/2})^{\top} \boldsymbol{\Sigma} (\Phi \Lambda^{-1/2}) \\
+&amp;= \Lambda^{-1/2} \Phi^{\top} (\Phi \Lambda \Phi^{\top}) \Phi \Lambda^{-1/2} \\
+&amp;= \Lambda^{-1/2} (\Phi^{\top} \Phi) \Lambda (\Phi^{\top} \Phi) \Lambda^{-1/2} \\
+&amp;= \Lambda^{-1/2} (\mathbf{I}) \Lambda (\mathbf{I}) \Lambda^{-1/2} \\
+&amp;= \mathbf{I}.
+\end{aligned}
+\end{split}\]</div>
+</section>
+<section id="geometric-interpretation">
+<h3>Geometric Interpretation<a class="headerlink" href="#geometric-interpretation" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Rotation (<span class="math notranslate nohighlight">\(\Phi^{\top}\)</span>):</strong> Aligns the data with the principal axes (removes correlations).</p></li>
+<li><p><strong>Scaling (<span class="math notranslate nohighlight">\(\Lambda^{-1/2}\)</span>):</strong> Stretches or compresses the data along these axes so that all axes have length 1 (unit variance).</p></li>
+</ol>
+<p><strong>Result:</strong> The data cloud becomes a perfect sphere (isotropic). In this whitened space, the <strong>Euclidean distance is equivalent to the Mahalanobis distance</strong> in the original space.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="id3">
+<h2>6. Mahalanobis Distance<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>The <strong>Mahalanobis distance</strong> is a measure of the distance between a point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and a distribution with mean <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\mathbf{\Sigma}\)</span>. It is defined as:</p>
+<div class="math notranslate nohighlight">
+\[D_M(\mathbf{x}, \boldsymbol{\mu}) = \sqrt{(\mathbf{x} - \boldsymbol{\mu})^T \mathbf{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})}\]</div>
+<p>This distance is central to many multivariate statistical methods, including Bayesian decision theory for classification, because it accounts for the underlying structure (variances and correlations) of the data.</p>
+<section id="the-key-insight">
+<h3>The Key Insight<a class="headerlink" href="#the-key-insight" title="Link to this heading">#</a></h3>
+<p>The covariance transformation formula from Section 4 is <strong>the fundamental mathematical foundation</strong> for both whitening transformation and Mahalanobis distance.</p>
+<p><strong>Recall the Mahalanobis distance:</strong></p>
+<div class="math notranslate nohighlight">
+\[ D_M(\mathbf{x}) = \sqrt{(\mathbf{x} - \boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})} \]</div>
+<p><strong>Now consider the whitened space:</strong>
+If we define <span class="math notranslate nohighlight">\(\mathbf{y} = W^{\!\top}(\mathbf{x}-\boldsymbol{\mu})\)</span> where <span class="math notranslate nohighlight">\(W\)</span> makes <span class="math notranslate nohighlight">\(\operatorname{Cov}(\mathbf{y}) = \mathbf{I}\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[ \|\mathbf{y}\|_2 = \sqrt{\mathbf{y}^T \mathbf{y}} = \sqrt{(\mathbf{x} - \boldsymbol{\mu})^T W W^{\!\top} (\mathbf{x} - \boldsymbol{\mu})} \]</div>
+<p>For this to equal the Mahalanobis distance, we need to show that <span class="math notranslate nohighlight">\( W W^{\!\top} = \boldsymbol{\Sigma}^{-1} \)</span>.</p>
+<p><strong>Proof:</strong></p>
+<p>We are given: <span class="math notranslate nohighlight">\( \boldsymbol{\Sigma} = \Phi \Lambda \Phi^{\top} \)</span> and  <span class="math notranslate nohighlight">\( W = \Phi \Lambda^{-1/2} \)</span></p>
+<p>We aim to show that  <span class="math notranslate nohighlight">\(W W^{\!\top} = \boldsymbol{\Sigma}^{-1}\)</span></p>
+<p><strong>Step 1: Compute <span class="math notranslate nohighlight">\( W W^{\!\top} \)</span></strong></p>
+<p>Substitute <span class="math notranslate nohighlight">\( W = \Phi \Lambda^{-1/2} \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+W W^{\!\top}
+= (\Phi \Lambda^{-1/2}) (\Phi \Lambda^{-1/2})^{\!\top}
+\]</div>
+<p>Now, transpose the second factor:</p>
+<div class="math notranslate nohighlight">
+\[
+(\Phi \Lambda^{-1/2})^{\!\top}
+= (\Lambda^{-1/2})^{\!\top} \Phi^{\!\top}
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\( \Lambda \)</span> is a diagonal matrix with positive eigenvalues (implying invertibility), <span class="math notranslate nohighlight">\( \Lambda^{-1/2} \)</span> is also diagonal and symmetric, so:</p>
+<div class="math notranslate nohighlight">
+\[
+(\Lambda^{-1/2})^{\!\top} = \Lambda^{-1/2}
+\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[
+W W^{\!\top}
+= \Phi \Lambda^{-1/2} (\Lambda^{-1/2}) \Phi^{\!\top}
+= \Phi (\Lambda^{-1/2} \cdot \Lambda^{-1/2}) \Phi^{\!\top}
+= \Phi \Lambda^{-1} \Phi^{\!\top}
+\]</div>
+<p><strong>Step 2: Compute <span class="math notranslate nohighlight">\( \boldsymbol{\Sigma}^{-1} \)</span> using the inverse of a diagonalized matrix</strong></p>
+<p>We are given:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\Sigma} = \Phi \Lambda \Phi^{\!\top}
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\( \Phi \)</span> is an orthogonal matrix (i.e., <span class="math notranslate nohighlight">\( \Phi^{\!\top} \Phi = I \)</span>), we know that:</p>
+<div class="math notranslate nohighlight">
+\[
+(\Phi \Lambda \Phi^{\!\top})^{-1}
+= (\Phi^{\!\top})^{-1} \Lambda^{-1} \Phi^{-1}
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\( \Phi \)</span> is orthogonal:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \Phi^{-1} = \Phi^{\!\top} \)</span></p></li>
+<li><p>So <span class="math notranslate nohighlight">\( (\Phi^{\!\top})^{-1} = \Phi \)</span></p></li>
+</ul>
+<p>Therefore,</p>
+<div class="math notranslate nohighlight">
+\[
+(\Phi \Lambda \Phi^{\!\top})^{-1}
+= \Phi \Lambda^{-1} \Phi^{\!\top}
+\]</div>
+<p>We have shown that:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{W W^{\!\top} = \boldsymbol{\Sigma}^{-1}}
+\]</div>
+<p><strong>Key insight</strong>: The orthogonality of <span class="math notranslate nohighlight">\( \Phi \)</span> allows us to simplify the inverse of <span class="math notranslate nohighlight">\( \Phi \Lambda \Phi^{\!\top} \)</span> elegantly, which is essential for establishing the result.</p>
+</section>
+<section id="key-relationship">
+<h3>Key Relationship<a class="headerlink" href="#key-relationship" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Concept</p></th>
+<th class="head"><p>Mathematical Expression</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Covariance Transformation</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\operatorname{Cov}(\mathbf{y}) = W^{\!\top}\boldsymbol{\Sigma}W\)</span></p></td>
+<td><p>Describes how covariance changes under linear transformation</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Whitening Matrix</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(W = \Phi \Lambda^{-1/2}\)</span></p></td>
+<td><p>Transforms data to unit covariance</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Mahalanobis Distance</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(D_M = \sqrt{(\mathbf{x}-\boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})}\)</span></p></td>
+<td><p>Distance accounting for covariance structure</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Euclidean Distance (Whitened)</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(|\mathbf{y}|_2 = \sqrt{\mathbf{y}^T\mathbf{y}}\)</span></p></td>
+<td><p>Distance after covariance normalization</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Key Equivalence</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(D_M(\mathbf{x}) = |\mathbf{y}|_2\)</span></p></td>
+<td><p>Mahalanobis = Euclidean in whitened space</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="python-implementation-step-by-step-demonstration">
+<h2>7. Python Implementation: Step-by-Step Demonstration<a class="headerlink" href="#python-implementation-step-by-step-demonstration" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 1. GENERATE CORRELATED DATA</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 1: Generate Correlated Data (Original Space)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">cov_original</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>  <span class="c1"># Correlated data</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">data_original</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov_original</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original Covariance:</span><span class="se">\n</span><span class="si">{</span><span class="n">cov_original</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 2. EIGEN DECOMPOSITION</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 2: Eigen Decomposition (Rotation + Scaling Factors)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">cov_original</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Eigenvalues (λ): </span><span class="si">{</span><span class="n">eigenvalues</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Eigenvectors (Φ):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">eigenvectors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+STEP 1: Generate Correlated Data (Original Space)
+======================================================================
+Original Covariance:
+[[4 3]
+ [3 4]]
+
+======================================================================
+STEP 2: Eigen Decomposition (Rotation + Scaling Factors)
+======================================================================
+
+Eigenvalues (λ): [7. 1.]
+
+Eigenvectors (Φ):
+[[ 0.70710678 -0.70710678]
+ [ 0.70710678  0.70710678]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================================</span>
+<span class="c1"># 3. ROTATION ONLY </span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 3: Rotation Only&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">data_rotated</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_original</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">@</span> <span class="n">eigenvectors</span>
+<span class="n">cov_rotated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data_rotated</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Covariance after Rotation (should be diagonal):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cov_rotated</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Off-diagonal before rotation: </span><span class="si">{</span><span class="n">cov_original</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Off-diagonal after rotation: </span><span class="si">{</span><span class="n">cov_rotated</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 4. SCALING ONLY (Normalize to Unit Variance)</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 4: Scaling Only (Λ^(-1/2) normalizes variance)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">scale_factors</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
+<span class="n">data_scaled</span> <span class="o">=</span> <span class="n">data_rotated</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">scale_factors</span><span class="p">)</span>
+<span class="n">cov_scaled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data_scaled</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Covariance after Scaling (should be Identity):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cov_scaled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+STEP 3: Rotation Only
+======================================================================
+
+Covariance after Rotation (should be diagonal):
+[[6.54609064 0.06692453]
+ [0.06692453 0.98399756]]
+Off-diagonal before rotation: 3.0000
+Off-diagonal after rotation: 0.0669
+
+======================================================================
+STEP 4: Scaling Only (Λ^(-1/2) normalizes variance)
+======================================================================
+
+Covariance after Scaling (should be Identity):
+[[0.93515581 0.02529509]
+ [0.02529509 0.98399756]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================================</span>
+<span class="c1"># 5. WHITENING (Rotation + Scaling)</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 5:  Whitening (W = ΦΛ^(-1/2))&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="n">eigenvectors</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">scale_factors</span><span class="p">)</span>
+<span class="n">data_whitened</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">data_original</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">data_whitened</span> <span class="o">=</span> <span class="n">data_whitened</span><span class="o">.</span><span class="n">T</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Whitening Matrix (W = ΦΛ^(-1/2)):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Covariance after Whitening (W^T Σ W):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data_whitened</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+STEP 5:  Whitening (W = ΦΛ^(-1/2))
+======================================================================
+
+Whitening Matrix (W = ΦΛ^(-1/2)):
+[[ 0.26726124 -0.70710678]
+ [ 0.26726124  0.70710678]]
+
+Covariance after Whitening (W^T Σ W):
+[[0.93515581 0.02529509]
+ [0.02529509 0.98399756]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================================</span>
+<span class="c1"># 6. VISUALIZATION</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 6: Visualization of Transformation&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+
+<span class="c1"># Original Data</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_original</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_original</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">pos</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov_original</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original Data (Correlated Ellipse)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Feature 1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Feature 2&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># After Rotation</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_rotated</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_rotated</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Rotated&#39;</span><span class="p">)</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">pos</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cov_rotated</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkgreen&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;After Rotation (Axis Aligned)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Principal Axis 1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Principal Axis 2&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># After Scaling</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_scaled</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_scaled</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Scaled&#39;</span><span class="p">)</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">pos</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cov_scaled</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;After Scaling (Unit Variance)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># Combined Whitening</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_whitened</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_whitened</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Whitened&#39;</span><span class="p">)</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">pos</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">pos</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkred&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Whitening (Spherical)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+STEP 6: Visualization of Transformation
+======================================================================
+</pre></div>
+</div>
+<img alt="_images/cece84569b632facc0bc40f33ccac25b5a96b739eec9cc0613dafb98813fb170.png" src="_images/cece84569b632facc0bc40f33ccac25b5a96b739eec9cc0613dafb98813fb170.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================================</span>
+<span class="c1"># 7. MAHALANOBIS DISTANCE VERIFICATION</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;STEP 7: Mahalanobis Distance = Euclidean in Whitened Space&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">test_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">inv_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov_original</span><span class="p">)</span>
+<span class="n">mahalanobis_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">test_point</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">@</span> <span class="n">inv_cov</span> <span class="o">@</span> <span class="p">(</span><span class="n">test_point</span> <span class="o">-</span> <span class="n">mean</span><span class="p">))</span>
+<span class="n">test_point_whitened</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">test_point</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span>
+<span class="n">euclidean_dist_whitened</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">test_point_whitened</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Test Point: </span><span class="si">{</span><span class="n">test_point</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mahalanobis Distance (Original Space): </span><span class="si">{</span><span class="n">mahalanobis_dist</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Euclidean Distance (Whitened Space): </span><span class="si">{</span><span class="n">euclidean_dist_whitened</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✓ Mahalanobis Distance = Euclidean Distance in Whitened Space!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+STEP 7: Mahalanobis Distance = Euclidean in Whitened Space
+======================================================================
+
+Test Point: [4 4]
+Mahalanobis Distance (Original Space): 1.5119
+Euclidean Distance (Whitened Space): 1.5119
+
+✓ Mahalanobis Distance = Euclidean Distance in Whitened Space!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="covariance-matrix-in-bayesian-decision-theory">
+<h2>8. Covariance Matrix in Bayesian Decision Theory<a class="headerlink" href="#covariance-matrix-in-bayesian-decision-theory" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[
+p(\mathbf{x}|\omega_i) = \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}_i|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu}_i)^T \boldsymbol{\Sigma}_i^{-1} (\mathbf{x} - \boldsymbol{\mu}_i)\right)
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\mu}_i\)</span>: Mean vector for class <span class="math notranslate nohighlight">\(\omega_i\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}_i\)</span>: Covariance matrix for class <span class="math notranslate nohighlight">\(\omega_i\)</span>.</p></li>
+</ul>
+<p>The term in the exponent is exactly half the <strong>squared Mahalanobis distance</strong>. The covariance matrix determines the “tightness” and orientation of the decision boundaries.</p>
+</section>
+<hr class="docutils" />
+<section id="mahalanobis-distance-and-its-role">
+<h2>9. Mahalanobis Distance and Its Role<a class="headerlink" href="#mahalanobis-distance-and-its-role" title="Link to this heading">#</a></h2>
+<p>The <strong>Mahalanobis distance</strong> measures the distance between a point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and a distribution (characterized by mean <span class="math notranslate nohighlight">\(\boldsymbol{\mu}\)</span> and covariance <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span>).</p>
+<section id="connection-to-standardization-z-score">
+<h3>Connection to Standardization (Z-Score)<a class="headerlink" href="#connection-to-standardization-z-score" title="Link to this heading">#</a></h3>
+<p>To build intuition, compare this to the 1D Z-score:</p>
+<div class="math notranslate nohighlight">
+\[ z = \frac{x - \mu}{\sigma} \implies z^2 = (x-\mu)\frac{1}{\sigma^2}(x-\mu) \]</div>
+<ul class="simple">
+<li><p><strong>1D:</strong> We normalize by <span class="math notranslate nohighlight">\(\sigma^2\)</span> (variance).</p></li>
+<li><p><strong>d-Dimensions:</strong> We normalize by <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> (covariance matrix).</p></li>
+</ul>
+<p>The inverse covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}^{-1}\)</span> effectively:</p>
+<ol class="arabic simple">
+<li><p><strong>Scales</strong> features by their variance (normalizing units).</p></li>
+<li><p><strong>Rotates</strong> the space to decorrelate features.</p></li>
+</ol>
+</section>
+<section id="mahalanobis-distance-intuition">
+<h3>Mahalanobis Distance Intuition<a class="headerlink" href="#mahalanobis-distance-intuition" title="Link to this heading">#</a></h3>
+<p>If the data distribution is a cloud of points shaped like an ellipsoid, Mahalanobis distance measures how many “standard deviations away” a point is, taking into account the stretching and rotation of that ellipsoid.</p>
+<p>The data cloud becomes a perfect sphere (isotropic). In this whitened space, the <strong>Euclidean distance is equivalent to the Mahalanobis distance</strong> in the original space.</p>
+</section>
+<section id="is-whitening-equivalent-to-per-feature-normalization">
+<h3>Is Whitening Equivalent to Per-Feature Normalization?<a class="headerlink" href="#is-whitening-equivalent-to-per-feature-normalization" title="Link to this heading">#</a></h3>
+<p><strong>No, they are NOT equivalent.</strong> This is a critical distinction.</p>
+<section id="per-feature-normalization-standardization">
+<h4>Per-Feature Normalization (Standardization)<a class="headerlink" href="#per-feature-normalization-standardization" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[
+x_i' = \frac{x_i - \mu_i}{\sigma_i}
+\]</div>
+<ul class="simple">
+<li><p><strong>Scales each feature independently</strong> to unit variance</p></li>
+<li><p><strong>Preserves correlations</strong> between features</p></li>
+</ul>
+</section>
+<section id="whitening">
+<h4>Whitening<a class="headerlink" href="#whitening" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{y} = W^{\!\top}(\mathbf{x} - \boldsymbol{\mu}), \quad W = \Phi \Lambda^{-1/2}
+\]</div>
+<ul class="simple">
+<li><p><strong>Rotates AND scales</strong> the entire space</p></li>
+<li><p><strong>Removes correlations</strong> and normalizes variance</p></li>
+<li><p>Covariance becomes <strong>identity matrix</strong> <span class="math notranslate nohighlight">\(\mathbf{I}\)</span></p></li>
+<li><p>Data cloud becomes a <strong>perfect sphere</strong></p></li>
+</ul>
+</section>
+<section id="key-difference">
+<h4>Key Difference<a class="headerlink" href="#key-difference" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Normalization</p></th>
+<th class="head"><p>Whitening</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Unit Variance</p></td>
+<td><p>✅</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Zero Correlation</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>Identity Covariance</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-odd"><td><p>Euclidean = Mahalanobis</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="why-it-matters">
+<h4>Why It Matters<a class="headerlink" href="#why-it-matters" title="Link to this heading">#</a></h4>
+<p>For Mahalanobis distance and Bayesian decision theory, <strong>only whitening</strong> ensures that Euclidean distance in the transformed space equals Mahalanobis distance in the original space. Per-feature normalization alone is insufficient.</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="comparison-pca-vs-whitening">
+<h2>10. Comparison: PCA vs. Whitening<a class="headerlink" href="#comparison-pca-vs-whitening" title="Link to this heading">#</a></h2>
+<p><strong>Principal Component Analysis (PCA)</strong> and <strong>Whitening</strong> are closely related linear transformations based on eigendecomposition of the covariance matrix. However, they have distinct goals and effects on the data distribution.</p>
+<section id="mathematical-relationship">
+<h3>Mathematical Relationship<a class="headerlink" href="#mathematical-relationship" title="Link to this heading">#</a></h3>
+<p>Both transformations start with the eigen decomposition of the covariance matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma} = \Phi \Lambda \Phi^{\!\top}\)</span>.</p>
+<ol class="arabic">
+<li><p><strong>PCA (Rotation Only):</strong>
+Projects data onto the principal axes (eigenvectors). It removes correlations but preserves the variance scale.</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{z}_{\text{PCA}} = \Phi^{\!\top}(\mathbf{x} - \boldsymbol{\mu})
+    \]</div>
+<p><strong>Resulting Covariance:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+    \operatorname{Cov}(\mathbf{z}_{\text{PCA}}) = \Lambda = \operatorname{diag}(\lambda_1, \lambda_2, \dots, \lambda_d)
+    \]</div>
+</li>
+<li><p><strong>Whitening (Rotation + Scaling):</strong>
+Applies PCA rotation followed by a scaling step to normalize the variance of each component to 1.</p>
+<div class="math notranslate nohighlight">
+\[
+    \mathbf{y}_{\text{White}} = \Lambda^{-1/2} \Phi^{\!\top}(\mathbf{x} - \boldsymbol{\mu}) = \Lambda^{-1/2} \mathbf{z}_{\text{PCA}}
+    \]</div>
+<p><strong>Resulting Covariance:</strong></p>
+<div class="math notranslate nohighlight">
+\[
+    \operatorname{Cov}(\mathbf{y}_{\text{White}}) = \mathbf{I}
+    \]</div>
+</li>
+</ol>
+</section>
+<section id="key-differences">
+<h3>Key Differences<a class="headerlink" href="#key-differences" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Feature</p></th>
+<th class="head text-left"><p>PCA</p></th>
+<th class="head text-left"><p>Whitening</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Primary Goal</strong></p></td>
+<td class="text-left"><p>Dimensionality Reduction / Maximize Variance</p></td>
+<td class="text-left"><p>Normalization of Variance &amp; Correlation</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Transformation</strong></p></td>
+<td class="text-left"><p>Rotation (<span class="math notranslate nohighlight">\(\Phi^{\!\top}\)</span>)</p></td>
+<td class="text-left"><p>Rotation (<span class="math notranslate nohighlight">\(\Phi^{\!\top}\)</span>) + Scaling (<span class="math notranslate nohighlight">\(\Lambda^{-1/2}\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Output Variance</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(\lambda_i\)</span> (Eigenvalues)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(1\)</span> (Unit Variance)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Output Correlation</strong></p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(0\)</span> (Uncorrelated)</p></td>
+<td class="text-left"><p><span class="math notranslate nohighlight">\(0\)</span> (Uncorrelated)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Covariance Matrix</strong></p></td>
+<td class="text-left"><p>Diagonal (<span class="math notranslate nohighlight">\(\Lambda\)</span>)</p></td>
+<td class="text-left"><p>Identity (<span class="math notranslate nohighlight">\(\mathbf{I}\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Geometric Shape</strong></p></td>
+<td class="text-left"><p>Axis-aligned Ellipse</p></td>
+<td class="text-left"><p>Perfect Sphere</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Distance Metric</strong></p></td>
+<td class="text-left"><p>Euclidean <span class="math notranslate nohighlight">\(\neq\)</span> Mahalanobis</p></td>
+<td class="text-left"><p>Euclidean <span class="math notranslate nohighlight">\(=\)</span> Mahalanobis</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Information Loss</strong></p></td>
+<td class="text-left"><p>Possible (if <span class="math notranslate nohighlight">\(k &lt; d\)</span>)</p></td>
+<td class="text-left"><p>None (usually full rank)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="visual-demonstration-pca-vs-whitening">
+<h3>Visual Demonstration: PCA vs. Whitening<a class="headerlink" href="#visual-demonstration-pca-vs-whitening" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 1. GENERATE CORRELATED DATA</span>
+<span class="c1"># ============================================================================</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">cov_original</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>  <span class="c1"># Correlated data</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">data_original</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov_original</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+<span class="c1"># print(f&quot;Original data shape: {data_original.shape}&quot;)  # (500, 2)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 2. PREPARE TRANSFORMATIONS</span>
+<span class="c1"># ============================================================================</span>
+<span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">cov_original</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span>
+
+<span class="c1"># PCA Transformation (Rotation Only)</span>
+<span class="c1"># Correct: Keep shape (n_samples, n_features)</span>
+<span class="n">data_pca</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_original</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">@</span> <span class="n">eigenvectors</span>
+
+<span class="c1"># Whitening Transformation (Rotation + Scaling)</span>
+<span class="n">scale_factors</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
+<span class="n">data_whitened</span> <span class="o">=</span> <span class="n">data_pca</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">scale_factors</span><span class="p">)</span>
+
+<span class="c1"># print(f&quot;PCA data shape: {data_pca.shape}&quot;)  # (500, 2)</span>
+<span class="c1"># print(f&quot;Whitened data shape: {data_whitened.shape}&quot;)  # (500, 2)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 3. COMPUTE COVARIANCES</span>
+<span class="c1"># ============================================================================</span>
+<span class="n">cov_original_computed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data_original</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">cov_pca</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data_pca</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">cov_white</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data_whitened</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># print(f&quot;\nCovariance shapes:&quot;)</span>
+<span class="c1"># print(f&quot;Original: {cov_original_computed.shape}&quot;)  # (2, 2)</span>
+<span class="c1"># print(f&quot;PCA: {cov_pca.shape}&quot;)  # (2, 2)</span>
+<span class="c1"># print(f&quot;Whitened: {cov_white.shape}&quot;)  # (2, 2)</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 4. VISUALIZATION</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;COMPARISON: Original → PCA → Whitening&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># --- Plot 1: Original ---</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_original</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_original</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:</span><span class="mi">6</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">:</span><span class="mi">6</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">cov_original_computed</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkblue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original Data</span><span class="se">\n</span><span class="s1">(Correlated Ellipse)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Feature 1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Feature 2&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># --- Plot 2: PCA (Rotation Only) ---</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cov_pca</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkgreen&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;PCA (Rotation Only)</span><span class="se">\n</span><span class="s1">(Axis-Aligned Ellipse)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Principal Comp 1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Principal Comp 2&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="c1"># --- Plot 3: Whitening (Rotation + Scaling) ---</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data_whitened</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_whitened</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">100</span><span class="n">j</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">cov_white</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">pos</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;darkred&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Whitening (Rotation + Scaling)</span><span class="se">\n</span><span class="s1">(Perfect Sphere)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Whitened 1&#39;</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Whitened 2&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># 5. DISTANCE COMPARISON</span>
+<span class="c1"># ============================================================================</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distance Metrics for a Test Point&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">test_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">inv_cov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">cov_original</span><span class="p">)</span>
+<span class="n">mahal_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">test_point</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">@</span> <span class="n">inv_cov</span> <span class="o">@</span> <span class="p">(</span><span class="n">test_point</span> <span class="o">-</span> <span class="n">mean</span><span class="p">))</span>
+
+<span class="c1"># Euclidean in PCA space</span>
+<span class="n">test_pca</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_point</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">@</span> <span class="n">eigenvectors</span>
+<span class="n">euclid_pca</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">test_pca</span><span class="p">)</span>
+
+<span class="c1"># Euclidean in Whitened space</span>
+<span class="n">test_white</span> <span class="o">=</span> <span class="n">test_pca</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">scale_factors</span><span class="p">)</span>
+<span class="n">euclid_white</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">test_white</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Test Point: </span><span class="si">{</span><span class="n">test_point</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mahalanobis Distance (Original): </span><span class="si">{</span><span class="n">mahal_dist</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Euclidean Distance (PCA Space):  </span><span class="si">{</span><span class="n">euclid_pca</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Euclidean Distance (White Space): </span><span class="si">{</span><span class="n">euclid_white</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✅ Conclusion: Only Whitening preserves Mahalanobis Distance as Euclidean Distance.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+COMPARISON: Original → PCA → Whitening
+======================================================================
+</pre></div>
+</div>
+<img alt="_images/1dda5c4a50f1409f6aff13a115a57937ace081719108cc9b9d7ff929584a69d0.png" src="_images/1dda5c4a50f1409f6aff13a115a57937ace081719108cc9b9d7ff929584a69d0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+Distance Metrics for a Test Point
+======================================================================
+
+Test Point: [2. 1.]
+Mahalanobis Distance (Original): 1.0690
+Euclidean Distance (PCA Space):  2.2361
+Euclidean Distance (White Space): 1.0690
+
+✅ Conclusion: Only Whitening preserves Mahalanobis Distance as Euclidean Distance.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-this-matters-for-mahalanobis-distance">
+<h3>Why This Matters for Mahalanobis Distance<a class="headerlink" href="#why-this-matters-for-mahalanobis-distance" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>PCA</strong> aligns the data with the principal axes but <strong>preserves the different variances</strong> along those axes. If you measure Euclidean distance in PCA space, a point 2 units away along a high-variance axis is treated the same as a point 2 units away along a low-variance axis. This distorts the statistical probability.</p></li>
+<li><p><strong>Whitening</strong> normalizes the variances. In this space, <strong>1 unit equals 1 standard deviation</strong> in every direction. Therefore, Euclidean distance in whitened space correctly represents the statistical “surprise” (Mahalanobis distance) of a point.</p></li>
+</ol>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
+<p>The <strong>Mahalanobis distance</strong> is the natural generalization of the Z-score to multivariate dimensions. By incorporating the covariance matrix, it provides a statistically valid measure of distance that accounts for feature scales and correlations. This makes it indispensable for:</p>
+<ul class="simple">
+<li><p><strong>Anomaly Detection:</strong> Identifying points that are statistically unlikely.</p></li>
+<li><p><strong>Classification:</strong> Bayesian decision boundaries rely on this distance metric.</p></li>
+<li><p><strong>Preprocessing:</strong> Whitening transforms data to simplify downstream algorithms (e.g., PCA, Neural Networks).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Euclidean Distance</strong> assumes spherical data; <strong>Mahalanobis Distance</strong> assumes elliptical data.</p></li>
+<li><p>The <strong>Covariance Matrix</strong> <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> captures the shape, scale, and orientation of the data distribution.</p></li>
+<li><p><strong>Whitening</strong> transforms <span class="math notranslate nohighlight">\(\boldsymbol{\Sigma}\)</span> to <span class="math notranslate nohighlight">\(\mathbf{I}\)</span>, effectively “spherifying” the data cloud.</p></li>
+<li><p><strong>Linear Transformation Property:</strong> If <span class="math notranslate nohighlight">\(\mathbf{y} = W^{\top}(\mathbf{x}-\boldsymbol{\mu})\)</span>, then <span class="math notranslate nohighlight">\(\operatorname{Cov}(\mathbf{y}) = W^{\top}\boldsymbol{\Sigma}W\)</span>.</p></li>
+<li><p>In the <strong>Whitened Space</strong>, Euclidean distance equals Mahalanobis distance.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p><span id="id4">[<a class="reference internal" href="index.html#id7" title="Richard O. Duda, Peter E. Hart, and David G. Stork. Pattern Classification (2nd Edition). Wiley-Interscience, 2 edition, November 2000. ISBN 0471056693. URL: https://file.fouladi.ir/courses/pr/books/%5BDuda%5D_PatternClassification.pdf.">DHS00</a>]</span></p>
+<p>Duda, R. O., Hart, P. E., &amp; Stork, D. G. (2000). <em>Pattern Classification</em> (2nd ed.). Wiley-Interscience.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="22%20-%20Naive%20Bayes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Naive Bayes Classification</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="23%20-%20Bayesian%20Learning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Gaussian processes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-do-we-need-mahalanobis-distance">1. Why Do We Need Mahalanobis Distance?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustrative-example-euclidean-vs-mahalanobis-distance">Illustrative Example: Euclidean vs. Mahalanobis Distance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effect-of-feature-scaling">The effect of feature scaling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-iranian-missile-similarity">Case Study: Iranian Missile Similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dataset">1. The Dataset</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-naive-approach-raw-distance">2. The Naive Approach (Raw Distance)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-corrected-approach-standard-scaling">3. The Corrected Approach (Standard Scaling)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#the-result">4. The Result</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-change">5. Why the Change?</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-logic-summary">Code Logic Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaway">Key Takeaway</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-covariance-matrix">2. Introduction to Covariance Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-interpretation-of-covariance-matrix">3. Geometric Interpretation of Covariance Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-transformations-and-covariance">4. Linear Transformations and Covariance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#theorem-1-covariance-transformation-property"><strong>Theorem 1 (Covariance Transformation Property)</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#whitening-transformation">5. Whitening Transformation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation">Mathematical Formulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geometric-interpretation">Geometric Interpretation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">6. Mahalanobis Distance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-key-insight">The Key Insight</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-relationship">Key Relationship</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-implementation-step-by-step-demonstration">7. Python Implementation: Step-by-Step Demonstration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#covariance-matrix-in-bayesian-decision-theory">8. Covariance Matrix in Bayesian Decision Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mahalanobis-distance-and-its-role">9. Mahalanobis Distance and Its Role</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-standardization-z-score">Connection to Standardization (Z-Score)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mahalanobis-distance-intuition">Mahalanobis Distance Intuition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-whitening-equivalent-to-per-feature-normalization">Is Whitening Equivalent to Per-Feature Normalization?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#per-feature-normalization-standardization">Per-Feature Normalization (Standardization)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#whitening">Whitening</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#key-difference">Key Difference</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#why-it-matters">Why It Matters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-pca-vs-whitening">10. Comparison: PCA vs. Whitening</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-relationship">Mathematical Relationship</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-differences">Key Differences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-demonstration-pca-vs-whitening">Visual Demonstration: PCA vs. Whitening</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-matters-for-mahalanobis-distance">Why This Matters for Mahalanobis Distance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

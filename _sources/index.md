@@ -1,42 +1,88 @@
 # Machine Learning
 
-**Mahmood Amintoosi, Spring 2025**
+**Mahmood Amintoosi, Fall 2026**
 
 Computer Science Dept, Ferdowsi University of Mashhad
 
-```{note}
-These lectures were built using the new Sphinx-based [Jupyter Book
-2.0](https://jupyterbook.org/) tool set, as part of the
-[ExecutableBookProject](https://ebp.jupyterbook.org/en/latest/).  They are
-intended mainly as a demonstration of these tools.
-Instructions for how to build them from source can be found in the Jupyter
-Book documentation.
-```
+Required, 4 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track (usually first semester).
 
-# About Machine Learning
+---
 
-In this exciting journey, we'll delve into the fascinating world of **Machine Learning** with Python, where machines learn, adapt, and make decisions based on data. Topics that are covered are Linear Models, Kernel Trick, Model Selection, Ensemble Learning, Data Preprocessing and Bayesian Learning. Neural Networks, Gradient Descent and related subjects are disccussed in [Neural Networks Course](https://fum-cs.github.io/neural-networks/).
+# About this course
 
+This course gives an **integrated picture of machine learning foundations**, **hypothesis and model evaluation**, and the use of methods on problems of **moderate complexity**. It is designed for new M.Sc. students from mixed undergraduate backgrounds: we start from shared concepts and standard evaluation, then move from simple models to more advanced ones, with enough mathematics to use classical methods carefully.
+
+**Learning paradigms:** supervised, unsupervised, and semi-supervised learning.  
+**Tasks:** classification, regression, clustering, and ranking.  
+**Themes:** overfitting and underfitting, the bias–variance tradeoff, the curse of dimensionality, and principled model comparison.
+
+Topics progress roughly as: local models (kNN) and k-means → high-dimensional data and dimensionality reduction (PCA, LDA) → linear models and gradient methods → neural networks (MLP, backpropagation) → kernel methods → Bayesian learning and decision theory → Gaussian mixtures and EM → learning to rank and learning theory (student seminars) → advanced topics and a project. Decision trees are covered if time allows.
+
+**Other courses in the track** cover support vector machines, reinforcement learning, and ensembles / model combination. Related material also lives in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), [Algorithms for Data Science](https://fum-cs.github.io/a4ds/), and [MFDS](https://fum-cs.github.io/mfds/). The Spring 2025 snapshot of this book (used with Learning Theory) is tagged [`2025-spring`](https://github.com/fum-cs/machine-learning/tree/2025-spring).
+
+## Learning outcomes
+
+By the end of the course, you should be able to:
+
+- Analyze learning paradigms and problem types (classification, regression, clustering, ranking);
+- Explain overfitting, underfitting, bias–variance, and the curse of dimensionality, and relate them to model choice;
+- Understand and implement kNN, k-means, linear models and gradient methods, MLP and backpropagation, PCA/LDA, kernel methods, MLE / Naive Bayes / Bayesian learning, and EM / Gaussian mixtures;
+- Evaluate hypotheses and models with standard criteria and interpret the results;
+- Read, analyze, and present a related scientific paper;
+- For a real problem: prepare data, select and implement methods, compare them, and write a short scientific report.
 
 ## Prerequisites
 
-- **Basic Knowledge**: You should have a solid understanding of artificial intelligence concepts.
-- **Mathematics**: Advanced topics may require strong mathematical foundations.
-- Current students of **MDS** at **FUM University** are acquainted with the concepts covered in the [**FDS Course**](https://fum-cs.github.io/fds/)
+- Python programming and problem solving  
+- Probability and statistics  
+- Linear algebra  
+- Mathematics needed for ML (differentiation, introductory optimization)  
+
+An introductory review of some material is included in the course. You do not need to have taken a full ML course before, but basic familiarity with the vocabulary helps.
+
+## Student work
+
+Pre-class reading, class discussion, theoretical and practical exercises, algorithm implementation (Python / scikit-learn, and from scratch when needed), **student seminars** (learning to rank; computational learning theory and VC dimension), and an **applied project** (data preparation, comparison of several models, evaluation and report).
+
+## AI tools policy
+
+AI tools are **allowed but not a substitute for your own understanding**. You may use them to learn concepts, debug code, brainstorm, review code, and improve writing. You may **not** present AI-generated content as your own independent work without reviewing and understanding it. You are responsible for scientific accuracy, code, results, and sources; in assessed work you may be asked to explain your process and technical decisions.
+
+## Assessment
+
+Quizzes during the term and a final exam · assignments · project · student presentations/seminars · active participation in class.
+
+## Teaching method
+
+Course notes and Jupyter notebooks in this book (GitHub), programming in Python and scikit-learn; in-class teaching and troubleshooting with discussion, Q&A, worked examples, and student presentations. Teaching is in person, with use of the VU system where needed.
 
 ## Questions?
-I will be having office hours for this course on Monday (10:00 AM--11:30 AM). If this is not convenient, email me at m.amintoosi@um.ac.ir, talk to me after class or [schedule an appointment via Calendly](https://calendly.com/m-amintoosi/30min).
 
-## Our Slack workspace
-Come and [join our Slack](https://join.slack.com/t/fum-cs/shared_invite/zt-1zntzuw2t-JOWbsyQdGASNz~40AhWy_Q) group of Computer Science Dept, Ferdowsi University of Mashhad, to engage in course discussions.
+Office hours: Monday 10:00–11:30, or email m.amintoosi@um.ac.ir, or talk after class, or [book a slot](https://calendly.com/m-amintoosi/30min).
 
----
+## Slack
 
-I should mention that the original material of this course was from [Open Machine Learning Course](https://ml-course.github.io/), by [Joaquin Vanschoren](https://github.com/joaquinvanschoren) and others. I have forked his repository and modified it to suit my own needs and preferences. I would like to thank him for his great work and generosity.
+Join the [FUM CS Slack](https://join.slack.com/t/fum-cs/shared_invite/zt-1zntzuw2t-JOWbsyQdGASNz~40AhWy_Q) for course discussion.
 
 ---
 
-## References
+## Textbooks
+
+1. M. J. Zaki and W. Meira Jr., *Data Mining and Machine Learning: Fundamental Concepts and Algorithms*. Cambridge University Press, 2020.  
+2. R. O. Duda, P. E. Hart, and D. G. Stork, *Pattern Classification*, 2nd ed. John Wiley & Sons, 2001.  
+3. T. Hastie, R. Tibshirani, and J. Friedman, *The Elements of Statistical Learning*, 2nd ed. Springer, 2009.  
+4. C. M. Bishop, *Pattern Recognition and Machine Learning*. Springer, 2006.  
+5. K. P. Murphy, *Machine Learning: A Probabilistic Perspective*. MIT Press, 2012.  
+6. S. Theodoridis, *Machine Learning: A Bayesian and Optimization Perspective*, 2nd ed. Academic Press, 2020.  
+7. J. VanderPlas, *Python Data Science Handbook*. O’Reilly Media, 2016. [Jupyter notebooks on GitHub](https://github.com/jakevdp/PythonDataScienceHandbook)
+
+## Related papers
+
+In addition to the textbooks, selected research and survey papers will be used—on bias–variance and model complexity, the curse of dimensionality, dimensionality reduction (PCA/LDA), kernel methods, learning to rank, and computational learning theory (including VC dimension). For seminar sessions, a short reading list will be provided.
 
 ```{bibliography}
 ```
+
+---
+
+*Part of the early material is adapted from the [Open Machine Learning Course](https://ml-course.github.io/) by Joaquin Vanschoren and others. Later chapters reuse and adapt notebooks from related FUM courses; we thank the original authors.*

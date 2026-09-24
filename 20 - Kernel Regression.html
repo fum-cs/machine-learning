@@ -1,0 +1,1212 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Kernel Regression: From Linear to Nonlinear Modeling &#8212; Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '20 - Kernel Regression';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Maximum Likelihood Estimation (MLE)" href="21%20-%20MLE%20Introduction.html" />
+    <link rel="prev" title="The Kernel Method (Kernel Trick)" href="19%20-%20Kernel%20Trick.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="Machine Learning - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Local%20Models%20and%20kNN.html">k-Nearest Neighbors and Classification Evaluation Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Model%20Evaluation.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Bias-Variance%20Tradeoff.html">Bias-Variance Tradeoff</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Simple Methods and High Dimension</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20k-means%20Clustering.html">k-means Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b%20-%20Clustering%20Validation.html">Clustering Validation Metrics</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20High-Dimensional%20Data.html">High Dimensional Data &amp; The Curse of Dimensionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20High-Dimensional%20Data%20and%20kNN.html">kNN in high dimensional spaces</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Linear Models and Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Linear%20Regression.html">Linear Regression, Part 1</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="09%20-%20Linear%20Models%20and%20Gradient%20Methods.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20-%20Gradient%20Descent.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11%20-%20Stochastic%20Gradient%20Descent.html">Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20-%20MLP%20and%20Backpropagation.html">Introduction to Pytorch &amp; Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20-%20MLP%20Classification.html">Neural Networks for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20-%20MLP%20Regularization.html">Regularization and Dropout in Neural Networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dimensionality Reduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="15%20-%20PCA%20part%201.html">Principal Component Analysis, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20-%20PCA%20part%202.html">Principal Component Analysis, Part 2</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="17%20-%20PCA%20and%20LDA.html">Comparison of LDA and PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Kernel Methods</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="18%20-%20Feature%20Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19%20-%20Kernel%20Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian and Statistical Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20-%20MLE%20Introduction.html">Maximum Likelihood Estimation (MLE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20-%20Naive%20Bayes.html">Naive Bayes Classification</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="22b%20-%20Mahalanobis%20Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20-%20Bayesian%20Decision%20Theory.html">Bayesian Decision Theory</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Latent Variable Models</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="25%20-%20Gaussian%20Mixtures%20part%201.html">Gaussian Mixture Models, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20-%20Gaussian%20Mixtures%20part%202.html">Gaussian Mixture Model, Part 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seminars and Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="27%20-%20Learning%20to%20Rank.html">Learning to Rank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="28%20-%20Learning%20Theory%20and%20VC.html">Learning Theory and VC Dimension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30%20-%20Advanced%20Topics.html">Advanced Topics Survey</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Decision Trees (if time)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="29%20-%20Decision%20Trees.html">Decision Trees and Random Forests</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="31%20-%20Project%20and%20Review.html">Project and Review</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-Gaussian-Mixtures.html">Gaussian Mixture Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/machine-learning/blob/main/notebooks/20 - Kernel Regression.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2F20 - Kernel Regression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/20 - Kernel Regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Kernel Regression: From Linear to Nonlinear Modeling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-foundation">1. Linear Regression Foundation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-regression-the-core-idea">2. Kernel Regression: The Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-kernels">2.1 Why Kernels?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dual-formulation">2.2 The Dual Formulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-solving-for-boldsymbol-alpha">3. Training: Solving for <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-optimization-problem">3.1 The Optimization Problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-formulation">3.2 Matrix Formulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-solution">3.3 The Solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-predictions-on-new-data">4. Making Predictions on New Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-test-point">4.1 Single Test Point</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-test-points">4.2 Multiple Test Points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-vs-testing-summary">4.3 Training vs. Testing Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pseudoinverse-connection">5. The Pseudoinverse Connection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-view">5.1 Unified View</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-kernel-ridge-regression">5.2 Regularization (Kernel Ridge Regression)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effects-of-regularization-and-noise-levels-on-kernel-regression">6. The effects of regularization and noise levels on kernel regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primal-vs-dual-perspective">8. Primal vs. Dual Perspective</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-forms-of-the-solution">8.1 Two Forms of the Solution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-dual-form-matters-for-kernels">8.2 Why the Dual Form Matters for Kernels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-trade-offs">8.3 Computational Trade-offs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">9. Key Takeaways</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="kernel-regression-from-linear-to-nonlinear-modeling">
+<h1>Kernel Regression: From Linear to Nonlinear Modeling<a class="headerlink" href="#kernel-regression-from-linear-to-nonlinear-modeling" title="Link to this heading">#</a></h1>
+<section id="linear-regression-foundation">
+<h2>1. Linear Regression Foundation<a class="headerlink" href="#linear-regression-foundation" title="Link to this heading">#</a></h2>
+<p>The goal of regression is to predict a continuous output <span class="math notranslate nohighlight">\(y\)</span> from input features <span class="math notranslate nohighlight">\(\mathbf{x} = (x_1, x_2, ..., x_d)^T\)</span> using a learned function <span class="math notranslate nohighlight">\(f\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+y = f(\mathbf{x}) + \varepsilon
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\varepsilon\)</span> represents random noise.</p>
+<p>In <strong>linear regression</strong>, we assume <span class="math notranslate nohighlight">\(f\)</span> is linear:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}) = \mathbf{w}^T \mathbf{x}
+\]</div>
+<p>(The bias term can be absorbed into <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> by adding a constant <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.)</p>
+<p>The parameters <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> minimize the <strong>sum of squared errors</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\mathbf{w}} \sum_{i=1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="kernel-regression-the-core-idea">
+<h2>2. Kernel Regression: The Core Idea<a class="headerlink" href="#kernel-regression-the-core-idea" title="Link to this heading">#</a></h2>
+<section id="why-kernels">
+<h3>2.1 Why Kernels?<a class="headerlink" href="#why-kernels" title="Link to this heading">#</a></h3>
+<p>Real-world data often has <strong>nonlinear patterns</strong> that linear models cannot capture. The solution: map each input <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to a higher-dimensional feature space <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> where the relationship becomes linear:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}) = \mathbf{w}^T \phi(\mathbf{x})
+\]</div>
+<p><strong>The Challenge</strong>: Explicitly computing <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> may be computationally prohibitive or even infinite-dimensional.</p>
+<p><strong>The Kernel Trick</strong>: Use a <strong>kernel function</strong> <span class="math notranslate nohighlight">\(K\)</span> that computes dot products in the feature space without ever constructing <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> explicitly:</p>
+<div class="math notranslate nohighlight">
+\[
+K(\mathbf{x}_i, \mathbf{x}_j) = \langle \phi(\mathbf{x}_i), \phi(\mathbf{x}_j) \rangle
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="the-dual-formulation">
+<h3>2.2 The Dual Formulation<a class="headerlink" href="#the-dual-formulation" title="Link to this heading">#</a></h3>
+<p>Using the kernel trick, the regression function becomes a <strong>weighted sum of kernel similarities</strong> to each training point:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}(\mathbf{x}) = \sum_{i=1}^n \alpha_i \, K(\mathbf{x}, \mathbf{x}_i)
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha_i\)</span> are <strong>weights</strong> learned from data</p></li>
+<li><p><span class="math notranslate nohighlight">\(K(\mathbf{x}, \mathbf{x}_i)\)</span> measures similarity between the test point <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and training point <span class="math notranslate nohighlight">\(\mathbf{x}_i\)</span></p></li>
+</ul>
+<p><strong>Interpretation</strong>: The prediction is a similarity-weighted average of training outputs, where the weights <span class="math notranslate nohighlight">\(\alpha_i\)</span> are learned rather than being simple averages.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="training-solving-for-boldsymbol-alpha">
+<h2>3. Training: Solving for <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span><a class="headerlink" href="#training-solving-for-boldsymbol-alpha" title="Link to this heading">#</a></h2>
+<section id="the-optimization-problem">
+<h3>3.1 The Optimization Problem<a class="headerlink" href="#the-optimization-problem" title="Link to this heading">#</a></h3>
+<p>We learn <span class="math notranslate nohighlight">\(\alpha_i\)</span> by fitting the training data:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\boldsymbol{\alpha}} \sum_{j=1}^n \left( y_j - \sum_{i=1}^n \alpha_i K(\mathbf{x}_j, \mathbf{x}_i) \right)^2
+\]</div>
+</section>
+<section id="matrix-formulation">
+<h3>3.2 Matrix Formulation<a class="headerlink" href="#matrix-formulation" title="Link to this heading">#</a></h3>
+<p>Define:</p>
+<ul class="simple">
+<li><p><strong>Kernel matrix</strong> <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> (size <span class="math notranslate nohighlight">\(n \times n\)</span>): <span class="math notranslate nohighlight">\(\mathbf{K}_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)\)</span></p></li>
+<li><p><strong>Weight vector</strong> <span class="math notranslate nohighlight">\(\boldsymbol{\alpha} = [\alpha_1, ..., \alpha_n]^T\)</span></p></li>
+<li><p><strong>Output vector</strong> <span class="math notranslate nohighlight">\(\mathbf{y} = [y_1, ..., y_n]^T\)</span></p></li>
+</ul>
+<p>For all training points, predictions are:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{y}} = \mathbf{K} \boldsymbol{\alpha}
+\]</div>
+<p>The sum of squared errors becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\|\mathbf{y} - \mathbf{K} \boldsymbol{\alpha}\|^2
+\]</div>
+</section>
+<section id="the-solution">
+<h3>3.3 The Solution<a class="headerlink" href="#the-solution" title="Link to this heading">#</a></h3>
+<p>Taking the derivative and setting to zero:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial}{\partial \boldsymbol{\alpha}} \|\mathbf{y} - \mathbf{K} \boldsymbol{\alpha}\|^2 = -2\mathbf{K}^T(\mathbf{y} - \mathbf{K}\boldsymbol{\alpha}) = 0
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is symmetric (<span class="math notranslate nohighlight">\(\mathbf{K}^T = \mathbf{K}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{K}(\mathbf{y} - \mathbf{K}\boldsymbol{\alpha}) = 0
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{K}\mathbf{y} = \mathbf{K}^2\boldsymbol{\alpha}
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is invertible (positive definite kernel with distinct points), multiply by <span class="math notranslate nohighlight">\(\mathbf{K}^{-1}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{y} = \mathbf{K}\boldsymbol{\alpha}
+\]</div>
+<p>Thus:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{\boldsymbol{\alpha} = \mathbf{K}^{-1} \mathbf{y}}
+\]</div>
+<p><strong>Key Insight</strong>: The weights <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span> are chosen so that training predictions perfectly match training outputs (<span class="math notranslate nohighlight">\(\hat{\mathbf{y}}_{\text{train}} = \mathbf{y}\)</span>). This is <strong>exact interpolation</strong>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="making-predictions-on-new-data">
+<h2>4. Making Predictions on New Data<a class="headerlink" href="#making-predictions-on-new-data" title="Link to this heading">#</a></h2>
+<section id="single-test-point">
+<h3>4.1 Single Test Point<a class="headerlink" href="#single-test-point" title="Link to this heading">#</a></h3>
+<p>For a new test point <span class="math notranslate nohighlight">\(\mathbf{x}_{\text{test}}\)</span> (not in training set):</p>
+<p><strong>Step 1</strong>: Compute kernel similarities between <span class="math notranslate nohighlight">\(\mathbf{x}_{\text{test}}\)</span> and <strong>all training points</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{k}_{\text{test}} = 
+\begin{bmatrix}
+K(\mathbf{x}_{\text{test}}, \mathbf{x}_1) \\
+K(\mathbf{x}_{\text{test}}, \mathbf{x}_2) \\
+\vdots \\
+K(\mathbf{x}_{\text{test}}, \mathbf{x}_n)
+\end{bmatrix}
+\quad \text{(size } n \times 1\text{)}
+\end{split}\]</div>
+<p><strong>Step 2</strong>: Make prediction using the same formula:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{\text{test}} = \sum_{i=1}^n \alpha_i K(\mathbf{x}_{\text{test}}, \mathbf{x}_i) = \mathbf{k}_{\text{test}}^T \boldsymbol{\alpha}
+\]</div>
+</section>
+<section id="multiple-test-points">
+<h3>4.2 Multiple Test Points<a class="headerlink" href="#multiple-test-points" title="Link to this heading">#</a></h3>
+<p>For <span class="math notranslate nohighlight">\(m\)</span> test points <span class="math notranslate nohighlight">\(\{\mathbf{x}_{\text{test}}^{(1)}, \dots, \mathbf{x}_{\text{test}}^{(m)}\}\)</span>:</p>
+<p>Define <span class="math notranslate nohighlight">\(\mathbf{K}_{\text{test}}\)</span> as an <span class="math notranslate nohighlight">\(m \times n\)</span> matrix:</p>
+<div class="math notranslate nohighlight">
+\[
+[\mathbf{K}_{\text{test}}]_{pj} = K(\mathbf{x}_{\text{test}}^{(p)}, \mathbf{x}_j)
+\]</div>
+<p>Then predictions:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{y}}_{\text{test}} = \mathbf{K}_{\text{test}} \, \boldsymbol{\alpha}
+\]</div>
+</section>
+<section id="training-vs-testing-summary">
+<h3>4.3 Training vs. Testing Summary<a class="headerlink" href="#training-vs-testing-summary" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Phase</p></th>
+<th class="head"><p>Input</p></th>
+<th class="head"><p>Prediction</p></th>
+<th class="head"><p>Equals true <span class="math notranslate nohighlight">\(y\)</span>?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Training</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{K}\)</span> (<span class="math notranslate nohighlight">\(n \times n\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\hat{\mathbf{y}}_{\text{train}} = \mathbf{K}\boldsymbol{\alpha}\)</span></p></td>
+<td><p>Yes (exact fit)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Testing</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbf{k}_{\text{test}}\)</span> (<span class="math notranslate nohighlight">\(n \times 1\)</span>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(\hat{y}_{\text{test}} = \mathbf{k}_{\text{test}}^T \boldsymbol{\alpha}\)</span></p></td>
+<td><p>No (generalization)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Important</strong>: The interpolation property <span class="math notranslate nohighlight">\(\hat{\mathbf{y}}_{\text{train}} = \mathbf{y}\)</span> holds <strong>only for training data</strong>. For test points, predictions are determined by similarity to training points, not by exact matching.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-pseudoinverse-connection">
+<h2>5. The Pseudoinverse Connection<a class="headerlink" href="#the-pseudoinverse-connection" title="Link to this heading">#</a></h2>
+<section id="unified-view">
+<h3>5.1 Unified View<a class="headerlink" href="#unified-view" title="Link to this heading">#</a></h3>
+<p>From the matrix appendix, recall the pseudoinverse <span class="math notranslate nohighlight">\(X^+\)</span> solves <span class="math notranslate nohighlight">\(X\mathbf{w} = \mathbf{y}\)</span> optimally. For kernel regression, we solve <span class="math notranslate nohighlight">\(\mathbf{K}\boldsymbol{\alpha} = \mathbf{y}\)</span>, so:</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{\alpha} = \mathbf{K}^+ \mathbf{y}
+\]</div>
+<p>When <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is invertible, <span class="math notranslate nohighlight">\(\mathbf{K}^+ = \mathbf{K}^{-1}\)</span>. When <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is singular or ill-conditioned, we use regularization.</p>
+</section>
+<section id="regularization-kernel-ridge-regression">
+<h3>5.2 Regularization (Kernel Ridge Regression)<a class="headerlink" href="#regularization-kernel-ridge-regression" title="Link to this heading">#</a></h3>
+<p>In practice, with noisy data, exact interpolation leads to overfitting. Add a ridge penalty <span class="math notranslate nohighlight">\(\lambda \|\mathbf{f}\|^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\boldsymbol{\alpha}} \|\mathbf{y} - \mathbf{K}\boldsymbol{\alpha}\|^2 + \lambda \boldsymbol{\alpha}^T \mathbf{K} \boldsymbol{\alpha}
+\]</div>
+<p>The solution becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{\boldsymbol{\alpha} = (\mathbf{K} + \lambda \mathbf{I})^{-1} \mathbf{y}}
+\]</div>
+<p>This is the <strong>kernel ridge regression</strong> estimator. The regularization term:</p>
+<ul class="simple">
+<li><p>Improves numerical stability (ensures invertibility)</p></li>
+<li><p>Prevents overfitting by shrinking weights</p></li>
+<li><p>Controls the smoothness of the prediction function</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Practice</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Generate synthetic data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Compute RBF kernel (σ=1.0)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Solve for coefficients (with small regularization)</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Predict new points</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.1</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">K_test</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">K_test</span> <span class="o">@</span> <span class="n">alpha</span>
+
+<span class="c1"># Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Kernel Regression&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Kernel Regression with RBF Kernel&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5654f4ec41310a2ea9b9c12f4cf805bba8383c87c07a286a4a6116c88d04afae.png" src="_images/5654f4ec41310a2ea9b9c12f4cf805bba8383c87c07a286a4a6116c88d04afae.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="the-effects-of-regularization-and-noise-levels-on-kernel-regression">
+<h2>6. The effects of regularization and noise levels on kernel regression<a class="headerlink" href="#the-effects-of-regularization-and-noise-levels-on-kernel-regression" title="Link to this heading">#</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Set random seed for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># --- Generate synthetic data ---</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="mi">50</span>  <span class="c1"># Number of training points</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_train</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">true_function</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>  <span class="c1"># Underlying smooth function</span>
+
+<span class="c1"># --- Create figure with subplots ---</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Kernel Regression: Effects of Regularization and Noise&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Parameters to test</span>
+<span class="n">noise_levels</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span><span class="c1">#, 1.0]  # Zero, low, high noise</span>
+<span class="n">lambda_regs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">]</span>    <span class="c1"># No regularization, weak, strong</span>
+
+<span class="c1"># Store results for comparison</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">noise</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">noise_levels</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">lambda_reg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lambda_regs</span><span class="p">):</span>
+        <span class="c1"># Generate noisy training data</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">true_function</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_train</span><span class="p">)</span>
+        
+        <span class="c1"># --- Training ---</span>
+        <span class="c1"># Compute RBF kernel matrix (gamma = 0.5)</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+        
+        <span class="c1"># Solve for alpha with or without regularization</span>
+        <span class="k">if</span> <span class="n">lambda_reg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># No regularization - direct inversion (may be unstable)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                <span class="n">reg_status</span> <span class="o">=</span> <span class="s2">&quot;No regularization&quot;</span>
+            <span class="k">except</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">LinAlgError</span><span class="p">:</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span>  <span class="c1"># Use pseudoinverse if singular</span>
+                <span class="n">reg_status</span> <span class="o">=</span> <span class="s2">&quot;No regularization (pseudoinverse)&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K</span> <span class="o">+</span> <span class="n">lambda_reg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_train</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">reg_status</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;λ = </span><span class="si">{</span><span class="n">lambda_reg</span><span class="si">}</span><span class="s2">&quot;</span>
+        
+        <span class="c1"># --- Testing ---</span>
+        <span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">300</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">K_test</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">K_test</span> <span class="o">@</span> <span class="n">alpha</span>
+        
+        <span class="c1"># True function on test points</span>
+        <span class="n">y_true_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        
+        <span class="c1"># Calculate test error</span>
+        <span class="n">test_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_pred</span> <span class="o">-</span> <span class="n">y_true_test</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="c1"># --- Plot ---</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training data&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_true_test</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True function&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Kernel regression&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        
+        <span class="c1"># Add title with parameters</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Noise σ = </span><span class="si">{</span><span class="n">noise</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">reg_status</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        
+        <span class="c1"># Display MSE in the corner</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;MSE = </span><span class="si">{</span><span class="n">test_mse</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> 
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span>
+                <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;wheat&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+        
+        <span class="c1"># Add legend only for first plot</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Store results</span>
+        <span class="n">results</span><span class="p">[(</span><span class="n">noise</span><span class="p">,</span> <span class="n">lambda_reg</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="n">test_mse</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">}</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="c1"># --- Print summary table ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SUMMARY: Test MSE for different noise levels and regularization&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Noise σ&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;λ = 0&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;λ = 1e-6&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;λ = 0.1&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">noise</span> <span class="ow">in</span> <span class="n">noise_levels</span><span class="p">:</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">noise</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">lambda_reg</span> <span class="ow">in</span> <span class="n">lambda_regs</span><span class="p">:</span>
+        <span class="n">mse</span> <span class="o">=</span> <span class="n">results</span><span class="p">[(</span><span class="n">noise</span><span class="p">,</span> <span class="n">lambda_reg</span><span class="p">)][</span><span class="s1">&#39;mse&#39;</span><span class="p">]</span>
+        <span class="n">row</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">&lt;20.6f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+
+<span class="c1"># --- Interpretation guide ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;📊 INTERPRETATION GUIDE 📊&quot;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">70</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. NOISE σ = 0 (No noise):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - λ = 0: Perfect fit (MSE ≈ 0) - model interpolates exactly&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - λ &gt; 0: Slight bias introduced, but still good fit&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">2. NOISE σ = 0.1 (Low noise):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - λ = 0: May overfit slightly, capturing noise patterns&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - λ = 1e-6: Balances fit and smoothness&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - λ = 0.1: May underfit (too smooth)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">💡 KEY INSIGHT:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - More noise → need stronger regularization (larger λ)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - No noise → λ = 0 gives perfect interpolation&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - Too much regularization → underfitting (bias)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   - Too little regularization → overfitting (variance)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/f1978401be51f6f1faadb50638be4ca332902cb66e403026ffac8d7983ce14be.png" src="_images/f1978401be51f6f1faadb50638be4ca332902cb66e403026ffac8d7983ce14be.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>======================================================================
+SUMMARY: Test MSE for different noise levels and regularization
+======================================================================
+Noise σ    λ = 0                λ = 1e-6             λ = 0.1             
+----------------------------------------------------------------------
+0.0       0.000000            0.000008            0.004277            
+0.1       10490347.742265     0.368313            0.007773            
+======================================================================
+
+                       📊 INTERPRETATION GUIDE 📊                       
+======================================================================
+1. NOISE σ = 0 (No noise):
+   - λ = 0: Perfect fit (MSE ≈ 0) - model interpolates exactly
+   - λ &gt; 0: Slight bias introduced, but still good fit
+
+2. NOISE σ = 0.1 (Low noise):
+   - λ = 0: May overfit slightly, capturing noise patterns
+   - λ = 1e-6: Balances fit and smoothness
+   - λ = 0.1: May underfit (too smooth)
+
+💡 KEY INSIGHT:
+   - More noise → need stronger regularization (larger λ)
+   - No noise → λ = 0 gives perfect interpolation
+   - Too much regularization → underfitting (bias)
+   - Too little regularization → overfitting (variance)
+======================================================================
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="primal-vs-dual-perspective">
+<h2>8. Primal vs. Dual Perspective<a class="headerlink" href="#primal-vs-dual-perspective" title="Link to this heading">#</a></h2>
+<section id="two-forms-of-the-solution">
+<h3>8.1 Two Forms of the Solution<a class="headerlink" href="#two-forms-of-the-solution" title="Link to this heading">#</a></h3>
+<p>In standard linear regression with features <span class="math notranslate nohighlight">\(\mathbf{X}\)</span>, the weight vector can be expressed in two equivalent ways:</p>
+<p><strong>Primal Form</strong> (feature space):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\]</div>
+<p><strong>Dual Form</strong> (sample space):</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w} = \mathbf{X}^T (\mathbf{X} \mathbf{X}^T)^{-1} \mathbf{y}
+\]</div>
+<p>Both yield the same predictions when <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> has full column rank.</p>
+</section>
+<section id="why-the-dual-form-matters-for-kernels">
+<h3>8.2 Why the Dual Form Matters for Kernels<a class="headerlink" href="#why-the-dual-form-matters-for-kernels" title="Link to this heading">#</a></h3>
+<p>The dual form reveals that <span class="math notranslate nohighlight">\(\mathbf{w}\)</span> is a linear combination of training samples:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w} = \sum_{i=1}^n \alpha_i \mathbf{x}_i, \quad \text{where} \quad \boldsymbol{\alpha} = (\mathbf{X} \mathbf{X}^T)^{-1} \mathbf{y}
+\]</div>
+<p>When we map to feature space <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span>, this becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{w} = \sum_{i=1}^n \alpha_i \phi(\mathbf{x}_i), \quad \text{with} \quad \boldsymbol{\alpha} = (\mathbf{K})^{-1} \mathbf{y}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{K}_{ij} = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j) = K(\mathbf{x}_i, \mathbf{x}_j)\)</span>.</p>
+<p><strong>Key insight</strong>: The prediction for a new point becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}(\mathbf{x}) = \mathbf{w}^T \phi(\mathbf{x}) = \sum_{i=1}^n \alpha_i \phi(\mathbf{x}_i)^T \phi(\mathbf{x}) = \sum_{i=1}^n \alpha_i K(\mathbf{x}_i, \mathbf{x})
+\]</div>
+<p>We never need <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> explicitly — only kernel evaluations <span class="math notranslate nohighlight">\(K(\mathbf{x}_i, \mathbf{x})\)</span>!</p>
+</section>
+<section id="computational-trade-offs">
+<h3>8.3 Computational Trade-offs<a class="headerlink" href="#computational-trade-offs" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Primal Form</p></th>
+<th class="head"><p>Dual Form</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(n \ll d\)</span> (few samples, many features)</p></td>
+<td><p>Slow (invert <span class="math notranslate nohighlight">\(d \times d\)</span>)</p></td>
+<td><p>Fast (invert <span class="math notranslate nohighlight">\(n \times n\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(n \gg d\)</span> (many samples, few features)</p></td>
+<td><p>Fast (invert <span class="math notranslate nohighlight">\(d \times d\)</span>)</p></td>
+<td><p>Slow (invert <span class="math notranslate nohighlight">\(n \times n\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Nonlinear kernels (RBF, polynomial)</p></td>
+<td><p>Not applicable</p></td>
+<td><p>Required (kernel trick)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Example</strong>: RBF kernel with <span class="math notranslate nohighlight">\(n=1000\)</span> samples effectively uses infinite-dimensional features (<span class="math notranslate nohighlight">\(d = \infty\)</span>):</p>
+<ul class="simple">
+<li><p>Primal form impossible (cannot compute <span class="math notranslate nohighlight">\(\phi(\mathbf{x})\)</span> explicitly)</p></li>
+<li><p>Dual form works with <span class="math notranslate nohighlight">\(1000 \times 1000\)</span> kernel matrix</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="key-takeaways">
+<h2>9. Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Kernel regression enables nonlinear fitting</strong> by implicitly mapping data to high-dimensional spaces</p></li>
+<li><p><strong>The dual formulation</strong> expresses predictions as weighted sums of kernel similarities:
+$<span class="math notranslate nohighlight">\(
+\hat{y}(\mathbf{x}) = \sum_{i=1}^n \alpha_i K(\mathbf{x}, \mathbf{x}_i)
+\)</span>$</p></li>
+<li><p><strong>Training solves</strong> <span class="math notranslate nohighlight">\(\boldsymbol{\alpha} = \mathbf{K}^{-1}\mathbf{y}\)</span> (unregularized) or <span class="math notranslate nohighlight">\(\boldsymbol{\alpha} = (\mathbf{K} + \lambda\mathbf{I})^{-1}\mathbf{y}\)</span> (regularized)</p></li>
+<li><p><strong>Testing uses</strong> <span class="math notranslate nohighlight">\(\hat{y}_{\text{test}} = \mathbf{k}_{\text{test}}^T \boldsymbol{\alpha}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{k}_{\text{test}}\)</span> contains similarities between test and training points</p></li>
+<li><p><strong>Regularization</strong> (<span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>) is essential for:</p>
+<ul class="simple">
+<li><p>Numerical stability (ensuring <span class="math notranslate nohighlight">\(\mathbf{K} + \lambda\mathbf{I}\)</span> is invertible)</p></li>
+<li><p>Preventing overfitting to noise</p></li>
+</ul>
+</li>
+<li><p><strong>Kernel choice</strong> controls model flexibility:</p>
+<ul class="simple">
+<li><p>Linear kernel → standard linear regression</p></li>
+<li><p>RBF kernel → smooth, local approximation</p></li>
+<li><p>Polynomial kernel → interaction terms up to degree <span class="math notranslate nohighlight">\(d\)</span></p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="19%20-%20Kernel%20Trick.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The Kernel Method (Kernel Trick)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="21%20-%20MLE%20Introduction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Maximum Likelihood Estimation (MLE)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-regression-foundation">1. Linear Regression Foundation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-regression-the-core-idea">2. Kernel Regression: The Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-kernels">2.1 Why Kernels?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-dual-formulation">2.2 The Dual Formulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-solving-for-boldsymbol-alpha">3. Training: Solving for <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-optimization-problem">3.1 The Optimization Problem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-formulation">3.2 Matrix Formulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-solution">3.3 The Solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-predictions-on-new-data">4. Making Predictions on New Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-test-point">4.1 Single Test Point</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-test-points">4.2 Multiple Test Points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-vs-testing-summary">4.3 Training vs. Testing Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pseudoinverse-connection">5. The Pseudoinverse Connection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-view">5.1 Unified View</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regularization-kernel-ridge-regression">5.2 Regularization (Kernel Ridge Regression)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-effects-of-regularization-and-noise-levels-on-kernel-regression">6. The effects of regularization and noise levels on kernel regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#primal-vs-dual-perspective">8. Primal vs. Dual Perspective</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-forms-of-the-solution">8.1 Two Forms of the Solution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-dual-form-matters-for-kernels">8.2 Why the Dual Form Matters for Kernels</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-trade-offs">8.3 Computational Trade-offs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">9. Key Takeaways</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1432 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>High Dimensional Data &amp; The Curse of Dimensionality &#8212; Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '06 - High-Dimensional Data';</script>
+    <link rel="icon" href="_static/fum-logo.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="kNN in high dimensional spaces" href="07%20-%20High-Dimensional%20Data%20and%20kNN.html" />
+    <link rel="prev" title="Clustering Validation Metrics" href="05b%20-%20Clustering%20Validation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fum-cs-logo.png" class="logo__image only-light" alt="Machine Learning - Home"/>
+    <script>document.write(`<img src="_static/fum-cs-logo.png" class="logo__image only-dark" alt="Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Machine Learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Foundations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01%20-%20Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Local%20Models%20and%20kNN.html">k-Nearest Neighbors and Classification Evaluation Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03%20-%20Model%20Evaluation.html">Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04%20-%20Bias-Variance%20Tradeoff.html">Bias-Variance Tradeoff</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Simple Methods and High Dimension</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20k-means%20Clustering.html">k-means Clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b%20-%20Clustering%20Validation.html">Clustering Validation Metrics</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">High Dimensional Data &amp; The Curse of Dimensionality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07%20-%20High-Dimensional%20Data%20and%20kNN.html">kNN in high dimensional spaces</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Linear Models and Neural Networks</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Linear%20Regression.html">Linear Regression, Part 1</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="09%20-%20Linear%20Models%20and%20Gradient%20Methods.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20-%20Gradient%20Descent.html">Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11%20-%20Stochastic%20Gradient%20Descent.html">Stochastic Gradient Descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20-%20MLP%20and%20Backpropagation.html">Introduction to Pytorch &amp; Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20-%20MLP%20Classification.html">Neural Networks for Classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20-%20MLP%20Regularization.html">Regularization and Dropout in Neural Networks</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Dimensionality Reduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="15%20-%20PCA%20part%201.html">Principal Component Analysis, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20-%20PCA%20part%202.html">Principal Component Analysis, Part 2</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="17%20-%20PCA%20and%20LDA.html">Comparison of LDA and PCA</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Kernel Methods</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="18%20-%20Feature%20Map.html">Feature Maps: Bridging to Kernel Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19%20-%20Kernel%20Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="20%20-%20Kernel%20Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Bayesian and Statistical Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20-%20MLE%20Introduction.html">Maximum Likelihood Estimation (MLE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20-%20Naive%20Bayes.html">Naive Bayes Classification</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="22b%20-%20Mahalanobis%20Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20-%20Bayesian%20Learning.html">Gaussian processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20-%20Bayesian%20Decision%20Theory.html">Bayesian Decision Theory</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Latent Variable Models</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="25%20-%20Gaussian%20Mixtures%20part%201.html">Gaussian Mixture Models, Part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20-%20Gaussian%20Mixtures%20part%202.html">Gaussian Mixture Model, Part 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Seminars and Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="27%20-%20Learning%20to%20Rank.html">Learning to Rank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="28%20-%20Learning%20Theory%20and%20VC.html">Learning Theory and VC Dimension</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30%20-%20Advanced%20Topics.html">Advanced Topics Survey</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Decision Trees (if time)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="29%20-%20Decision%20Trees.html">Decision Trees and Random Forests</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="31%20-%20Project%20and%20Review.html">Project and Review</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="06%20-%20Data%20Preprocessing.html">Data preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Trick.html">The Kernel Method (Kernel Trick)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Kernel-Regression.html">Kernel Regression: From Linear to Nonlinear Modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLE-introduction.html">Maximum Likelihood Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Naive-Bayes.html">Naive Bayes Classification</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Bayesian-Decision-Theory.html">Bayesian Decision Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Mahalanobis-Distance.html">Mahalanobis Distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-BDT-Discrete-Features.html">Appendix: Bayes Decision Theory — Discrete Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Appendix-Gaussian-Mixtures.html">Gaussian Mixture Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02%20-%20Linear%20Models.html">Linear models</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05%20-%20Ensemble%20Learning.html">Ensemble Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20-%20Hidden%20Markov%20Models.html">Hidden Markov Models</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/fum-cs/machine-learning/blob/main/notebooks/06 - High-Dimensional Data.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/fum-cs/machine-learning/issues/new?title=Issue%20on%20page%20%2F06 - High-Dimensional Data.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/06 - High-Dimensional Data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>High Dimensional Data & The Curse of Dimensionality</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-hyperspace-cubes-and-spheres">Geometry of Hyperspace: Cubes and Spheres</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hypercube">The Hypercube</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hypersphere">The Hypersphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-empty-center-the-porcupine-effect">The Empty Center (The “Porcupine” Effect)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-of-local-neighborhoods-k-nn">The Problem of Local Neighborhoods (k-NN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-length-of-neighborhoods">Edge Length of Neighborhoods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-to-boundary">Distance to Boundary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thin-shell-argument">The Thin Shell Argument</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-uniform-points-on-a-hypersphere">Generating Uniform Points on a Hypersphere</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-vector-uniformly-distributed-on-the-surface-of-a-unit-hypersphere">Random vector uniformly distributed on the surface of a unit hypersphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-points-inside-the-ball">Generating Points <em>Inside</em> the Ball</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determining-the-target-cdf">1. Determining the Target CDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-transform-sampling">2. Inverse Transform Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-for-d-2">3. Example (for <span class="math notranslate nohighlight">\(d=2\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-the-hypersphere">4. Application to the Hypersphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-for-uniform-points-in-a-dball">Algorithm for Uniform Points in a <span class="math notranslate nohighlight">\(d\)</span>‑Ball</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-vectors">Random Vectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-distribution-in-high-dimensions">Gaussian Distribution in High Dimensions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-geometric-thin-shells-to-statistical-thin-shells">From Geometric Thin Shells to Statistical Thin Shells</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gaussian-points-do-not-cluster-near-the-mean-unlike-1d">Why Gaussian Points Do <em>Not</em> Cluster Near the Mean (Unlike 1D)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-of-a-gaussian-vector-from-the-origin">Distance of a Gaussian Vector from the Origin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-simulation-gaussian-thin-shell">Numerical Simulation: Gaussian Thin Shell</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gaussian-annulus-phenomenon">The Gaussian Annulus Phenomenon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-previous-sections">Connection to Previous Sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-matters-preparing-for-jl">Why This Matters (Preparing for JL)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><img alt="" src="_images/banner.png" /></p>
+<script src="require.js"></script>
+<section class="tex2jax_ignore mathjax_ignore" id="high-dimensional-data-the-curse-of-dimensionality">
+<h1>High Dimensional Data &amp; The Curse of Dimensionality<a class="headerlink" href="#high-dimensional-data-the-curse-of-dimensionality" title="Link to this heading">#</a></h1>
+<p><strong>Mahmood Amintoosi, Fall 2025</strong>
+Computer Science Dept, Ferdowsi University of Mashhad</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>In modern data mining and machine learning, we often deal with data in very high-dimensional spaces (e.g., images, text embeddings, genomic data). A dataset is typically represented as an <span class="math notranslate nohighlight">\(n \times d\)</span> matrix <span class="math notranslate nohighlight">\(\mathbf{D}\)</span>.</p>
+<p>Understanding the nature of high-dimensional space, or <strong>hyperspace</strong>, is very important because it does not behave like the more familiar geometry in two or three dimensions. This phenomenon is often referred to as the <strong>Curse of Dimensionality</strong>.</p>
+<p>Key phenomena we will explore:</p>
+<ol class="arabic simple">
+<li><p><strong>Volume Concentration:</strong> The volume of a hypersphere vanishes relative to the hypercube.</p></li>
+<li><p><strong>The Problem of Local Neighborhoods:</strong> Why “local” methods like k-NN fail (based on <em>Elements of Statistical Learning</em>).</p></li>
+<li><p><strong>The Thin Shell:</strong> Most of the volume concentrates near the surface.</p></li>
+<li><p><strong>Orthogonality:</strong> Random vectors in high dimensions are nearly orthogonal.</p></li>
+<li><p><strong>Gaussian Behavior:</strong> Points concentrate in a thin ring around radius <span class="math notranslate nohighlight">\(\sqrt{d}\)</span>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="geometry-of-hyperspace-cubes-and-spheres">
+<h2>Geometry of Hyperspace: Cubes and Spheres<a class="headerlink" href="#geometry-of-hyperspace-cubes-and-spheres" title="Link to this heading">#</a></h2>
+<p>Let’s define the two most basic shapes in <span class="math notranslate nohighlight">\(d\)</span>-dimensions.</p>
+<section id="the-hypercube">
+<h3>The Hypercube<a class="headerlink" href="#the-hypercube" title="Link to this heading">#</a></h3>
+<p>The data space is often viewed as a <span class="math notranslate nohighlight">\(d\)</span>-dimensional hyper-rectangle or hypercube.
+For a hypercube <span class="math notranslate nohighlight">\(H_d(l)\)</span> with side length <span class="math notranslate nohighlight">\(l\)</span>, the volume is:</p>
+<div class="math notranslate nohighlight">
+\[\text{Vol}(H_d(l)) = l^d\]</div>
+</section>
+<section id="the-hypersphere">
+<h3>The Hypersphere<a class="headerlink" href="#the-hypersphere" title="Link to this heading">#</a></h3>
+<p>The hypersphere <span class="math notranslate nohighlight">\(S_d(r)\)</span> consists of all points exactly at distance <span class="math notranslate nohighlight">\(r\)</span> from the center. The volume of a <span class="math notranslate nohighlight">\(d\)</span>-dimensional hyperball of radius <span class="math notranslate nohighlight">\(r\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[\text{Vol}(S_d(r)) = K_d r^d = \frac{\pi^{d/2}}{\Gamma(\frac{d}{2}+1)} r^d\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\Gamma\)</span> is the Gamma function.</p>
+<p><img alt="" src="_images/Figure-6.4-Zaki.png" />
+Figure 6.4. Hypersphere inscribed inside a hypercube: in (a) two and (b) three dimensions</p>
+</section>
+<section id="the-empty-center-the-porcupine-effect">
+<h3>The Empty Center (The “Porcupine” Effect)<a class="headerlink" href="#the-empty-center-the-porcupine-effect" title="Link to this heading">#</a></h3>
+<p>Consider the space enclosed within the largest hypersphere that can be accommodated within a hypercube of side length <span class="math notranslate nohighlight">\(l=2r\)</span>.
+The ratio of their volumes is:</p>
+<div class="math notranslate nohighlight">
+\[\lim_{d \to \infty} \frac{\text{Vol}(S_d(r))}{\text{Vol}(H_d(2r))} = \lim_{d \to \infty} \frac{\pi^{d/2}}{2^d \Gamma(\frac{d}{2}+1)} \to 0\]</div>
+<p><strong>Implication:</strong> As dimensionality increases, the volume of the hypersphere becomes negligible compared to the hypercube. Most of the volume of the hypercube is in the <strong>corners</strong>, whereas the center is essentially empty.</p>
+<p><img alt="Corners in High Dimension" src="_images/Figure-6.5-Zaki.png" /></p>
+<p>Conceptual view of high-dimensional space: (a) two, (b) three, (c) four, and (d) higher
+dimensions. In d dimensions there are <span class="math notranslate nohighlight">\(2^d\)</span> “corners” and <span class="math notranslate nohighlight">\(2^{d−1}\)</span> diagonals. The radius of the inscribed circle accurately reflects the difference between the volume of the hypercube and the inscribed hypersphere in <span class="math notranslate nohighlight">\(d\)</span> dimensions.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">def</span> <span class="nf">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">R</span><span class="p">):</span>
+    <span class="n">volume</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">**</span> <span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">R</span> <span class="o">**</span> <span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">volume</span>
+<span class="n">dimensions</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">volumes</span> <span class="o">=</span> <span class="p">[</span><span class="n">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dimensions</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">volumes</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39; hypersphere_volume&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;dimention&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Volume of a unit hypersphere in various dimensions&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1999917c8f18cfa0acc8248b18db6c916cf88f15e061b40ff0c5684352f0f2ab.png" src="_images/1999917c8f18cfa0acc8248b18db6c916cf88f15e061b40ff0c5684352f0f2ab.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="the-problem-of-local-neighborhoods-k-nn">
+<h2>The Problem of Local Neighborhoods (k-NN)<a class="headerlink" href="#the-problem-of-local-neighborhoods-k-nn" title="Link to this heading">#</a></h2>
+<p>One of the most significant manifestations of the curse of dimensionality affects “local” methods like k-Nearest Neighbors (k-NN).</p>
+<section id="edge-length-of-neighborhoods">
+<h3>Edge Length of Neighborhoods<a class="headerlink" href="#edge-length-of-neighborhoods" title="Link to this heading">#</a></h3>
+<p>Suppose we have inputs uniformly distributed in a <span class="math notranslate nohighlight">\(p\)</span>-dimensional unit hypercube. We want to form a local neighborhood that captures a fraction <span class="math notranslate nohighlight">\(r\)</span> of the observations.
+Since this corresponds to a fraction of the unit volume, the expected edge length <span class="math notranslate nohighlight">\(e_p(r)\)</span> of this neighborhood is:</p>
+<div class="math notranslate nohighlight">
+\[e_p(r) = r^{1/p}\]</div>
+<p><img alt="" src="_images/Figure-2.6-ESL.png" /></p>
+<p>FIGURE 2.6. The curse of dimensionality is well illustrated by a subcubical
+neighborhood for uniform data in a unit cube. The figure on the right shows the
+side-length of the subcube needed to capture a fraction r of the volume of the data,
+for different dimensions p. In ten dimensions we need to cover 80% of the range
+of each coordinate to capture 10% of the data</p>
+<p>Let’s visualize this for different dimensions (<span class="math notranslate nohighlight">\(p\)</span>) and fractions (<span class="math notranslate nohighlight">\(r\)</span>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">edge_length</span><span class="p">(</span><span class="n">fraction_volume</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">fraction_volume</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">fractions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">dims_esl</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dims_esl</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fractions</span><span class="p">,</span> <span class="n">edge_length</span><span class="p">(</span><span class="n">fractions</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;p=</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="c1"># Highlighting the case for p=10, r=0.1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Fraction of Volume ($r$)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Edge Length of Subcube: $e_p(r)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Edge Length required to capture fraction of Volume&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/50202d2fe6b515f9477c853c14a44d6050c80c35c78e4ffe2390c3001267d553.png" src="_images/50202d2fe6b515f9477c853c14a44d6050c80c35c78e4ffe2390c3001267d553.png" />
+</div>
+</div>
+<p><strong>Analysis:</strong>
+In 10 dimensions (<span class="math notranslate nohighlight">\(p=10\)</span>), to capture just <strong>10%</strong> (<span class="math notranslate nohighlight">\(r=0.1\)</span>) of the data, we need to cover <strong>80%</strong> of the range of each input variable.
+Such neighborhoods are no longer “local”. To find neighbors, we must look very far away.</p>
+</section>
+<section id="distance-to-boundary">
+<h3>Distance to Boundary<a class="headerlink" href="#distance-to-boundary" title="Link to this heading">#</a></h3>
+<p>Another consequence is that sampling density is sparse. For <span class="math notranslate nohighlight">\(N\)</span> data points in a <span class="math notranslate nohighlight">\(p\)</span>-dimensional unit ball, the median distance from the origin to the closest data point is:</p>
+<div class="math notranslate nohighlight">
+\[ d(p,N) = \left(1 - \frac{1}{2}^{1/N}\right)^{1/p} \]</div>
+<p>For <span class="math notranslate nohighlight">\(N=500\)</span> and <span class="math notranslate nohighlight">\(p=10\)</span>, this distance is <span class="math notranslate nohighlight">\(\approx 0.52\)</span>, which is more than halfway to the boundary. Hence, <strong>most data points are closer to the boundary of the sample space than to any other data point</strong>. This makes prediction a problem of <em>extrapolation</em> rather than <em>interpolation</em>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-thin-shell-argument">
+<h2>The Thin Shell Argument<a class="headerlink" href="#the-thin-shell-argument" title="Link to this heading">#</a></h2>
+<p>Where is the volume located inside a hypersphere itself?
+Consider a thin shell of width <span class="math notranslate nohighlight">\(\epsilon\)</span> near the surface of a sphere of radius <span class="math notranslate nohighlight">\(r\)</span>. The volume of this shell is:</p>
+<div class="math notranslate nohighlight">
+\[ \text{Vol}(S_d(r, \epsilon)) = \text{Vol}(S_d(r)) - \text{Vol}(S_d(r - \epsilon)) \]</div>
+<p><img alt="" src="_images/Figure-6.6-Zaki.png" /></p>
+<p>The ratio of the shell’s volume to the total volume is:</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\text{Vol}(S_d(r, \epsilon))}{\text{Vol}(S_d(r))} = 1 - \left( 1 - \frac{\epsilon}{r} \right)^d \]</div>
+<p>As <span class="math notranslate nohighlight">\(d \to \infty\)</span>, the term <span class="math notranslate nohighlight">\((1 - \frac{\epsilon}{r})^d\)</span> tends to 0.</p>
+<div class="math notranslate nohighlight">
+\[ \lim_{d \to \infty} \frac{\text{Vol}(S_d(r, \epsilon))}{\text{Vol}(S_d(r))} \to 1 \]</div>
+<blockquote>
+<div><p>For example, for a circle in two dimensions, with r =1 and <span class="math notranslate nohighlight">\(\epsilon\)</span> = 0.01 the
+volume of the thin shell is <span class="math notranslate nohighlight">\(1−(0.99)^2 = 0.0199 ≃ 2%\)</span>. As expected, in two-dimensions,
+the thin shell encloses only a small fraction of the volume of the original hypersphere.
+But for 100 dimensions thin shell volume becomes <span class="math notranslate nohighlight">\(1−(0.99)^{100} ≃ 1 - 0.37 ≃ 0.63\)</span>.</p>
+</div></blockquote>
+<p><strong>Conclusion:</strong> In high dimensions, almost <strong>100% of the volume</strong> (and probability mass) of a hypersphere is concentrated in a thin shell near the surface (crust). The interior is essentially empty.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">shell_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">e</span><span class="p">):</span>
+    <span class="n">volume</span> <span class="o">=</span> <span class="n">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">R</span><span class="p">)</span> <span class="o">-</span> <span class="n">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">R</span><span class="o">-</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">volume</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shell_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">)</span><span class="o">/</span><span class="n">hypersphere_volume</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;voumle_shell/volume_hypersphere&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;dimention&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;voumle_shell/volume_hypersphere&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/439eb2ece4255a91fa073fb76706f37b8b144bf4886941908122c930352680f4.png" src="_images/439eb2ece4255a91fa073fb76706f37b8b144bf4886941908122c930352680f4.png" />
+</div>
+</div>
+</section>
+<section id="generating-uniform-points-on-a-hypersphere">
+<h2>Generating Uniform Points on a Hypersphere<a class="headerlink" href="#generating-uniform-points-on-a-hypersphere" title="Link to this heading">#</a></h2>
+<p>Generating points uniformly inside a hypersphere in high dimensions is tricky.
+Due to the volume properties discussed above, simple methods like “Rejection Sampling” (generate in cube, keep if in sphere) fail because the acceptance rate approaches zero (remember the Empty Center/Porcupine effect).</p>
+<p><strong>Rejection Sampling:</strong> Generate points in a Hypercube and keep those inside the Sphere.</p>
+<p><em>Problem:</em> As we proved in Section 1, the ratio of sphere volume to cube volume goes to 0. You will reject almost 100% of your points. This is computationally infeasible.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Function to generate num_points points uniformly inside a d-dimensional unit sphere</span>
+<span class="k">def</span> <span class="nf">generate_points_in_unit_sphere</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">points_inside</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_generated_points</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># To track the total number of points generated</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">num_points</span>  <span class="c1"># Initial batch size for generating points</span>
+    
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">points_inside</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_points</span><span class="p">:</span>
+        <span class="c1"># Generate batch_size points uniformly in the d-dimensional hypercube</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+        
+        <span class="c1"># Calculate the Euclidean distance of each point from the origin</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">points</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># Select points that lie inside the unit sphere</span>
+        <span class="n">inside_sphere</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">]</span>
+        
+        <span class="c1"># Append the points inside the sphere to the list</span>
+        <span class="n">points_inside</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inside_sphere</span><span class="p">)</span>
+        
+        <span class="c1"># Count total generated points</span>
+        <span class="n">total_generated_points</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        
+        <span class="c1"># Adjust batch size if we&#39;re close to the desired number of points</span>
+        <span class="n">remaining_points</span> <span class="o">=</span> <span class="n">num_points</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">points_inside</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">remaining_points</span> <span class="o">&lt;</span> <span class="n">batch_size</span><span class="p">:</span>
+            <span class="n">batch_size</span> <span class="o">=</span> <span class="n">remaining_points</span>
+    
+    <span class="c1"># Convert the list to a numpy array for efficient storage and manipulation</span>
+    <span class="n">points_inside</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points_inside</span><span class="p">[:</span><span class="n">num_points</span><span class="p">])</span>
+    
+    <span class="c1"># Calculate the ratio 2000 / N where N is total_generated_points</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">num_points</span> <span class="o">/</span> <span class="n">total_generated_points</span>
+    
+    <span class="c1"># Return the points inside the sphere and the ratio</span>
+    <span class="k">return</span> <span class="n">points_inside</span><span class="p">,</span> <span class="n">total_generated_points</span><span class="p">,</span> <span class="n">ratio</span>
+
+<span class="c1"># Visualize 2D case</span>
+<span class="k">def</span> <span class="nf">visualize_2D</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;2,000 Points Uniformly Distributed in a 2D Unit Circle&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Generate and visualize points in various dimensions</span>
+<span class="n">num_points</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">dimensions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>  <span class="c1"># d from 2 to 10</span>
+<span class="n">ratios</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># To store the ratios for different dimensions</span>
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dimensions</span><span class="p">:</span>
+    <span class="n">points_inside</span><span class="p">,</span> <span class="n">total_generated_points</span><span class="p">,</span> <span class="n">ratio</span> <span class="o">=</span> <span class="n">generate_points_in_unit_sphere</span><span class="p">(</span><span class="n">num_points</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">ratios</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># For 2D case, visualize the points</span>
+        <span class="n">visualize_2D</span><span class="p">(</span><span class="n">points_inside</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimension: </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">, Total points generated: </span><span class="si">{</span><span class="n">total_generated_points</span><span class="si">}</span><span class="s2">, Ratio: </span><span class="si">{</span><span class="n">ratio</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the ratios for dimensions from 2 to 10</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="n">ratios</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ratio of 10000 / N for d = 2 to 10&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Dimensions&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Ratio of 10000 to Total Generated Points&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7abb40eea361f0958323c0fd10ee7fbe96dd248c7bb259affcb645153790ccbd.png" src="_images/7abb40eea361f0958323c0fd10ee7fbe96dd248c7bb259affcb645153790ccbd.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimension: 2, Total points generated: 2574, Ratio: 0.777000777000777
+Dimension: 3, Total points generated: 3766, Ratio: 0.5310674455655868
+Dimension: 4, Total points generated: 6580, Ratio: 0.303951367781155
+Dimension: 5, Total points generated: 11398, Ratio: 0.1754693805930865
+Dimension: 6, Total points generated: 23695, Ratio: 0.0844059928254906
+Dimension: 7, Total points generated: 53522, Ratio: 0.037367811367288215
+Dimension: 8, Total points generated: 123644, Ratio: 0.016175471514994662
+Dimension: 9, Total points generated: 310177, Ratio: 0.0064479313424270655
+Dimension: 10, Total points generated: 807321, Ratio: 0.0024773293398784374
+</pre></div>
+</div>
+<img alt="_images/618afe857beadcb1eef1e09bf0012a4d15430b17c93c42f2930a745ba6754063.png" src="_images/618afe857beadcb1eef1e09bf0012a4d15430b17c93c42f2930a745ba6754063.png" />
+</div>
+</div>
+<p><strong>Generate points form Gaussian distribution</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_points</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7ca00f44c670fd7cf19477c96e70cb28c44f24a4af94d45a92048477bdbdfaf9.png" src="_images/7ca00f44c670fd7cf19477c96e70cb28c44f24a4af94d45a92048477bdbdfaf9.png" />
+</div>
+</div>
+<section id="random-vector-uniformly-distributed-on-the-surface-of-a-unit-hypersphere">
+<h3>Random vector uniformly distributed on the surface of a unit hypersphere<a class="headerlink" href="#random-vector-uniformly-distributed-on-the-surface-of-a-unit-hypersphere" title="Link to this heading">#</a></h3>
+<p>To generate a random vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> uniformly distributed on the surface of a unit hypersphere <span class="math notranslate nohighlight">\(S_d(1)\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Generate <span class="math notranslate nohighlight">\(x_i \sim \mathcal{N}(0, 1)\)</span> for <span class="math notranslate nohighlight">\(i=1 \dots d\)</span>.</p></li>
+<li><p>Normalize: <span class="math notranslate nohighlight">\(\mathbf{y} = \frac{\mathbf{x}}{||\mathbf{x}||}\)</span>.</p></li>
+</ol>
+<p>This works because the multivariate Gaussian is spherically symmetric.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">norm_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="n">norm_x</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/17cb8cd7b8cb9219dd00662a2882db2b969177a2bef30fe8660cf07ce5e2e23e.png" src="_images/17cb8cd7b8cb9219dd00662a2882db2b969177a2bef30fe8660cf07ce5e2e23e.png" />
+</div>
+</div>
+<p>The joint probability density of the independent Gaussian components is spherically symmetric:</p>
+<div class="math notranslate nohighlight">
+\[ f(x) = \prod_{i=1}^d \frac{1}{\sqrt{2\pi}} e^{-x_i^2/2} = \frac{1}{(2\pi)^{d/2}} e^{-\frac{1}{2}\sum x_i^2} = \frac{1}{(2\pi)^{d/2}} e^{-\frac{||x||^2}{2}} \]</div>
+<p>Since the density depends only on the length <span class="math notranslate nohighlight">\(||x||\)</span> and not the direction, the direction vectors are uniformly distributed.</p>
+<p><strong>Conclusion:</strong>
+The density function <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> depends <strong>only on the length</strong> (magnitude) of the vector <span class="math notranslate nohighlight">\(||\mathbf{x}||\)</span>, and not on its coordinates (direction).</p>
+<ul class="simple">
+<li><p>This property is called <strong>Spherical Symmetry</strong> or <strong>Isotropy</strong>.</p></li>
+<li><p>It implies that the distribution is invariant under rotation. Therefore, all directions are equally probable, and the normalized vector <span class="math notranslate nohighlight">\(\mathbf{y} = \mathbf{x} / ||\mathbf{x}||\)</span> is uniformly distributed on the hypersphere.</p></li>
+</ul>
+</section>
+<section id="generating-points-inside-the-ball">
+<h3>Generating Points <em>Inside</em> the Ball<a class="headerlink" href="#generating-points-inside-the-ball" title="Link to this heading">#</a></h3>
+<p>If we want points uniformly distributed <em>inside</em> the ball (not just on the surface), simply scaling by a uniform random number <span class="math notranslate nohighlight">\(\rho \in [0,1]\)</span> is incorrect because it bunches points near the center (volume is smaller there).</p>
+<div class="math notranslate nohighlight">
+\[y=\rho\frac{x}{||x||}, \quad 0\le \rho \le 1\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">rho</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="o">/</span><span class="n">norm_x</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5da8f0e21b3eb2c873298e7806a017102459b1abfec328cd5df536337f76cfbf.png" src="_images/5da8f0e21b3eb2c873298e7806a017102459b1abfec328cd5df536337f76cfbf.png" />
+</div>
+</div>
+<p><strong>Why is the naive approach incorrect?</strong><br />
+If we simply sample the radius <span class="math notranslate nohighlight">\(\rho\)</span> uniformly from <span class="math notranslate nohighlight">\([0,1]\)</span>, the generated points will cluster near the center.<br />
+In <span class="math notranslate nohighlight">\(d\)</span> dimensions, the volume of a thin shell at radius <span class="math notranslate nohighlight">\(r\)</span> grows proportionally to <span class="math notranslate nohighlight">\(r^{d-1}\)</span>.<br />
+This means there is far more volume near the surface (<span class="math notranslate nohighlight">\(r \approx 1\)</span>) than near the center (<span class="math notranslate nohighlight">\(r \approx 0\)</span>).<br />
+To achieve a truly uniform distribution inside the ball, the probability of a point lying within radius <span class="math notranslate nohighlight">\(r\)</span> must be proportional to the volume enclosed by that radius.</p>
+<blockquote>
+<div><p>For uniform volume density, the cumulative distribution function (CDF) must follow the volume growth <span class="math notranslate nohighlight">\(r^d\)</span>.<br />
+Thus, we require the random variable <span class="math notranslate nohighlight">\(R\)</span> (the radius) to satisfy: <span class="math notranslate nohighlight">\(P(R \le r) = r^d.\)</span>
+Using Inverse Transform Sampling with <span class="math notranslate nohighlight">\(a \sim U(0,1)\)</span>, we obtain:  <span class="math notranslate nohighlight">\(R = a^{1/d}.\)</span>
+A particular sample of <span class="math notranslate nohighlight">\(R\)</span> will be denoted by <span class="math notranslate nohighlight">\(\rho\)</span>.</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="determining-the-target-cdf">
+<h3>1. Determining the Target CDF<a class="headerlink" href="#determining-the-target-cdf" title="Link to this heading">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(R\)</span> denote the random variable representing the radius of a point.<br />
+The cumulative distribution function (CDF), <span class="math notranslate nohighlight">\(F(r)\)</span>, gives the probability that a point lies within radius <span class="math notranslate nohighlight">\(r\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[F(r) = P(R \le r).\]</div>
+<p>For a uniform distribution inside the <span class="math notranslate nohighlight">\(d\)</span>‑ball, this probability equals the ratio of the volume of the ball of radius <span class="math notranslate nohighlight">\(r\)</span> to the total volume (radius 1):</p>
+<div class="math notranslate nohighlight">
+\[F(r) = \frac{\text{Vol}(S_d(r))}{\text{Vol}(S_d(1))} 
+      = \frac{K_d r^d}{K_d \cdot 1^d} 
+      = r^d.\]</div>
+<p>So our target CDF is simply:</p>
+<div class="math notranslate nohighlight">
+\[F(r) = r^d.\]</div>
+</section>
+<hr class="docutils" />
+<section id="inverse-transform-sampling">
+<h3>2. Inverse Transform Sampling<a class="headerlink" href="#inverse-transform-sampling" title="Link to this heading">#</a></h3>
+<p>How do we generate random radii that follow <span class="math notranslate nohighlight">\(F(r) = r^d\)</span>?<br />
+We use the <strong>Inverse Transform Sampling</strong> method:</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(a \sim \mathcal{U}(0,1)\)</span> and <span class="math notranslate nohighlight">\(F\)</span> is a continuous CDF, then <span class="math notranslate nohighlight">\(X = F^{-1}(a)\)</span> has distribution <span class="math notranslate nohighlight">\(F\)</span>.</p></li>
+<li><p>Intuitively: we draw a random probability <span class="math notranslate nohighlight">\(a\)</span> from <span class="math notranslate nohighlight">\([0,1]\)</span>, and ask: <em>“Which radius <span class="math notranslate nohighlight">\(r\)</span> corresponds to this cumulative probability?”</em></p></li>
+<li><p>Formally:  If <span class="math notranslate nohighlight">\(a \sim U(0,1)\)</span>, then <span class="math notranslate nohighlight">\(X = F^{-1}(a)\)</span> has distribution <span class="math notranslate nohighlight">\(F\)</span>:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[P(X \le R) = P(F^{-1}(a) \le R) = P(a \le F(R)) = F(R).\]</div>
+<p>Therefore, if <span class="math notranslate nohighlight">\(a \sim \mathcal{U}(0,1)\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[R = F^{-1}(a) = a^{1/d}.\]</div>
+<p>And when we actually generate a sample, we denote it by:</p>
+<div class="math notranslate nohighlight">
+\[\rho = a^{1/d}.\]</div>
+</section>
+<hr class="docutils" />
+<section id="example-for-d-2">
+<h3>3. Example (for <span class="math notranslate nohighlight">\(d=2\)</span>)<a class="headerlink" href="#example-for-d-2" title="Link to this heading">#</a></h3>
+<p>For a 2‑dimensional ball (a disk), we have:</p>
+<div class="math notranslate nohighlight">
+\[\rho = \sqrt{a}.\]</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(a \sim \mathcal{U}(0,1)\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\rho = \sqrt{a}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.00</p></td>
+<td><p>0.000</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.10</p></td>
+<td><p>0.316</p></td>
+</tr>
+<tr class="row-even"><td><p>0.25</p></td>
+<td><p>0.500</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.50</p></td>
+<td><p>0.707</p></td>
+</tr>
+<tr class="row-even"><td><p>0.75</p></td>
+<td><p>0.866</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.00</p></td>
+<td><p>1.000</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This table shows how the transformation spreads points more evenly across the disk, avoiding clustering near the center.</p>
+</section>
+<hr class="docutils" />
+<section id="application-to-the-hypersphere">
+<h3>4. Application to the Hypersphere<a class="headerlink" href="#application-to-the-hypersphere" title="Link to this heading">#</a></h3>
+<p>Applying this to our radius variable <span class="math notranslate nohighlight">\(R\)</span>:</p>
+<ol class="arabic simple">
+<li><p>Generate a uniform random number <span class="math notranslate nohighlight">\(a \sim \mathcal{U}(0,1)\)</span>.</p></li>
+<li><p>Compute the radius sample: <span class="math notranslate nohighlight">\(\rho = a^{1/d}\)</span>.</p></li>
+<li><p>Combine with a random direction to obtain a point inside the ball.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="algorithm-for-uniform-points-in-a-dball">
+<h3>Algorithm for Uniform Points in a <span class="math notranslate nohighlight">\(d\)</span>‑Ball<a class="headerlink" href="#algorithm-for-uniform-points-in-a-dball" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Generate a random vector <span class="math notranslate nohighlight">\(\mathbf{x} \sim \mathcal{N}(0, I_d)\)</span>.</p></li>
+<li><p>Normalize: <span class="math notranslate nohighlight">\(\mathbf{y} = \mathbf{x} / \|\mathbf{x}\|\)</span> (this gives a random direction on the unit sphere).</p></li>
+<li><p>Generate <span class="math notranslate nohighlight">\(a \sim \mathcal{U}(0,1)\)</span>.</p></li>
+<li><p>Scale: <span class="math notranslate nohighlight">\(\mathbf{z} = (a^{1/d}) \mathbf{y}\)</span> (this places the point uniformly inside the ball).</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate uniform points in 2D circle for visualization</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># 1. Direction (Muller Method)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="n">norm_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_surface</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">norm_x</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+<span class="c1"># Correct radial scaling</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">d</span><span class="p">)</span>
+<span class="n">y_inside</span> <span class="o">=</span> <span class="n">rho</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">y_surface</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="c1"># plt.scatter(y_inside[:,0], y_inside[:,1], s=2)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_inside</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">y_inside</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uniform Points inside </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">-D Ball&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6c4a05105fb47c0ec4e0346a038f16591b70d52cf846840c5ad5c5134489303d.png" src="_images/6c4a05105fb47c0ec4e0346a038f16591b70d52cf846840c5ad5c5134489303d.png" />
+</div>
+</div>
+<hr class="docutils" />
+<p>Another counter-intuitive property is that “every direction is orthogonal to every other direction.” or random vectors in high dimensions are nearly orthogonal to each other.</p>
+</section>
+<section id="random-vectors">
+<h3>Random Vectors<a class="headerlink" href="#random-vectors" title="Link to this heading">#</a></h3>
+<p>Consider the diagonal vector in a hypercube <span class="math notranslate nohighlight">\(\mathbf{1} = (1, 1, \dots, 1)^T\)</span>. The angle <span class="math notranslate nohighlight">\(\theta_d\)</span> between this diagonal and any coordinate axis <span class="math notranslate nohighlight">\(\mathbf{e}_1 = (1, 0, \dots, 0)^T\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[ \cos \theta_d = \frac{\mathbf{e}_1^T \mathbf{1}}{||\mathbf{e}_1|| \cdot ||\mathbf{1}||} = \frac{1}{1 \cdot \sqrt{d}} = \frac{1}{\sqrt{d}} \]</div>
+<p>As <span class="math notranslate nohighlight">\(d \to \infty\)</span>, <span class="math notranslate nohighlight">\(\cos \theta_d \to 0\)</span>, which means <span class="math notranslate nohighlight">\(\theta_d \to 90^\circ\)</span>. The diagonal is effectively orthogonal to the axes!</p>
+<p>Furthermore, <strong>random vectors</strong> in high dimensions are nearly orthogonal to each other.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dim</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="c1"># Generate random vectors</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+<span class="c1"># Normalize</span>
+<span class="n">x_norm</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dot products of random pairs in </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">-D:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_norm</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_norm</span><span class="p">)):</span>
+        <span class="n">dp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_norm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x_norm</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vector </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> . Vector </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">dp</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dot products of random pairs in 200-D:
+Vector 0 . Vector 1 = -0.0345
+Vector 0 . Vector 2 = 0.0655
+Vector 0 . Vector 3 = 0.0054
+Vector 1 . Vector 2 = -0.0890
+Vector 1 . Vector 3 = -0.0445
+Vector 2 . Vector 3 = 0.0598
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="gaussian-distribution-in-high-dimensions">
+<h2>Gaussian Distribution in High Dimensions<a class="headerlink" href="#gaussian-distribution-in-high-dimensions" title="Link to this heading">#</a></h2>
+<section id="from-geometric-thin-shells-to-statistical-thin-shells">
+<h3>From Geometric Thin Shells to Statistical Thin Shells<a class="headerlink" href="#from-geometric-thin-shells-to-statistical-thin-shells" title="Link to this heading">#</a></h3>
+<p>In previous sections, we saw several geometric phenomena:</p>
+<ul class="simple">
+<li><p>The <strong>Empty Center / Porcupine Effect</strong> in hypercubes</p></li>
+<li><p>The <strong>Thin Shell</strong> inside hyperspheres</p></li>
+<li><p>How uniform sampling becomes concentrated near the <strong>surface</strong> rather than the <strong>center</strong></p></li>
+</ul>
+<p>We also generated uniform points <em>on</em> and <em>inside</em> a hypersphere and observed that the <strong>volume grows outward</strong>, causing most points to stay away from the center.</p>
+<p>Now we show that <strong>Gaussian data behave in exactly the same way</strong> — even though the Gaussian distribution is centered at the origin.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="why-gaussian-points-do-not-cluster-near-the-mean-unlike-1d">
+<h2>Why Gaussian Points Do <em>Not</em> Cluster Near the Mean (Unlike 1D)<a class="headerlink" href="#why-gaussian-points-do-not-cluster-near-the-mean-unlike-1d" title="Link to this heading">#</a></h2>
+<p>Let
+<span class="math notranslate nohighlight">\( x = (x_1,\dots,x_d) \sim \mathcal{N}(0, I_d) \)</span>.</p>
+<p>In one dimension, many sampled points lie “close to zero,” and the distance <span class="math notranslate nohighlight">\(|x|\)</span> is usually small.
+However, this intuition <strong>completely breaks down</strong> as soon as we move to dimension 2 or higher.</p>
+<p>The key difference is <strong>geometry</strong>:</p>
+<ul class="simple">
+<li><p>In 1D, “the center” is just a point, and the line has no notion of volume growth.</p></li>
+<li><p>In higher dimensions, <strong>volume explodes with radius</strong>:</p>
+<ul>
+<li><p>Area <span class="math notranslate nohighlight">\(\propto r^2\)</span></p></li>
+<li><p>Volume <span class="math notranslate nohighlight">\(\propto r^3\)</span></p></li>
+<li><p>In general: hypersphere volume <span class="math notranslate nohighlight">\(\propto r^{d}\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>Thus, although the Gaussian <strong>density</strong> is highest at the origin, the <strong>available volume</strong> near the origin is vanishingly small.</p>
+<blockquote>
+<div><p><strong>The center has the highest density but almost zero volume ⇒ almost no sampled points appear there.</strong></p>
+</div></blockquote>
+<p>This exactly mirrors the thin-shell phenomenon you observed for uniform sampling.</p>
+</section>
+<hr class="docutils" />
+<section id="distance-of-a-gaussian-vector-from-the-origin">
+<h2>Distance of a Gaussian Vector from the Origin<a class="headerlink" href="#distance-of-a-gaussian-vector-from-the-origin" title="Link to this heading">#</a></h2>
+<p>A central identity explains the behavior:</p>
+<div class="math notranslate nohighlight">
+\[|x|^2 = \sum_{i=1}^d x_i^2 \sim \chi^2_d\]</div>
+<p>Thus (See <a class="reference external" href="https://en.wikipedia.org/wiki/Chi-squared_distribution">Chi-squared distribution</a>):</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{E}[|x|^2] = d \qquad\Rightarrow\qquad \mathbb{E}[|x|] \approx \sqrt{d}.\]</div>
+<ul class="simple">
+<li><p>In 1D: <span class="math notranslate nohighlight">\(|x| \approx 0.8\)</span> (close to the center)</p></li>
+<li><p>In 2D: <span class="math notranslate nohighlight">\(|x| \approx \sqrt{2} \approx 1.41\)</span></p></li>
+<li><p>In 10D: <span class="math notranslate nohighlight">\(|x| \approx \sqrt{10} \approx 3.16\)</span></p></li>
+<li><p>In 200D: <span class="math notranslate nohighlight">\(|x| \approx \sqrt{200} \approx 14.1\)</span></p></li>
+</ul>
+<p>And importantly:</p>
+<blockquote>
+<div><p><strong>Increasing dimension pushes <em>all</em> Gaussian samples outward, not just a few outliers.
+Almost the entire distribution lies in a thin spherical shell around radius <span class="math notranslate nohighlight">\(\sqrt{d}\)</span>.</strong></p>
+</div></blockquote>
+<p>This is the statistical analogue of the geometric thin-shell effect.</p>
+</section>
+<hr class="docutils" />
+<section id="numerical-simulation-gaussian-thin-shell">
+<h2>Numerical Simulation: Gaussian Thin Shell<a class="headerlink" href="#numerical-simulation-gaussian-thin-shell" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Simulation: 1D vs High-D Gaussian</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="c1"># 1D Gaussian</span>
+<span class="n">x_1d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+
+<span class="c1"># High-D Gaussian</span>
+<span class="n">x_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="n">norm_x_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x_high</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Plot 1: 1D behavior</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x_1d</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;1D Gaussian: Mass at Mean&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean (0)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot 2: High-D behavior</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">norm_x_high</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">-D Gaussian: Mass at Tail ($\sqrt</span><span class="se">{{</span><span class="s2">d</span><span class="se">}}</span><span class="s2">$)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Distance from Origin (Norm)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$\sqrt</span><span class="si">{d}</span><span class="s1"> </span><span class="se">\\</span><span class="s1">approx 14.1$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean (0)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0e903312ed34adb24f3d8b3c0593af47ef08758263938e741f6115a81d7982f0.png" src="_images/0e903312ed34adb24f3d8b3c0593af47ef08758263938e741f6115a81d7982f0.png" />
+</div>
+</div>
+<p>These two plots illustrate the fundamental shift from “mass at center” (low dimension) to “mass in a thin shell” (high dimension).</p>
+</section>
+<hr class="docutils" />
+<section id="the-gaussian-annulus-phenomenon">
+<h2>The Gaussian Annulus Phenomenon<a class="headerlink" href="#the-gaussian-annulus-phenomenon" title="Link to this heading">#</a></h2>
+<p>A formal version states:</p>
+<blockquote>
+<div><p>With overwhelming probability, a Gaussian sample lies inside
+<span class="math notranslate nohighlight">\( \sqrt{d} \pm O(1) \)</span>
+— a thin annulus whose thickness does <em>not</em> grow with <span class="math notranslate nohighlight">\(d\)</span>.</p>
+</div></blockquote>
+<p>As <span class="math notranslate nohighlight">\(d\)</span> increases:</p>
+<ul class="simple">
+<li><p>Radius grows like <span class="math notranslate nohighlight">\(\sqrt{d}\)</span></p></li>
+<li><p>Shell thickness remains constant</p></li>
+<li><p>Relative shell thickness → 0</p></li>
+</ul>
+<p>So the Gaussian distribution becomes <strong>extremely concentrated</strong> on a thin spherical layer.</p>
+<p>This mirrors exactly what we saw earlier for:</p>
+<ul class="simple">
+<li><p>Uniform points inside a hypersphere</p></li>
+<li><p>Rejection sampling</p></li>
+<li><p>Volume concentration</p></li>
+<li><p>Empty Center effect</p></li>
+</ul>
+<p>This is why Gaussian distributions are used so heavily in theory:
+they reflect the <strong>intrinsic geometry of high-dimensional space</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="connection-to-previous-sections">
+<h2>Connection to Previous Sections<a class="headerlink" href="#connection-to-previous-sections" title="Link to this heading">#</a></h2>
+<p>Here is how the Gaussian phenomenon links back to the concepts earlier in the notebook:</p>
+<p><strong>Relation to “Empty Center / Porcupine Effect”</strong></p>
+<p>Volume around the center is negligible in high dimensions →
+<strong>Gaussian mass avoids the center</strong>, exactly like uniform points.</p>
+<hr class="docutils" />
+<p><strong>Relation to “Thin Shell Argument”</strong></p>
+<p>Uniform hypersphere volume concentrates at radius <span class="math notranslate nohighlight">\(r\)</span>:
+Gaussian probability mass concentrates at radius <span class="math notranslate nohighlight">\(\sqrt{d}\)</span>.
+The geometry is identical; only the radius scale differs.</p>
+<hr class="docutils" />
+<p><strong>Relation to “Generating Points Inside the Ball”</strong></p>
+<p>You observed that uniform points require special sampling (<span class="math notranslate nohighlight">\(\rho = a^{1/d}\)</span>)
+because naive sampling bunches points near the center.</p>
+<p>Gaussian sampling naturally avoids the center due to the same volume effects.</p>
+<hr class="docutils" />
+<p><strong>Relation to “Random Vectors are Nearly Orthogonal”</strong></p>
+<p>Since nearly all Gaussian points lie at distance <span class="math notranslate nohighlight">\(\sqrt{d}\)</span>,
+their normalized directions behave almost like points uniformly distributed on the sphere.</p>
+<p>Thus Gaussian vectors are almost orthogonal —
+the basis for <strong>random projection</strong> and <strong>Johnson–Lindenstrauss</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="why-this-matters-preparing-for-jl">
+<h2>Why This Matters (Preparing for JL)<a class="headerlink" href="#why-this-matters-preparing-for-jl" title="Link to this heading">#</a></h2>
+<p>Gaussian thin-shell concentration ensures:</p>
+<ul class="simple">
+<li><p>Pairwise distances are stable</p></li>
+<li><p>Dot products are small</p></li>
+<li><p>Random projections preserve geometry</p></li>
+</ul>
+<p>These facts are exactly what the <strong>Johnson–Lindenstrauss Lemma</strong> formalizes.</p>
+<p>This section therefore serves as the <strong>bridge</strong> from geometric properties of high-dimensional space to the theoretical foundation of dimensionality reduction.</p>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>High-dimensional space is <strong>empty</strong> in the center.</p></li>
+<li><p>Volume is in the <strong>corners</strong> or a <strong>thin shell</strong> at the surface.</p></li>
+<li><p><strong>Neighbors</strong> are far away (breaking local methods like k-NN).</p></li>
+<li><p>Random vectors are <strong>orthogonal</strong>.</p></li>
+</ul>
+</section>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Zaki, M. J., &amp; Meira Jr, W. (2014). <em>Data Mining and Machine Learning: Fundamental Concepts and Algorithms</em>. Cambridge University Press. (Chapter 6).</p></li>
+<li><p>Blum, A., Hopcroft, J., &amp; Kannan, R. (2020). <em>Foundations of Data Science</em>. Cambridge University Press.</p></li>
+<li><p>Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). <em>The Elements of Statistical Learning</em>.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05b%20-%20Clustering%20Validation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Clustering Validation Metrics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07%20-%20High-Dimensional%20Data%20and%20kNN.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">kNN in high dimensional spaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geometry-of-hyperspace-cubes-and-spheres">Geometry of Hyperspace: Cubes and Spheres</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hypercube">The Hypercube</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hypersphere">The Hypersphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-empty-center-the-porcupine-effect">The Empty Center (The “Porcupine” Effect)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-of-local-neighborhoods-k-nn">The Problem of Local Neighborhoods (k-NN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-length-of-neighborhoods">Edge Length of Neighborhoods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-to-boundary">Distance to Boundary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-thin-shell-argument">The Thin Shell Argument</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-uniform-points-on-a-hypersphere">Generating Uniform Points on a Hypersphere</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-vector-uniformly-distributed-on-the-surface-of-a-unit-hypersphere">Random vector uniformly distributed on the surface of a unit hypersphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-points-inside-the-ball">Generating Points <em>Inside</em> the Ball</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determining-the-target-cdf">1. Determining the Target CDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-transform-sampling">2. Inverse Transform Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-for-d-2">3. Example (for <span class="math notranslate nohighlight">\(d=2\)</span>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#application-to-the-hypersphere">4. Application to the Hypersphere</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-for-uniform-points-in-a-dball">Algorithm for Uniform Points in a <span class="math notranslate nohighlight">\(d\)</span>‑Ball</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-vectors">Random Vectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-distribution-in-high-dimensions">Gaussian Distribution in High Dimensions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-geometric-thin-shells-to-statistical-thin-shells">From Geometric Thin Shells to Statistical Thin Shells</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-gaussian-points-do-not-cluster-near-the-mean-unlike-1d">Why Gaussian Points Do <em>Not</em> Cluster Near the Mean (Unlike 1D)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-of-a-gaussian-vector-from-the-origin">Distance of a Gaussian Vector from the Origin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-simulation-gaussian-thin-shell">Numerical Simulation: Gaussian Thin Shell</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gaussian-annulus-phenomenon">The Gaussian Annulus Phenomenon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-previous-sections">Connection to Previous Sections</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-matters-preparing-for-jl">Why This Matters (Preparing for JL)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mahmood Amintoosi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
