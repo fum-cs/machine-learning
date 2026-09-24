@@ -10,9 +10,10 @@ pip install jupyter-book
 
 The configuration file is `_config.yml` and the table of contents is in `_toc.yml`. The cover page is defined in `index.md`.
 
-To create the book itself, run this from the parent directory of the `main` repo:
+To create the book itself, run this from the `notebooks` directory:
 
 ```
+cd notebooks
 jupyter-book build ./
 ```
 

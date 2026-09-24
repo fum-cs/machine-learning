@@ -1,5 +1,6 @@
 scipy>=1.11.4
 pandas>=2.2.0
+scikit-learn>=1.4.0
 category-encoders>=2.6.3
 gdown>=5.1.0
 GPy>=1.13.1

@@ -1,56 +1,74 @@
 # Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
+# Fall 2026 Machine Learning — 14 weeks × 2 sessions
 
 format: jb-book
 root: index
 parts:
-# - chapters:
-  # - file: labs/Lab 0 - Prerequisites
-- caption: Lectures
+- caption: Foundations
   chapters:
   - file: 01 - Introduction
-  - file: Naive-Bayes
-  - file: Bayesian-Decision-Theory
-  - file: MLE-introduction.md
-  - file: Mahalanobis-Distance
-  - file: Feature-Map
+  - file: 02 - Local Models and kNN
+  - file: 03 - Model Evaluation
+  - file: 04 - Bias-Variance Tradeoff
+- caption: Simple Methods and High Dimension
+  chapters:
+  - file: 05 - k-means Clustering
+  - file: 05b - Clustering Validation
+  - file: 06 - High-Dimensional Data
+  - file: 07 - High-Dimensional Data and kNN
+- caption: Linear Models and Neural Networks
+  chapters:
+  - file: 08 - Linear Regression
+  - file: 09 - Linear Models and Gradient Methods
+  - file: 10 - Gradient Descent
+  - file: 11 - Stochastic Gradient Descent
+  - file: 12 - MLP and Backpropagation
+  - file: 13 - MLP Classification
+  - file: 14 - MLP Regularization
+- caption: Dimensionality Reduction
+  chapters:
+  - file: 15 - PCA part 1
+  - file: 16 - PCA part 2
+  - file: 17 - PCA and LDA
+- caption: Kernel Methods
+  chapters:
+  - file: 18 - Feature Map
+  - file: 19 - Kernel Trick
+  - file: 20 - Kernel Regression
+- caption: Bayesian and Statistical Learning
+  chapters:
+  - file: 21 - MLE Introduction
+  - file: 22 - Naive Bayes
+  - file: 22b - Mahalanobis Distance
+  - file: 23 - Bayesian Learning
+  - file: 24 - Bayesian Decision Theory
+- caption: Latent Variable Models
+  chapters:
+  - file: 25 - Gaussian Mixtures part 1
+  - file: 26 - Gaussian Mixtures part 2
+- caption: Seminars and Advanced Topics
+  chapters:
+  - file: 27 - Learning to Rank
+  - file: 28 - Learning Theory and VC
+  - file: 30 - Advanced Topics
+- caption: Decision Trees (if time)
+  chapters:
+  - file: 29 - Decision Trees
+- caption: Project
+  chapters:
+  - file: 31 - Project and Review
+- caption: Appendix
+  chapters:
+  - file: 06 - Data Preprocessing
+  - file: Normal-Eq-vs-GD
   - file: Kernel-Trick
   - file: Kernel-Regression
-  - file: 02 - Linear Models
-  - file: 04 - Model Selection
-  - file: 05 - Ensemble Learning
-  - file: 06 - Data Preprocessing
-  - file: 07 - Bayesian Learning
-  - file: 08 - Hidden Markov Models
-  - file: AppenixA-Kernel-SVM-and-Kernel-Regression
+  - file: MLE-introduction
+  - file: Naive-Bayes
+  - file: Bayesian-Decision-Theory
+  - file: Mahalanobis-Distance
+  - file: Appendix-BDT-Discrete-Features
   - file: Appendix-Gaussian-Mixtures
-  - file: Appendix-BDT-Discrete-Features.md
-  - file: Appendix-Support vector machines
-  # - file: 08 - Neural Networks
-  # - file: 09 - Convolutional Neural Networks
-#   - file: 10 - Neural Networks for text
-# - caption: Labs
-#   chapters:
-#   - file: labs/Lab 1a - Linear Models for Regression
-#   - file: labs/Lab 1b - Linear Models for Classification
-#   - file: labs/Lab 2a - Kernel Trick
-#   - file: labs/Lab 2b - Model Selection
-#   - file: labs/Lab 3 - Ensembles
-#   - file: labs/Lab 4 - Pipelines.ipynb
-#   - file: labs/Lab 5 - Bayesian learning
-#   - file: labs/Lab 6 - Neural Networks
-#   - file: labs/Lab 7a - Convolutional Neural Networks
-#   - file: labs/Lab 7b - Neural Networks for text
-#   - file: labs/Lab 8 - AutoML
-# - caption: Tutorials
-#   chapters:
-#   - file: Tutorial 1 - Python.ipynb
-#   - file: Tutorial 2 - Python for Data Analysis.ipynb
-#   - file: Tutorial 3 - Machine Learning in Python.ipynb
-#   - file: Tutorial 4 - Decision Trees.ipynb
-#   - file: Tutorial 5 - Nearest Neighbors.ipynb
-#   - file: labs/Lab 1 - Tutorial.ipynb
-#   - file: labs/Lab 2 - Tutorial.ipynb
-#   - file: labs/Lab 4 - Tutorial.ipynb
-#   - file: labs/Lab 6 - Tutorial.ipynb
-#   - file: labs/Lab 7 - Tutorial.ipynb
+  - file: 02 - Linear Models
+  - file: 05 - Ensemble Learning
+  - file: 08 - Hidden Markov Models
