@@ -2,24 +2,92 @@
 These are instructions on how to generate the slides and book. As a student, you don't need this. You can simply use the pre-compiled materials.
 
 ## Generating the online book
-To generate the online books, you'll need `jupyter-book`.
+The book is built with **Jupyter Book 2** (MyST engine).
+
+The old Jupyter Book v1 setup (`_config.yml` + `notebooks/_toc.yml`) is archived
+in `_v1_backup/`, and the last v1 state is tagged `jupyter-book-v1` on GitHub
+(use `git checkout jupyter-book-v1` to go back to it).
+
+Install v2:
 
 ```
-pip install jupyter-book
+pip install jupyter-book        # v2.x — wraps the MyST engine
+# or: npm install -g mystmd
 ```
 
-The configuration file is `_config.yml` and the table of contents is in `_toc.yml`. The cover page is defined in `index.md`.
+On this workstation, `jupyter-book` 2.1.7 lives in the `pytorch` env:
+`/data/python-envs/pytorch/bin/jupyter-book`.
 
-To create the book itself, run this from the `notebooks` directory:
+All configuration now lives in a single `myst.yml` at the repository root:
+metadata (title, author, copyright, logo, favicon), the bibliography,
+exports, and the table of contents. The cover page is still `notebooks/index.md`.
 
-```
-cd notebooks
-jupyter-book build ./
-```
-
-To push the rendered book to GitHub, run:
+Build the static site from the repository root (not from `notebooks/`):
 
 ```
+jupyter book build --html
+```
+
+Gotcha: if your shell exports `PORT` (this one has `PORT=0`), unset it for the
+build — MyST reads `PORT` and the static export then tries to fetch pages from
+`http://localhost:0` and fails:
+
+```
+env -u PORT jupyter book build --html
+```
+
+The site is written to `_build/html/`.
+
+### Serving the book locally
+
+Option A — live-reload dev server (rebuilds content as you edit):
+
+```
+env -u PORT jupyter book start     # http://localhost:3000
+```
+
+Option B — serve the already-built static site on any port:
+
+```
+cd _build/html
+python3 -m http.server 8811 --bind 127.0.0.1
+```
+
+(The site is a JS-driven static site: always open it through a web server,
+not by double-clicking `index.html`.)
+
+### Stopping local servers
+
+If a server runs in a terminal, stop it with `Ctrl-C` there. Background
+servers can be found and killed by port:
+
+```
+ss -tlnp | grep -E ':(3000|3001|8811)'   # find listeners + PIDs
+kill <PID>                               # graceful
+kill -9 <PID>                            # if it ignores SIGTERM
+```
+
+One-liners:
+
+```
+fuser -k 3000/tcp              # free port 3000
+kill $(lsof -t -i:8811)        # free port 8811 (needs lsof)
+```
+
+`jupyter book start` spawns a Node "book-theme" server; if one is left over:
+
+```
+pkill -f "book-theme/server.js"
+pkill -f "myst"
+```
+
+### Pushing the rendered book to GitHub Pages
+
+For a project site (https://fum-cs.github.io/machine-learning/), rebuild with
+the correct base URL first, then push `_build/html`:
+
+```
+BASE_URL=/machine-learning/ env -u PORT jupyter book build --html
 pip install ghp-import
 ghp-import -n -p -f ./_build/html
 ```
@@ -69,3 +137,6 @@ for (var i = 0; i < els.length; ++i) {
 ### Debug
 
 for this error `jinja2.exceptions.UndefinedError: 'dict object' has no attribute 'image_relative'`, in tfcpu env in HP, I ran the programs in tfcpu, then build in pth with this option: `execute_notebooks: off`
+
+(This was a Jupyter Book v1 workaround; in v2 notebooks are not executed by
+default — use `jupyter book build --html --execute` to run them.)
