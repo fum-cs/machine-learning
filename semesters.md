@@ -4,7 +4,7 @@ One living repo. Snapshot each offering with a git tag; do not rename the repo.
 
 | Tag | Offering | Role | Notes |
 |---|---|---|---|
-| `2025-spring` | Spring 2025 | Materials used as part of **Learning Theory** | Frozen before Fall 2026 rebrand. Book title was “Machine Learning”. |
+| `2025-spring` | Fall 2026 | Materials used as part of **Learning Theory** | Frozen before Fall 2026 rebrand. Book title was “Machine Learning”. |
 | *(untagged)* | Fall 2026 | Standalone **Machine Learning** (Soft Computing & AI) | 14-week plan: kNN → k-means → high-dim → linear/GD → MLP → PCA/LDA → kernels → Bayesian → GMM/EM → ranking & theory seminars → trees (if time). No SVM / RL / ensembles. |
 
 ## End-of-term checklist

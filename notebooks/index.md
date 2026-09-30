@@ -20,7 +20,7 @@ Topics progress roughly as: local models (kNN) and k-means → high-dimensional 
 
 <!-- **Other courses in the track** cover support vector machines, reinforcement learning, and ensembles / model combination. Related material also lives in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), [Algorithms for Data Science](https://fum-cs.github.io/a4ds/), and [MFDS](https://fum-cs.github.io/mfds/). -->
 
-The Spring 2025 snapshot of this book is tagged [`2025-spring`](https://github.com/fum-cs/machine-learning/tree/2025-spring).
+The Fall 2026 snapshot of this book is tagged [`2025-spring`](https://github.com/fum-cs/machine-learning/tree/2025-spring).
 
 ## Learning outcomes
 
