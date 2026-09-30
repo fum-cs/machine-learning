@@ -1,0 +1,93 @@
+version: 1
+
+project:
+  title: Machine Learning
+  description: >-
+    Course materials for the M.Sc. Machine Learning course (Soft Computing and
+    Artificial Intelligence track), Computer Science Dept., Ferdowsi University
+    of Mashhad.
+  authors:
+    - name: Mahmood Amintoosi
+  copyright: "2026. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad"
+  bibliography:
+    - notebooks/references.bib
+  exports:
+    - format: html
+  # - format: pdf   # PDF via Typst — uncomment after the HTML build is verified
+  toc:
+    - file: notebooks/index.md
+    - title: Foundations
+      children:
+        - file: "notebooks/01 - Introduction.ipynb"
+        - file: "notebooks/02 - Local Models and kNN.ipynb"
+        - file: "notebooks/03 - Model Evaluation.ipynb"
+        - file: "notebooks/04 - Bias-Variance Tradeoff.ipynb"
+    - title: Simple Methods and High Dimension
+      children:
+        - file: "notebooks/05 - k-means Clustering.ipynb"
+        - file: "notebooks/05b - Clustering Validation.ipynb"
+        - file: "notebooks/06 - High-Dimensional Data.ipynb"
+        - file: "notebooks/07 - High-Dimensional Data and kNN.ipynb"
+    - title: Linear Models and Neural Networks
+      children:
+        - file: "notebooks/08 - Linear Regression.ipynb"
+        - file: "notebooks/09 - Linear Models and Gradient Methods.ipynb"
+        - file: "notebooks/10 - Gradient Descent.ipynb"
+        - file: "notebooks/11 - Stochastic Gradient Descent.ipynb"
+        - file: "notebooks/12 - MLP and Backpropagation.ipynb"
+        - file: "notebooks/13 - MLP Classification.ipynb"
+        - file: "notebooks/14 - MLP Regularization.ipynb"
+    - title: Dimensionality Reduction
+      children:
+        - file: "notebooks/15 - PCA part 1.ipynb"
+        - file: "notebooks/16 - PCA part 2.ipynb"
+        - file: "notebooks/17 - PCA and LDA.ipynb"
+    - title: Kernel Methods
+      children:
+        - file: "notebooks/18 - Feature Map.ipynb"
+        - file: "notebooks/19 - Kernel Trick.md"
+        - file: "notebooks/20 - Kernel Regression.ipynb"
+    - title: Bayesian and Statistical Learning
+      children:
+        - file: "notebooks/21 - MLE Introduction.md"
+        - file: "notebooks/22 - Naive Bayes.ipynb"
+        - file: "notebooks/22b - Mahalanobis Distance.ipynb"
+        - file: "notebooks/23 - Bayesian Learning.ipynb"
+        - file: "notebooks/24 - Bayesian Decision Theory.ipynb"
+    - title: Latent Variable Models
+      children:
+        - file: "notebooks/25 - Gaussian Mixtures part 1.ipynb"
+        - file: "notebooks/26 - Gaussian Mixtures part 2.ipynb"
+    - title: Seminars and Advanced Topics
+      children:
+        - file: "notebooks/27 - Learning to Rank.md"
+        - file: "notebooks/28 - Learning Theory and VC.md"
+        - file: "notebooks/30 - Advanced Topics.md"
+    - title: Decision Trees (if time)
+      children:
+        - file: "notebooks/29 - Decision Trees.ipynb"
+    - title: Project
+      children:
+        - file: "notebooks/31 - Project and Review.md"
+    - title: Appendix
+      children:
+        - file: "notebooks/06 - Data Preprocessing.ipynb"
+        - file: notebooks/Normal-Eq-vs-GD.ipynb
+        - file: notebooks/Kernel-Trick.md
+        - file: notebooks/Kernel-Regression.ipynb
+        - file: notebooks/MLE-introduction.md
+        - file: notebooks/Naive-Bayes.ipynb
+        - file: notebooks/Bayesian-Decision-Theory.ipynb
+        - file: notebooks/Mahalanobis-Distance.ipynb
+        - file: notebooks/Appendix-BDT-Discrete-Features.md
+        - file: notebooks/Appendix-Gaussian-Mixtures.ipynb
+        - file: "notebooks/02 - Linear Models.ipynb"
+        - file: "notebooks/05 - Ensemble Learning.ipynb"
+        - file: "notebooks/08 - Hidden Markov Models.ipynb"
+
+site:
+  template: book-theme
+  github: https://github.com/fum-cs/machine-learning
+  options:
+    logo: notebooks/img/fum-cs-logo.png
+    favicon: notebooks/img/fum-logo.ico

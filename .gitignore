@@ -7,3 +7,7 @@ data/models/*
 *.swp
 .ipynb_checkpoints
 .jupyter
+
+# Jupyter Book 2 (MyST) build output and Freebuff state
+_build/
+.freebuff/
