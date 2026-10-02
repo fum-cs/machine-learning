@@ -10,8 +10,127 @@ project:
   copyright: "2026. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad"
   bibliography:
     - notebooks/references.bib
-  # exports:          # Document exports (pdf, docx, ...) are defined here;
-    # - format: pdf   # the HTML site is built by `jupyter-book build --html` via the `site:` block below.
+  exports:
+    # LaTeX/PDF exports live here; the HTML site is built from the `site:`
+    # block below via `jupyter-book build --html` (exports rejects html).
+    # The PDF is compiled from the generated LaTeX (MyST -> pandoc -> .tex
+    # -> TeX engine); `--tex` stops at the .tex output.
+    # Articles mirror project.toc: the first page of each group is a chapter
+    # (level 0), the rest are sections (level 1). Titles come from each page H1
+    # (filename-derived when a page has none) so every entry gets a heading.
+    - format: pdf
+      template: plain_latex_book
+      output: _build/exports/machine-learning-book.pdf
+      articles: &book_articles
+        - file: "notebooks/index.md"
+          title: "Machine Learning"
+          level: 0
+        - file: "notebooks/Introduction.ipynb"
+          title: "Introduction"
+          level: 0
+        - file: "notebooks/Local-Models-and-kNN.ipynb"
+          title: "k-Nearest Neighbors and Classification Evaluation Metrics"
+          level: 1
+        - file: "notebooks/Model-Evaluation.ipynb"
+          title: "Model Selection"
+          level: 1
+        - file: "notebooks/Bias-Variance-Tradeoff.ipynb"
+          title: "Bias-Variance Tradeoff"
+          level: 1
+        - file: "notebooks/K-Means-Clustering.ipynb"
+          title: "k-means Clustering"
+          level: 0
+        - file: "notebooks/Clustering-Validation.ipynb"
+          title: "Clustering Validation Metrics"
+          level: 1
+        - file: "notebooks/High-Dimensional-Data.ipynb"
+          title: "High Dimensional Data & The Curse of Dimensionality"
+          level: 1
+        - file: "notebooks/High-Dimensional-Data-and-kNN.ipynb"
+          title: "kNN in high dimensional spaces"
+          level: 1
+        - file: "notebooks/Linear-Regression-Part1.ipynb"
+          title: "Linear Regression, Part 1"
+          level: 0
+        - file: "notebooks/Linear-Regression-Part2.ipynb"
+          title: "Linear Regression, Part 2"
+          level: 1
+        - file: "notebooks/MLP-and-Backpropagation.ipynb"
+          title: "Introduction to Pytorch & Neural Networks"
+          level: 1
+        - file: "notebooks/MLP-Classification.ipynb"
+          title: "Neural Networks for Classification"
+          level: 1
+        - file: "notebooks/PCA-Part1.ipynb"
+          title: "Principal Component Analysis, Part 1"
+          level: 0
+        - file: "notebooks/PCA-Part2.ipynb"
+          title: "Principal Component Analysis, Part 2"
+          level: 1
+        - file: "notebooks/PCA-and-LDA.ipynb"
+          title: "PCA and LDA"
+          level: 1
+        - file: "notebooks/Feature-Map.ipynb"
+          title: "Feature Maps: Bridging to Kernel Methods"
+          level: 0
+        - file: "notebooks/Kernel-Trick.md"
+          title: "The Kernel Method (Kernel Trick)"
+          level: 1
+        - file: "notebooks/Kernel-Regression.ipynb"
+          title: "Kernel Regression: From Linear to Nonlinear Modeling"
+          level: 1
+        - file: "notebooks/MLE-Introduction.md"
+          title: "Maximum Likelihood Estimation (MLE)"
+          level: 0
+        - file: "notebooks/Naive-Bayes.ipynb"
+          title: "Naive Bayes Classification"
+          level: 1
+        - file: "notebooks/Mahalanobis-Distance.ipynb"
+          title: "Mahalanobis Distance"
+          level: 1
+        - file: "notebooks/Bayesian-Decision-Theory.ipynb"
+          title: "Bayesian Decision Theory"
+          level: 1
+        - file: "notebooks/Gaussian-Mixtures-Part1.ipynb"
+          title: "Gaussian Mixture Models, Part 1"
+          level: 0
+        - file: "notebooks/Gaussian-Mixtures-Part2.ipynb"
+          title: "Gaussian Mixture Model, Part 2"
+          level: 1
+        - file: "notebooks/Data-Preprocessing.ipynb"
+          title: "Data preprocessing"
+          level: 0
+        - file: "notebooks/Decision-Trees.ipynb"
+          title: "Decision Trees and Random Forests"
+          level: 1
+        - file: "notebooks/Ensemble-Learning.ipynb"
+          title: "Ensemble Learning"
+          level: 1
+        - file: "notebooks/Hidden-Markov-Models.ipynb"
+          title: "Hidden Markov Models"
+          level: 1
+        - file: "notebooks/Learning-to-Rank.md"
+          title: "Learning to Rank"
+          level: 1
+        - file: "notebooks/Learning-Theory-and-VC.md"
+          title: "Learning Theory and VC Dimension"
+          level: 1
+        - file: "notebooks/Advanced-Topics.md"
+          title: "Advanced Topics Survey"
+          level: 1
+        - file: "notebooks/Project-and-Review.md"
+          title: "Project and Review"
+          level: 0
+        - file: "notebooks/Appendix-BDT-Discrete-Features.md"
+          title: "Appendix: Bayes Decision Theory — Discrete Features"
+          level: 0
+        - file: "notebooks/Linear-Models-Advanced-Topics.ipynb"
+          title: "Linear models"
+          level: 1
+    - format: tex
+      template: plain_latex_book
+      output: _build/exports/machine-learning-book-tex.zip
+      articles: *book_articles
   toc:
     - file: notebooks/index.md
     - title: Foundations
