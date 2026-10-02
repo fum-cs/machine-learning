@@ -16,7 +16,7 @@ This course gives an **integrated picture of machine learning foundations**, **h
 **Tasks:** classification, regression, clustering, and ranking.  
 **Themes:** overfitting and underfitting, the bias–variance tradeoff, the curse of dimensionality, and principled model comparison.
 
-Topics progress roughly as: local models (kNN) and k-means → high-dimensional data and dimensionality reduction (PCA, LDA) → linear models and gradient methods → neural networks (MLP, backpropagation) → kernel methods → Bayesian learning and decision theory → Gaussian mixtures and EM → Decision trees → learning to rank and learning theory → advanced topics and a project.
+Topics progress roughly as: local models (kNN) and k-means $\rightarrow$ high-dimensional data and dimensionality reduction (PCA, LDA) $\rightarrow$ linear models and gradient methods $\rightarrow$ neural networks (MLP, backpropagation) $\rightarrow$ kernel methods $\rightarrow$ Bayesian learning and decision theory $\rightarrow$ Gaussian mixtures and EM $\rightarrow$ Decision trees $\rightarrow$ learning to rank and learning theory $\rightarrow$ advanced topics and a project.
 
 <!-- **Other courses in the track** cover support vector machines, reinforcement learning, and ensembles / model combination. Related material also lives in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), [Algorithms for Data Science](https://fum-cs.github.io/a4ds/), and [MFDS](https://fum-cs.github.io/mfds/). -->
 
