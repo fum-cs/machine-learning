@@ -10,65 +10,64 @@ project:
   copyright: "2026. CC0 Licensed - Computer Science Dept., Ferdowsi University of Mashhad"
   bibliography:
     - notebooks/references.bib
-  exports:
-    - format: html
-  # - format: pdf   # PDF via Typst — uncomment after the HTML build is verified
+  # exports:          # Document exports (pdf, docx, ...) are defined here;
+    # - format: pdf   # the HTML site is built by `jupyter-book build --html` via the `site:` block below.
   toc:
     - file: notebooks/index.md
     - title: Foundations
       children:
-        - file: "notebooks/01 - Introduction.ipynb"
-        - file: "notebooks/02 - Local Models and kNN.ipynb"
-        - file: "notebooks/03 - Model Evaluation.ipynb"
-        - file: "notebooks/04 - Bias-Variance Tradeoff.ipynb"
+        - file: "notebooks/Introduction.ipynb"
+        - file: "notebooks/Local-Models-and-kNN.ipynb"
+        - file: "notebooks/Model-Evaluation.ipynb"
+        - file: "notebooks/Bias-Variance-Tradeoff.ipynb"
     - title: Simple Methods and High Dimension
       children:
-        - file: "notebooks/05 - k-means Clustering.ipynb"
-        - file: "notebooks/05b - Clustering Validation.ipynb"
-        - file: "notebooks/06 - High-Dimensional Data.ipynb"
-        - file: "notebooks/07 - High-Dimensional Data and kNN.ipynb"
+        - file: "notebooks/K-Means-Clustering.ipynb"
+        - file: "notebooks/Clustering-Validation.ipynb"
+        - file: "notebooks/High-Dimensional-Data.ipynb"
+        - file: "notebooks/High-Dimensional-Data-and-kNN.ipynb"
     - title: Linear Models and Neural Networks
       children:
-        - file: "notebooks/08 - Linear Regression-part1.ipynb"
-        - file: "notebooks/09 - Linear Regression-part2.ipynb"        
-        - file: "notebooks/12 - MLP and Backpropagation.ipynb"
-        - file: "notebooks/13 - MLP Classification.ipynb"
+        - file: "notebooks/Linear-Regression-Part1.ipynb"
+        - file: "notebooks/Linear-Regression-Part2.ipynb"
+        - file: "notebooks/MLP-and-Backpropagation.ipynb"
+        - file: "notebooks/MLP-Classification.ipynb"
     - title: Dimensionality Reduction
       children:
-        - file: "notebooks/15 - PCA part 1.ipynb"
-        - file: "notebooks/16 - PCA part 2.ipynb"
-        - file: "notebooks/17 - PCA and LDA.ipynb"
+        - file: "notebooks/PCA-Part1.ipynb"
+        - file: "notebooks/PCA-Part2.ipynb"
+        - file: "notebooks/PCA-and-LDA.ipynb"
     - title: Kernel Methods
       children:
-        - file: "notebooks/18 - Feature Map.ipynb"
-        - file: "notebooks/19 - Kernel Trick.md"
-        - file: "notebooks/20 - Kernel Regression.ipynb"
+        - file: "notebooks/Feature-Map.ipynb"
+        - file: "notebooks/Kernel-Trick.md"
+        - file: "notebooks/Kernel-Regression.ipynb"
     - title: Bayesian and Statistical Learning
       children:
-        - file: "notebooks/21 - MLE Introduction.md"
-        - file: "notebooks/22 - Naive Bayes.ipynb"
-        - file: "notebooks/22b - Mahalanobis Distance.ipynb"
-        - file: "notebooks/24 - Bayesian Decision Theory.ipynb"
+        - file: "notebooks/MLE-Introduction.md"
+        - file: "notebooks/Naive-Bayes.ipynb"
+        - file: "notebooks/Mahalanobis-Distance.ipynb"
+        - file: "notebooks/Bayesian-Decision-Theory.ipynb"
     - title: Latent Variable Models
       children:
-        - file: "notebooks/25 - Gaussian Mixtures part 1.ipynb"
-        - file: "notebooks/26 - Gaussian Mixtures part 2.ipynb"
+        - file: "notebooks/Gaussian-Mixtures-Part1.ipynb"
+        - file: "notebooks/Gaussian-Mixtures-Part2.ipynb"
     - title: Other Topics
       children:
-        - file: "notebooks/06 - Data Preprocessing.ipynb"      
-        - file: "notebooks/02 - Linear Models - Advanced Topics.ipynb"
-        - file: "notebooks/29 - Decision Trees.ipynb"        
-        - file: "notebooks/05 - Ensemble Learning.ipynb"
-        - file: "notebooks/08 - Hidden Markov Models.ipynb"
-        - file: "notebooks/27 - Learning to Rank.md"
-        - file: "notebooks/28 - Learning Theory and VC.md"
-        - file: "notebooks/30 - Advanced Topics.md"
+        - file: "notebooks/Data-Preprocessing.ipynb"
+        - file: "notebooks/Decision-Trees.ipynb"
+        - file: "notebooks/Ensemble-Learning.ipynb"
+        - file: "notebooks/Hidden-Markov-Models.ipynb"
+        - file: "notebooks/Learning-to-Rank.md"
+        - file: "notebooks/Learning-Theory-and-VC.md"
+        - file: "notebooks/Advanced-Topics.md"
     - title: Project
       children:
-        - file: "notebooks/31 - Project and Review.md"
+        - file: "notebooks/Project-and-Review.md"
     - title: Appendix
       children:
         - file: notebooks/Appendix-BDT-Discrete-Features.md
+        - file: "notebooks/Linear-Models-Advanced-Topics.ipynb" 
 
 site:
   template: book-theme
