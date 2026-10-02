@@ -3,8 +3,7 @@ version: 1
 project:
   title: Machine Learning
   description: >-
-    Course materials for the M.Sc. Machine Learning course (Soft Computing and
-    Artificial Intelligence track), Computer Science Dept., Ferdowsi University
+    Course materials for the M.Sc. Machine Learning course, Computer Science Dept., Ferdowsi University
     of Mashhad.
   authors:
     - name: Mahmood Amintoosi
@@ -30,13 +29,10 @@ project:
         - file: "notebooks/07 - High-Dimensional Data and kNN.ipynb"
     - title: Linear Models and Neural Networks
       children:
-        - file: "notebooks/08 - Linear Regression.ipynb"
-        - file: "notebooks/09 - Linear Models and Gradient Methods.ipynb"
-        - file: "notebooks/10 - Gradient Descent.ipynb"
-        - file: "notebooks/11 - Stochastic Gradient Descent.ipynb"
+        - file: "notebooks/08 - Linear Regression-part1.ipynb"
+        - file: "notebooks/09 - Linear Regression-part2.ipynb"        
         - file: "notebooks/12 - MLP and Backpropagation.ipynb"
         - file: "notebooks/13 - MLP Classification.ipynb"
-        - file: "notebooks/14 - MLP Regularization.ipynb"
     - title: Dimensionality Reduction
       children:
         - file: "notebooks/15 - PCA part 1.ipynb"
@@ -52,38 +48,27 @@ project:
         - file: "notebooks/21 - MLE Introduction.md"
         - file: "notebooks/22 - Naive Bayes.ipynb"
         - file: "notebooks/22b - Mahalanobis Distance.ipynb"
-        - file: "notebooks/23 - Bayesian Learning.ipynb"
         - file: "notebooks/24 - Bayesian Decision Theory.ipynb"
     - title: Latent Variable Models
       children:
         - file: "notebooks/25 - Gaussian Mixtures part 1.ipynb"
         - file: "notebooks/26 - Gaussian Mixtures part 2.ipynb"
-    - title: Seminars and Advanced Topics
+    - title: Other Topics
       children:
+        - file: "notebooks/06 - Data Preprocessing.ipynb"      
+        - file: "notebooks/02 - Linear Models - Advanced Topics.ipynb"
+        - file: "notebooks/29 - Decision Trees.ipynb"        
+        - file: "notebooks/05 - Ensemble Learning.ipynb"
+        - file: "notebooks/08 - Hidden Markov Models.ipynb"
         - file: "notebooks/27 - Learning to Rank.md"
         - file: "notebooks/28 - Learning Theory and VC.md"
         - file: "notebooks/30 - Advanced Topics.md"
-    - title: Decision Trees (if time)
-      children:
-        - file: "notebooks/29 - Decision Trees.ipynb"
     - title: Project
       children:
         - file: "notebooks/31 - Project and Review.md"
     - title: Appendix
       children:
-        - file: "notebooks/06 - Data Preprocessing.ipynb"
-        - file: notebooks/Normal-Eq-vs-GD.ipynb
-        - file: notebooks/Kernel-Trick.md
-        - file: notebooks/Kernel-Regression.ipynb
-        - file: notebooks/MLE-introduction.md
-        - file: notebooks/Naive-Bayes.ipynb
-        - file: notebooks/Bayesian-Decision-Theory.ipynb
-        - file: notebooks/Mahalanobis-Distance.ipynb
         - file: notebooks/Appendix-BDT-Discrete-Features.md
-        - file: notebooks/Appendix-Gaussian-Mixtures.ipynb
-        - file: "notebooks/02 - Linear Models.ipynb"
-        - file: "notebooks/05 - Ensemble Learning.ipynb"
-        - file: "notebooks/08 - Hidden Markov Models.ipynb"
 
 site:
   template: book-theme

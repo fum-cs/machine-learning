@@ -11,3 +11,4 @@ data/models/*
 # Jupyter Book 2 (MyST) build output and Freebuff state
 _build/
 .freebuff/
+/notebooks/_build-V1
