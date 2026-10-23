@@ -74,9 +74,10 @@ Join the [FUM CS Slack](https://join.slack.com/t/fum-cs/shared_invite/zt-1zntzuw
 2. R. O. Duda, P. E. Hart, and D. G. Stork, *Pattern Classification*, 2nd ed. John Wiley & Sons, 2001.  
 3. T. Hastie, R. Tibshirani, and J. Friedman, *The Elements of Statistical Learning*, 2nd ed. Springer, 2009.  
 4. C. M. Bishop, *Pattern Recognition and Machine Learning*. Springer, 2006.  
-5. K. P. Murphy, *Machine Learning: A Probabilistic Perspective*. MIT Press, 2012.  
-6. S. Theodoridis, *Machine Learning: A Bayesian and Optimization Perspective*, 2nd ed. Academic Press, 2020.  
-7. J. VanderPlas, *Python Data Science Handbook*. O’Reilly Media, 2016. [Jupyter notebooks on GitHub](https://github.com/jakevdp/PythonDataScienceHandbook)
+5. K. P. Murphy, *Machine Learning: A Probabilistic Perspective*. MIT Press, 2012.
+6. K. P. Murphy, *Probabilistic Machine Learning*, An Introduction. MIT Press, 2022.    
+7. S. Theodoridis, *Machine Learning: A Bayesian and Optimization Perspective*, 2nd ed. Academic Press, 2020.  
+8. J. VanderPlas, *Python Data Science Handbook*. O’Reilly Media, 2016. [Jupyter notebooks on GitHub](https://github.com/jakevdp/PythonDataScienceHandbook)
 
 ## Related papers
 
