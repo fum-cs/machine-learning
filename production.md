@@ -239,9 +239,9 @@ python tools/pdf_bisect_binary.py _build/temp/mystXXXX machine-learning-book.tex
 
 ### Not covered by CI
 
-`.github/workflows/deploy.yml` builds **HTML only**. The PDF is produced locally;
-adding it to CI would need a job that installs TeX Live and uploads
-`_build/exports/`.
+`.github/workflows/deploy.yml` builds the **HTML site and the reveal.js slides**
+(see below); the PDF is still produced locally. Adding it to CI would need a job
+that installs TeX Live and uploads `_build/exports/`.
 
 ## Generating slides
 ### Interactive slides
@@ -257,7 +257,11 @@ jupyter nbextension enable hide_input_all
 You'll need to launch `jupyter notebook` since rise is not yet supported in jupyterlab. You'll see two new icons when you open a notebook. One will start the slideshow, and the other will hide the code. You'll need to set `interactive = True` in the first cell and then run all cells before starting the slideshow to allow the interactions.
 
 ### Static slides
-You can generate slides from the notebooks using `nbconvert`. First, set `interactive = False` in the first cell of the notebook and rerun the notebooks to generate static versions of the interactive visualizations.
+On every push to `main` the workflow converts all notebooks with `nbconvert` and
+publishes them at `<site>/slides/<NotebookName>.slides.html` (the `notebooks/img`
+folder is copied next to them so the relative image paths resolve).
+
+You can also generate slides locally from the notebooks using `nbconvert`. First, set `interactive = False` in the first cell of the notebook and rerun the notebooks to generate static versions of the interactive visualizations.
 
 ```
 jupyter nbconvert --to slides --template reveal --SlidesExporter.reveal_theme=simple --no-input --post serve <NotebookName>

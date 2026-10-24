@@ -35,10 +35,37 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24.x
+
+      # ۱. پایتون برای اجرای nbconvert (ساخت اسلایدها)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # ۲. نصب Jupyter Book 2 (موتور MyST)
       - name: Install Jupyter Book (via myst)
         run: npm install -g jupyter-book
+
+      # ۳. نصب nbconvert برای تبدیل نوتبوکها به اسلاید reveal.js
+      - name: Install nbconvert
+        run: pip install nbconvert
+
+      # ۴. ساخت کتاب
       - name: Build HTML Assets
         run: jupyter-book build --html
+
+      # ۵. ساخت اسلایدها در زیرپوشه‌ای از خروجی سایت تا همراه سایت منتشر شوند
+      - name: Build Slides
+        run: |
+          mkdir -p _build/html/slides
+          jupyter nbconvert --to slides notebooks/*.ipynb \
+            --output-dir _build/html/slides/ \
+            --reveal-prefix "https://cdn.jsdelivr.net/npm/reveal.js@4"
+          # تصاویر اسلایدها بهصورت نسبی ارجاع داده میشوند (img/...)،
+          # بنابراین پوشه تصاویر باید کنار فایلهای .slides.html کپی شود.
+          cp -r notebooks/img _build/html/slides/img
+
+      # ۶. آپلود کل خروجی (کتاب + اسلایدها)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:

@@ -32,7 +32,7 @@ project:
           title: "k-Nearest Neighbors and Classification Evaluation Metrics"
           level: 1
         - file: "notebooks/Model-Evaluation.ipynb"
-          title: "Model Selection"
+          title: "Model Evaluation and Model Selection"
           level: 1
         - file: "notebooks/Bias-Variance-Tradeoff.ipynb"
           title: "Bias-Variance Tradeoff"
