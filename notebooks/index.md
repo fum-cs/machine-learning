@@ -60,11 +60,11 @@ Course notes and Jupyter notebooks in this book (GitHub), programming in Python 
 
 ## Questions?
 
-Office hours: Sunday 8:00–9:30, or email m.amintoosi@um.ac.ir, or talk after class, or [book a slot](https://calendly.com/m-amintoosi/30min).
+Office hours: Sunday 8:00–9:30, or send a message in Bale via @mamintoosi, or talk after class, or [book a slot](https://www.cloudhq.net/meeting/m.amintoosi@gmail.com).
 
-## Slack
+<!-- ## Slack
 
-Join the [FUM CS Slack](https://join.slack.com/t/fum-cs/shared_invite/zt-1zntzuw2t-JOWbsyQdGASNz~40AhWy_Q) for course discussion.
+Join the [FUM CS Slack](https://join.slack.com/t/fum-cs/shared_invite/zt-1zntzuw2t-JOWbsyQdGASNz~40AhWy_Q) for course discussion. -->
 
 ---
 

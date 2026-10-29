@@ -137,17 +137,17 @@ project:
       children:
         - file: "notebooks/Introduction.ipynb"
         - file: "notebooks/Local-Models-and-kNN.ipynb"
-        - file: "notebooks/Model-Evaluation.ipynb"
-        - file: "notebooks/Bias-Variance-Tradeoff.ipynb"
+        - file: "notebooks/Clustering-Part1.ipynb"
+        - file: "notebooks/Linear-Regression-Part1.ipynb"
     - title: Simple Methods and High Dimension
       children:
-        - file: "notebooks/K-Means-Clustering.ipynb"
+        - file: "notebooks/Clustering-Part2.ipynb"
         - file: "notebooks/Clustering-Validation.ipynb"
         - file: "notebooks/High-Dimensional-Data.ipynb"
         - file: "notebooks/High-Dimensional-Data-and-kNN.ipynb"
     - title: Linear Models and Neural Networks
       children:
-        - file: "notebooks/Linear-Regression-Part1.ipynb"
+
         - file: "notebooks/Linear-Regression-Part2.ipynb"
         - file: "notebooks/MLP-and-Backpropagation.ipynb"
         - file: "notebooks/MLP-Classification.ipynb"
@@ -173,7 +173,9 @@ project:
         - file: "notebooks/Gaussian-Mixtures-Part2.ipynb"
     - title: Other Topics
       children:
+        - file: "notebooks/Bias-Variance-Tradeoff.ipynb"      
         - file: "notebooks/Data-Preprocessing.ipynb"
+        - file: "notebooks/Model-Evaluation.ipynb"
         - file: "notebooks/Decision-Trees.ipynb"
         - file: "notebooks/Ensemble-Learning.ipynb"
         - file: "notebooks/Hidden-Markov-Models.ipynb"
