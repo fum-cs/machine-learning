@@ -1,0 +1,184 @@
+<div dir="rtl" style="font-family: Tahoma, Arial, sans-serif; line-height: 1.8;">
+
+    <h2>📋 تکلیف عملی: طبقه‌بندی دودویی موفقیت تحصیلی با الگوریتم K-نزدیک‌ترین همسایه (KNN)</h2>
+
+    <hr>
+
+    <h3>🎯 هدف تکلیف</h3>
+    <p>
+        در این تکلیف شما با استفاده از الگوریتم <strong>K-نزدیک‌ترین همسایه (K-Nearest Neighbors)</strong>، یک مدل طبقه‌بندی <strong>دودویی (دو کلاسه)</strong> برای پیش‌بینی وضعیت تحصیلی دانشجویان طراحی می‌کنید. این تمرین بر اساس مجموعه‌داده مسابقه <strong>Playground Series S4E6 (Academic Success)</strong> در Kaggle طراحی شده است.
+    </p>
+
+    <p>
+        هدف اصلی این است که با فرآیند ساخت یک مدل طبقه‌بندی، <strong>مقیاس‌بندی ویژگی‌ها</strong>، <strong>انتخاب پارامتر k</strong> و <strong>محاسبه معیارهای ارزیابی دودویی</strong> (Accuracy, Precision, Recall, F1-Score) به صورت عملی آشنا شوید.
+    </p>
+
+    <hr>
+
+    <h3>📊 معرفی مجموعه‌داده</h3>
+    <p>
+        مجموعه‌داده شامل اطلاعات دانشجویان است و در حالت اصلی خود دارای سه کلاس زیر است:
+    </p>
+    <ul>
+        <li><code>Dropout</code> (انصراف از تحصیل)</li>
+        <li><code>Enrolled</code> (در حال تحصیل)</li>
+        <li><code>Graduate</code> (فارغ‌التحصیل)</li>
+    </ul>
+
+    <div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 5px; margin: 15px 0;">
+        <strong>⚠️ نکته مهم:</strong> در این تکلیف، شما باید مسئله را به یک <strong>طبقه‌بندی دودویی</strong> تبدیل کنید. برای این کار، دو کلاس <code>Graduate</code> و <code>Dropout</code> را انتخاب کنید (این دو کلاس از نظر مفهومی متمایزترند) و ردیف‌های مربوط به کلاس <code>Enrolled</code> را از داده‌ها حذف کنید.
+    </div>
+
+    <p>
+        اطلاعات کلی مجموعه‌داده (پس از حذف کلاس <code>Enrolled</code>):
+    </p>
+    <ul>
+        <li>تعداد کل نمونه‌های آموزش (<code>train</code>): <strong>۷۶,۵۱۸</strong> ردیف (قبل از حذف)</li>
+        <li>پس از حذف <code>Enrolled</code>، حدود <strong>۶۱,۵۷۸</strong> ردیف باقی می‌ماند</li>
+        <li>تعداد ویژگی‌ها: <strong>۳۷</strong> ویژگی (به‌علاوه ستون <code>id</code> و ستون <code>Target</code>)</li>
+        <li>هیچ مقدار گمشده‌ای (missing value) در داده‌ها وجود ندارد ✅</li>
+    </ul>
+
+    <p>
+        فایل‌های <code>train.csv</code> و <code>test.csv</code> از صفحه مسابقه در Kaggle قابل دانلود است:
+        <br>
+        <a href="https://www.kaggle.com/competitions/playground-series-s4e6/data" target="_blank">
+            https://www.kaggle.com/competitions/playground-series-s4e6/data
+        </a>
+    </p>
+
+    <div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; border-radius: 5px; margin: 15px 0;">
+        <strong>⚠️ نکته:</strong> نیازی به ارسال فایل‌های داده نیست. فقط کافی است نوت‌بوک خود را به گونه‌ای طراحی کنید که در صورت وجود فایل‌ها در مسیر مشخص، قابل اجرا باشد.
+    </div>
+
+    <hr>
+
+    <h3>📝 صورت تکلیف</h3>
+
+    <h4>مرحله ۱: بارگذاری و بررسی داده‌ها</h4>
+    <ul>
+        <li>فایل‌های <code>train.csv</code> و <code>test.csv</code> را با استفاده از کتابخانه <code>pandas</code> بارگذاری کنید.</li>
+        <li>توزیع کلاس‌ها در ستون <code>Target</code> را بررسی و گزارش کنید.</li>
+        <li>اطلاعات کلی مجموعه‌داده (تعداد ردیف‌ها، ستون‌ها و نوع داده‌ها) را نمایش دهید.</li>
+    </ul>
+
+    <h4>مرحله ۲: تبدیل به مسئله دودویی</h4>
+    <ul>
+        <li>ردیف‌هایی که مقدار <code>Target</code> آن‌ها <code>Enrolled</code> است را حذف کنید.</li>
+        <li>بررسی کنید که تنها دو کلاس <code>Graduate</code> و <code>Dropout</code> باقی مانده باشد.</li>
+        <li>توزیع کلاس‌های باقی‌مانده را گزارش کنید.</li>
+    </ul>
+
+    <h4>مرحله ۳: پیش‌پردازش داده‌ها</h4>
+    <ul>
+        <li>ستون <code>id</code> را از داده‌های آموزش حذف کنید (این ستون اطلاعات مفیدی برای مدل ندارد).</li>
+        <li>ستون <code>Target</code> را به عنوان متغیر هدف جدا کنید.</li>
+        <li>داده‌ها را به دو بخش آموزش (<code>train</code>) و اعتبارسنجی (<code>validation</code>) با نسبت <strong>۸۰ به ۲۰</strong> تقسیم کنید (از پارامتر <code>random_state=42</code> استفاده کنید).</li>
+        <li><strong>مقیاس‌بندی ویژگی‌ها:</strong> از <code>StandardScaler</code> برای نرمال‌سازی ویژگی‌های عددی استفاده کنید. </li>
+    </ul>
+
+    <h4>مرحله ۴: آموزش مدل KNN</h4>
+    <ul>
+        <li>یک مدل <code>KNeighborsClassifier</code> با مقدار <code>n_neighbors=5</code> بسازید.</li>
+        <li>مدل را روی داده‌های آموزش (پس از مقیاس‌بندی) برازش (fit) کنید.</li>
+        <li>پیش‌بینی را روی داده‌های اعتبارسنجی انجام دهید.</li>
+    </ul>
+
+    <h4>مرحله ۵: ارزیابی مدل</h4>
+    <p>
+        معیارهای زیر را محاسبه و در خروجی نوت‌بوک نمایش دهید (این معیارها در حالت دودویی محاسبه می‌شوند):
+    </p>
+    <ul>
+        <li><strong>Accuracy</strong> (دقت کلی مدل)</li>
+        <li><strong>Precision</strong> (صحت)</li>
+        <li><strong>Recall</strong> (فراخوانی)</li>
+        <li><strong>F1-Score</strong> (میانگین هارمونیک Precision و Recall)</li>
+    </ul>
+
+    <p>
+        همچنین یک <strong>ماتریس درهم‌ریختگی (Confusion Matrix)</strong> برای مدل رسم و تفسیر کنید.
+    </p>
+
+    <div style="background-color: #d1ecf1; border: 1px solid #17a2b8; padding: 10px; border-radius: 5px; margin: 15px 0;">
+        <strong>💡 نکته:</strong> چون این مسئله <strong>دودویی</strong> است، می‌توانید مستقیماً از توابع <code>precision_score</code>، <code>recall_score</code> و <code>f1_score</code> بدون پارامتر <code>average</code> استفاده کنید (مقدار پیش‌فرض <code>'binary'</code> مناسب است).
+    </div>
+
+    <h4>مرحله ۶ : بهبود مدل</h4>
+    <p>
+        برای بهبود عملکرد مدل خود، مراحل زیر را انجام دهید:
+    </p>
+    <ul>
+        <li>مقادیر مختلف <code>k</code> را امتحان کنید (حداقل مقادیر <code>[3, 5, 7, 15, 25, 50]</code>).</li>
+        <li>برای هر مقدار <code>k</code>، معیارهای Accuracy، Precision، Recall و F1-Score را محاسبه و در یک <strong>جدول</strong> گزارش کنید.</li>
+        <li>مقدار <code>k</code> بهینه را بر اساس <strong>F1-Score</strong> انتخاب کنید و دلیل انتخاب خود را توضیح دهید.</li>
+        <li>مدل نهایی را با مقدار بهینه <code>k</code> آموزش دهید و نتایج را مجدداً گزارش کنید.</li>
+    </ul>
+
+    <div style="background-color: #d4edda; border: 1px solid #28a745; padding: 10px; border-radius: 5px; margin: 15px 0;">
+        <strong>✅ این مرحله الزامی است و بخشی از نمره تکلیف محسوب می‌شود.</strong>
+    </div>
+
+    <hr>
+
+    <h3>📦 خروجی مورد انتظار</h3>
+    <p>
+        یک فایل <strong>Jupyter Notebook اجراشده (<code>.ipynb</code>)</strong> که شامل موارد زیر باشد:
+    </p>
+    <ol>
+        <li>کدهای بارگذاری داده و تبدیل به مسئله دودویی</li>
+        <li>کد پیش‌پردازش (مقیاس‌بندی) داده‌ها</li>
+        <li>کد آموزش و ارزیابی مدل KNN با <code>k=5</code></li>
+        <li><strong>جدول مقایسه مقادیر مختلف k</strong> با معیارهای Accuracy، Precision، Recall و F1-Score</li>
+        <li>مدل نهایی با مقدار بهینه <code>k</code> و نتایج آن</li>
+        <li><strong>ماتریس درهم‌ریختگی</strong> (به صورت نمودار یا عدد)</li>
+        <li>یک <strong>سلول متنی (Markdown)</strong> که مشاهدات خود را در آن توضیح دهید (حداکثر ۵ خط):
+            <ul>
+                <li>کدام مقدار <code>k</code> بهترین F1-Score را داشت؟</li>
+                <li>چرا این مقدار را بهینه در نظر گرفتید؟</li>
+                <li>آیا رفتار مدل با تغییر <code>k</code> منطقی بود؟</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div style="background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; margin: 15px 0;">
+        <strong>❗ توجه:</strong> حتماً نوت‌بوک را قبل از ارسال به طور کامل اجرا کنید تا تمام خروجی‌ها (خروجی سلول‌های کد) ذخیره شوند. نوت‌بوکی که خروجی نداشته باشد تصحیح نخواهد شد.
+    </div>
+
+    <hr>
+
+    <h3>📤 نحوه ارسال</h3>
+    <ul>
+        <li>فقط فایل <code>.ipynb</code> اجراشده را در سامانه بارگذاری کنید.</li>
+        <li><strong>فایل‌های داده (<code>train.csv</code> و <code>test.csv</code>) را ارسال نکنید.</strong></li>
+        <li>نام فایل را به صورت <code>StudentID_KNN.ipynb</code> ذخیره کنید (مثلاً <code>400123456_KNN.ipynb</code>).</li>
+    </ul>
+
+    <hr>
+
+    <h3>🔮 مراحل بعدی (برای بعد)</h3>
+    <p>
+        پس از تحویل این تکلیف، در مراحل بعدی از شما خواسته خواهد شد:
+    </p>
+    <ol>
+        <li>کد خود را در <strong>محیط Kaggle</strong> پیاده‌سازی کنید و لینک نوت‌بوک عمومی خود را ارسال نمایید.</li>
+        <li>در قالب یک <strong>مسابقه کلاسی</strong>، هر دانشجو تلاش می‌کند بهترین امتیاز (Accuracy یا F1-Score) را روی داده‌های آزمون کسب کند. <strong>امتیاز بالاتر = نمره بیشتر</strong> خواهد داشت.</li>
+        <li>در جلسات بعدی، از هر دانشجو خواسته می‌شود <strong>راه‌حل و انتخاب‌های خود را توضیح دهد</strong>. تسلط بر کد و منطق پیاده‌سازی الزامی است.</li>
+    </ol>
+
+    <hr>
+
+    <h3>📚 منابع کمکی</h3>
+    <ul>
+        <li>مستندات رسمی Scikit-learn برای KNN: <a href="https://scikit-learn.org/stable/modules/neighbors.html" target="_blank">Nearest Neighbors</a></li>
+        <li>مستندات <code>KNeighborsClassifier</code>: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html" target="_blank">اینجا</a></li>
+        <li>مستندات معیارهای ارزیابی: <a href="https://scikit-learn.org/stable/modules/model_evaluation.html" target="_blank">اینجا</a></li>
+        <li>صفحه مسابقه Kaggle: <a href="https://www.kaggle.com/competitions/playground-series-s4e6/overview" target="_blank">اینجا</a></li>
+    </ul>
+
+    <hr>
+
+    <p style="text-align: center; color: #6c757d;">
+        موفق باشید! 🌟
+    </p>
+
+</div>
