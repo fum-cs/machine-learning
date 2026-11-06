@@ -184,7 +184,7 @@ project:
         - file: "notebooks/Advanced-Topics.md"
     - title: Project
       children:
-        - file: "notebooks/Project-and-Review.md"
+        - file: "notebooks/HWs/final-project.md"
     - title: Appendix
       children:
         - file: notebooks/Appendix-BDT-Discrete-Features.md
