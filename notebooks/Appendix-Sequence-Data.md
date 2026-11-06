@@ -26,9 +26,9 @@ The WISDM v1.1 timestamp is generally the phone's uptime expressed in nanosecond
 
 The three axes are measurements of the same physical process. They are not three consecutive time steps. At each time step, the observation is a three-dimensional vector:
 
-[
-mathbf{x}_t = [x_t, y_t, z_t]^	op.
-]
+$$
+\mathbf{x}_t = [x_t, y_t, z_t]^T.
+$$
 
 A short sequence can be represented as a matrix whose rows are time steps and whose columns are sensor axes.
 
@@ -48,15 +48,15 @@ The overlap is (51-26=25) samples, or approximately (25/51 approx 49.0\%) of the
 
 A window contains a short multivariate time series:
 
-[
+$$
 X_i =
-egin{bmatrix}
+\begin{bmatrix}
 x_1 & y_1 & z_1 \\
 x_2 & y_2 & z_2 \\
 \vdots & \vdots & \vdots \\
 x_{51} & y_{51} & z_{51}
-end{bmatrix}.
-]
+\end{bmatrix}.
+$$
 
 For a feature-based classifier, this matrix is usually transformed into a fixed-length feature vector. For a 1D-CNN, the window may instead be used as a short multichannel signal.
 
@@ -87,9 +87,9 @@ There are two different prediction settings.
 
 A classifier receives one window (or its feature vector) and predicts its activity:
 
-[
-hat{y}_i = f(X_i).
-]
+$$
+\hat{y}_i = f(X_i).
+$$
 
 The prediction for a window is made without explicitly using the predictions or hidden states of neighboring windows. Logistic Regression, SVM, Gaussian classifiers, and a window-based CNN can be used in this setting.
 
