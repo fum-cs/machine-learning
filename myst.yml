@@ -37,7 +37,7 @@ project:
         - file: "notebooks/Bias-Variance-Tradeoff.ipynb"
           title: "Bias-Variance Tradeoff"
           level: 1
-        - file: "notebooks/K-Means-Clustering.ipynb"
+        - file: "notebooks/Clustering-Part1.ipynb"
           title: "k-means Clustering"
           level: 0
         - file: "notebooks/Clustering-Validation.ipynb"
@@ -184,7 +184,7 @@ project:
         - file: "notebooks/Advanced-Topics.md"
     - title: Project
       children:
-        - file: "notebooks/Project-and-Review.md"
+        - file: "notebooks/HWs/final-project.md"
     - title: Appendix
       children:
         - file: notebooks/Appendix-BDT-Discrete-Features.md
