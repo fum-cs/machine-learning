@@ -12,3 +12,7 @@ data/models/*
 _build/
 .freebuff/
 /notebooks/_build-V1
+.ipynb_checkpoints/
+_sources/
+*.pt
+*.pkl
