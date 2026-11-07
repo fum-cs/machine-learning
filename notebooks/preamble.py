@@ -1,4 +1,7 @@
-from IPython.display import set_matplotlib_formats, display, HTML
+# from IPython.display import set_matplotlib_formats, display, HTML
+from matplotlib_inline.backend_inline import set_matplotlib_formats
+from IPython.display import display, HTML
+
 from IPython.core.interactiveshell import InteractiveShell
 import pandas as pd
 import numpy as np
