@@ -4,7 +4,7 @@
 
 Computer Science Dept, Ferdowsi University of Mashhad
 
-Required, 4 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track.
+Required, 3 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track.
 
 ---
 
@@ -16,7 +16,7 @@ This course gives an **integrated picture of machine learning foundations**, **h
 **Tasks:** classification, regression, clustering, and ranking.  
 **Themes:** overfitting and underfitting, the bias–variance tradeoff, the curse of dimensionality, and principled model comparison.
 
-Topics progress roughly as: local models (kNN) and k-means $\rightarrow$ high-dimensional data and dimensionality reduction (PCA, LDA) $\rightarrow$ linear models and gradient methods $\rightarrow$ neural networks (MLP, backpropagation) $\rightarrow$ kernel methods $\rightarrow$ Bayesian learning and decision theory $\rightarrow$ Gaussian mixtures and EM $\rightarrow$ Decision trees $\rightarrow$ learning to rank and learning theory $\rightarrow$ advanced topics and a project.
+Topics progress roughly as: local models (kNN) and k-means $\rightarrow$ high-dimensional data and dimensionality reduction (PCA, LDA) $\rightarrow$ linear models and gradient methods $\rightarrow$ neural networks (MLP, backpropagation) $\rightarrow$ kernel methods $\rightarrow$ Bayesian learning and decision theory $\rightarrow$ Gaussian mixtures and EM $\rightarrow$ hidden Markov models (forward, Viterbi) $\rightarrow$ student seminars on trees, ensembles, ranking and learning theory $\rightarrow$ advanced topics and a project.
 
 <!-- **Other courses in the track** cover support vector machines, reinforcement learning, and ensembles / model combination. Related material also lives in [Neural Networks](https://fum-cs.github.io/neural-networks/), [Statistical Machine Learning](https://fum-cs.github.io/SML/), [Algorithms for Data Science](https://fum-cs.github.io/a4ds/), and [MFDS](https://fum-cs.github.io/mfds/). -->
 
@@ -44,7 +44,7 @@ An introductory review of some material is included in the course. You do not ne
 
 ## Student work
 
-Pre-class reading, class discussion, theoretical and practical exercises, algorithm implementation (Python / scikit-learn, and from scratch when needed), **student seminars** (learning to rank; computational learning theory and VC dimension), and an **applied project** (data preparation, comparison of several models, evaluation and report).
+Pre-class reading, class discussion, theoretical and practical exercises, algorithm implementation (Python / scikit-learn, and from scratch when needed), **student seminars** (bias–variance; decision trees and pruning; ensembles; learning to rank; learning theory and VC dimension; semi-supervised learning), and an **applied project** (data preparation, comparison of several models, evaluation and report).
 
 ## AI tools policy
 
