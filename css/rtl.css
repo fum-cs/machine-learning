@@ -13,8 +13,8 @@
  *
  *   :::
  *
- * This file only touches elements carrying that class (or its descendants),
- * so the English pages of the book are unaffected.
+ * Everything below is scoped to `.rtl`, so the English pages of the book are
+ * untouched.
  */
 
 .rtl {
@@ -22,31 +22,57 @@
   text-align: right;
 }
 
-/* Persian typography: a slightly larger line height and a real Persian font
-   family if the reader has one installed. */
+/* Persian font stack. The theme sets its own font on body-level elements, so
+   the rule is repeated on the descendants that carry text; otherwise the
+   theme's rule wins by source order. Tahoma is the reliable Persian-capable
+   fallback on Windows. */
+.rtl,
 .rtl p,
-.rtl li {
+.rtl li,
+.rtl td,
+.rtl th,
+.rtl h2,
+.rtl h3,
+.rtl h4,
+.rtl figcaption,
+.rtl blockquote,
+.rtl dd,
+.rtl dt {
+  font-family: "Vazirmatn", "IRANSans", "Sahel", Tahoma, var(--myst-font-body, sans-serif);
+}
+
+/* Persian needs more leading than Latin text. */
+.rtl p,
+.rtl li,
+.rtl td,
+.rtl th {
   line-height: 1.9;
 }
 
-/* Code, math and inline Latin identifiers stay left-to-right inside the
-   Persian flow; `isolate` keeps their punctuation from jumping. */
-.rtl pre,
-.rtl code,
-.rtl kbd,
-.rtl samp {
+/* Code stays left-to-right inside the Persian flow. `isolate` keeps the
+   punctuation around a snippet from jumping to the other side; the block form
+   also aligns left. */
+.rtl pre {
   direction: ltr;
   text-align: left;
   unicode-bidi: isolate;
 }
 
+.rtl code,
+.rtl kbd,
+.rtl samp {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Math is typeset left-to-right, in display and inline form alike. */
 .rtl .math,
 .rtl mjx-container {
   direction: ltr;
   unicode-bidi: isolate;
 }
 
-/* Tables keep their cell order but read right-to-left. */
+/* Tables keep their cell order and read from the right. */
 .rtl table {
   direction: rtl;
 }
@@ -56,26 +82,44 @@
   text-align: right;
 }
 
-/* Headings inside a Persian page align right, including the English H1 that
-   supplies the title in the table of contents. */
-.rtl h1,
+/* Headings inside a Persian page align right. (The page H1 stays outside the
+   wrapper so MyST keeps using it as the document title in the table of
+   contents.) */
 .rtl h2,
 .rtl h3,
-.rtl h4 {
+.rtl h4,
+.rtl h5,
+.rtl h6 {
   text-align: right;
 }
 
-/* The blockquote/admonition rules sit on the left in LTR; mirror them. */
-.rtl blockquote {
+/* The theme puts the quote/admonition accent on the left; mirror it. */
+.rtl blockquote,
+.rtl .admonition,
+.rtl div[class*="admonition"] {
   border-left: none;
-  border-right: 3px solid var(--myst-color-border, #ddd);
+  border-right: 3px solid var(--myst-color-border, #d8d8d8);
   padding-left: 0;
   padding-right: 1rem;
 }
 
-/* Lists: keep the bullets on the right. */
+/* Lists: markers on the right, text aligned right. */
 .rtl ul,
 .rtl ol {
   padding-left: 0;
-  padding-right: 1.5rem;
+  padding-right: 1.6rem;
+}
+
+/* Captions and definition lists follow the paragraph direction. */
+.rtl figcaption,
+.rtl caption,
+.rtl dt,
+.rtl dd {
+  text-align: right;
+}
+
+/* Long Persian URLs and identifiers should still break instead of overflowing
+   the column. */
+.rtl a {
+  word-break: break-word;
 }
