@@ -50,7 +50,7 @@ Option B — serve the already-built static site on any port:
 
 ```
 cd _build/html
-python3 -m http.server 8811 --bind 127.0.0.1
+python -m http.server 8811 --bind 127.0.0.1
 ```
 
 (The site is a JS-driven static site: always open it through a web server,

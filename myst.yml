@@ -205,3 +205,4 @@ site:
   options:
     logo: notebooks/img/fum-cs-logo.png
     favicon: notebooks/img/fum-logo.ico
+    style: css/rtl.css

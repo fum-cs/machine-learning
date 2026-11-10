@@ -1,0 +1,81 @@
+/*
+ * Right-to-left support for the Persian pages.
+ *
+ * MyST v2 (mystmd) has no `dir` page option, and markdown inside raw HTML is
+ * not parsed, so the Jupyter Book v1 tricks (`html_meta: dir: rtl` and
+ * `<div dir="rtl" markdown="1">`) no longer work. Instead each Persian page
+ * wraps its body in a MyST div directive with the class `rtl`:
+ *
+ *   :::{div}
+ *   :class: rtl
+ *
+ *   ... Persian markdown ...
+ *
+ *   :::
+ *
+ * This file only touches elements carrying that class (or its descendants),
+ * so the English pages of the book are unaffected.
+ */
+
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Persian typography: a slightly larger line height and a real Persian font
+   family if the reader has one installed. */
+.rtl p,
+.rtl li {
+  line-height: 1.9;
+}
+
+/* Code, math and inline Latin identifiers stay left-to-right inside the
+   Persian flow; `isolate` keeps their punctuation from jumping. */
+.rtl pre,
+.rtl code,
+.rtl kbd,
+.rtl samp {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+.rtl .math,
+.rtl mjx-container {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Tables keep their cell order but read right-to-left. */
+.rtl table {
+  direction: rtl;
+}
+
+.rtl table th,
+.rtl table td {
+  text-align: right;
+}
+
+/* Headings inside a Persian page align right, including the English H1 that
+   supplies the title in the table of contents. */
+.rtl h1,
+.rtl h2,
+.rtl h3,
+.rtl h4 {
+  text-align: right;
+}
+
+/* The blockquote/admonition rules sit on the left in LTR; mirror them. */
+.rtl blockquote {
+  border-left: none;
+  border-right: 3px solid var(--myst-color-border, #ddd);
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+/* Lists: keep the bullets on the right. */
+.rtl ul,
+.rtl ol {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}

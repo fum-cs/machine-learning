@@ -4,7 +4,7 @@
 
 Computer Science Dept, Ferdowsi University of Mashhad
 
-Required, 3 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track.
+Required, 4 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track.
 
 ---
 
@@ -60,7 +60,7 @@ Course notes and Jupyter notebooks in this book (GitHub), programming in Python 
 
 ## Questions?
 
-Office hours: Sunday 8:00–9:30, or send a message in Bale via @mamintoosi, or talk after class, or [book a slot](https://www.cloudhq.net/meeting/m.amintoosi@gmail.com).
+Office hours: Sunday 8:00–9:30, or send a message in Bale via `@mamintoosi`, or talk after class, or [book a slot](https://www.cloudhq.net/meeting/m.amintoosi@gmail.com).
 
 <!-- ## Slack
 

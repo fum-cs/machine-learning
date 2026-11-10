@@ -1,6 +1,11 @@
-# موضوعات ارائه دانشجویان — نسخه بازنگری‌شده (پاییز ۲۰۲۶)
+# Student Presentation Topics — Fall 2026
 
-**درس یادگیری ماشین — دانشکده علوم کامپیوتر، دانشگاه فردوسی مشهد**
+موضوعات ارائه دانشجویان — نسخه بازنگری‌شده (پاییز ۲۰۲۶)
+
+:::{div}
+:class: rtl
+
+**درس یادگیری ماشین — دانشکده علوم ریاضی، گروه علوم کامپیوتر، دانشگاه فردوسی مشهد**
 
 این فایل جایگزین نسخه قبلی (فهرست ده‌موضوعی متمرکز بر استنتاج علّی) است. با تصمیم مدرس،
 شش موضوع زیر در کلاس ارائه می‌شود؛ فهرست قبلی به‌عنوان «موضوعات جانبی» در پیوست مانده است.
@@ -186,3 +191,4 @@ Theodoridis، *Machine Learning*، فصل مربوط به یادگیری نیم�
 
 ارجاع به مطالب هم‌سطح: [Machine Learning دکتر صدوقی](https://laboratorypatternrecognition.github.io/MachineLearningS/machine_learning.html)،
 [Pattern Recognition دکتر صدوقی](https://h-sadoghi.github.io/teaching/pattern-recognition/book/pattern_recognition.html).
+:::
