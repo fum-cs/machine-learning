@@ -53,10 +53,7 @@ project:
           title: "Linear Regression, Part 2"
           level: 1
         - file: "notebooks/MLP-and-Backpropagation.ipynb"
-          title: "Introduction to Pytorch & Neural Networks"
-          level: 1
-        - file: "notebooks/MLP-Classification.ipynb"
-          title: "Neural Networks for Classification"
+          title: "Neural Networks and Backpropagation"
           level: 1
         - file: "notebooks/PCA-Part1.ipynb"
           title: "Principal Component Analysis, Part 1"
@@ -125,7 +122,7 @@ project:
           title: "Appendix: Sequence Data"
           level: 0
         - file: "notebooks/Linear-Models-Advanced-Topics.ipynb"
-          title: "Linear models"
+          title: "Linear Models — Reference Appendix"
           level: 1
     - format: tex
       template: plain_latex_book
@@ -146,10 +143,8 @@ project:
         - file: "notebooks/High-Dimensional-Data.ipynb"
     - title: Linear Models and Neural Networks
       children:
-
         - file: "notebooks/Linear-Regression-Part2.ipynb"
         - file: "notebooks/MLP-and-Backpropagation.ipynb"
-        - file: "notebooks/MLP-Classification.ipynb"
     - title: Dimensionality Reduction
       children:
         - file: "notebooks/PCA-Part1.ipynb"
@@ -193,7 +188,8 @@ project:
       children:
         - file: notebooks/Appendix-BDT-Discrete-Features.md
         - file: "notebooks/Appendix-Sequence-Data.md"
-        - file: "notebooks/Linear-Models-Advanced-Topics.ipynb" 
+        - file: "notebooks/Linear-Models-Advanced-Topics.ipynb"
+          title: "Linear Models — Reference Appendix"
 
 site:
   template: book-theme
