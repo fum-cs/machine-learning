@@ -185,9 +185,14 @@ project:
         - file: "notebooks/Learning-to-Rank.md"
         - file: "notebooks/Learning-Theory-and-VC.md"
         - file: "notebooks/Advanced-Topics.md"
-    - title: Project
+    - title: Course Plan Fall 2026 & Project
       children:
+        - file: "misc/course-plan-fall-2026.md"
         - file: "notebooks/HWs/final-project.md"
+        - file: "misc/student-one-pager-fa.md"
+        - file: "notebooks/HWs/misc/presentation-topics-en-fa.md"
+        - file: "notebooks/HWs/misc/seminar-framing-and-closing-fa.md"
+
     - title: Appendix
       children:
         - file: notebooks/Appendix-BDT-Discrete-Features.md
