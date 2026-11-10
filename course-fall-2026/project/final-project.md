@@ -1,5 +1,8 @@
 # Final Project
 
+:::{div}
+:class: rtl
+
 ## تشخیص فعالیت انسان با داده‌های حسگر تلفن همراه
 
 ## هدف پروژه
@@ -214,3 +217,5 @@
 
 - [WISDM Dataset — صفحه رسمی](https://www.cis.fordham.edu/wisdm/dataset.php)
 - [مخزن کد دانشجویان — ml-final-project-HAR](https://github.com/mamintoosi-cs/ml-final-project-HAR)
+
+:::
