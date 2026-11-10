@@ -41,13 +41,10 @@ project:
           title: "k-means Clustering"
           level: 0
         - file: "notebooks/Clustering-Validation.ipynb"
-          title: "Clustering Validation Metrics"
+          title: "Clustering Validation"
           level: 1
         - file: "notebooks/High-Dimensional-Data.ipynb"
-          title: "High Dimensional Data & The Curse of Dimensionality"
-          level: 1
-        - file: "notebooks/High-Dimensional-Data-and-kNN.ipynb"
-          title: "kNN in high dimensional spaces"
+          title: "High-Dimensional Data and the Curse of Dimensionality"
           level: 1
         - file: "notebooks/Linear-Regression-Part1.ipynb"
           title: "Linear Regression, Part 1"
@@ -147,7 +144,6 @@ project:
         - file: "notebooks/Clustering-Part2.ipynb"
         - file: "notebooks/Clustering-Validation.ipynb"
         - file: "notebooks/High-Dimensional-Data.ipynb"
-        - file: "notebooks/High-Dimensional-Data-and-kNN.ipynb"
     - title: Linear Models and Neural Networks
       children:
 
