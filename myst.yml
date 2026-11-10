@@ -187,11 +187,11 @@ project:
         - file: "notebooks/Advanced-Topics.md"
     - title: Course Plan Fall 2026 & Project
       children:
-        - file: "misc/course-plan-fall-2026.md"
-        - file: "notebooks/HWs/final-project.md"
-        - file: "misc/student-one-pager-fa.md"
-        - file: "notebooks/HWs/misc/presentation-topics-en-fa.md"
-        - file: "notebooks/HWs/misc/seminar-framing-and-closing-fa.md"
+        - file: "course-fall-2026/course-plan-fall-2026.md"
+        - file: "course-fall-2026/project/final-project.md"
+        - file: "course-fall-2026/student-one-pager-fa.md"
+        - file: "course-fall-2026/presentation-topics-en-fa.md"
+        - file: "course-fall-2026/seminar-framing-and-closing-fa.md"
 
     - title: Appendix
       children:

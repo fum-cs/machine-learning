@@ -208,7 +208,7 @@
 
 ## مطالعه تکمیلی: داده‌های دنباله‌ای و زمانی
 
-پیش از ورود به PT6 و PT7، متن کوتاه [Sequence Data: From Independent Samples to Ordered Observations](../Appendix-Sequence-Data.md) را مطالعه کنید. این متن مفاهیم لازم درباره دنباله، پنجره‌بندی، وابستگی زمانی و تقسیم صحیح داده را معرفی می‌کند.
+پیش از ورود به PT6 و PT7، متن کوتاه [Sequence Data: From Independent Samples to Ordered Observations](../../notebooks/Appendix-Sequence-Data.md) را مطالعه کنید. این متن مفاهیم لازم درباره دنباله، پنجره‌بندی، وابستگی زمانی و تقسیم صحیح داده را معرفی می‌کند.
 
 ## منابع
 
