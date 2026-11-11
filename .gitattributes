@@ -1,0 +1,17 @@
+# Normalize line endings: store text files with LF in the repository,
+# independent of the local core.autocrlf setting.
+* text=auto eol=lf
+
+# Notebooks are JSON text; keep them LF too.
+*.ipynb text eol=lf
+
+# Binary assets must never be converted.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.woff binary
+*.woff2 binary
