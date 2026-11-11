@@ -89,7 +89,7 @@ project:
           title: "Gaussian Mixture Models, Part 1"
           level: 0
         - file: "notebooks/Gaussian-Mixtures-Part2.ipynb"
-          title: "Gaussian Mixture Model, Part 2"
+          title: "Gaussian Mixture Models, Part 2"
           level: 1
         - file: "notebooks/Data-Preprocessing.ipynb"
           title: "Data preprocessing"
