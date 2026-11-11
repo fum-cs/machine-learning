@@ -51,7 +51,9 @@ jobs:
       #    ب) اگر زمانی خروجی اسلاید ساخته شود، همان‌جا حذف می‌شود.
       - name: Prune artifact
         run: |
-          find _build/html/build -maxdepth 1 -name '*.ipynb' -delete
+          if [ -d _build/html/build ]; then
+            find _build/html/build -maxdepth 1 -name '*.ipynb' -delete
+          fi
           rm -rf _build/html/slides
           du -sh _build/html
 
