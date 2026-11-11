@@ -255,7 +255,7 @@ While we don't compute $\tilde{\phi}(\mathbf{x}_i)$ explicitly, we can compute t
 
     $$ K_{norm}(\mathbf{x}, \mathbf{z}) = \phi_{norm}(\mathbf{x})^T \phi_{norm}(\mathbf{z}) = \frac{\phi(\mathbf{x})^T \phi(\mathbf{z})}{\|\phi(\mathbf{x})\| \|\phi(\mathbf{z})\|} = \frac{K(\mathbf{x}, \mathbf{z})}{\sqrt{K(\mathbf{x}, \mathbf{x})} \sqrt{K(\mathbf{z}, \mathbf{z})}} $$
 
-    This is sometimes called the "cosine kernel" or "normalized kernel". It ensures all points lie on
+    This is sometimes called the "cosine kernel" or "normalized kernel". It ensures all points lie on the unit sphere of the feature space, $\|\phi_{norm}(\mathbf{x})\| = 1$.
 
 ## 9. Advantages and Disadvantages of the Kernel Trick
 
@@ -284,9 +284,9 @@ The Kernel Trick is a powerful mathematical technique that allows linear algorit
 *   **Trade-offs:** Enables non-linearity but can be computationally expensive for large datasets and requires careful kernel selection/tuning.
    
 
-# Kernel K-means Clustering
+## 10. Kernel K-means Clustering
 
-## Review: Standard K-means Algorithm
+### Review: Standard K-means Algorithm
 
 K-means is a widely used clustering algorithm that partitions a dataset into $k$ clusters by minimizing the sum of squared distances between each point and its assigned cluster centroid.
 
@@ -311,7 +311,7 @@ K-means can only find clusters separated by linear boundaries. It fails when clu
 
 ---
 
-## Kernel K-means: Motivation
+### Kernel K-means: Motivation
 
 To overcome the linearity limitation, Kernel K-means uses the **kernel trick** to implicitly map data into a higher-dimensional feature space where clusters may become linearly separable.
 
@@ -320,7 +320,7 @@ To overcome the linearity limitation, Kernel K-means uses the **kernel trick** t
 
 ---
 
-## Kernel K-means Algorithm
+### Kernel K-means Algorithm
 
 **Definitions:**
 - Let $\mathbf{K}$ be the $n \times n$ kernel matrix with $K_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)$.
@@ -358,7 +358,7 @@ $$
 
 ---
 
-## Notes
+### Notes
 
 - If the kernel is linear ($K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T \mathbf{z}$), Kernel K-means reduces to standard K-means.
 - Using nonlinear kernels (e.g., Gaussian/RBF), Kernel K-means can find clusters with nonlinear boundaries.
@@ -366,7 +366,7 @@ $$
 
 ---
 
-## Example: Gaussian Kernel
+### Example: Gaussian Kernel
 
 With the Gaussian (RBF) kernel:
 $$
