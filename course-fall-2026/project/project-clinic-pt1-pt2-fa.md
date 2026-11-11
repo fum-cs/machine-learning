@@ -21,7 +21,7 @@
 
 ## پیش از تحویل: چه چیزی همراه گزارش باشد
 
-- نوت‌بوکی که **از ابتدا تا انتها اجرا می‌شود** (Restart & Run All، بدون خطا)؛
+- نوتبوکی که **از ابتدا تا انتها اجرا می‌شود** (Restart & Run All، بدون خطا)؛
 - سه عدد: تعداد رکورد خام، تعداد پنجره‌ها، تعداد افراد در آموزش/اعتبارسنجی/آزمون؛
 - یک نمودار سیگنال سه‌محوره برای هر شش فعالیت؛
 - پاسخ کتبی به این پرسش: «چرا تقسیم تصادفی پنجره‌ها در این پروژه غلط است؟»
@@ -37,7 +37,7 @@
 | ۱ | خواندن فایل خام | هیچ رکورد معیوبی در تحلیل نیامده و تعداد رکوردهای حذف‌شده **گزارش** شده | `len(df)` در برابر تعداد خطوط فایل؛ اختلاف را توضیح دهد |
 | ۲ | برچسب‌ها | فقط شش فعالیت، بدون برچسب ناشناخته یا خالی | `df.label.value_counts()` و بررسی مقادیر یکتا |
 | ۳ | تعداد افراد | تعداد افراد یکتا گزارش شده و با منبع داده می‌خواند | `df.subject.nunique()` |
-| ۴ | نرخ نمونه‌برداری | نرخ مشاهده‌شده محاسبه و با نرخ اسمی مقایسه شده (اختلاف گزارش شود) | میانه تفاضل timestamp در هر فرد، نه کل داده |
+| ۴ | نرخ نمونه‌برداری | نرخ مشاهده‌شده محاسبه و با نرخ اسمی‌مقایسه شده (اختلاف گزارش شود) | میانه تفاضل timestamp در هر فرد، نه کل داده |
 | ۵ | مقادیر پرت و صفر | تصمیم مکتوب: حذف، نگه‌داشتن، یا Clip — با دلیل | چند نمونه از بزرگ‌ترین مقادیر مطلق هر محور |
 | ۶ | عدم توازن کلاس | نسبت بزرگ‌ترین به کوچک‌ترین کلاس گزارش شده | همان `value_counts()` نرمال‌شده |
 | ۷ | قطعه‌های زمانی | discontinuity‌ها (پرش زمانی، افراد مختلف پشت سر هم) شناسایی شده | تفاضل timestamp و شکست در مرز فرد |
@@ -93,8 +93,8 @@ rng = np.random.default_rng(0)
 rng.shuffle(subjects)
 n = len(subjects)
 train_s = set(subjects[: int(0.7 * n)])
-val_s   = set(subjects[int(0.7 * n) : int(0.85 * n)])
-test_s  = set(subjects[int(0.85 * n) :])
+val_s   = set(subjects[int(0.7 * n): int(0.85 * n)])
+test_s  = set(subjects[int(0.85 * n):])
 
 assert not (train_s & test_s) and not (train_s & val_s) and not (val_s & test_s)
 ```
@@ -105,7 +105,7 @@ assert not (train_s & test_s) and not (train_s & val_s) and not (val_s & test_s)
 def windows(group, length, step):
     """group: یک (subject, label) مرتب بر اساس زمان"""
     for start in range(0, len(group) - length + 1, step):
-        yield group.iloc[start : start + length]
+        yield group.iloc[start: start + length]
 
 for (subject, label), g in df.sort_values(["subject", "timestamp"]).groupby(["subject", "label"]):
     for w in windows(g, length=128, step=64):
@@ -158,6 +158,6 @@ X_test_s  = scaler.transform(X_test)
 
 - دقت حدود ۰٫۸ با تقسیم **بر اساس فرد** واقع‌بینانه است. دقت ۰٫۹۵ به بالا در این مسئله معمولاً
   نشانهٔ همان دو خطای کشندهٔ بالاست، نه نشانهٔ مدل بهتر.
-- بیشترین سردرگمی مدل مرجع بین `Upstairs`/`Downstairs` و `Walking`/`Upstairs` بود. اگر
+- بیشترین سردرگمی‌مدل مرجع بین `Upstairs`/`Downstairs` و `Walking`/`Upstairs` بود. اگر
   درهم‌ریختگی شما هم همین دو جفت را نشان می‌دهد، احتمالاً خط لوله سالم است.
 :::

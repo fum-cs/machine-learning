@@ -13,7 +13,7 @@
 - **`ESLII_print12`** همان کتاب `hastie2009elements` است (Elements of Statistical Learning، ویرایش ۲،
   ۲۰۰۹) که از قبل در همین فایل بود. چون `Naive-Bayes.ipynb` دقیقاً این کلید را صدا می‌زند، مدخل
   جداگانه با یک کامنت بالای آن نگه داشته شد. اگر ترجیح می‌دهید تک‌نسخه باشد، کافی است ارجاع در
-  نوت‌بوک را به `hastie2009elements` تغییر دهید و این مدخل را حذف کنید.
+  نوتبوک را به `hastie2009elements` تغییر دهید و این مدخل را حذف کنید.
 - **`gueddari2020PySAP`** در فایل مبدأ ۸ نویسنده با فیلدهای HAL داشت؛ من فقط `booktitle` را
   ساده کردم.
 
@@ -102,11 +102,11 @@
 
 ### جاهایی که ارجاع می‌شوند
 
-- `vanderplas2016python` و `ESLII_print12` → `notebooks/Naive-Bayes.ipynb`
-- `Duda2000` → `Mahalanobis-Distance.ipynb` (سه‌بار) و `Bayesian-Decision-Theory.ipynb`
+- `vanderplas2016python` و `ESLII_print12` ← `notebooks/Naive-Bayes.ipynb`
+- `Duda2000` ← `Mahalanobis-Distance.ipynb` (سه‌بار) و `Bayesian-Decision-Theory.ipynb`
 - `guo2024scaffold`، `bemis1996properties`، `wu2018moleculenet`، `yang2019analyzing` و
-  `Casalicchio2024Evaluation` → `notebooks/Model-Evaluation.ipynb`
-- بقیهٔ مدخل‌های واردشده → `Linear-Models-Advanced-Topics.ipynb`
+  `Casalicchio2024Evaluation` ← `notebooks/Model-Evaluation.ipynb`
+- بقیهٔ مدخل‌های واردشده ← `Linear-Models-Advanced-Topics.ipynb`
 
 ### بررسی سریع
 

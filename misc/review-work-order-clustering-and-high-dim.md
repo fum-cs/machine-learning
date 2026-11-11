@@ -310,7 +310,7 @@ $S_d(r)$ این‌طور تعریف می‌شود: «all points exactly at dista
 **تغییر:** «for a shell of fixed relative thickness $\epsilon/r$».
 
 ### P1-16 — `High-Dimensional-Data.ipynb`: فرمول $d(p,N)$ بی‌مبنا
-سلول ۶ فرمول $d(d,N) = (1-(1/2)^{1/N})^{1/d}$ را بدون هیچ اشتقاق یا ارجاع می‌آورد، در حالی که
+سلول ۶ فرمول $d(d,N) = (1-(1/2)^{1/N})^{1/d}$ را بدون هیچ استنتاج یا ارجاع می‌آورد، در حالی که
 بقیهٔ نوتب‌وک همه‌چیز را استدلال می‌کند.
 **تغییر:** دو خط استدلال: احتمال اینکه هیچ‌یک از $N$ نقطه در گوی شعاع $t$ نباشد برابر
 $(1-t^d)^N$ است؛ برابر گذاشتن با $1/2$ و حل برای $t$ همان فرمول را می‌دهد. ارجاع به ESL §2.5.
@@ -341,8 +341,8 @@ $(1-t^d)^N$ است؛ برابر گذاشتن با $1/2$ و حل برای $t$ ه�
 سلول ۲۰ با `---` و متن شروع می‌شود و `### Random Vectors` بدون H2 والد می‌آید؛
 سلول ۲۲ `## Why Gaussian Points Do *Not* Cluster Near the Mean (Unlike 1D)` را در سطح H2 می‌آورد
 در حالی که زیربخش `## Gaussian Distribution in High Dimensions` است.
-**تغییر:** سلول ۲۰ → `## Nearly Orthogonal Directions` و داخلش `### The Diagonal of the Hypercube`
-و `### Random Vectors`؛ سلول ۲۲ → `### Why Gaussian Points Do Not Cluster Near the Mean`.
+**تغییر:** سلول ۲۰ ← `## Nearly Orthogonal Directions` و داخلش `### The Diagonal of the Hypercube`
+و `### Random Vectors`؛ سلول ۲۲ ← `### Why Gaussian Points Do Not Cluster Near the Mean`.
 
 ### P1-21 — `High-Dimensional-Data.ipynb`: سلول‌های وابسته به ترتیب و بدون seed
 `dimensions = range(1,30)` در سلول ۲ تعریف و در سلول ۸ استفاده می‌شود؛ `hypersphere_volume` هم
