@@ -49,11 +49,11 @@ jobs:
       #         لینک «دانلود نوتبوک» به آن اشاره می‌کند؛ حجمش با نوتبوک‌های
       #         دارای خروجی تصویری چند ده مگابایت می‌شود.
       #    ب) اگر زمانی خروجی اسلاید ساخته شود، همان‌جا حذف می‌شود.
-      - name: Prune artifact
-        run: |
-          find _build/html/build -maxdepth 1 -name '*.ipynb' -delete
-          rm -rf _build/html/slides
-          du -sh _build/html
+      # - name: Prune artifact
+      #   run: |
+      #     find _build/html/build -maxdepth 1 -name '*.ipynb' -delete
+      #     rm -rf _build/html/slides
+      #     du -sh _build/html
 
       # ۵. آپلود خروجی سایت
       - name: Upload artifact
