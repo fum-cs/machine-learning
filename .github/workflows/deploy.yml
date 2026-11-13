@@ -42,7 +42,9 @@ jobs:
 
       # ۳. ساخت کتاب
       - name: Build HTML Assets
-        run: jupyter-book build --html
+        run: python tools/build_sites.py
+        env:
+          JB: jupyter-book
 
       # ۴. کوچک‌کردن آرتیفکت پیش از آپلود
       #    الف) myst برای هر صفحه یک کپی از نوتبوک در build/ می‌گذارد که فقط
@@ -56,7 +58,11 @@ jobs:
       #     fi
       #     rm -rf _build/html/slides
       #     du -sh _build/html
-
+      - name: Prune artifact
+        run: |
+          python tools/prune_site.py
+          du -sh _build/html
+          
       # ۵. آپلود خروجی سایت
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
