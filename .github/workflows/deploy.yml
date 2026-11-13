@@ -40,11 +40,23 @@ jobs:
       - name: Install Jupyter Book (via myst)
         run: npm install -g jupyter-book
 
-      # ۳. ساخت کتاب
-      - name: Build HTML Assets
-        run: python tools/build_sites.py
+      # ۳. ساخت هر دو نسخهٔ کتاب
+      #    tools/build_sites.py انگلیسی را در ریشه و فارسی را زیر /fa/ می‌سازد،
+      #    خروجی فارسی را داخل خروجی انگلیسی کپی می‌کند و جای‌نگهدارهای
+      #    سوییچ زبان (#lang-en / #lang-fa) را به مسیر نسبی درست هر صفحه
+      #    تبدیل می‌کند. BASE_URL از env همین workflow خوانده می‌شود، پس
+      #    هر دو نسخه زیر /<repository> منتشر می‌شوند.
+      - name: Build both editions (English + Persian)
+        run: python3 tools/build_sites.py
         env:
           JB: jupyter-book
+
+      # ۳.۵. اگر نسخهٔ فارسی ساخته نشده باشد، انتشار ناقص را متوقف کن
+      - name: Check the Persian edition exists
+        run: |
+          test -f _build/html/index.html
+          test -f _build/html/fa/index.html
+          grep -q 'dir="rtl"' _build/html/fa/index.html
 
       # ۴. کوچک‌کردن آرتیفکت پیش از آپلود
       #    الف) myst برای هر صفحه یک کپی از نوتبوک در build/ می‌گذارد که فقط
