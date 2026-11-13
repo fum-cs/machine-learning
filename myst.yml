@@ -186,6 +186,7 @@ project:
 
     - title: Appendix
       children:
+        - file: notebooks/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md
         - file: notebooks/Appendix-BDT-Discrete-Features.md
         - file: "notebooks/Appendix-Sequence-Data.md"
         - file: "notebooks/Linear-Models-Advanced-Topics.ipynb"

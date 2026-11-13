@@ -374,3 +374,23 @@ K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\frac{\|\mathbf{x}_i - \mathbf{x}_j\|
 $$
 Kernel K-means can separate concentric or otherwise nonlinearly separable clusters.
 
+---
+
+## Exercises
+
+1. Take $\mathbf{x} = (x_1, x_2) \in \mathbb{R}^2$ and $K(\mathbf{x}, \mathbf{z}) = (1 + \mathbf{x}^\top \mathbf{z})^2$. Find an explicit feature map $\phi$ with $K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^\top \phi(\mathbf{z})$, and count the dimension of the feature space.
+2. Show that the Gaussian kernel $K(\mathbf{x},\mathbf{z}) = \exp(-\|\mathbf{x}-\mathbf{z}\|^2 / 2\sigma^2)$ corresponds to an *infinite-dimensional* feature space, by expanding it with the Taylor series of $e^t$ and identifying the coefficients.
+3. Use Mercer's theorem to decide which of $K(\mathbf{x},\mathbf{z}) = \|\mathbf{x}-\mathbf{z}\|$, $K(\mathbf{x},\mathbf{z}) = (\mathbf{x}^\top\mathbf{z})^3$ and $K(\mathbf{x},\mathbf{z}) = \mathbf{x}^\top \mathbf{z} - 1$ are valid kernels. For the invalid ones, exhibit a finite set of points whose Gram matrix has a negative eigenvalue.
+4. Kernel ridge regression solves $(K + \lambda I)\alpha = y$. Show that when $\lambda \to 0$ and $K$ is invertible this interpolates the data, and explain why a large $\sigma$ in the RBF kernel makes the solution smoother (hint: look at the Gram matrix).
+5. Derive kernel k-means from the SSE identity of the standard algorithm, and check that with the linear kernel every formula reduces to the usual k-means update.
+6. The cost of the kernel trick is the $n \times n$ Gram matrix. Estimate the memory for $n = 10^5$ stored in float64, and explain which part of the algorithm (computation, storage, or both) the kernel trick actually saves.
+
+---
+
+## Sources
+
+- Schölkopf, B. and Smola, A., *Learning with Kernels*, MIT Press, 2002 (Ch. 1–2).
+- Hofmann, T., Schölkopf, B. and Smola, A., "Kernel Methods in Machine Learning", *Annals of Statistics* 36(3), 2008.
+- Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., §12.3.
+- Burges, C., "A Tutorial on Support Vector Machines for Pattern Recognition", *Data Mining and Knowledge Discovery* 2, 1998 (the kernel part only; the SVM part is a topic of another course).
+
