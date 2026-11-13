@@ -1,0 +1,155 @@
+/* Persian edition of the book.
+   The English site never loads this file: fa/myst.yml is the only place that
+   references it. Everything here is about reading right-to-left, with code,
+   maths and numbers staying left-to-right. */
+
+html,
+body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Persian font stack. Tahoma renders Persian acceptably on Windows, and the
+   web fonts are used when they happen to be installed or imported. */
+body,
+p, li, td, th, dt, dd, figcaption, blockquote,
+h1, h2, h3, h4, h5, h6,
+.admonition-title, .callout-title {
+  font-family: "Vazirmatn", "IRANSans", "Sahel", "Noto Naskh Arabic", Tahoma,
+    var(--myst-font-body, sans-serif);
+}
+
+p, li, td, th, dt, dd {
+  line-height: 1.95;
+}
+
+/* ---------- things that must stay left-to-right ---------- */
+
+pre,
+pre code,
+code,
+kbd,
+samp,
+.math,
+.math-display,
+.math-inline,
+mjx-container,
+.MathJax {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+
+/* MyST renders maths with KaTeX (server-side), so `.katex` is the container
+   that actually exists in the HTML; the mjx/MathJax selectors are kept for
+   the case where the theme switches renderer. */
+.katex,
+.katex-html,
+.katex-mathml,
+.math,
+.math-display,
+.math-inline,
+mjx-container,
+.MathJax {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+
+/* A display equation keeps its own centring, not the paragraph's alignment. */
+.katex-display,
+.math-display,
+mjx-container[display="true"] {
+  text-align: center;
+  direction: ltr;
+}
+
+/* Numbered display equations. MyST lays the formula and its number out in a
+   flex row (`<div class="flex"><div><span class="katex-display">…`, then the
+   number); in an RTL page the row is reversed and the number ends up glued to
+   the formula on the left. Keeping that row LTR puts the number back at the
+   right margin, and the gap keeps them apart where `:has` is unsupported. */
+div.flex:has(> .katex-display),
+div.flex:has(> div > .katex-display) {
+  direction: ltr;
+  gap: 0.85rem;
+}
+
+div.flex.my-5.group {
+  gap: 0.85rem;
+}
+
+/* Numbers inside Persian text should not jump around: keep digits isolated but
+   in left-to-right order (`۱۲۳` in the source is already correct). */
+pre,
+code {
+  font-variant-ligatures: none;
+}
+
+/* ---------- structure ---------- */
+
+table {
+  direction: rtl;
+}
+
+table th,
+table td {
+  text-align: right;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: right;
+}
+
+/* The theme draws admonition and blockquote rules on the left; mirror them. */
+blockquote,
+.admonition,
+div[class*="admonition"] {
+  border-left: none;
+  border-right: 3px solid var(--myst-color-border, #d8d8d8);
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+ul,
+ol {
+  padding-left: 0;
+  padding-right: 1.6rem;
+}
+
+/* Figures: caption under the image, centred. */
+figure,
+figcaption,
+caption {
+  text-align: center;
+}
+
+/* Long URLs and code-ish strings must not overflow the column. */
+a {
+  word-break: break-word;
+}
+
+/* ---------- the language switch ---------- */
+
+.langswitch {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 0 1.25rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--myst-color-border, #d8d8d8);
+  border-radius: 0.4rem;
+  font-size: 0.92rem;
+  background: var(--myst-color-surface, #f7f7f7);
+}
+
+.langswitch .current {
+  font-weight: 600;
+}
+
+/* On the English site the same chip is used, but the page is LTR. */
+.langswitch-ltr {
+  direction: ltr;
+  justify-content: flex-start;
+}
