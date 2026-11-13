@@ -58,10 +58,10 @@ jobs:
       #     fi
       #     rm -rf _build/html/slides
       #     du -sh _build/html
-      - name: Prune artifact
-        run: |
-          python tools/prune_site.py
-          du -sh _build/html
+      #- name: Prune artifact
+      #  run: |
+      #    python tools/prune_site.py
+      #    du -sh _build/html
           
       # ۵. آپلود خروجی سایت
       - name: Upload artifact
