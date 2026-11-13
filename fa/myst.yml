@@ -38,8 +38,8 @@ project:
         # - file: Linear-Regression-Part1.ipynb
     - title: روش‌های ساده و داده‌های با ابعاد بالا
       children:
-        # - file: Clustering-Part2.ipynb
         # - file: Clustering-Validation.ipynb
+        # - file: Clustering-Part2.ipynb
         # - file: High-Dimensional-Data.ipynb
     - title: مدل‌های خطی و شبکه‌های عصبی
       children:

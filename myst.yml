@@ -138,8 +138,8 @@ project:
         - file: "notebooks/Linear-Regression-Part1.ipynb"
     - title: Simple Methods and High Dimension
       children:
-        - file: "notebooks/Clustering-Part2.ipynb"
         - file: "notebooks/Clustering-Validation.ipynb"
+        - file: "notebooks/Clustering-Part2.ipynb"
         - file: "notebooks/High-Dimensional-Data.ipynb"
     - title: Linear Models and Neural Networks
       children:
