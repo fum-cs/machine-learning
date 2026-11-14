@@ -18,7 +18,8 @@
 | `fa/references.bib` | کپی `notebooks/references.bib` (پروژهٔ فارسی به بیرون `fa/` دسترسی ندارد) |
 | `fa/img/fum-cs-logo.png`, `fa/img/fum-logo.ico` | کپی تصاویر لوگو برای `site.options` |
 | `fa/Clustering-Validation.ipynb`, `fa/Clustering-Part2.ipynb`, `fa/High-Dimensional-Data.ipynb` | **ترجمه شده** — نمونهٔ مرجع یک صفحهٔ `.ipynb` |
-| بقیهٔ ۳۶ صفحه | **ترجمه نشده** — فهرست کامل در بخش ۱۳ |
+| `fa/index.md` و 16 صفحهٔ دیگر | **ترجمه شده** — نمونه‌ها: `.md`، `.ipynb` و پیوست‌ها |
+| بقیهٔ 23 صفحه | **ترجمه نشده** — فهرست کامل در بخش ۱۳ |
 
 هر صفحهٔ تازه‌ای که می‌سازید باید پس از آن `tools/sync_fa_toc.py` اجرا شود تا مدخلش در فهرست
 فارسی فعال شود. سرصفحهٔ سوییچ در اولین سلول markdown نوتب‌وک قرار می‌گیرد.
@@ -357,27 +358,24 @@ workflow فعلی (`.github/workflows/deploy.yml`) هر دو نسخه را با 
    `Learning-Theory-and-VC`، `Advanced-Topics`
 9. **برنامهٔ درس و پروژه**: `course-fall-2026/*`
 10. **پیوست**: `Appendix-BDT-Discrete-Features`، `Appendix-Sequence-Data`،
-    `Linear-Models-Advanced-Topics` (و `Appendix-Why-k-Means…` وقتی فایلش افزوده شود)
+    `Linear-Models-Advanced-Topics`
 
-## ۱۳. فهرست کامل صفحه‌های باقی‌مانده (۳۶ صفحه)
+## ۱۳. فهرست کامل صفحه‌های باقی‌مانده (23 صفحه)
 
-`Introduction.ipynb`، `Local-Models-and-kNN.ipynb`، `Clustering-Part1.ipynb`،
-`Linear-Regression-Part1.ipynb`، `Linear-Regression-Part2.ipynb`،
-`MLP-and-Backpropagation.ipynb`، `PCA-Part1.ipynb`، `PCA-Part2.ipynb`، `PCA-and-LDA.ipynb`،
-`Feature-Map.ipynb`، `Kernel-Trick.md`، `Kernel-Regression.ipynb`، `MLE-Introduction.md`،
-`Naive-Bayes.ipynb`، `Mahalanobis-Distance.ipynb`، `Bayesian-Decision-Theory.ipynb`،
-`Gaussian-Mixtures-Part1.ipynb`، `Gaussian-Mixtures-Part2.ipynb`، `Bias-Variance-Tradeoff.ipynb`،
-`Data-Preprocessing.ipynb`، `Model-Evaluation.ipynb`، `Decision-Trees.ipynb`،
-`Ensemble-Learning.ipynb`، `Hidden-Markov-Models.ipynb`، `Learning-to-Rank.md`،
-`Learning-Theory-and-VC.md`، `Advanced-Topics.md`، `Appendix-BDT-Discrete-Features.md`،
-`Appendix-Sequence-Data.md`، `Linear-Models-Advanced-Topics.ipynb`،
-`course-fall-2026/course-plan-fall-2026.md`، `course-fall-2026/project/final-project.md`،
-`course-fall-2026/student-one-pager-fa.md`، `course-fall-2026/presentation-topics-en-fa.md`،
-`course-fall-2026/seminar-framing-and-closing-fa.md` (این سه صفحه از پیش فارسی‌اند و برای
-دوزبانه‌شدن به نسخهٔ **انگلیسی** نیاز دارند، نه فارسی).
+`MLE-Introduction.md`، `Naive-Bayes.ipynb`،
+`Mahalanobis-Distance.ipynb`، `Bayesian-Decision-Theory.ipynb`،
+`Gaussian-Mixtures-Part1.ipynb`، `Gaussian-Mixtures-Part2.ipynb`،
+`Bias-Variance-Tradeoff.ipynb`، `Data-Preprocessing.ipynb`،
+`Model-Evaluation.ipynb`، `Decision-Trees.ipynb`،
+`Ensemble-Learning.ipynb`، `Hidden-Markov-Models.ipynb`،
+`Learning-to-Rank.md`، `Learning-Theory-and-VC.md`،
+`Advanced-Topics.md`، `course-fall-2026/course-plan-fall-2026.md`،
+`course-fall-2026/project/final-project.md`، `course-fall-2026/student-one-pager-fa.md`،
+`course-fall-2026/presentation-topics-en-fa.md`، `course-fall-2026/seminar-framing-and-closing-fa.md`،
+`Appendix-BDT-Discrete-Features.md`، `Appendix-Sequence-Data.md`،
+`Linear-Models-Advanced-Topics.ipynb`
 
-یک مدخل دیگر هم در فهرست انگلیسی هست که فایلش در مخزن نیست و تا افزوده نشود ترجمه‌شدنی نیست:
-`notebooks/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md`.
+سه صفحهٔ `course-fall-2026/student-one-pager-fa.md`، `course-fall-2026/presentation-topics-en-fa.md` و `course-fall-2026/seminar-framing-and-closing-fa.md` از پیش فارسی‌اند و برای دوزبانه‌شدن به نسخهٔ **انگلیسی** نیاز دارند، نه فارسی.
 
 ## ۱۴. محتوای مشترک با درس «مبانی ریاضی علوم داده»
 

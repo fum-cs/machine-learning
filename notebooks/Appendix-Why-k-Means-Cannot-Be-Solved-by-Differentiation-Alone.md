@@ -1,3 +1,7 @@
+<div class="langswitch langswitch-ltr">
+  <strong>English</strong> · <a href="#lang-fa">فارسی</a>
+</div>
+
 # Appendix: Why k-Means Cannot Be Solved by Differentiation Alone — and How We Arrive at the Two-Step EM-Like Procedure
 
 ## 1. The objective and its two types of unknowns

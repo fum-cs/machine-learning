@@ -31,30 +31,30 @@ project:
     # an entry is active once the page exists under fa/, commented otherwise.
     - file: index.md
     - title: مبانی
-      children: []
-      # - file: Introduction.ipynb
-      # - file: Local-Models-and-kNN.ipynb
-      # - file: Clustering-Part1.ipynb
-      # - file: Linear-Regression-Part1.ipynb
+      children:
+        - file: Introduction.ipynb
+        - file: Local-Models-and-kNN.ipynb
+        - file: Clustering-Part1.ipynb
+        - file: Linear-Regression-Part1.ipynb
     - title: روش‌های ساده و داده‌های با ابعاد بالا
       children:
         - file: Clustering-Validation.ipynb
         - file: Clustering-Part2.ipynb
         - file: High-Dimensional-Data.ipynb
     - title: مدل‌های خطی و شبکه‌های عصبی
-      children: []
-      # - file: Linear-Regression-Part2.ipynb
-      # - file: MLP-and-Backpropagation.ipynb
+      children:
+        - file: Linear-Regression-Part2.ipynb
+        - file: MLP-and-Backpropagation.ipynb
     - title: کاهش بُعد
-      children: []
-      # - file: PCA-Part1.ipynb
-      # - file: PCA-Part2.ipynb
-      # - file: PCA-and-LDA.ipynb
+      children:
+        - file: PCA-Part1.ipynb
+        - file: PCA-Part2.ipynb
+        - file: PCA-and-LDA.ipynb
     - title: روش‌های هسته
-      children: []
-      # - file: Feature-Map.ipynb
-      # - file: Kernel-Trick.md
-      # - file: Kernel-Regression.ipynb
+      children:
+        - file: Feature-Map.ipynb
+        - file: Kernel-Trick.md
+        - file: Kernel-Regression.ipynb
     - title: یادگیری بیزی و آماری
       children: []
       # - file: MLE-Introduction.md
@@ -84,11 +84,11 @@ project:
       # - file: course-fall-2026/presentation-topics-en-fa.md
       # - file: course-fall-2026/seminar-framing-and-closing-fa.md
     - title: پیوست
-      children: []
-      # - file: Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md
-      # - file: Appendix-BDT-Discrete-Features.md
-      # - file: Appendix-Sequence-Data.md
-      # - file: Linear-Models-Advanced-Topics.ipynb
+      children:
+        - file: Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md
+        # - file: Appendix-BDT-Discrete-Features.md
+        # - file: Appendix-Sequence-Data.md
+        # - file: Linear-Models-Advanced-Topics.ipynb
 
 site:
   template: book-theme

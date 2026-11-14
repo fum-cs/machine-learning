@@ -1,3 +1,6 @@
+<div class="langswitch langswitch-ltr">
+  <strong>English</strong> · <a href="#lang-fa">فارسی</a>
+</div>
 
 ![](img/banner.png)
 
