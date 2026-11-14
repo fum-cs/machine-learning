@@ -54,14 +54,25 @@ def main() -> int:
             active += 1
             continue
         lines.append(f"    - title: {TITLES.get(item['title'], item['title'])}")
-        lines.append("      children:")
+        # A group with no translated page yet must still get an array: MyST
+        # rejects `children:` followed only by comments ("'children' must be
+        # an array"), so the entry becomes an empty list instead.
+        kids = []
         for child in item["children"]:
             rel = persian_path(child["file"])
             if (ROOT / "fa" / rel).exists():
-                lines.append(f"        - file: {rel}")
+                kids.append(f"        - file: {rel}")
                 active += 1
             else:
-                lines.append(f"        # - file: {rel}")
+                kids.append(f"        # - file: {rel}")
+        if any(k.strip().startswith("- file") for k in kids):
+            lines.append("      children:")
+            lines += kids
+        else:
+            # MyST rejects a mapping whose value is only comments, so the plan
+            # goes below an explicit empty list, as comments of the same entry.
+            lines.append("      children: []")
+            lines += ["      " + k.strip() for k in kids]
 
     path = ROOT / "fa" / "myst.yml"
     text = path.read_text(encoding="utf-8")

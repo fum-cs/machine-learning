@@ -17,10 +17,11 @@
 | `css/fa.css` | کپی شده؛ `fa/myst.yml` تنها جایی است که به آن اشاره می‌کند |
 | `fa/references.bib` | کپی `notebooks/references.bib` (پروژهٔ فارسی به بیرون `fa/` دسترسی ندارد) |
 | `fa/img/fum-cs-logo.png`, `fa/img/fum-logo.ico` | کپی تصاویر لوگو برای `site.options` |
-| بقیهٔ ۳۸ صفحه | **ترجمه نشده** — فهرست کامل در بخش ۱۳ |
+| `fa/Clustering-Validation.ipynb`, `fa/Clustering-Part2.ipynb`, `fa/High-Dimensional-Data.ipynb` | **ترجمه شده** — نمونهٔ مرجع یک صفحهٔ `.ipynb` |
+| بقیهٔ ۳۶ صفحه | **ترجمه نشده** — فهرست کامل در بخش ۱۳ |
 
-فقط `fa/index.md` ترجمه شده است؛ هر صفحهٔ دیگری که می‌سازید باید بعد از آن `tools/sync_fa_toc.py`
-اجرا شود تا مدخلش در فهرست فارسی فعال شود.
+هر صفحهٔ تازه‌ای که می‌سازید باید پس از آن `tools/sync_fa_toc.py` اجرا شود تا مدخلش در فهرست
+فارسی فعال شود. سرصفحهٔ سوییچ در اولین سلول markdown نوتب‌وک قرار می‌گیرد.
 
 ## ۱. معماری: دو پروژهٔ MyST در یک مخزن
 
@@ -311,8 +312,10 @@ python3 -m http.server 8140 --bind 127.0.0.1
 
 ## ۱۰. انتشار
 
-workflow فعلی (`.github/workflows/deploy.yml`) فقط `jupyter-book build --html` را اجرا می‌کند، پس
-سایت منتشرشده **نسخهٔ فارسی را ندارد**. برای انتشار دوزبانه، گام ساخت را چنین کنید:
+workflow فعلی (`.github/workflows/deploy.yml`) هر دو نسخه را با `python3 tools/build_sites.py`
+می‌سازد و پس از آن وجود `_build/html/fa/index.html` و `dir="rtl"` را بررسی می‌کند، پس سایت
+منتشرشده نسخهٔ فارسی را دارد. اگر گام ساخت به `jupyter-book build --html` برگردد، فارسی از
+آرتیفکت حذف می‌شود. گام ساخت چنین است:
 
 ```yaml
       - name: Build both editions
@@ -356,11 +359,10 @@ workflow فعلی (`.github/workflows/deploy.yml`) فقط `jupyter-book build --
 10. **پیوست**: `Appendix-BDT-Discrete-Features`، `Appendix-Sequence-Data`،
     `Linear-Models-Advanced-Topics` (و `Appendix-Why-k-Means…` وقتی فایلش افزوده شود)
 
-## ۱۳. فهرست کامل صفحه‌های باقی‌مانده (۳۸ صفحه)
+## ۱۳. فهرست کامل صفحه‌های باقی‌مانده (۳۶ صفحه)
 
 `Introduction.ipynb`، `Local-Models-and-kNN.ipynb`، `Clustering-Part1.ipynb`،
-`Linear-Regression-Part1.ipynb`، `Clustering-Part2.ipynb`، `Clustering-Validation.ipynb`،
-`High-Dimensional-Data.ipynb`، `Linear-Regression-Part2.ipynb`،
+`Linear-Regression-Part1.ipynb`، `Linear-Regression-Part2.ipynb`،
 `MLP-and-Backpropagation.ipynb`، `PCA-Part1.ipynb`، `PCA-Part2.ipynb`، `PCA-and-LDA.ipynb`،
 `Feature-Map.ipynb`، `Kernel-Trick.md`، `Kernel-Regression.ipynb`، `MLE-Introduction.md`،
 `Naive-Bayes.ipynb`، `Mahalanobis-Distance.ipynb`، `Bayesian-Decision-Theory.ipynb`،
