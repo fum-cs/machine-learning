@@ -1,10 +1,8 @@
+# The Kernel Method (Kernel Trick)
+
 <div class="langswitch langswitch-ltr">
   <strong>English</strong> · <a href="#lang-fa">فارسی</a>
 </div>
-
-![](img/banner.png)
-
-# The Kernel Method (Kernel Trick)
 
 ## 1. Introduction
 
@@ -13,7 +11,6 @@ Many machine learning algorithms, including linear regression, logistic regressi
 The **Kernel Method** (often called the **Kernel Trick**) provides a powerful way to apply linear algorithms to non-linear data. The core idea is to map the data into a higher-dimensional **feature space** ($\mathcal{F}$) where the data becomes linearly separable or easier to model linearly. The "trick" is that this mapping can be done *implicitly* using a **kernel function**, without ever needing to explicitly compute the coordinates of the data points in the high-dimensional (and potentially infinite-dimensional) feature space. This avoids the computational burden associated with explicit mapping.
 
 > **Note:** Kernel trick, which is also known as *[kernel method](https://en.wikipedia.org/wiki/Kernel_method)* or *kernel machines* are a class of algorithms for pattern analysis, where involve using linear classifiers to solve nonlinear problems. These methods are different from *[kernelization](https://en.wikipedia.org/wiki/Kernelization)*, that is a technique for designing efficient algorithms that achieve their efficiency by a preprocessing stage in which inputs to the algorithm are replaced by a smaller input, called a "kernel".
-
 
 ## 2. Limitations of Linear Models
 
@@ -52,7 +49,6 @@ This allows us to effectively operate in the high-dimensional feature space $\ma
 *   The feature space $\mathcal{H}$ is formally known as a [Reproducing Kernel Hilbert Space (RKHS)](https://en.wikipedia.org/wiki/Reproducing_kernel_Hilbert_space).
 
 ![](img/RKHS.png)
-
 
 Illustration depicting the mapping $\phi$ and the kernel function $k$.
 
@@ -129,7 +125,6 @@ Therefore, the Gram matrix entries can be written equivalently as:
 $$
 \mathbf{K}_{ij} = \langle \phi(\mathbf{x}_i), \phi(\mathbf{x}_j) \rangle = K(\mathbf{x}_i, \mathbf{x}_j)
 $$
-
 
 **Definition: Positive Semidefinite (PSD) Matrix**
 A symmetric matrix $\mathbf{K}$ is positive semidefinite if for any non-zero vector $\mathbf{c} \in \mathbb{R}^n$:
@@ -396,4 +391,3 @@ Kernel K-means can separate concentric or otherwise nonlinearly separable cluste
 - Hofmann, T., Schölkopf, B. and Smola, A., "Kernel Methods in Machine Learning", *Annals of Statistics* 36(3), 2008.
 - Hastie, Tibshirani and Friedman, *The Elements of Statistical Learning*, 2nd ed., §12.3.
 - Burges, C., "A Tutorial on Support Vector Machines for Pattern Recognition", *Data Mining and Knowledge Discovery* 2, 1998 (the kernel part only; the SVM part is a topic of another course).
-

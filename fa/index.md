@@ -1,7 +1,3 @@
-<div class="langswitch">
-  <a href="#lang-en">English</a> · <strong>فارسی</strong>
-</div>
-
 # یادگیری ماشین
 
 **محمود امین‌طوسی، پاییز ۱۴۰۵**
@@ -9,6 +5,12 @@
 گروه علوم کامپیوتر، دانشگاه فردوسی مشهد
 
 الزامی، ۴ واحد — کارشناسی ارشد علوم کامپیوتر، گرایش محاسبات نرم و هوش مصنوعی.
+
+![](img/banner.png)
+
+<div class="langswitch">
+  <a href="#lang-en">English</a> · <strong>فارسی</strong>
+</div>
 
 ---
 

@@ -1,7 +1,3 @@
-<div class="langswitch langswitch-ltr">
-  <strong>English</strong> · <a href="#lang-fa">فارسی</a>
-</div>
-
 # Machine Learning
 
 **Mahmood Amintoosi, Fall 2026**
@@ -9,6 +5,12 @@
 Computer Science Dept, Ferdowsi University of Mashhad
 
 Required, 4 credits — M.Sc. Computer Science, Soft Computing and Artificial Intelligence track.
+
+![](img/banner.png)
+
+<div class="langswitch langswitch-ltr">
+  <strong>English</strong> · <a href="#lang-fa">فارسی</a>
+</div>
 
 ---
 

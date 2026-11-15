@@ -1,9 +1,3 @@
-<div class="langswitch langswitch-ltr">
-  <strong>English</strong> · <a href="#lang-fa">فارسی</a>
-</div>
-
-![](img/banner.png)
-
 # Maximum Likelihood Estimation (MLE)
 
 **Mahmood Amintoosi, Fall 2026**
@@ -25,6 +19,10 @@ densities are assumed known.
    defined;
 5. explain how the estimates are plugged into the Bayes decision rule, and how that gives LDA
    and QDA.
+
+<div class="langswitch langswitch-ltr">
+  <strong>English</strong> · <a href="#lang-fa">فارسی</a>
+</div>
 
 ## 1. Introduction
 
@@ -51,7 +49,6 @@ density.
 ![](img/Duda-Figure-3.1.png)
 
 **Figure 3.1:** The top graph shows several training points in one dimension, known or assumed to be drawn from a Gaussian of a particular variance, but unknown mean. Four of the infinite number of candidate source distributions are shown in dashed lines. The middle figure shows the likelihood $p(\mathcal{D}|\theta)$ as a function of the mean. If we had a very large number of training points, this likelihood would be very narrow. The value that maximizes the likelihood is marked $\hat{\theta}$; it also maximizes the logarithm of the likelihood — i.e., the log-likelihood $\ell(\theta)$, shown at the bottom. Note especially that the likelihood lies in a different space from $p(x|\hat{\theta})$, and the two can have different functional forms.
-
 
 ---
 
@@ -220,8 +217,6 @@ characteristics of these estimates, particularly in the context of classificatio
 4.  **Sensitivity to Outliers:**
     *   Because MLE assumes the data follows a specific distribution (e.g., Gaussian), outliers can significantly skew the estimates of the mean and covariance, potentially degrading classification performance.
 
-
-
 ## 6. Connection to Bayesian Classification 
 
 The primary role of MLE in this course is to enable Bayesian Classification when parameters are unknown.
@@ -239,7 +234,6 @@ The MLE estimates dictate the geometry of the classifier:
 *   **Quadratic Discriminant Analysis (QDA):** Assumes classes have **unique covariances** $\boldsymbol{\Sigma}_i$. The decision boundary becomes a quadric surface (an ellipse, hyperbola or parabola in two dimensions, a hyperquadric in general).
 
 ---
-
 
 ## 7. Bridge to Advanced Topics
 
