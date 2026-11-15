@@ -56,15 +56,15 @@ project:
         - file: Kernel-Trick.md
         - file: Kernel-Regression.ipynb
     - title: یادگیری بیزی و آماری
-      children: []
-      # - file: MLE-Introduction.md
-      # - file: Naive-Bayes.ipynb
-      # - file: Mahalanobis-Distance.ipynb
-      # - file: Bayesian-Decision-Theory.ipynb
+      children:
+        - file: MLE-Introduction.md
+        - file: Naive-Bayes.ipynb
+        - file: Mahalanobis-Distance.ipynb
+        - file: Bayesian-Decision-Theory.ipynb
     - title: مدل‌های متغیر پنهان
-      children: []
-      # - file: Gaussian-Mixtures-Part1.ipynb
-      # - file: Gaussian-Mixtures-Part2.ipynb
+      children:
+        - file: Gaussian-Mixtures-Part1.ipynb
+        - file: Gaussian-Mixtures-Part2.ipynb
     - title: موضوع‌های دیگر
       children: []
       # - file: Bias-Variance-Tradeoff.ipynb

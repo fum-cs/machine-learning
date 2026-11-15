@@ -18,8 +18,8 @@
 | `fa/references.bib` | کپی `notebooks/references.bib` (پروژهٔ فارسی به بیرون `fa/` دسترسی ندارد) |
 | `fa/img/fum-cs-logo.png`, `fa/img/fum-logo.ico` | کپی تصاویر لوگو برای `site.options` |
 | `fa/Clustering-Validation.ipynb`, `fa/Clustering-Part2.ipynb`, `fa/High-Dimensional-Data.ipynb` | **ترجمه شده** — نمونهٔ مرجع یک صفحهٔ `.ipynb` |
-| `fa/index.md` و 16 صفحهٔ دیگر | **ترجمه شده** — نمونه‌ها: `.md`، `.ipynb` و پیوست‌ها |
-| بقیهٔ 23 صفحه | **ترجمه نشده** — فهرست کامل در بخش ۱۳ |
+| `fa/index.md` و 22 صفحهٔ دیگر | **ترجمه شده** — نمونه‌ها: `.md`، `.ipynb` و پیوست‌ها |
+| بقیهٔ 17 صفحه | **ترجمه نشده** — فهرست کامل در بخش ۱۳ |
 
 هر صفحهٔ تازه‌ای که می‌سازید باید پس از آن `tools/sync_fa_toc.py` اجرا شود تا مدخلش در فهرست
 فارسی فعال شود. سرصفحهٔ سوییچ در اولین سلول markdown نوتب‌وک قرار می‌گیرد.
@@ -360,11 +360,8 @@ workflow فعلی (`.github/workflows/deploy.yml`) هر دو نسخه را با 
 10. **پیوست**: `Appendix-BDT-Discrete-Features`، `Appendix-Sequence-Data`،
     `Linear-Models-Advanced-Topics`
 
-## ۱۳. فهرست کامل صفحه‌های باقی‌مانده (23 صفحه)
+## ۱۳. فهرست کامل صفحه‌های باقی‌مانده (17 صفحه)
 
-`MLE-Introduction.md`، `Naive-Bayes.ipynb`،
-`Mahalanobis-Distance.ipynb`، `Bayesian-Decision-Theory.ipynb`،
-`Gaussian-Mixtures-Part1.ipynb`، `Gaussian-Mixtures-Part2.ipynb`،
 `Bias-Variance-Tradeoff.ipynb`، `Data-Preprocessing.ipynb`،
 `Model-Evaluation.ipynb`، `Decision-Trees.ipynb`،
 `Ensemble-Learning.ipynb`، `Hidden-Markov-Models.ipynb`،
