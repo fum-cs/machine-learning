@@ -30,7 +30,7 @@ python tools/check_bilingual_sync.py --list-all # همهٔ صفحه‌ها، ش�
 
 | صفحهٔ انگلیسی | نسخهٔ فارسی | تفاوت | یادداشت |
 | --- | --- | --- | --- |
-| `notebooks/Clustering-Validation.ipynb` | `fa/Clustering-Validation.ipynb` | ۴۳ سلول markdown در برابر ۴۱، ۲۴ سلول کد در برابر ۲۱، ۵۹ سرفصل در برابر ۵۰، ۱ تصویر در برابر ۳ | **۱۵ نوامبر ۲۰۲۶:** دو مثال شش‌نقطه‌ای (شمارش جفتی TP/FP/FN/TN و جدول Jaccard/Rand/ARI/NMI) و بخش تازهٔ «Choosing the Number of Clusters» (روش زانو، نسخهٔ بهرهٔ نسبی و نسخهٔ وتری Kneedle، با جاروی SSE روی دادهٔ Iris) به نسخهٔ انگلیسی افزوده شد؛ ترجمهٔ فارسی هیچ‌کدام را ندارد. |
+| `notebooks/Clustering-Validation.ipynb` | `fa/Clustering-Validation.ipynb` | ۴۰ سلول markdown در برابر ۴۱، ۲۲ سلول کد در برابر ۲۱، ۵۵ سرفصل در برابر ۵۰، ۱ تصویر در برابر ۳ | **۱۵ نوامبر ۲۰۲۶:** دو مثال شش‌نقطه‌ای (شمارش جفتی TP/FP/FN/TN و جدول Jaccard/Rand/ARI) و بخش تازهٔ «Choosing the Number of Clusters» (روش زانو با معیار تغییر شیب، نسخهٔ وتری Kneedle، و یک نمودار SSE با جدول بهره‌ها) به نسخهٔ انگلیسی افزوده شد؛ NMI، gap statistic و بخش Assignment Problem از این صفحه بیرون رفتند (به `Appendix-Clustering-Measures-and-Variants.ipynb`، که k-means++ و mini-batch k-means را هم دارد). ترجمهٔ فارسی هیچ‌کدام از این تغییرها را ندارد. |
 | `notebooks/Kernel-Trick.md` | `fa/Kernel-Trick.md` | ۱۴۶ بلوک در برابر ۱۴۸ | بخش Exercises و Sources در نسخهٔ انگلیسی از مخزن MFDS آمده؛ فارسی عقب است. |
 | `notebooks/MLE-Introduction.md` | `fa/MLE-Introduction.md` | ۸۹ بلوک در برابر ۹۰ | یک بخش اضافه در یکی از دو نسخه. |
 | `notebooks/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md` | `fa/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md` | ۸۰ بلوک در برابر ۸۲ | — |
@@ -43,10 +43,11 @@ python tools/check_bilingual_sync.py --list-all # همهٔ صفحه‌ها، ش�
 - تصویر `img/banner.png` از همهٔ صفحه‌ها برداشته شد و فقط در `index.md` هر دو نسخه ماند؛
 - فرمول‌های `Appendix-Why-k-Means…` از `\(...\)`/`\[...\]` به `$...$`/`$$...$$` تبدیل شد.
 
-## صفحه‌هایی که نسخهٔ فارسی ندارند (۲۹ صفحه)
+## صفحه‌هایی که نسخهٔ فارسی ندارند (۳۰ صفحه)
 
 `notebooks/Advanced-Topics.md`، `Appendix-Bayesian-Learning-Gaussian-Processes.ipynb`،
-`Appendix-BDT-Discrete-Features.md`، `Appendix-Kernel-SVM-and-Kernel-Regression.ipynb`،
+`Appendix-BDT-Discrete-Features.md`، `Appendix-Clustering-Measures-and-Variants.ipynb`،
+`Appendix-Kernel-SVM-and-Kernel-Regression.ipynb`،
 `Appendix-Sequence-Data.md`، `Appendix-Support-Vector-Machines.ipynb`،
 `Bias-Variance-Tradeoff.ipynb`، `Data-Preprocessing.ipynb`، `Decision-Trees.ipynb`،
 `Ensemble-Learning.ipynb`، `Hidden-Markov-Models.ipynb`، `Learning-Theory-and-VC.md`،
@@ -59,7 +60,7 @@ Normal-Eq-vs-GD}.md/ipynb`، `course-fall-2026/course-plan-fall-2026.md`،
 و `course-fall-2026/project/project-clinic-pt1-pt2-fa.md` (این چهار مورد به نسخهٔ **انگلیسی**
 نیاز دارند، نه فارسی).
 
-## ۲۰ صفحهٔ هم‌گام
+## ۱۹ صفحهٔ هم‌گام
 
 بقیهٔ صفحه‌های دوزبانه از نظر ساختاری یکی‌اند؛ فهرستشان با `--list-all`.
 

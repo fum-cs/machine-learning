@@ -86,6 +86,7 @@ project:
     - title: پیوست
       children:
         - file: Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md
+        # - file: Appendix-Clustering-Measures-and-Variants.ipynb
         # - file: Appendix-BDT-Discrete-Features.md
         # - file: Appendix-Sequence-Data.md
         # - file: Linear-Models-Advanced-Topics.ipynb
