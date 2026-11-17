@@ -85,7 +85,7 @@ project:
       # - file: course-fall-2026/seminar-framing-and-closing-fa.md
     - title: پیوست
       children:
-        - file: Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md
+        - file: Appendix-k-Means-Differentiation.md
         # - file: Appendix-Clustering-Measures-and-Variants.ipynb
         # - file: Appendix-BDT-Discrete-Features.md
         # - file: Appendix-Sequence-Data.md

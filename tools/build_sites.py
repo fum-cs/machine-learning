@@ -76,6 +76,45 @@ def fix_switch(pages: list[pathlib.Path], language: str) -> None:
             page.write_text(new, encoding="utf-8")
 
 
+def fix_cross_edition_links(pages: list[pathlib.Path], en_base: str, fa_base: str) -> int:
+    """Point links at the English page when only that edition has it.
+
+    Some pages exist in English only (the appendix on clustering measures, for
+    one), and a Persian page may still want to reference them. MyST prefixes
+    every internal link with the edition's base URL, so such a link arrives as
+    <fa_base>/<path>; where the English output has that page and the Persian one
+    does not, drop the prefix so the link resolves.
+    """
+    prefix = re.escape((fa_base or "/fa").rstrip("/"))
+    pattern = re.compile(rf'href="({prefix}/[^"#?]+)"')
+    fixed = 0
+
+    if not (OUT / "index.html").exists():
+        print(
+            "[warn] _build/html has no English build, so links to English-only pages "
+            "stay inside the Persian edition; build the English edition first."
+        )
+        return fixed
+
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+
+        def repl(match: re.Match) -> str:
+            nonlocal fixed
+            tail = match.group(1)[len((fa_base or "/fa").rstrip("/")) + 1:]
+            if (OUT / tail / "index.html").exists() and not (
+                FA_OUT / tail / "index.html"
+            ).exists():
+                fixed += 1
+                return f'href="{en_base.rstrip("/")}/{tail}"'
+            return match.group(0)
+
+        new = pattern.sub(repl, text)
+        if new != text:
+            page.write_text(new, encoding="utf-8")
+    return fixed
+
+
 def merge_persian() -> bool:
     """Copy the Persian build into the English output, under /fa/.
 
@@ -116,6 +155,9 @@ def main(argv: list[str]) -> int:
         fa_pages = [p for p in pages_under(OUT / "fa")]
         fix_switch(fa_pages, "fa")
         print(f"[switch] {len(fa_pages)} Persian pages point back to the English root")
+        moved = fix_cross_edition_links(fa_pages, en_base, fa_base)
+        if moved:
+            print(f"[links] {moved} Persian links moved to the English-only pages")
     else:
         print(
             f"[warn] {FA_OUT.relative_to(ROOT)} is missing: the site has no "

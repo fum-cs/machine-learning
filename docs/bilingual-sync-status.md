@@ -30,10 +30,11 @@ python tools/check_bilingual_sync.py --list-all # همهٔ صفحه‌ها، ش�
 
 | صفحهٔ انگلیسی | نسخهٔ فارسی | تفاوت | یادداشت |
 | --- | --- | --- | --- |
+| `notebooks/Clustering-Part2.ipynb` | `fa/Clustering-Part2.ipynb` | ۱۱ سلول markdown در برابر ۱۲، ۱۷ سرفصل در برابر ۱۸ | **۱۷ نوامبر ۲۰۲۶:** نسخهٔ فارسی یک خلاصهٔ کوتاه از k-means++ دارد (بخش «آغازش k-means++ (خلاصه)») که در انگلیسی نیست، چون متن کامل، آزمایش و نمودار در `Appendix-Clustering-Measures-and-Variants.ipynb` است; این تفاوت عمدی است، نه عقب‌ماندگی ترجمه. |
 | `notebooks/Clustering-Validation.ipynb` | `fa/Clustering-Validation.ipynb` | ۴۰ سلول markdown در برابر ۴۱، ۲۲ سلول کد در برابر ۲۱، ۵۵ سرفصل در برابر ۵۰، ۱ تصویر در برابر ۳ | **۱۵ نوامبر ۲۰۲۶:** دو مثال شش‌نقطه‌ای (شمارش جفتی TP/FP/FN/TN و جدول Jaccard/Rand/ARI) و بخش تازهٔ «Choosing the Number of Clusters» (روش زانو با معیار تغییر شیب، نسخهٔ وتری Kneedle، و یک نمودار SSE با جدول بهره‌ها) به نسخهٔ انگلیسی افزوده شد؛ NMI، gap statistic و بخش Assignment Problem از این صفحه بیرون رفتند (به `Appendix-Clustering-Measures-and-Variants.ipynb`، که k-means++ و mini-batch k-means را هم دارد). ترجمهٔ فارسی هیچ‌کدام از این تغییرها را ندارد. |
 | `notebooks/Kernel-Trick.md` | `fa/Kernel-Trick.md` | ۱۴۶ بلوک در برابر ۱۴۸ | بخش Exercises و Sources در نسخهٔ انگلیسی از مخزن MFDS آمده؛ فارسی عقب است. |
 | `notebooks/MLE-Introduction.md` | `fa/MLE-Introduction.md` | ۸۹ بلوک در برابر ۹۰ | یک بخش اضافه در یکی از دو نسخه. |
-| `notebooks/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md` | `fa/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md` | ۸۰ بلوک در برابر ۸۲ | — |
+| `notebooks/Appendix-k-Means-Differentiation.md` | `fa/Appendix-k-Means-Differentiation.md` | ۸۰ بلوک در برابر ۸۲ | **۱۷ نوامبر ۲۰۲۶:** هر دو فایل به نام کوتاه‌تر `Appendix-k-Means-Differentiation` تغییر نام دادند و مدخلشان در `myst.yml` هر دو نسخه به‌روز شد. |
 
 سه تغییر ساختاریِ ۱۵ نوامبر ۲۰۲۶ در **هر دو** نسخه یک‌سان اعمال شد، پس ناهم‌گامی محسوب نمی‌شود
 و لازم نیست در جدول بالا ردیفی بگیرد:
@@ -41,7 +42,7 @@ python tools/check_bilingual_sync.py --list-all # همهٔ صفحه‌ها، ش�
 - H1 هر صفحه اولین بلوک شد و سوییچ زبان زیر آن رفت (پیش از این سوییچ/بنر بالای H1 بود و عنوان
   صفحه دو بار چاپ می‌شد)؛
 - تصویر `img/banner.png` از همهٔ صفحه‌ها برداشته شد و فقط در `index.md` هر دو نسخه ماند؛
-- فرمول‌های `Appendix-Why-k-Means…` از `\(...\)`/`\[...\]` به `$...$`/`$$...$$` تبدیل شد.
+- فرمول‌های `Appendix-k-Means-Differentiation` (آن‌وقت با نام `Appendix-Why-k-Means…`) از `\(...\)`/`\[...\]` به `$...$`/`$$...$$` تبدیل شد.
 
 ## صفحه‌هایی که نسخهٔ فارسی ندارند (۳۰ صفحه)
 
@@ -60,7 +61,7 @@ Normal-Eq-vs-GD}.md/ipynb`، `course-fall-2026/course-plan-fall-2026.md`،
 و `course-fall-2026/project/project-clinic-pt1-pt2-fa.md` (این چهار مورد به نسخهٔ **انگلیسی**
 نیاز دارند، نه فارسی).
 
-## ۱۹ صفحهٔ هم‌گام
+## ۱۸ صفحهٔ هم‌گام
 
 بقیهٔ صفحه‌های دوزبانه از نظر ساختاری یکی‌اند؛ فهرستشان با `--list-all`.
 

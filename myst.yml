@@ -186,7 +186,7 @@ project:
 
     - title: Appendix
       children:
-        - file: notebooks/Appendix-Why-k-Means-Cannot-Be-Solved-by-Differentiation-Alone.md
+        - file: notebooks/Appendix-k-Means-Differentiation.md
         - file: "notebooks/Appendix-Clustering-Measures-and-Variants.ipynb"
           title: "Appendix: Further Clustering Measures and k-Means Variants"
         - file: notebooks/Appendix-BDT-Discrete-Features.md
