@@ -1,0 +1,89 @@
+% xor.png -- the AND/XOR figure of sections 3.2 and 3.6.
+% (a) AND: one line separates the single 1 from the three 0s.
+% (b) XOR: every line puts at least one point on the wrong side; the best
+%     one found by exhaustive search is x1 = 0 (it misses (1,1)).
+% (c) XOR with four sigmoid hidden neurons: the two solid curves are the
+%     level set probability = 0.5 of the network trained in section 3.6.
+% Build: bash tools/figures/build.sh
+\documentclass[tikz,border=5pt]{standalone}
+\input{nnstyle}
+\begin{document}
+\begin{tikzpicture}[x=1.9cm,y=1.9cm]
+
+% ---- shared drawing helpers -----------------------------------------------
+% framed input square with 0/1 ticks
+\newcommand{\gateframe}{%
+  \draw[gridgrey, fill=white, line width=0.5pt] (-0.45,-0.45) rectangle (1.45,1.45);
+  \foreach \v in {0,1}{%
+    \draw[gridgrey, line width=0.5pt] (\v,-0.45) -- (\v,-0.36);
+    \draw[gridgrey, line width=0.5pt] (-0.45,\v) -- (-0.36,\v);
+    \node[font=\scriptsize, text=black!65] at (\v,-0.58) {\v};
+    \node[font=\scriptsize, text=black!65] at (-0.58,\v) {\v};}}
+
+% one training point: class 0 filled navy, class 1 filled maroon
+\newcommand{\gpt}[2]{\fill[#1] (#2) circle (2.2pt);}
+
+% panel title and score: \gcapt{shift}{title}{score}
+\newcommand{\gcapt}[3]{%
+  \node[font=\small\bfseries, align=center] at ($(#1)+(0.5,-0.95)$) {#2};
+  \node[font=\small, text=black!70] at ($(#1)+(0.5,-1.22)$) {#3};}
+
+% =========================== (a) AND =======================================
+\begin{scope}[shift={(0,0)}]
+  \gateframe
+  \draw[black, line width=1.1pt] (1.45,0.05) -- (0.05,1.45);
+  \gpt{innavy}{0,0}
+  \gpt{outmaroon}{0,1}
+  \gpt{outmaroon}{1,0}
+  \gpt{outmaroon}{1,1}
+\end{scope}
+\gcapt{0,0}{(a) AND}{(one neuron) 4 of 4}
+
+% =========================== (b) XOR, one neuron ===========================
+\begin{scope}[shift={(4.4,0)}]
+  \gateframe
+  \draw[black, line width=1.1pt] (0,-0.45) -- (0,1.45);
+  \draw[black, dashed, line width=0.8pt] (1,1) circle (0.19);
+  \gpt{innavy}{0,0}
+  \gpt{outmaroon}{0,1}
+  \gpt{outmaroon}{1,0}
+  \gpt{innavy}{1,1}
+\end{scope}
+\gcapt{4.4,0}{(b) XOR}{(one neuron) 3 of 4}
+
+% =========================== (c) XOR, hidden layer =========================
+\begin{scope}[shift={(8.8,0)}]
+  \gateframe
+  \begin{scope}
+    \clip (-0.45,-0.45) rectangle (1.45,1.45);
+    % probability = 0.5, upper branch
+    \draw[black, line width=1.1pt]
+      plot[smooth] coordinates {
+        (1.45,0.27) (1.38,0.32) (1.30,0.36) (1.22,0.40) (1.15,0.44)
+        (1.07,0.48) (1.00,0.53) (0.92,0.57) (0.84,0.61) (0.77,0.65)
+        (0.69,0.70) (0.62,0.74) (0.54,0.79) (0.48,0.84) (0.42,0.90)
+        (0.38,0.97) (0.34,1.06) (0.33,1.16) (0.33,1.27) (0.36,1.37)
+        (0.40,1.45)};
+    % probability = 0.5, lower branch
+    \draw[black, line width=1.1pt]
+      plot[smooth] coordinates {
+        (-0.45,0.63) (-0.39,0.58) (-0.32,0.54) (-0.24,0.51) (-0.15,0.47)
+        (-0.07,0.44) (-0.00,0.40) (0.06,0.35) (0.12,0.29) (0.17,0.24)
+        (0.23,0.17) (0.28,0.11) (0.33,0.05) (0.38,-0.01) (0.43,-0.08)
+        (0.48,-0.14) (0.53,-0.20) (0.58,-0.26) (0.64,-0.32) (0.69,-0.39)
+        (0.74,-0.45)};
+  \end{scope}
+  \gpt{innavy}{0,0}
+  \gpt{outmaroon}{0,1}
+  \gpt{outmaroon}{1,0}
+  \gpt{innavy}{1,1}
+\end{scope}
+\gcapt{8.8,0}{(c) XOR}{(four hidden neurons) 4 of 4}
+
+% axis names, placed outside the frame so they never cross the data
+\foreach \dx in {0,4.4,8.8}{%
+  \node[font=\small, text=innavy] at ($(\dx,0)+(1.62,-0.55)$) {$x_1$};
+  \node[font=\small, text=innavy, rotate=90] at ($(\dx,0)+(-0.55,1.62)$) {$x_2$};}
+
+\end{tikzpicture}
+\end{document}
