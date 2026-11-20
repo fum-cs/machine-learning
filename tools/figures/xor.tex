@@ -1,7 +1,9 @@
 % xor.png -- the AND/XOR figure of sections 3.2 and 3.6.
 % (a) AND: one line separates the single 1 from the three 0s.
-% (b) XOR: every line puts at least one point on the wrong side; the best
-%     one found by exhaustive search is x1 = 0 (it misses (1,1)).
+% (b) XOR: every line puts at least one point on the wrong side. The best
+%     line found by exhaustive search is the one drawn in (a) -- with its two
+%     sides swapped -- so it keeps every point well away from the boundary and
+%     loses exactly one of them, the bottom-left (0,0).
 % (c) XOR with four sigmoid hidden neurons: the two solid curves are the
 %     level set probability = 0.5 of the network trained in section 3.6.
 % Build: bash tools/figures/build.sh
@@ -42,8 +44,7 @@
 % =========================== (b) XOR, one neuron ===========================
 \begin{scope}[shift={(4.4,0)}]
   \gateframe
-  \draw[black, line width=1.1pt] (0,-0.45) -- (0,1.45);
-  \draw[black, dashed, line width=0.8pt] (1,1) circle (0.19);
+  \draw[black, line width=1.1pt] (1.45,0.05) -- (0.05,1.45);
   \gpt{innavy}{0,0}
   \gpt{outmaroon}{0,1}
   \gpt{outmaroon}{1,0}
