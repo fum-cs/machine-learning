@@ -1,0 +1,59 @@
+% Shared style for the neural-network diagrams in notebooks/img/nn-*.png.
+% Palette and look are matched to the pre-existing figures (nn-1..nn-8,
+% backprop-*) so a regenerated figure sits next to them unnoticed.
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usetikzlibrary{arrows.meta,calc,positioning}
+
+\definecolor{innavy}{HTML}{004475}     % input neurons, source-like labels
+\definecolor{hidyellow}{HTML}{FFCF6E}  % hidden neurons
+\definecolor{outmaroon}{HTML}{8E1854}  % output neuron
+\definecolor{accgold}{HTML}{E5A600}    % "Hidden Layer" label
+\definecolor{gridgrey}{HTML}{B7B7B7}
+
+\tikzset{
+  neuron/.style   = {circle, draw=black, line width=0.9pt, minimum size=0.9cm,
+                     inner sep=0pt, font=\large\bfseries},
+  hidden/.style   = {neuron, fill=hidyellow},
+  inputn/.style   = {neuron, fill=innavy, text=white},
+  outputn/.style  = {neuron, fill=outmaroon, text=white},
+  conn/.style     = {-{Latex[length=2.2mm,width=1.6mm]}, line width=0.7pt},
+  bias/.style     = {-{Latex[length=1.8mm,width=1.3mm]}, line width=0.7pt},
+  biaslbl/.style  = {font=\scriptsize, inner sep=1pt},
+  layerlbl/.style = {font=\large\bfseries},
+}
+
+% Column positions shared by every figure (1 unit = 1cm).
+\def\HIDX{3.4}   % hidden neurons
+\def\ACTX{4.9}   % activation insets (centre)
+\def\OUTX{7.4}   % output neuron
+\def\NODE{0.45}  % neuron radius
+\def\BOX{0.42}   % activation inset half-width
+
+% Framed mini-plot of the sigmoid, drawn where the existing figures draw it.
+% Usage: \actinset{x}{y}{label}
+\newcommand{\actinset}[3]{%
+  \begin{scope}[shift={(#1,#2)}]
+    \fill[white] (-\BOX,-\BOX) rectangle (\BOX,\BOX);
+    \foreach \g in {-0.14,0.14}{%
+      \draw[gridgrey, line width=0.35pt] (-\BOX,\g) -- (\BOX,\g);
+      \draw[gridgrey, line width=0.35pt] (\g,-\BOX) -- (\g,\BOX);}
+    \draw[black, line width=1.1pt, domain=-0.40:0.40, samples=60]
+      plot ({\x}, {0.78/(1+exp(-9*\x)) - 0.39});
+    \draw[black, line width=0.9pt] (-\BOX,-\BOX) rectangle (\BOX,\BOX);
+    \node[above left, font=\scriptsize, inner sep=1pt] at (\BOX,\BOX+0.02) {#3};
+  \end{scope}}
+
+% Bias arrow plus label above a neuron: \biasup{node name}
+\newcommand{\biasup}[1]{%
+  \draw[bias] ($(#1)+(0,\NODE+0.41)$) -- ($(#1)+(0,\NODE+0.01)$);
+  \node[biaslbl, above] at ($(#1)+(0,\NODE+0.41)$) {Bias};}
+
+% A vector collapsed into one node: two offset discs behind it.
+% Usage: \vectornode{x}{y}{label}
+\newcommand{\vectornode}[3]{%
+  \foreach \dx/\dy in {0.13/0.11, 0.26/0.22}{%
+    \draw[innavy, line width=0.7pt, fill=innavy!22]
+      ($(#1,#2)+(\dx,\dy)$) circle (\NODE);}
+  \node[inputn] (#3) at (#1,#2) {$#3$};}

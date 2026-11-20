@@ -1,0 +1,67 @@
+% nn-5.png -- the 1-hidden-layer, sigmoid network of section 3.5, drawn twice:
+%   (a) one input neuron per feature (the honest picture)
+%   (b) the same network with the input vector collapsed into one node
+% Build: bash tools/figures/build.sh
+\documentclass[tikz,border=5pt]{standalone}
+\input{nnstyle}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+%---------------------------------------------------------------------
+% (a) every feature has its own input neuron
+%---------------------------------------------------------------------
+\begin{scope}
+  \foreach \i/\yy in {1/2.0, 2/0.0, 3/-2.0}{
+    \node[inputn] (i\i) at (0,\yy) {$x_{\i}$};}
+
+  \foreach \j/\yy in {1/1.6, 2/0.0, 3/-1.6}{
+    \node[hidden] (h\j) at (\HIDX,\yy) {$\Sigma$};
+    \actinset{\ACTX}{\yy}{Sigmoid}
+    \draw[conn] (h\j) -- (\ACTX-\BOX,\yy);
+    \biasup{h\j}}
+
+  \node[outputn] (o1) at (\OUTX,0) {$\Sigma$};
+  \biasup{o1}
+
+  \foreach \i in {1,2,3}{\foreach \j in {1,2,3}{%
+    \draw[conn] (i\i) -- (h\j);}}
+  \foreach \yy in {1.6,0.0,-1.6}{\draw[conn] (\ACTX+\BOX,\yy) -- (o1);}
+
+  \node[layerlbl, text=innavy,    align=center] at (0,-3.0)     {Inputs};
+  \node[layerlbl, text=accgold,   align=center] at (\HIDX,-3.0) {Hidden\\Layer};
+  \node[layerlbl, text=outmaroon, align=center] at (\OUTX,-3.0) {Output};
+
+  \node[font=\small\bfseries, anchor=west] at (-0.6,-4.4)
+    {(a) one input neuron per feature};
+\end{scope}
+
+%---------------------------------------------------------------------
+% (b) the same network with the input vector collapsed to one node
+%---------------------------------------------------------------------
+\begin{scope}[yshift=-7.9cm]
+  \vectornode{0}{0}{x}
+
+  \foreach \j/\yy in {1/1.6, 2/0.0, 3/-1.6}{
+    \node[hidden] (h\j) at (\HIDX,\yy) {$\Sigma$};
+    \actinset{\ACTX}{\yy}{Sigmoid}
+    \draw[conn] (h\j) -- (\ACTX-\BOX,\yy);
+    \biasup{h\j}}
+
+  \node[outputn] (o1) at (\OUTX,0) {$\Sigma$};
+  \biasup{o1}
+
+  \foreach \j in {1,2,3}{\draw[conn] (x) -- (h\j);}
+  \foreach \yy in {1.6,0.0,-1.6}{\draw[conn] (\ACTX+\BOX,\yy) -- (o1);}
+
+  \node[layerlbl, text=innavy,    align=center] at (0,-3.0)     {Input};
+  \node[layerlbl, text=accgold,   align=center] at (\HIDX,-3.0) {Hidden\\Layer};
+  \node[layerlbl, text=outmaroon, align=center] at (\OUTX,-3.0) {Output};
+
+  \node[font=\scriptsize, text=innavy] at (0,-1.05) {$\mathbf{x}\in\mathbb{R}^{d}$};
+
+  \node[font=\small\bfseries, anchor=west] at (-0.6,-4.4)
+    {(b) the same network, input collapsed into one node};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

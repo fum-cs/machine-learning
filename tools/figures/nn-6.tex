@@ -1,0 +1,49 @@
+% nn-6.png -- the "typical neural network" picture that opens section 3.
+% Drawn with one input neuron per feature (two features here), so that the
+% very first network picture in the lecture is an honest one.
+% Build: bash tools/figures/build.sh
+\documentclass[tikz,border=5pt]{standalone}
+\input{nnstyle}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+\def\HIDAX{3.4}   % first hidden layer
+\def\ACTAX{4.9}
+\def\HIDBX{8.0}   % second hidden layer
+\def\ACTBX{9.5}
+\def\OUTBX{12.0}
+
+% inputs: one neuron per feature
+\foreach \i/\yy in {1/0.8, 2/-0.8}{
+  \node[inputn] (i\i) at (0,\yy) {$x_{\i}$};}
+
+% hidden layer 1
+\foreach \j/\yy in {1/3.8, 2/1.9, 3/0.0, 4/-1.9, 5/-3.8}{
+  \node[hidden] (a\j) at (\HIDAX,\yy) {$\Sigma$};
+  \actinset{\ACTAX}{\yy}{Sigmoid}
+  \draw[conn] (a\j) -- (\ACTAX-\BOX,\yy);
+  \biasup{a\j}}
+
+% hidden layer 2
+\foreach \j/\yy in {1/1.9, 2/0.0, 3/-1.9}{
+  \node[hidden] (b\j) at (\HIDBX,\yy) {$\Sigma$};
+  \actinset{\ACTBX}{\yy}{Sigmoid}
+  \draw[conn] (b\j) -- (\ACTBX-\BOX,\yy);
+  \biasup{b\j}}
+
+\node[outputn] (o1) at (\OUTBX,0) {$\Sigma$};
+\biasup{o1}
+
+\foreach \i in {1,2}{\foreach \j in {1,...,5}{%
+  \draw[conn] (i\i) -- (a\j);}}
+\foreach \yy in {3.8,1.9,0.0,-1.9,-3.8}{%
+  \foreach \j in {1,2,3}{\draw[conn] (\ACTAX+\BOX,\yy) -- (b\j);}}
+\foreach \yy in {1.9,0.0,-1.9}{\draw[conn] (\ACTBX+\BOX,\yy) -- (o1);}
+
+\node[layerlbl, text=innavy,    align=center] at (0,-5.5)      {Inputs};
+\node[layerlbl, text=accgold,   align=center] at (\HIDAX,-5.5) {Hidden\\Layer 1};
+\node[layerlbl, text=accgold,   align=center] at (\HIDBX,-5.5) {Hidden\\Layer 2};
+\node[layerlbl, text=outmaroon, align=center] at (\OUTBX,-5.5) {Output};
+
+\end{tikzpicture}
+\end{document}
