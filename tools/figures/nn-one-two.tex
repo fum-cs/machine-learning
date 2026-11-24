@@ -1,0 +1,78 @@
+% nn-one-two.png -- the two small networks of sections 3 and 4, side by side:
+%   (a) one_neuron   = Linear(1,1) -> Sigmoid -> Linear(1,1), 4 parameters
+%   (b) two_neurons  = Linear(1,2) -> Sigmoid -> Linear(2,1), 6 parameters
+% The weight labels are the names used by the printout in the notebook.
+% Build: bash tools/figures/build.sh
+\documentclass[tikz,border=5pt]{standalone}
+\input{nnstyle}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+% bias arrow with a parameter name instead of the generic "Bias"
+\newcommand{\biasp}[2]{%
+  \draw[bias] ($(#1)+(0,\NODE+0.41)$) -- ($(#1)+(0,\NODE+0.01)$);
+  \node[biaslbl, above] at ($(#1)+(0,\NODE+0.41)$) {$#2$};}
+% weight label sitting on a connection, with a white background
+\tikzset{wlab/.style={font=\scriptsize, inner sep=1.5pt, fill=white}}
+
+% =====================================================================
+% (a) one sigmoid neuron with a linear read-out
+% =====================================================================
+\begin{scope}
+  \node[inputn] (x) at (0,0) {$x$};
+  \node[hidden] (h) at (\HIDX,0) {$\Sigma$};
+  \actinset{\ACTX}{0}{Sigmoid}
+  \node[outputn] (o) at (\OUTX,0) {$\Sigma$};
+
+  \draw[conn] (x) -- (h);
+  \draw[conn] (h) -- (\ACTX-\BOX,0);
+  \draw[conn] (\ACTX+\BOX,0) -- (o);
+  \biasp{h}{b_1}
+  \biasp{o}{b_2}
+
+  \node[wlab] at (1.7,0.30) {$w_1$};
+  \node[wlab] at (6.15,0.30) {$w_2$};
+
+  \node[layerlbl, text=innavy,    align=center] at (0,-1.7)     {Input};
+  \node[layerlbl, text=accgold,   align=center] at (\HIDX,-1.7) {Hidden};
+  \node[layerlbl, text=outmaroon, align=center] at (\OUTX,-1.7) {Output};
+
+  \node[font=\small\bfseries, anchor=west, align=left] at (-0.6,-2.6)
+    {(a) one\_neuron: 4 parameters};
+  \node[font=\small, anchor=west] at (-0.6,-3.05)
+    {$\hat y=w_2\,\sigma(w_1x+b_1)+b_2$};
+\end{scope}
+
+% =====================================================================
+% (b) one hidden layer with two neurons
+% =====================================================================
+\begin{scope}[xshift=11.4cm]
+  \node[inputn] (x) at (0,0) {$x$};
+  \foreach \j/\yy in {1/1.5, 2/-1.5}{%
+    \node[hidden] (h\j) at (\HIDX,\yy) {$\Sigma$};
+    \actinset{\ACTX}{\yy}{Sigmoid}
+    \draw[conn] (h\j) -- (\ACTX-\BOX,\yy);
+    \biasp{h\j}{b_\j}}
+  \node[outputn] (o) at (\OUTX,0) {$\Sigma$};
+  \biasp{o}{b_3}
+
+  \foreach \j in {1,2}{\draw[conn] (x) -- (h\j);}
+  \foreach \yy in {1.5,-1.5}{\draw[conn] (\ACTX+\BOX,\yy) -- (o);}
+
+  \node[wlab] at (1.55,0.95)  {$w_1$};
+  \node[wlab] at (1.55,-0.95) {$w_2$};
+  \node[wlab] at (6.10,0.90)  {$w_3$};
+  \node[wlab] at (6.10,-0.90) {$w_4$};
+
+  \node[layerlbl, text=innavy,    align=center] at (0,-2.9)     {Input};
+  \node[layerlbl, text=accgold,   align=center] at (\HIDX,-2.9) {Hidden\\Layer};
+  \node[layerlbl, text=outmaroon, align=center] at (\OUTX,-2.9) {Output};
+
+  \node[font=\small\bfseries, anchor=west, align=left] at (-0.6,-4.1)
+    {(b) two\_neurons: 6 parameters};
+  \node[font=\small, anchor=west] at (-0.6,-4.55)
+    {$\hat y=w_3\,\sigma(w_1x+b_1)+w_4\,\sigma(w_2x+b_2)+b_3$};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

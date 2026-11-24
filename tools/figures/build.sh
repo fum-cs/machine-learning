@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 out="../../notebooks/img"
-for f in nn-5 nn-6 nn-6b xor; do
+for f in nn-one-two nn-5 nn-6 nn-6b xor; do
   pdflatex -interaction=nonstopmode -halt-on-error "$f.tex" > "$f.build.log"
   pdftoppm -png -r 220 -singlefile "$f.pdf" "$out/$f"
   echo "wrote $out/$f.png"
