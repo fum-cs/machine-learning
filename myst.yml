@@ -140,13 +140,13 @@ project:
       children:
         - file: "notebooks/Clustering-Validation.ipynb"
         - file: "notebooks/Clustering-Part2.ipynb"
-        - file: "notebooks/High-Dimensional-Data.ipynb"
     - title: Linear Models and Neural Networks
       children:
         - file: "notebooks/Linear-Regression-Part2.ipynb"
         - file: "notebooks/MLP-and-Backpropagation.ipynb"
     - title: Dimensionality Reduction
       children:
+        - file: "notebooks/High-Dimensional-Data.ipynb"
         - file: "notebooks/PCA-Part1.ipynb"
         - file: "notebooks/PCA-Part2.ipynb"
         - file: "notebooks/PCA-and-LDA.ipynb"
