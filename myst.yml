@@ -170,7 +170,7 @@ project:
         - file: "notebooks/Bias-Variance-Tradeoff.ipynb"      
         - file: "notebooks/Data-Preprocessing.ipynb"
         - file: "notebooks/Model-Evaluation.ipynb"
-        - file: "notebooks/Decision-Trees.ipynb"
+        - file: "notebooks/Decision-Trees-And-Pruning.ipynb"
         - file: "notebooks/Ensemble-Learning.ipynb"
         - file: "notebooks/Hidden-Markov-Models.ipynb"
         - file: "notebooks/Learning-to-Rank.md"
